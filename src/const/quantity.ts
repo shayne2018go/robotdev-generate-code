@@ -1,0 +1,15 @@
+export const quantityDataType = {
+  string: 'string',
+  int: 'int',
+  float: 'float',
+  decimal: 'decimal',
+  boolean: 'boolean',
+  long: 'long',
+  array: 'array',
+  object: 'object',
+  datetime: 'datetime',
+  date: 'date',
+  time: 'time',
+  timestamp: 'timestamp',
+  function: 'function',
+} as const;

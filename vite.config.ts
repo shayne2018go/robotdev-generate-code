@@ -1,17 +1,17 @@
-import { defineConfig } from "vite";
-import path, { resolve } from "path";
+import { defineConfig } from 'vite';
+import path, { resolve } from 'path';
 
 export default defineConfig({
   resolve: {
     alias: {
-      "@/*": resolve(__dirname, "src/*"),
+      '@/*': resolve(__dirname, 'src/*'),
     },
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
-      name: "Su",
-      fileName: "index",
+      entry: path.resolve(__dirname, 'src/index.ts'),
+      name: 'Su',
+      fileName: 'index',
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
@@ -23,7 +23,7 @@ export default defineConfig({
     },
     minify: true,
   },
-  esbuild: { pure: ["console.log"] },
+  esbuild: { pure: ['console.log'] },
 
   plugins: [],
 });
