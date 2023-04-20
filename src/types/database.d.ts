@@ -1,5 +1,5 @@
 import { database } from '../const/database';
-import { DataTypeSchemaObject } from './dataType/dataTypeSchema';
+import { IDataTypeSchema_Object } from './dataType/dataTypeSchema';
 
 type ICS_DatabaseType = keyof typeof database;
 
@@ -7,7 +7,7 @@ type ICS_DatabaseType = keyof typeof database;
 export interface ICS_Databases_Table {
   id: string;
   name: string;
-  fields: Array<DataTypeSchemaObject['id']>; // 多个字段配置，关联多个“属性定义”的id号
+  fields: Array<IDataTypeSchema_Object['id']>; // 多个字段配置，关联多个“属性定义”的id号
 }
 
 // 一个数据库

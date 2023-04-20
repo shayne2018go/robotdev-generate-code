@@ -1,4 +1,4 @@
 import { quantityDataType } from '../../const/quantity';
 
-type IQuantityDataType = keyof typeof quantityDataType;
-type IQuantityDataTypeEnum = typeof quantityDataType;
+type IDataType = keyof typeof quantityDataType;
+type IDataTypeEnum = typeof quantityDataType;
