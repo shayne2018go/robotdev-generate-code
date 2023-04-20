@@ -6,24 +6,24 @@ interface DeclareQuantity {
   mode: 'global' | 'const' | 'variable';
   name: string;
   dataTypes?: DataTypeSchema[];
-  value?: IQuantity;
+  value?: IQuantity['id'];
 }
 
 interface IQuantityAssignment {
   __assignment__: true;
   left: IQuantityVariable;
-  right: IQuantity;
+  right: IQuantity['id'];
 }
 
 interface CodeProcessReturn {
   __return__: true;
-  quantity?: IQuantity;
+  quantity?: IQuantity['id'];
 }
 
 interface CondIf {
   __if__: true;
-  ifs: [IQuantity, IQuantity];
-  else: IQuantity;
+  ifs: [IQuantity['id'], IQuantity['id']];
+  else: IQuantity['id'];
 }
 
 type CodeProcess = DeclareQuantity | IQuantityAssignment | CodeProcessReturn;

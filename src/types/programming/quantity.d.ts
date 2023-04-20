@@ -15,7 +15,7 @@ interface IQuantityCommon {
 interface IQuantityRef extends IQuantityCommon {
   mode: 'variable' | 'call' | 'new';
   name: string;
-  path?: (IQuantity | Literal)[];
+  path?: Array<IQuantity['id']>;
 }
 
 // 访问变量
@@ -26,28 +26,28 @@ interface IQuantityVariable extends IQuantityRef {
 // 调用函数
 interface IQuantityCall extends IQuantityRef {
   mode: 'call';
-  args?: (IQuantity | Literal)[];
+  args?: Array<IQuantity['id']>;
 }
 
 // new构造函数
 interface IQuantityNew extends IQuantityRef {
   mode: 'new';
-  args?: (IQuantity | Literal)[];
+  args?: Array<IQuantity['id']>;
 }
 
 // 三元表达式
 interface IQuantityTernary extends IQuantityCommon {
   mode: 'ternary';
-  cond: IQuantity;
-  true: IQuantity;
-  false: IQuantity;
+  cond: IQuantity['id'];
+  true: IQuantity['id'];
+  false: IQuantity['id'];
 }
 
 // 二元表达式
 interface IQuantityBinary extends IQuantityCommon {
   mode: 'binary';
   logical: '||' | '??';
-  datas: IQuantity[];
+  datas: Array<IQuantity['id']>;
 }
 
 // 真实字面量的object
@@ -64,11 +64,11 @@ type IQuantity =
   | IQuantityBinary;
 
 // IQuantityLiteral的dataType为object时，value对应的专属数据结构，不会出现在其他地方
-type IQuantityLiteral_Value_Object = { key: string; value: IQuantity | Literal }[];
+type IQuantityLiteral_Value_Object = { key: string; value: Array<IQuantity['id']> }[];
 
 interface _IQuantityLiteral extends IQuantityCommon {
   mode: 'literal';
-  dataTypeId: DataTypeSchema['id'];
+  dataTypeId?: DataTypeSchema['id'];
   value: Literal | IQuantityLiteral_Value_Object;
 }
 interface IQuantityLiteralArray extends _IQuantityLiteral {
