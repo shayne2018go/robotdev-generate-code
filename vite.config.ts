@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite';
 import path, { resolve } from 'path';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   resolve: {
     alias: {
-      '@/*': resolve(__dirname, 'src/*'),
+      '@': resolve(__dirname, './src'),
     },
   },
   build: {
@@ -25,5 +26,11 @@ export default defineConfig({
   },
   esbuild: { pure: ['console.log'] },
 
-  plugins: [],
+  plugins: [
+    dts({
+      outputDir: './dist/types',
+      entryRoot: './src',
+      exclude: ['**/__test__/**'],
+    }),
+  ],
 });

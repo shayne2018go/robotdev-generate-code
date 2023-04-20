@@ -15,6 +15,7 @@ interface DataTypeSchema_Properties {
 interface DataTypeSchemaCommon {
   id: string;
   type: IQuantityDataType;
+  name?: string;
   reactive?: boolean;
   ref?: DataTypeSchema['id'];
   default?: IQuantityLiteral['id'];

@@ -68,7 +68,7 @@ type IQuantityLiteral_Value_Object = { key: string; value: Array<IQuantity['id']
 
 interface _IQuantityLiteral extends IQuantityCommon {
   mode: 'literal';
-  dataTypeId?: DataTypeSchema['id'];
+  dataType?: DataTypeSchema['id'] | DataTypeSchema;
   value: Literal | IQuantityLiteral_Value_Object;
 }
 interface IQuantityLiteralArray extends _IQuantityLiteral {

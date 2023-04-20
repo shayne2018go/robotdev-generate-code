@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -13,6 +16,7 @@
     "@types/fs-extra": "^11.0.1",
     "typescript": "^4.9.3",
     "vite": "^4.2.0",
+    "vite-plugin-dts": "^2.3.0",
     "vitest": "^0.30.1"
   },
   "dependencies": {
