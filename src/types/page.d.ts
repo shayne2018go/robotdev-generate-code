@@ -1,6 +1,6 @@
 import { IEvent } from './event';
 import { ICS_Function } from './function';
-import { DataTypeSchemaObject } from './dataType/dataTypeSchema';
+import { IDataTypeSchema_Object } from './dataType/dataTypeSchema';
 import { IQuantity } from './programming/quantity';
 import { IViewNode } from './view';
 
@@ -15,11 +15,11 @@ export interface ICS_Page {
   };
   route?: {
     path?: string; // 路径包括路由参数,例：xxxx/:id/yyy/:type
-    pathPrames?: DataTypeSchemaObject['id']; // 路径参数
-    query?: DataTypeSchemaObject['id']; // 路由get参数声明
+    pathPrames?: IDataTypeSchema_Object['id']; // 路径参数
+    query?: IDataTypeSchema_Object['id']; // 路由get参数声明
   };
-  declareVariables?: DataTypeSchemaObject['id'];
-  nodes?: Array<IViewNode>;
-  events?: Array<IEvent>;
-  functions?: Array<ICS_Function>;
+  declareVariables?: IDataTypeSchema_Object['id'];
+  nodes: Array<IViewNode>;
+  events: Array<IEvent>;
+  functions: Array<ICS_Function>;
 }
