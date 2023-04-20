@@ -1,6 +1,6 @@
-import { IQuantity_LiteralFunction } from './programming/quantity';
+import { IQuantity_Literal_Function } from './programming/quantity';
 import { IProp } from './prop';
 
 export interface IEvent extends IProp {
-  value: IQuantity_LiteralFunction['id'];
+  value: IQuantity_Literal_Function['id'];
 }

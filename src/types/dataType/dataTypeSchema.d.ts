@@ -1,27 +1,28 @@
 import { IDataType, IDataTypeEnum } from '../programming/common';
 import { IQuantity, IQuantity_Literal } from '../programming/quantity';
 
-export interface IDataTypeSchema_Properties {
+export interface IDataTypeSchema_Properties_Item {
   id: string;
   name: string;
   types?: Array<IDataTypeSchema>;
-  typesRef?: Array<{
-    type: 'prop' | 'type';
-    id: IDataTypeSchema['id'] | IDataTypeSchema_Properties['id'];
-  }>;
-  default?: IDataTypeSchema['id'];
+  default?: IDataTypeSchema;
 }
 
-export interface IDataTypeSchema_Ref extends IDataTypeSchema_Common {
-  type: IDataTypeEnum['ref'];
-  ref?: IDataTypeSchema['id'];
-}
 export interface IDataTypeSchema_Common {
   id: string;
   type: IDataType;
   name?: string;
   reactive?: boolean;
-  default?: IQuantity_Literal['id'];
+  default?: IQuantity_Literal;
+}
+
+export interface IDataTypeSchema_Ref extends IDataTypeSchema_Common {
+  type: IDataTypeEnum['ref'];
+  ref?: IDataTypeSchema;
+}
+
+export interface IDataTypeSchema_Null extends IDataTypeSchema_Common {
+  type: IDataTypeEnum['null'];
 }
 
 export interface IDataTypeSchema_String extends IDataTypeSchema_Common {
@@ -63,38 +64,38 @@ export interface IDataTypeSchema_Timestamp extends IDataTypeSchema_Common {
 export interface IDataTypeSchema_Enum extends IDataTypeSchema_Common {
   type: IDataTypeEnum['enum'];
   range: Array<{
-    dataType: IDataTypeSchema['id'];
-    value: IQuantity['id'];
+    dataType: IDataTypeSchema;
+    value: IQuantity;
   }>;
 }
 
 export interface IDataTypeSchema_Enums extends IDataTypeSchema_Common {
   type: IDataTypeEnum['enums'];
   range: Array<{
-    dataType: IDataTypeSchema['id'];
-    value: IQuantity['id'];
+    dataType: IDataTypeSchema;
+    value: IQuantity;
   }>;
 }
 
 export interface IDataTypeSchema_Object extends IDataTypeSchema_Common {
   type: IDataTypeEnum['object'];
-  properties?: Array<IDataTypeSchema_Properties['id']>;
+  properties?: Array<IDataTypeSchema_Properties_Item>;
 }
 
 export interface IDataTypeSchema_Array extends IDataTypeSchema_Common {
   type: IDataTypeEnum['array'];
-  item?: IDataTypeSchema['id'];
+  item?: IDataTypeSchema;
 }
 
 export interface IDataTypeSchema_Tuple extends IDataTypeSchema_Common {
   type: IDataTypeEnum['tuple'];
-  item?: Array<IDataTypeSchema['id']>;
+  item?: Array<IDataTypeSchema>;
 }
 
 export interface IDataTypeSchema_Function extends IDataTypeSchema_Common {
   type: IDataTypeEnum['function'];
-  parameters?: Array<IDataTypeSchema_Properties['id']>;
-  outTypes?: Array<IDataTypeSchema['id']>;
+  parameters?: Array<IDataTypeSchema_Properties_Item>;
+  outTypes?: Array<IDataTypeSchema>;
 }
 
 type IDataTypeSchema =
