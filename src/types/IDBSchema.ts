@@ -1,4 +1,4 @@
-export namespace IDB_Schema {
+export namespace IDBSchema {
   export interface Project {
     project: string;
     id: string;
@@ -14,7 +14,7 @@ export namespace IDB_Schema {
   }
 }
 
-export namespace IDB_Schema {
+export namespace IDBSchema {
   export interface DATA_COMMON {
     name: string;
     type: 'page' | 'theme' | 'component' | 'template' | 'action' | 'function';
@@ -74,7 +74,7 @@ export namespace IDB_Schema {
   }
 }
 
-export namespace IDB_Schema {
+export namespace IDBSchema {
   export interface RdNode {
     id: string; // 节点唯一id标识
     parentId: string | null; // 父节点id
@@ -120,7 +120,7 @@ export namespace IDB_Schema {
   }
 }
 
-export namespace IDB_Schema {
+export namespace IDBSchema {
   export interface RdData {
     id?: string;
     modeId?: string;
@@ -138,14 +138,14 @@ export namespace IDB_Schema {
   export type RdObject = { [key: string]: RdDataArguments | RdActionArguments };
 }
 
-export namespace IDB_Schema {
+export namespace IDBSchema {
   export interface RdEvent {
     eventId: string;
     actions: RdAction[]; // 绑定行为的配置
   }
 }
 
-export namespace IDB_Schema {
+export namespace IDBSchema {
   export interface RdAction {
     type: 'action';
     id: string;
@@ -163,7 +163,7 @@ export namespace IDB_Schema {
   export type RdActionArguments = RdBasicData | RdData | RdAction | RdActionArguments[];
 }
 
-export namespace IDB_Schema {
+export namespace IDBSchema {
   export interface RdDecl extends RdDefineProp {}
 
   export interface RdDefineProp {
@@ -268,7 +268,7 @@ export namespace IDB_Schema {
   }
 }
 
-export namespace IDB_Schema {
+export namespace IDBSchema {
   export const DATA_TYPE_KEYS = [
     'text', //纯文字
     'richText', //富文本
@@ -309,7 +309,7 @@ export namespace IDB_Schema {
   export type RdInType = typeof DATA_TYPE_KEYS[number] | '';
 }
 
-export namespace IDB_Schema {
+export namespace IDBSchema {
   export type Css = {
     [key: CssClass]: CssStyle;
   };
@@ -320,7 +320,7 @@ export namespace IDB_Schema {
   };
 }
 
-export namespace IDB_Schema {
+export namespace IDBSchema {
   export interface RdComponentDefineProp extends RdDefineProp {}
 
   export interface RdComponentDefineSlot {

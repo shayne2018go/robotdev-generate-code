@@ -8,18 +8,18 @@ import { IViewNode } from './view';
 export interface ICS_Page {
   id: string;
   name: string; // 页面标识名
-  mate: {
+  mate?: {
     title: IQuantity['id']; // 页面标题（可动态拼接，因此用“量”表示）
     describe: IQuantity['id']; // 页面描述（可动态拼接，因此用“量”表示）
     keyword: IQuantity['id']; // 页面关键词（可动态拼接，因此用“量”表示）
   };
-  route: {
+  route?: {
     path?: string; // 路径包括路由参数,例：xxxx/:id/yyy/:type
     pathPrames?: DataTypeSchemaObject['id']; // 路径参数
     query?: DataTypeSchemaObject['id']; // 路由get参数声明
   };
   declareVariables?: DataTypeSchemaObject['id'];
-  nodes: Array<IViewNode>;
-  events: Array<IEvent>;
-  functions: Array<ICS_Function>;
+  nodes?: Array<IViewNode>;
+  events?: Array<IEvent>;
+  functions?: Array<ICS_Function>;
 }
