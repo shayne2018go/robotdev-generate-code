@@ -1,6 +1,6 @@
 //  platform: 'npm' | 'composer' | 'maven';
 
-import { ICodeSchema, ICodeSchemaResource } from './iCodeSchema';
+import { ICodeSchema, ICodeSchemaResource } from './ICodeSchema';
 
 // 一个包
 export interface ICS_Dependencies {

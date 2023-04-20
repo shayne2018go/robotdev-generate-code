@@ -1,1 +1,1 @@
-export * from './iCodeSchema';
+export * from './ICodeSchema';

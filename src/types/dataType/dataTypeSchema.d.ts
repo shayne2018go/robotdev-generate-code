@@ -19,6 +19,7 @@ export interface IDataTypeSchema_Ref extends IDataTypeSchema_Common {
 export interface IDataTypeSchema_Common {
   id: string;
   type: IDataType;
+  name?: string;
   reactive?: boolean;
   default?: IQuantity_Literal['id'];
 }
