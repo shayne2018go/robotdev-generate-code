@@ -19,7 +19,7 @@ export interface ICodeLineCommon {
 
 export interface ICodeLine_Declare extends ICodeLineCommon {
   mode: 'global' | 'const' | 'variable';
-  name: string;
+  key: string;
   dataTypes?: IDataTypeSchema[];
   value?: IQuantity;
 }

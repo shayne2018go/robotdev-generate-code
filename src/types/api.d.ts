@@ -3,7 +3,7 @@ import { IDataTypeSchema, IDataTypeSchema_Properties_Item } from './dataType/dat
 // 一个api接口
 export interface ICS_Api {
   id: string;
-  name: string;
+  key: string;
   method: string; // 如：get、post、put、delete等
   route: {
     path?: string; // 路径包括路由参数,例：xxxx/:id/yyy/:type
