@@ -1,17 +1,17 @@
-import { IDataTypeSchema_Object } from './dataType/dataTypeSchema';
+import { IDataTypeSchema_Properties_Item } from './dataType/dataTypeSchema';
 import { IViewNode } from './view';
 
 // 一个前端组件
 export interface ICS_Function {
   id: string;
   name: string;
-  parameters: IDataTypeSchema_Object['id'];
-  outTypes: IDataTypeSchema_Object['id'];
+  parameters: Array<IDataTypeSchema_Properties_Item>;
+  outTypes: Array<IDataTypeSchema_Properties_Item>;
   slots: Array<{
     name: string;
-    props: IDataTypeSchema_Object['id'];
+    props: Array<IDataTypeSchema_Properties_Item>;
   }>;
-  declareVariables: IDataTypeSchema_Object['id'];
+  declareVariables: Array<IDataTypeSchema_Properties_Item>;
   nodes: IViewNode[];
   events: any[];
 }

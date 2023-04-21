@@ -1,5 +1,4 @@
 import {
-  IDataTypeSchema,
   IDataTypeSchema_Array,
   IDataTypeSchema_Boolean,
   IDataTypeSchema_Date,
@@ -12,11 +11,13 @@ import {
   IDataTypeSchema_Long,
   IDataTypeSchema_Object,
   IDataTypeSchema_Ref,
+  IDataTypeSchema_Null,
   IDataTypeSchema_String,
   IDataTypeSchema_Time,
   IDataTypeSchema_Timestamp,
   IDataTypeSchema_Tuple,
 } from '../dataType/dataTypeSchema';
+import { IProp } from '../prop';
 import { ICodeLine } from './codeLine';
 
 type IQuantity =
@@ -25,23 +26,35 @@ type IQuantity =
   | IQuantity_New
   | IQuantity_Literal
   | IQuantity_Class
-  | IQuantity_Ternary
-  | IQuantity_Binary;
-
-// 运行
-type IRun = IQuantity_Call | IQuantity_New;
-type IRuns = Array<IRun['id']>;
+  | IQuantity_Conditional
+  | IQuantity_Binary
+  | IQuantity_Logical
+  | IQuantity_Command;
 
 interface IQuantity_Common {
   __Iquantity_: true;
   id: string;
-  mode: 'variable' | 'call' | 'new' | 'literal' | 'ternary' | 'binary' | 'class';
+  mode: 'variable' | 'call' | 'new' | 'literal' | 'ternary' | 'binary' | 'class' | 'command';
   computed?: boolean;
 }
 
+interface IQuantity_Command extends IQuantity_Common {
+  source:
+    | 'eventArg'
+    | 'arg'
+    | 'var'
+    | 'cmptProp'
+    | 'slotProp'
+    | 'eachData'
+    | 'modelData'
+    | 'apiData'
+    | 'package'
+    | 'api';
+  path: Array<string>;
+}
+
 interface IQuantity_Ref extends IQuantity_Common {
-  name: string;
-  path?: Array<IQuantity['id']>;
+  path: Array<string>;
 }
 
 // 访问变量
@@ -52,38 +65,45 @@ interface IQuantity_Variable extends IQuantity_Ref {
 // 调用函数
 interface IQuantity_Call extends IQuantity_Ref {
   mode: 'call';
-  args?: Array<IQuantity['id']>;
+  args?: Array<IQuantity>;
 }
 
 // new构造函数
 interface IQuantity_New extends IQuantity_Ref {
   mode: 'new';
-  args?: Array<IQuantity['id']>;
+  args?: Array<IQuantity>;
 }
 
 // 三元表达式
-interface IQuantity_Ternary extends IQuantity_Common {
+interface IQuantity_Conditional extends IQuantity_Common {
   mode: 'ternary';
-  cond: IQuantity['id'];
-  true: IQuantity['id'];
-  false: IQuantity['id'];
+  cond: IQuantity;
+  true: IQuantity;
+  false: IQuantity;
 }
 
 // 二元表达式
-interface IQuantity_Binary extends IQuantity_Common {
+interface IQuantity_Logical extends IQuantity_Common {
   mode: 'binary';
   logical: '||' | '??';
-  datas: Array<IQuantity['id']>;
+  datas: Array<IQuantity>;
+}
+interface IQuantity_Binary extends IQuantity_Common {
+  mode: 'binary';
+  logical: 'eq' | 'neq' | 'gt' | 'gte' | 'lt' | 'lte' | 'ct' | 'nct'; // ct 包含，nct 不包含
+  left: IQuantity;
+  right: IQuantity;
 }
 
 interface IQuantity_Class extends IQuantity_Ref {
   mode: 'class';
-  constructor: IQuantity_Literal_Function['id'];
-  attrs: IQuantity_Literal_Value_Object;
+  constructor: IQuantity_Literal_Function;
+  attrs: IQuantity_Literal_Object_Key_Value;
 }
 
 // 字面量
 type IQuantity_Literal =
+  | IQuantity_Literal_Null
   | IQuantity_Literal_String
   | IQuantity_Literal_Long
   | IQuantity_Literal_Int
@@ -102,84 +122,88 @@ type IQuantity_Literal =
   | IQuantity_Literal_Ref;
 
 // 真实字面量的object
-type LiteralObject = { [key: string]: IQuantity['id'] };
-type LiteralArray = Array<IQuantity['id']>;
+type LiteralObject = { [key: string]: IQuantity };
+type LiteralArray = Array<IQuantity>;
 type Literal = string | number | boolean | LiteralArray | LiteralObject;
 
 // IQuantity_Literal的dataType为object时，value对应的专属数据结构，不会出现在其他地方
-type IQuantity_Literal_Value_Object = Array<{ key: string; value: Array<IQuantity['id']> }>;
+type IQuantity_Literal_Object_Key_Value = Array<IProp>;
 
 interface IQuantity_Literal_Common extends IQuantity_Common {
   mode: 'literal';
 }
 
+interface IQuantity_Literal_Null extends IQuantity_Literal_Common {
+  dataType: IDataTypeSchema_Null | IDataTypeSchema_Null;
+}
+
 interface IQuantity_Literal_String extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_String['id'] | IDataTypeSchema_String;
+  dataType: IDataTypeSchema_String | IDataTypeSchema_String;
   value: string;
 }
 
 interface IQuantity_Literal_Long extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Long['id'] | IDataTypeSchema_Long;
+  dataType: IDataTypeSchema_Long | IDataTypeSchema_Long;
   value: string;
 }
 interface IQuantity_Literal_Int extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Int['id'] | IDataTypeSchema_Int;
+  dataType: IDataTypeSchema_Int | IDataTypeSchema_Int;
   value: number;
 }
 interface IQuantity_Literal_Decimal extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Decimal['id'] | IDataTypeSchema_Decimal;
+  dataType: IDataTypeSchema_Decimal | IDataTypeSchema_Decimal;
   value: number;
 }
 interface IQuantity_Literal_Boolean extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Boolean['id'] | IDataTypeSchema_Boolean;
+  dataType: IDataTypeSchema_Boolean | IDataTypeSchema_Boolean;
   value: boolean;
 }
 
 interface IQuantity_Literal_Array extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Array['id'] | IDataTypeSchema_Array;
+  dataType: IDataTypeSchema_Array | IDataTypeSchema_Array;
   value: LiteralArray;
 }
 interface IQuantity_Literal_Tuple extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Tuple['id'] | IDataTypeSchema_Tuple;
+  dataType: IDataTypeSchema_Tuple | IDataTypeSchema_Tuple;
   value: LiteralArray;
 }
 
 interface IQuantity_Literal_Object extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Object['id'] | IDataTypeSchema_Object;
-  value: IQuantity_Literal_Value_Object;
+  dataType: IDataTypeSchema_Object | IDataTypeSchema_Object;
+  value: IQuantity_Literal_Object_Key_Value;
 }
 
 interface IQuantity_Literal_Enum extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Enum['id'] | IDataTypeSchema_Enum;
-  value: IQuantity['id'];
+  dataType: IDataTypeSchema_Enum | IDataTypeSchema_Enum;
+  value: IQuantity;
 }
 interface IQuantity_Literal_Enums extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Enums['id'] | IDataTypeSchema_Enums;
+  dataType: IDataTypeSchema_Enums | IDataTypeSchema_Enums;
   value: string;
 }
 interface IQuantity_Literal_DateTime extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Datetime['id'] | IDataTypeSchema_Datetime;
+  dataType: IDataTypeSchema_Datetime | IDataTypeSchema_Datetime;
   value: string;
 }
 interface IQuantity_Literal_Date extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Date['id'] | IDataTypeSchema_Date;
+  dataType: IDataTypeSchema_Date | IDataTypeSchema_Date;
   value: string;
 }
 interface IQuantity_Literal_Time extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Time['id'] | IDataTypeSchema_Time;
+  dataType: IDataTypeSchema_Time | IDataTypeSchema_Time;
   value: string;
 }
 interface IQuantity_Literal_Timestamp extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Timestamp['id'] | IDataTypeSchema_Timestamp;
+  dataType: IDataTypeSchema_Timestamp | IDataTypeSchema_Timestamp;
   value: string;
 }
 
 interface IQuantity_Literal_Function extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Function['id'] | IDataTypeSchema_Function;
+  dataType: IDataTypeSchema_Function | IDataTypeSchema_Function;
   value: Array<ICodeLine>;
 }
 
 interface IQuantity_Literal_Ref extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Ref['id'] | IDataTypeSchema_Ref;
-  value: IQuantity['id'];
+  dataType: IDataTypeSchema_Ref | IDataTypeSchema_Ref;
+  value: IQuantity;
 }

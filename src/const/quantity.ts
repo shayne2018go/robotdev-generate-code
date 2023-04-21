@@ -1,4 +1,5 @@
 export const quantityDataType = {
+  null: 'null',
   string: 'string',
   long: 'long',
   int: 'int',
