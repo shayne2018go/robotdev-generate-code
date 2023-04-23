@@ -4,6 +4,7 @@ import { IQuantity, IQuantity_Literal } from '../programming/quantity';
 export interface IDataTypeSchema_Properties_Item {
   id: string;
   name: string;
+  key: string;
   types?: Array<IDataTypeSchema>;
   default?: IDataTypeSchema;
 }

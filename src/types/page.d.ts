@@ -1,13 +1,13 @@
 import { IEvent } from './event';
 import { ICS_Function } from './function';
-import { IDataTypeSchema, IDataTypeSchema_Properties_Item } from './dataType/dataTypeSchema';
+import { IDataTypeSchema_Properties_Item } from './dataType/dataTypeSchema';
 import { IQuantity } from './programming/quantity';
 import { IViewNode } from './view';
 
 // 一个页面
 export interface ICS_Page {
   id: string;
-  name: string; // 页面标识名
+  key: string; // 页面标识名
   mate: {
     title: IQuantity; // 页面标题（可动态拼接，因此用“量”表示）
     describe: IQuantity; // 页面描述（可动态拼接，因此用“量”表示）

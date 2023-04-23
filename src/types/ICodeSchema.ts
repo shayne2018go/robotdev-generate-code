@@ -5,9 +5,11 @@ import { ICS_Dependencies } from './dependencies';
 import { ICS_Directory } from './directory';
 import { ICS_Function } from './function';
 import { ICS_Page } from './page';
+import { ITech } from './tech';
 
 export interface ICodeSchema {
   id: string;
+  tech: ITech;
   meta: {
     title: string; // 应用标题（目前仅前端用）
     describe: string; // 应用描述（目前仅前端用）
@@ -20,11 +22,4 @@ export interface ICodeSchema {
   apis: Array<ICS_Api>; // 后端接口信息
   databases: Array<ICS_Databases>; // 数据库信息
   directories?: Array<ICS_Directory>;
-}
-
-export interface ICodeSchemaResource {
-  id: string;
-  components: Array<ICS_Component>; // 前端组件
-  functions: Array<ICS_Function>;
-  apis: Array<ICS_Api>; // 后端接口信息
 }

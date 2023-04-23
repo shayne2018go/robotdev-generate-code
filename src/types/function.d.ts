@@ -5,13 +5,7 @@ import { IViewNode } from './view';
 export interface ICS_Function {
   id: string;
   name: string;
+  key: string;
   parameters: Array<IDataTypeSchema_Properties_Item>;
   outTypes: Array<IDataTypeSchema_Properties_Item>;
-  slots: Array<{
-    name: string;
-    props: Array<IDataTypeSchema_Properties_Item>;
-  }>;
-  declareVariables: Array<IDataTypeSchema_Properties_Item>;
-  nodes: IViewNode[];
-  events: any[];
 }
