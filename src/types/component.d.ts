@@ -13,7 +13,7 @@ export interface I_Component_Slot {
   id: string;
   name: string;
   key: string;
-  properties: Array<IDataTypeSchema_Properties_Item>;
+  properties?: Array<IDataTypeSchema_Properties_Item>;
 }
 
 export interface ICS_Component {

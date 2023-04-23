@@ -9,6 +9,7 @@ export namespace IDBSchema {
     platforms: string[];
     data: Page[];
     dependencies: Dependencies[];
+    dependenciesPackages: DependenciesPackages[];
     apis: Api[];
     projectIndex: ProjectIndex;
   }
@@ -17,13 +18,13 @@ export namespace IDBSchema {
 export namespace IDBSchema {
   export interface DATA_COMMON {
     name: string;
-    type: 'page' | 'theme' | 'component' | 'template' | 'action' | 'function';
+    type?: 'page' | 'theme' | 'component' | 'template' | 'action' | 'function';
     nodes: RdNode[];
     decl: RdDecl[];
-    classes: Css;
+    classes?: Css[];
     events: RdEvent[];
 
-    spec: {
+    spec?: {
       props?: RdComponentDefineProp[];
       slots?: RdComponentDefineSlot[];
       events?: RdComponentDefineEvent[];
@@ -38,6 +39,8 @@ export namespace IDBSchema {
     cover: string;
     flowcharts: string[];
     params: string[];
+    extendPlatform?: boolean;
+    platforms?: any[];
   }
 
   export interface Dependencies extends DATA_COMMON {
@@ -46,13 +49,21 @@ export namespace IDBSchema {
     project: string;
   }
 
+  export interface DependenciesPackages {
+    projectId: string;
+    productId?: string;
+    name: string;
+    key?: string;
+    version?: string;
+  }
+
   export interface Api {
     id: string;
     project: string;
     name: string;
-    type: string;
-    model: any;
-    params: {
+    type?: string;
+    model?: any;
+    params?: {
       front_id: string;
       name: string;
     }[];
