@@ -3,11 +3,22 @@ import { JsonDataType } from '../types/jsonDataType';
 
 /**
  * 是否是复杂类型schema
- * @param {ISimpleData} schema
+ * @param {any} schema
  * @returns {boolean}
  */
-const isComplex = (schema: IJson): boolean => {
-  return schema.type === JsonDataType['object'] || schema.type === JsonDataType['array'];
+const isComplex = (schema: any): schema is IComplexData => {
+  return [JsonDataType['object'], JsonDataType['array']].includes(schema.type);
+};
+
+/**
+ * 是否是简单类型schema
+ * @param {any} schema
+ * @returns {boolean}
+ */
+const isSimple = (schema: any): schema is ISimpleData => {
+  return [JsonDataType['null'], JsonDataType['string'], JsonDataType['number'], JsonDataType['boolean']].includes(
+    schema.type
+  );
 };
 
 /**
@@ -26,6 +37,8 @@ const generateSimpleData = (schema: ISimpleData): string => {
       code = `${value}`;
     } else if (type === JsonDataType['boolean']) {
       code = `${value}`;
+    } else {
+      throw new Error('not found json simple schema type')
     }
   } else {
     code = 'null';
@@ -50,8 +63,8 @@ const generateComplexData = (schema: IComplexData): string => {
       const isNotLast = index !== vLen - 1;
       objectCode += `"${key}":${
         isComplex(itemValue)
-          ? generateComplexData(itemValue as IComplexData)
-          : generateSimpleData(itemValue as ISimpleData)
+          ? generateComplexData(itemValue)
+          : generateSimpleData(itemValue)
       }${isNotLast ? ',' : ''}`;
     }
     code = objectCode + '}';
@@ -62,11 +75,13 @@ const generateComplexData = (schema: IComplexData): string => {
       const isNotLast = index !== vLen - 1;
       arrayCode += `${
         isComplex(itemValue)
-          ? generateComplexData(itemValue as IComplexData)
-          : generateSimpleData(itemValue as ISimpleData)
+          ? generateComplexData(itemValue)
+          : generateSimpleData(itemValue)
       }${isNotLast ? ',' : ''}`;
     }
     code = arrayCode + ']';
+  } else {
+    throw new Error('not found json complex schema type')
   }
   return code;
 };
@@ -79,9 +94,11 @@ const generateComplexData = (schema: IComplexData): string => {
 export const generateJson = (schema: IJson): string => {
   let code = '';
   if (isComplex(schema)) {
-    code = generateComplexData(schema as IComplexData);
+    code = generateComplexData(schema);
+  } else if (isSimple(schema)) {
+    code = generateSimpleData(schema);
   } else {
-    code = generateSimpleData(schema as ISimpleData);
+    throw new Error('not found json schema type')
   }
   return code;
 };
