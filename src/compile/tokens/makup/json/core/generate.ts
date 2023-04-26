@@ -28,7 +28,7 @@ export const generateJson = (schema: IJson): string => {
       return generateArray(schema);
     }
     default:
-      throw new Error('generateJson: not found json simple schema type');
+      throw new Error(`generateJson: not found json schema type ${type}`);
   }
 };
 
