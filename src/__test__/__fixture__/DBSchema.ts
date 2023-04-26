@@ -637,7 +637,17 @@ const webJson = {
       flowcharts: ['64464dfe9c229310c169d72b'],
       extendPlatform: true,
       platforms: [],
-      params: [],
+      params: [
+        {
+          name: 'id',
+          types: [
+            {
+              type: 'text',
+            },
+          ],
+          id: '6448e22cc48ddbf7e5f02da6',
+        },
+      ],
     },
     {
       originId: '64464a419c229310c169d487',
@@ -7222,7 +7232,7 @@ const webJson = {
       },
     ],
   },
-  id: '6448d6ad0e749560386217f3',
+  id: '6448e26a0e7495603862225d',
   dependenciesPackages: [
     {
       productId: '6352061254bb9b1c84ce3570',
