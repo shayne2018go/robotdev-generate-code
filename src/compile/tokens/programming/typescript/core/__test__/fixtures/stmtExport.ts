@@ -1,4 +1,4 @@
-import { Statement } from "../../../types/statement";
+import { Statement } from "../../../../types/statement";
 
 // export{temp}from'module'
 // export{default as alias,temp,temp1}from'module'
