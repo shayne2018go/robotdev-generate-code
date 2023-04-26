@@ -66,7 +66,7 @@ const schema_object2: IJson_Object = {
     },
   ],
 };
-describe('generate', () => {
+describe('generateJson', () => {
   describe('generateJson boolean', () => {
     it('false', () => {
       const code = generateJson(schema_boolean1);

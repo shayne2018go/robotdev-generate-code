@@ -1,104 +1,111 @@
-import { IComplexData, IJson, ISimpleData } from '../types';
+import { IJson, IJson_Array, IJson_Boolean, IJson_Null, IJson_Number, IJson_Object, IJson_String } from '../types';
 import { JsonDataType } from '../types/jsonDataType';
 
 /**
- * 是否是复杂类型schema
- * @param {any} schema
- * @returns {boolean}
- */
-const isComplex = (schema: any): schema is IComplexData => {
-  return [JsonDataType['object'], JsonDataType['array']].includes(schema.type);
-};
-
-/**
- * 是否是简单类型schema
- * @param {any} schema
- * @returns {boolean}
- */
-const isSimple = (schema: any): schema is ISimpleData => {
-  return [JsonDataType['null'], JsonDataType['string'], JsonDataType['number'], JsonDataType['boolean']].includes(
-    schema.type
-  );
-};
-
-/**
- * 简单类型schema转code
- * @param {ISimpleData} schema
- * @returns {string}
- */
-const generateSimpleData = (schema: ISimpleData): string => {
-  let code = '';
-  const { type } = schema;
-  if (type !== JsonDataType['null']) {
-    const { value } = schema;
-    if (type === JsonDataType['string']) {
-      code = `"${value}"`;
-    } else if (type === JsonDataType['number']) {
-      code = `${value}`;
-    } else if (type === JsonDataType['boolean']) {
-      code = `${value}`;
-    } else {
-      throw new Error('not found json simple schema type')
-    }
-  } else {
-    code = 'null';
-  }
-  return code;
-};
-
-/**
- * 复杂类型schema转code
- * @param {IComplexData} schema
- * @returns {string}
- */
-const generateComplexData = (schema: IComplexData): string => {
-  let code = '';
-  const { type, value } = schema;
-  const vLen = value.length;
-  if (type === JsonDataType['object']) {
-    let objectCode = '{';
-    for (let index = 0; index < vLen; index++) {
-      const item = value[index];
-      const { key, value: itemValue } = item;
-      const isNotLast = index !== vLen - 1;
-      objectCode += `"${key}":${
-        isComplex(itemValue)
-          ? generateComplexData(itemValue)
-          : generateSimpleData(itemValue)
-      }${isNotLast ? ',' : ''}`;
-    }
-    code = objectCode + '}';
-  } else if (type === JsonDataType['array']) {
-    let arrayCode = '[';
-    for (let index = 0; index < vLen; index++) {
-      const itemValue = value[index];
-      const isNotLast = index !== vLen - 1;
-      arrayCode += `${
-        isComplex(itemValue)
-          ? generateComplexData(itemValue)
-          : generateSimpleData(itemValue)
-      }${isNotLast ? ',' : ''}`;
-    }
-    code = arrayCode + ']';
-  } else {
-    throw new Error('not found json complex schema type')
-  }
-  return code;
-};
-
-/**
- * 简单类型schema转code
- * @param {IComplexData} schema
+ * json schema 转 code string
+ * @param {IJson} schema
  * @returns {string}
  */
 export const generateJson = (schema: IJson): string => {
-  let code = '';
-  if (isComplex(schema)) {
-    code = generateComplexData(schema);
-  } else if (isSimple(schema)) {
-    code = generateSimpleData(schema);
-  } else {
-    throw new Error('not found json schema type')
+  const { type } = schema;
+  switch (type) {
+    case JsonDataType['string']: {
+      return generateString(schema);
+    }
+    case JsonDataType['number']: {
+      return generateNumber(schema);
+    }
+    case JsonDataType['boolean']: {
+      return generateBoolean(schema);
+    }
+    case JsonDataType['null']: {
+      return generateNull(schema);
+    }
+    case JsonDataType['object']: {
+      return generateObject(schema);
+    }
+    case JsonDataType['array']: {
+      return generateArray(schema);
+    }
+    default:
+      throw new Error('generateJson: not found json simple schema type');
   }
+};
+
+/**
+ * json string schema 转 code string
+ * @param {IJson_String} schema 
+ * @returns {string}
+ */
+const generateString = (schema: IJson_String): string => {
+  const { value } = schema;
+  return `"${value}"`;
+};
+
+/**
+ * json number schema 转 code string
+ * @param {IJson_Number} schema 
+ * @returns {string}
+ */
+const generateNumber = (schema: IJson_Number): string => {
+  const { value } = schema;
+  return `${value}`;
+};
+
+/**
+ * json boolean schema 转 code string
+ * @param {IJson_Boolean} schema 
+ * @returns {string}
+ */
+const generateBoolean = (schema: IJson_Boolean): string => {
+  const { value } = schema;
+  return `${value}`;
+};
+
+/**
+ * json null schema 转 code string
+ * @param {IJson_Null} _schema 
+ * @returns {string}
+ */
+const generateNull = (_schema: IJson_Null): string => {
+  return 'null';
+};
+
+/**
+ * json object schema 转 code string
+ * @param {IJson_Object} schema 
+ * @returns {string}
+ */
+const generateObject = (schema: IJson_Object): string => {
+  let code = '{';
+  const { value } = schema;
+  const vLen = value.length;
+  for (let index = 0; index < vLen; index++) {
+    const item = value[index];
+    const { key, value: itemValue } = item;
+    const isNotLast = index !== vLen - 1;
+    const comma = isNotLast ? ',' : '';
+    code += `"${key}":${generateJson(itemValue)}${comma}`;
+  }
+  code += '}';
+  return code;
+};
+
+/**
+ * json array schema 转 code string
+ * @param {IJson_Array} schema 
+ * @returns {string}
+ */
+const generateArray = (schema: IJson_Array): string => {
+  let code = '[';
+  const { value } = schema;
+  const vLen = value.length;
+  for (let index = 0; index < vLen; index++) {
+    const itemValue = value[index];
+    const isNotLast = index !== vLen - 1;
+    const comma = isNotLast ? ',' : '';
+    code += `${generateJson(itemValue)}${comma}`;
+  }
+  code += ']';
   return code;
 };
