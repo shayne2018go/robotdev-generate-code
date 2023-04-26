@@ -1,7 +1,7 @@
 import { ICodeSchema } from '@/types';
 
 const codeSchema = {
-  id: '6448d6ad0e749560386217f3',
+  id: '6448e26a0e7495603862225d',
   meta: {
     title: 'ethan前端',
     describe: '项目提交到应用中心描述...',
@@ -5805,6 +5805,22 @@ const codeSchema = {
           },
         },
       },
+      route: {
+        query: [
+          {
+            id: '6448e22cc48ddbf7e5f02da6',
+            name: 'id',
+            key: 'id',
+            desc: undefined,
+            types: [
+              {
+                type: 'text',
+              },
+            ],
+            extendPlatform: undefined,
+          },
+        ],
+      },
       nodes: [
         {
           id: 'F441',
@@ -6377,7 +6393,7 @@ const codeSchema = {
         {
           id: '6447262e0b661be9e0b91ac1',
           name: '学生名称',
-          key: undefined,
+          key: 'xueshengmingcheng',
           desc: undefined,
           types: [
             {
@@ -6389,7 +6405,7 @@ const codeSchema = {
         {
           id: '644726370b661be9e0b91ac2',
           name: '学生年龄',
-          key: undefined,
+          key: 'xueshengnianling',
           desc: undefined,
           types: [
             {
@@ -6413,6 +6429,9 @@ const codeSchema = {
           },
         },
       },
+      route: {
+        query: [],
+      },
       nodes: [],
       variables: [],
       lifeCycle: [],
@@ -6428,6 +6447,9 @@ const codeSchema = {
             value: '502',
           },
         },
+      },
+      route: {
+        query: [],
       },
       nodes: [],
       variables: [],
@@ -6445,6 +6467,9 @@ const codeSchema = {
           },
         },
       },
+      route: {
+        query: [],
+      },
       nodes: [],
       variables: [],
       lifeCycle: [],
@@ -6460,6 +6485,9 @@ const codeSchema = {
             value: '人员列表',
           },
         },
+      },
+      route: {
+        query: [],
       },
       nodes: [
         {

@@ -5998,7 +5998,7 @@ exports[`preprocess > code schema 1`] = `
     },
   ],
   "functions": [],
-  "id": "6448d6ad0e749560386217f3",
+  "id": "6448e26a0e7495603862225d",
   "meta": {
     "describe": "项目提交到应用中心描述...",
     "keyword": "",
@@ -6586,12 +6586,28 @@ exports[`preprocess > code schema 1`] = `
           "tagId": "6447704a0090c3107dad2cbf",
         },
       ],
+      "route": {
+        "query": [
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "6448e22cc48ddbf7e5f02da6",
+            "key": "id",
+            "name": "id",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+        ],
+      },
       "variables": [
         {
           "desc": undefined,
           "extendPlatform": undefined,
           "id": "6447262e0b661be9e0b91ac1",
-          "key": undefined,
+          "key": "xueshengmingcheng",
           "name": "学生名称",
           "types": [
             {
@@ -6603,7 +6619,7 @@ exports[`preprocess > code schema 1`] = `
           "desc": undefined,
           "extendPlatform": undefined,
           "id": "644726370b661be9e0b91ac2",
-          "key": undefined,
+          "key": "xueshengnianling",
           "name": "学生年龄",
           "types": [
             {
@@ -6627,6 +6643,9 @@ exports[`preprocess > code schema 1`] = `
         },
       },
       "nodes": [],
+      "route": {
+        "query": [],
+      },
       "variables": [],
     },
     {
@@ -6643,6 +6662,9 @@ exports[`preprocess > code schema 1`] = `
         },
       },
       "nodes": [],
+      "route": {
+        "query": [],
+      },
       "variables": [],
     },
     {
@@ -6659,6 +6681,9 @@ exports[`preprocess > code schema 1`] = `
         },
       },
       "nodes": [],
+      "route": {
+        "query": [],
+      },
       "variables": [],
     },
     {
@@ -6777,6 +6802,9 @@ exports[`preprocess > code schema 1`] = `
           "tagId": "613ecb25af722dc29c7fc387",
         },
       ],
+      "route": {
+        "query": [],
+      },
       "variables": [],
     },
   ],

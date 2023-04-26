@@ -36,7 +36,7 @@ export namespace DBSchema {
     type: 'page';
     cover: string;
     flowcharts: string[];
-    params: string[];
+    params: RdDefineProp[];
     extendPlatform?: boolean;
     platforms?: any[];
   }

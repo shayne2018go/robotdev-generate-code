@@ -23,11 +23,32 @@ export const eachDBSchema = (dbJson: DBSchema.Project, fn: (data: any) => boolea
   projectIndex.page.forEach((p) => {
     eachProjectIndexPage(p, fn);
   });
+
+  data.forEach((page) => {
+    eachPage(page, fn);
+  });
 };
 
-// export const eachPage = (p: DBSchema.Page, fn: (data: any) => boolean) => {
-//   fn(p);
-// };
+export const eachPage = (p: DBSchema.Page, fn: (data: any) => boolean) => {
+  fn(p);
+  if (p.decl?.length) {
+    p.decl.forEach((dd: DBSchema.RdDefineProp) => {
+      fn(dd);
+      if (dd) {
+        eachTypes(dd.types, fn);
+      }
+    });
+  }
+
+  if (p.params?.length) {
+    p.params.forEach((dd: DBSchema.RdDefineProp) => {
+      fn(dd);
+      if (dd) {
+        eachTypes(dd.types, fn);
+      }
+    });
+  }
+};
 
 export const eachProjectIndexPage = (p: DBSchema.ProjectIndex['page'][number], fn: (data: any) => boolean) => {
   fn(p);

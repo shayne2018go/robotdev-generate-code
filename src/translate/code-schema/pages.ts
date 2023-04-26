@@ -2,6 +2,7 @@ import { DBWSchema } from '@/types';
 import { ICS_Page } from '@/types/page';
 import { preprocessComponentLifeCycle, preprocessComponentVariables, preprocessNodes } from './components';
 import { DependenciesBuilder } from './dependencies';
+import { preprocessDeclare } from './shared/declare';
 
 /**
  * 对页面预处理
@@ -32,6 +33,9 @@ function preprocessPages(
             value: pagemeta.name,
           },
         },
+      },
+      route: {
+        query: pagemeta.params.map(preprocessDeclare),
       },
       nodes: nodes,
       variables: componentVariables,

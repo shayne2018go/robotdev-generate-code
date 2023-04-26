@@ -621,6 +621,7 @@ const webJson = {
             },
           ],
           id: '6447262e0b661be9e0b91ac1',
+          key: 'xueshengmingcheng',
         },
         {
           name: '学生年龄',
@@ -630,6 +631,7 @@ const webJson = {
             },
           ],
           id: '644726370b661be9e0b91ac2',
+          key: 'xueshengnianling',
         },
       ],
       events: [],
@@ -637,7 +639,18 @@ const webJson = {
       flowcharts: ['64464dfe9c229310c169d72b'],
       extendPlatform: true,
       platforms: [],
-      params: [],
+      params: [
+        {
+          name: 'id',
+          types: [
+            {
+              type: 'text',
+            },
+          ],
+          id: '6448e22cc48ddbf7e5f02da6',
+          key: 'id',
+        },
+      ],
     },
     {
       originId: '64464a419c229310c169d487',
@@ -7349,7 +7362,7 @@ const webJson = {
       },
     ],
   },
-  id: '6448d6ad0e749560386217f3',
+  id: '6448e26a0e7495603862225d',
   dependenciesPackages: [
     {
       productId: '6352061254bb9b1c84ce3570',

@@ -161,6 +161,7 @@ exports[`translateWords > start 1`] = `
       "decl": [
         {
           "id": "6447262e0b661be9e0b91ac1",
+          "key": "xueshengmingcheng",
           "name": "学生名称",
           "types": [
             {
@@ -170,6 +171,7 @@ exports[`translateWords > start 1`] = `
         },
         {
           "id": "644726370b661be9e0b91ac2",
+          "key": "xueshengnianling",
           "name": "学生年龄",
           "types": [
             {
@@ -783,7 +785,18 @@ exports[`translateWords > start 1`] = `
         },
       ],
       "originId": "64464a419c229310c169d486",
-      "params": [],
+      "params": [
+        {
+          "id": "6448e22cc48ddbf7e5f02da6",
+          "key": "id",
+          "name": "id",
+          "types": [
+            {
+              "type": "text",
+            },
+          ],
+        },
+      ],
       "platforms": [],
       "project": "64464a419c229310c169d47e",
       "type": "page",
@@ -7016,7 +7029,7 @@ exports[`translateWords > start 1`] = `
     },
   ],
   "desc": "项目提交到应用中心描述...",
-  "id": "6448d6ad0e749560386217f3",
+  "id": "6448e26a0e7495603862225d",
   "name": "ethan前端",
   "platforms": [],
   "project": "64464a419c229310c169d47e",
