@@ -1,4 +1,4 @@
-import { ICss, IStyle, ICss_CommonSchema, ICss_BlockSchema, ICss_AttrSchema } from '../types';
+import { ICss, IStyle, ICss_CommonSchema, ICss_BlockSchema, ICss_AttrSchema, ICss_Item } from '../types';
 import { CssDataType } from '../types/cssDataType';
 
 /**
@@ -11,14 +11,7 @@ export const generateCss = (array: ICss): string => {
   const vLen = array.length;
   for (let index = 0; index < vLen; index++) {
     const item = array[index];
-    const { type } = item;
-    if (type === CssDataType['block']) {
-      code += generateBlockData(item);
-    } else if (type === CssDataType['attr']) {
-      code += generateAttrData(item);
-    } else if (type === CssDataType['common']) {
-      code += generateCommonData(item);
-    }
+    code += generateCssData(item);
   }
   return code;
 };
@@ -39,13 +32,34 @@ export const generateStyle = (array: IStyle): string => {
 };
 
 /**
+ * CssItem 转 css string
+ * @param {ICss_Item} item
+ * @returns {string}
+ */
+const generateCssData = (item: ICss_Item): string => {
+  const { type } = item;
+  switch (type) {
+    case CssDataType['block']:
+      return generateBlockData(item);
+    case CssDataType['attr']:
+      return generateAttrData(item);
+    case CssDataType['common']:
+      return generateCommonData(item);
+
+    default:
+      throw new Error(`generateCssData: not found css schema type ${type}`);
+  }
+};
+
+/**
  * BlockSchema 转 block string
  * @param {ICss_BlockSchema} schema
  * @returns {string}
  */
 const generateBlockData = (schema: ICss_BlockSchema): string => {
-  const { key, value } = schema;
-  return `${key}{${generateCss(value)}}`;
+  const { key, value: items } = schema;
+  const value = items.reduce((start, ele) => start + generateCssData(ele), '');
+  return `${key}{${value}}`;
 };
 
 /**
