@@ -1,0 +1,2450 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`dependencies > preprocessDependencies 1`] = `
+[
+  {
+    "components": [
+      {
+        "emits": [],
+        "functions": [],
+        "id": "613ecb25af722dc29c7fc391",
+        "key": "a-layout",
+        "lifeCycle": [],
+        "name": "Layout 布局",
+        "nodes": [],
+        "props": [
+          {
+            "desc": "容器class",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6bf",
+            "key": "class",
+            "name": "布局样式",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "指定样式",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6c0",
+            "key": "style",
+            "name": "指定样式",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "desc": "表示子元素里有Sider",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6c1",
+            "key": "hasSider",
+            "name": "有无侧边栏",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b6c2",
+            "key": "default",
+            "name": "默认",
+            "parameters": undefined,
+          },
+        ],
+        "variables": [],
+      },
+      {
+        "emits": [],
+        "functions": [],
+        "id": "613ecb25af722dc29c7fc393",
+        "key": "a-layout-header",
+        "lifeCycle": [],
+        "name": "LayoutHeader 顶部布局",
+        "nodes": [],
+        "props": [
+          {
+            "desc": "容器class",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6d2",
+            "key": "class",
+            "name": "布局样式",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "指定样式",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6d3",
+            "key": "style",
+            "name": "指定样式",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "desc": "表示子元素里有Sider",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6d4",
+            "key": "hasSider",
+            "name": "有无侧边栏",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b6d5",
+            "key": "default",
+            "name": "默认",
+            "parameters": undefined,
+          },
+        ],
+        "variables": [],
+      },
+      {
+        "emits": [
+          {
+            "desc": "加载错误回调",
+            "id": "641a7053cf44f6204642bb12",
+            "key": "error",
+            "name": "加载错误",
+            "parameters": [
+              {
+                "id": "6433c116142f1aa760d86bf4",
+                "key": "event",
+                "name": "事件数据",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "6433c126142f1aa760d86bf5",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "6433c130142f1aa760d86bf6",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        "functions": [],
+        "id": "613ecb25af722dc29c7fc3e2",
+        "key": "a-image",
+        "lifeCycle": [],
+        "name": "Image 图片",
+        "nodes": [],
+        "props": [
+          {
+            "desc": "图像描述",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bb0a",
+            "key": "alt",
+            "name": "描述",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "加载失败容错地址",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bb0b",
+            "key": "fallback",
+            "name": "容错地址",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "图像高度",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bb0c",
+            "key": "height",
+            "name": "高度",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "desc": "加载占位,为 true 时使用默认占位",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bb0d",
+            "key": "placeholder",
+            "name": "占位符",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "预览参数，为 false 时禁用",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bb0e",
+            "key": "preview",
+            "name": "预览参数",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "图片地址",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bb0f",
+            "key": "src",
+            "name": "图片地址",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "图像宽度",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bb10",
+            "key": "width",
+            "name": "宽度",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "	自定义 mask",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bb11",
+            "key": "previewMask",
+            "name": "	自定义 mask",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "desc": undefined,
+            "id": "641a7053cf44f6204642bb13",
+            "key": "placeholder",
+            "name": "加载占位",
+            "parameters": [],
+          },
+          {
+            "desc": undefined,
+            "id": "641a7053cf44f6204642bb14",
+            "key": "default",
+            "name": "默认",
+            "parameters": [],
+          },
+          {
+            "desc": "	自定义 mask",
+            "id": "641a7053cf44f6204642bb15",
+            "key": "previewMask",
+            "name": "自定义 mask",
+            "parameters": [],
+          },
+        ],
+        "variables": [],
+      },
+      {
+        "emits": [],
+        "functions": [],
+        "id": "613ecb25af722dc29c7fc394",
+        "key": "a-layout-content",
+        "lifeCycle": [],
+        "name": "LayoutContent 内容布局",
+        "nodes": [],
+        "props": [
+          {
+            "desc": "容器class",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6d6",
+            "key": "class",
+            "name": "布局样式",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "指定样式",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6d7",
+            "key": "style",
+            "name": "指定样式",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "desc": "表示子元素里有Sider",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6d8",
+            "key": "hasSider",
+            "name": "有无侧边栏",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b6d9",
+            "key": "default",
+            "name": "默认",
+            "parameters": undefined,
+          },
+        ],
+        "variables": [],
+      },
+      {
+        "emits": [
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b88a",
+            "key": "PressEnter",
+            "name": "按下回车键",
+            "parameters": [
+              {
+                "id": "641a7052cf44f6204642b88b",
+                "key": "event",
+                "name": "事件数据",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "642f9160fa0f4c663f442ca6",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "642f9176fa0f4c663f442ca7",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "id": "641ad10032a9ce04ca9ce2d7",
+            "key": "change",
+            "name": "输入框内容变化",
+            "parameters": [
+              {
+                "desc": "",
+                "id": "641ad15632a9ce04ca9ce2d9",
+                "key": "event",
+                "name": "事件数据",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "642f8f03fa0f4c663f442ca1",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "642f8f19fa0f4c663f442ca2",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "desc": "",
+            "id": "641ad10132a9ce04ca9ce2d8",
+            "key": "search",
+            "name": "点击搜索/按下回车",
+            "parameters": [
+              {
+                "id": "641ad17a32a9ce04ca9ce2da",
+                "key": "event",
+                "name": "事件数据",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "642f9114fa0f4c663f442ca4",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "642f9124fa0f4c663f442ca5",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+              {
+                "id": "642f9105fa0f4c663f442ca3",
+                "key": "value",
+                "name": "值",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        "functions": [],
+        "id": "613ecb25af722dc29c7fc3b3",
+        "key": "a-input-search",
+        "lifeCycle": [],
+        "name": "InputSearch 搜索框",
+        "nodes": [],
+        "props": [
+          {
+            "desc": "是否有确认按钮，可设为按钮文字。该属性会与addon冲突。",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b888",
+            "key": "enterButton",
+            "name": "确认按钮",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "搜索loading",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b889",
+            "key": "loading",
+            "name": "显示loading",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "是否有边框",
+            "extendPlatform": true,
+            "id": "641aaece01986e91c822cf5a",
+            "key": "bordered",
+            "name": "边框",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "输入框默认内容",
+            "extendPlatform": true,
+            "id": "641aaeee01986e91c822cf5b",
+            "key": "defaultValue",
+            "name": "默认提示",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "是否禁用状态，默认为 false",
+            "extendPlatform": true,
+            "id": "641aaf0201986e91c822cf5c",
+            "key": "disabled",
+            "name": "禁用",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "输入框的 id",
+            "extendPlatform": true,
+            "id": "641aaf1201986e91c822cf5d",
+            "key": "id",
+            "name": "id",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "输入框的最大长度",
+            "extendPlatform": true,
+            "id": "641aaf2001986e91c822cf5e",
+            "key": "maxlength",
+            "name": "最大长度",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "desc": "是否展示字数",
+            "extendPlatform": true,
+            "id": "641aaf3801986e91c822cf5f",
+            "key": "showCount",
+            "name": "展示字数",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "输入框内容",
+            "extendPlatform": true,
+            "id": "641aaf4a01986e91c822cf60",
+            "key": "value",
+            "name": "内容",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "",
+            "extendPlatform": true,
+            "id": "641d682b6ef419c43dc0b44d",
+            "key": "size",
+            "name": "按钮尺寸",
+            "types": [
+              {
+                "rules": {
+                  "items": [
+                    {
+                      "label": "大",
+                      "value": "large",
+                    },
+                    {
+                      "label": "中",
+                      "value": "default",
+                    },
+                    {
+                      "label": "小",
+                      "value": "small",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "desc": "是否有确认按钮，可设为按钮文字。该属性会与 addon 冲突。",
+            "id": "641a7052cf44f6204642b88c",
+            "key": "enterButton",
+            "name": "确认按钮",
+            "parameters": [],
+          },
+        ],
+        "variables": [],
+      },
+      {
+        "emits": [],
+        "functions": [],
+        "id": "613ecb25af722dc29c7fc395",
+        "key": "a-layout-footer",
+        "lifeCycle": [],
+        "name": "LayoutFooter 底部布局",
+        "nodes": [],
+        "props": [
+          {
+            "desc": "容器class",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6da",
+            "key": "class",
+            "name": "布局样式",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "指定样式",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6db",
+            "key": "style",
+            "name": "指定样式",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "desc": "表示子元素里有Sider",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b6dc",
+            "key": "hasSider",
+            "name": "有无侧边栏",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b6dd",
+            "key": "default",
+            "name": "默认",
+            "parameters": undefined,
+          },
+        ],
+        "variables": [],
+      },
+      {
+        "emits": [
+          {
+            "desc": undefined,
+            "id": "641a7053cf44f6204642bab3",
+            "key": "change",
+            "name": "切换面板",
+            "parameters": [
+              {
+                "id": "6433c91d142f1aa760d86c00",
+                "key": "activeKey",
+                "name": "新建属性",
+                "types": [
+                  {
+                    "multiple": true,
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "id": "641a7053cf44f6204642bab4",
+            "key": "tabClick",
+            "name": "tab被点击",
+            "parameters": undefined,
+          },
+          {
+            "desc": "新增和删除页签的回调，在 type=\\"editable-card\\" 时有效",
+            "id": "641a7053cf44f6204642bab5",
+            "key": "edit",
+            "name": "新增和删除页签",
+            "parameters": [
+              {
+                "id": "6433c944142f1aa760d86c01",
+                "key": "activeKey",
+                "name": "当前激活 tab 面板",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+              {
+                "id": "6433c944142f1aa760d86c02",
+                "key": "action",
+                "name": "行为",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "desc": "滚动 TabBar 时触发",
+            "id": "641a7053cf44f6204642bab6",
+            "key": "tabScroll",
+            "name": "滚动 TabBar ",
+            "parameters": [
+              {
+                "id": "6433c9a7142f1aa760d86c03",
+                "key": "direction",
+                "name": "方向",
+                "types": [
+                  {
+                    "multiple": false,
+                    "rules": {
+                      "items": [
+                        {
+                          "label": "左",
+                          "value": "left",
+                        },
+                        {
+                          "label": "右",
+                          "value": "right",
+                        },
+                        {
+                          "label": "上",
+                          "value": "top",
+                        },
+                        {
+                          "label": "下",
+                          "value": "bottom",
+                        },
+                      ],
+                    },
+                    "type": "option",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        "functions": [],
+        "id": "613ecb25af722dc29c7fc3d7",
+        "key": "a-tabs",
+        "lifeCycle": [],
+        "name": "Tabs 标签页",
+        "nodes": [],
+        "props": [
+          {
+            "desc": "当前激活tab面板的key",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642baaa",
+            "key": "activeKey",
+            "name": "当前激活页",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "是否使用动画切换Tabs，在 tabPosition=top|bottom 时有效",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642baab",
+            "key": "animated",
+            "name": "切换动画",
+            "types": [
+              {
+                "default": true,
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "是否隐藏加号图标，在 type=\\"editable-card\\" 时有效",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642baac",
+            "key": "hideAdd",
+            "name": "隐藏加号",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "大小，提供 large default 和 small 三种大小",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642baad",
+            "key": "size",
+            "name": "大小",
+            "types": [
+              {
+                "default": "default",
+                "multiple": false,
+                "rules": {
+                  "items": [
+                    {
+                      "label": "大",
+                      "value": "large",
+                    },
+                    {
+                      "label": "中",
+                      "value": "default",
+                    },
+                    {
+                      "label": "小",
+                      "value": "small",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "desc": "tabbar的样式对象",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642baae",
+            "key": "tabBarStyle",
+            "name": "标签样式",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "desc": "页签显示的位置",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642baaf",
+            "key": "tabPosition",
+            "name": "标签位置",
+            "types": [
+              {
+                "multiple": false,
+                "rules": {
+                  "items": [
+                    {
+                      "label": "顶部",
+                      "value": "top",
+                    },
+                    {
+                      "label": "右边",
+                      "value": "right",
+                    },
+                    {
+                      "label": "底部",
+                      "value": "bottom",
+                    },
+                    {
+                      "label": "左边",
+                      "value": "left",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "desc": "页签的基本样式",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bab0",
+            "key": "type",
+            "name": "标签类型",
+            "types": [
+              {
+                "rules": {
+                  "items": [
+                    {
+                      "label": "线条",
+                      "value": "line",
+                    },
+                    {
+                      "label": "卡片",
+                      "value": "card",
+                    },
+                    {
+                      "label": "可编辑卡片",
+                      "value": "editable-card",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "desc": "tabs之间的间隙",
+            "extendPlatform": undefined,
+            "id": "tabBarGutter",
+            "key": "tabBarGutter",
+            "name": "标签间距",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "desc": "标签居中展示",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bab1",
+            "key": "centered",
+            "name": "标签居中",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "被隐藏时是否销毁 DOM 结构",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bab2",
+            "key": "destroyInactiveTabPane",
+            "name": "销毁 DOM 结构",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "desc": undefined,
+            "id": "641a7053cf44f6204642bab7",
+            "key": "default",
+            "name": "默认",
+            "parameters": [],
+          },
+          {
+            "desc": "	自定义添加按钮",
+            "id": "641a7053cf44f6204642bab8",
+            "key": "addIcon",
+            "name": "添加按钮",
+            "parameters": [],
+          },
+          {
+            "desc": "	tab bar 上左侧额外的元素",
+            "id": "641a7053cf44f6204642bab9",
+            "key": "leftExtra",
+            "name": "左侧额外元素",
+            "parameters": [],
+          },
+          {
+            "desc": "自定义折叠 icon",
+            "id": "641a7053cf44f6204642baba",
+            "key": "moreIcon",
+            "name": "折叠 icon",
+            "parameters": [],
+          },
+          {
+            "desc": "替换 TabBar，用于二次封装标签头",
+            "id": "renderTabBar",
+            "key": "renderTabBar",
+            "name": "替换 TabBar",
+            "parameters": [],
+          },
+          {
+            "desc": "tab bar 上右侧额外的元素",
+            "id": "641a7053cf44f6204642babb",
+            "key": "rightExtra",
+            "name": "右侧额外元素",
+            "parameters": [],
+          },
+        ],
+        "variables": [],
+      },
+      {
+        "emits": [],
+        "functions": [],
+        "id": "613ecb25af722dc29c7fc3d8",
+        "key": "a-tab-pane",
+        "lifeCycle": [],
+        "name": "TabPane 选项卡面板",
+        "nodes": [],
+        "props": [
+          {
+            "desc": "被隐藏时是否渲染DOM结构",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642babc",
+            "key": "forceRender",
+            "name": "强制渲染",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "对应activeKey",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642babd",
+            "key": "key",
+            "name": "当前标签页",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "选项卡头显示文字",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642babe",
+            "key": "tab",
+            "name": "选项卡文字",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "desc": undefined,
+            "id": "641a7053cf44f6204642babf",
+            "key": "tab",
+            "name": "选项卡文字",
+            "parameters": [],
+          },
+          {
+            "desc": undefined,
+            "id": "641a7053cf44f6204642bac0",
+            "key": "default",
+            "name": "默认",
+            "parameters": [],
+          },
+          {
+            "desc": "自定义关闭图标，在 type=\\"editable-card\\"时有效",
+            "id": "641a7053cf44f6204642bac1",
+            "key": "closeIcon",
+            "name": "自定义关闭图标",
+            "parameters": [],
+          },
+        ],
+        "variables": [],
+      },
+      {
+        "emits": [
+          {
+            "desc": undefined,
+            "id": "641a7053cf44f6204642ba52",
+            "key": "expandedRowsChange",
+            "name": "展开的行变化",
+            "parameters": [
+              {
+                "id": "6433c757142f1aa760d86bfd",
+                "key": "expandedRows",
+                "name": "展开行",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "desc": "分页、排序、筛选变化时触发",
+            "id": "641a7053cf44f6204642ba53",
+            "key": "change",
+            "name": "分页、排序、筛选变化",
+            "parameters": [
+              {
+                "id": "6433c38b142f1aa760d86bf7",
+                "key": "pagination",
+                "name": "分页器配置",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "6433c406142f1aa760d86bfa",
+                          "key": "position",
+                          "name": "分页器位置",
+                          "types": [
+                            {
+                              "multiple": true,
+                              "rules": {
+                                "items": [
+                                  {
+                                    "label": "左上",
+                                    "value": "topLeft",
+                                  },
+                                  {
+                                    "label": "中上",
+                                    "value": "topCenter",
+                                  },
+                                  {
+                                    "label": "右上",
+                                    "value": "topRight",
+                                  },
+                                  {
+                                    "label": "左下",
+                                    "value": "bottomLeft",
+                                  },
+                                  {
+                                    "label": "中下",
+                                    "value": "bottomCenter",
+                                  },
+                                  {
+                                    "label": "右下",
+                                    "value": "bottomRight",
+                                  },
+                                ],
+                              },
+                              "type": "option",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+              {
+                "id": "6433c38c142f1aa760d86bf8",
+                "key": "filters",
+                "name": "表头筛选菜单",
+                "types": [
+                  {
+                    "multiple": true,
+                    "type": "module",
+                  },
+                ],
+              },
+              {
+                "id": "6433c38d142f1aa760d86bf9",
+                "key": "sorter",
+                "name": "排序函数",
+                "types": [
+                  {
+                    "type": "action",
+                  },
+                  {
+                    "type": "whether",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "desc": "点击展开图标时触发",
+            "id": "641a7053cf44f6204642ba54",
+            "key": "expand",
+            "name": "展开图标",
+            "parameters": [
+              {
+                "id": "6433c654142f1aa760d86bfb",
+                "key": "expanded",
+                "name": "展开",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+              {
+                "id": "6433c654142f1aa760d86bfc",
+                "key": "record",
+                "name": "记录",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "desc": "拖动列时触发",
+            "id": "resizeColumn",
+            "key": "resizeColumn",
+            "name": "拖动列",
+            "parameters": [
+              {
+                "id": "6433c77c142f1aa760d86bfe",
+                "key": "width",
+                "name": "列宽度",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                  {
+                    "type": "number",
+                  },
+                ],
+              },
+              {
+                "id": "6433c77c142f1aa760d86bff",
+                "key": "column",
+                "name": "列",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        "functions": [],
+        "id": "613ecb25af722dc29c7fc3d1",
+        "key": "a-table",
+        "lifeCycle": [],
+        "name": "Table 表格",
+        "nodes": [],
+        "props": [
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba31",
+            "key": "tableLayout",
+            "name": "布局",
+            "types": [
+              {
+                "rules": {
+                  "items": [
+                    {
+                      "label": "默认",
+                      "value": "auto",
+                    },
+                    {
+                      "label": "固定",
+                      "value": "fixed",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba32",
+            "key": "bordered",
+            "name": "显示外边框",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba33",
+            "key": "childrenColumnName",
+            "name": "子列名",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba34",
+            "key": "columns",
+            "name": "列",
+            "types": [
+              {
+                "multiple": false,
+                "rules": {
+                  "tableConfig": [
+                    {
+                      "id": "title",
+                      "key": "title",
+                      "name": "标题",
+                      "required": true,
+                      "types": [
+                        {
+                          "type": "text",
+                        },
+                      ],
+                    },
+                    {
+                      "id": "key",
+                      "key": "dataIndex",
+                      "name": "路径",
+                      "required": true,
+                      "types": [
+                        {
+                          "type": "text",
+                        },
+                      ],
+                    },
+                    {
+                      "id": "pgcdnlguyacbglsofsluyg",
+                      "key": "algin",
+                      "name": "对齐方式",
+                      "types": [
+                        {
+                          "multiple": false,
+                          "rules": {
+                            "items": [
+                              {
+                                "label": "左",
+                                "value": "left",
+                              },
+                              {
+                                "label": "中",
+                                "value": "center",
+                              },
+                              {
+                                "label": "右",
+                                "value": "right",
+                              },
+                            ],
+                          },
+                          "type": "option",
+                        },
+                      ],
+                    },
+                    {
+                      "id": "pgehzourirsdykyfsjgejm",
+                      "key": "width",
+                      "name": "宽度",
+                      "types": [
+                        {
+                          "rules": {
+                            "maxPrecision": "",
+                          },
+                          "type": "number",
+                        },
+                      ],
+                    },
+                  ],
+                  "tableDataKey": "dataSource",
+                },
+                "type": "table",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba35",
+            "key": "components",
+            "name": "组成部分",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba37",
+            "key": "defaultExpandAllRows",
+            "name": "默认展开",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba38",
+            "key": "defaultExpandedRowKeys",
+            "name": "默认行",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba39",
+            "key": "expandedRowKeys",
+            "name": "展开行",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba3a",
+            "key": "expandedRowRender",
+            "name": "展开行渲染",
+            "types": [
+              {
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba3b",
+            "key": "expandIcon",
+            "name": "展开图标",
+            "types": [
+              {
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba3c",
+            "key": "expandRowByClick",
+            "name": "点击展开行",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba3d",
+            "key": "expandIconColumnIndex",
+            "name": "展开图标显示",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba3e",
+            "key": "footer",
+            "name": "表格底部",
+            "types": [
+              {
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba3f",
+            "key": "indentSize",
+            "name": "缩进大小",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba40",
+            "key": "loading",
+            "name": "加载",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba41",
+            "key": "locale",
+            "name": "默认文案设置",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba42",
+            "key": "pagination",
+            "name": "页码位置",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "rowClassName",
+            "key": "rowClassName",
+            "name": "行类名",
+            "types": [
+              {
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba43",
+            "key": "rowKey",
+            "name": "行主键",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "rowSelection",
+            "key": "rowSelection",
+            "name": "列表项可选",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba44",
+            "key": "scroll",
+            "name": "指定滚动区域",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba45",
+            "key": "showHeader",
+            "name": "表头",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba46",
+            "key": "size",
+            "name": "大小",
+            "types": [
+              {
+                "rules": {
+                  "items": [
+                    {
+                      "label": "大",
+                      "value": "default",
+                    },
+                    {
+                      "label": "中",
+                      "value": "middle",
+                    },
+                    {
+                      "label": "小",
+                      "value": "small",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba47",
+            "key": "title",
+            "name": "标题",
+            "types": [
+              {
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba48",
+            "key": "customHeaderRow",
+            "name": "自定义标题",
+            "types": [
+              {
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba49",
+            "key": "customRow",
+            "name": "自定义行",
+            "types": [
+              {
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba4a",
+            "key": "getPopupContainer",
+            "name": "筛选菜单",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba4b",
+            "key": "transformCellText",
+            "name": "默认配置",
+            "types": [
+              {
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "desc": "控制展开图标是否固定，可选 true left right",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba4c",
+            "key": "expandFixed",
+            "name": "固定展开图标",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "设置是否允许行展开",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba4d",
+            "key": "rowExpandable",
+            "name": "允许行展开",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "设置是否展示行展开列",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba4e",
+            "key": "showExpandColumn",
+            "name": "展示行展开列",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "表头是否显示下一次排序的 tooltip 提示。当参数类型为对象时，将被设置为 Tooltip 的属性",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba4f",
+            "key": "showSorterTooltip",
+            "name": "显示下一次排序",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "支持的排序方式，取值为 ascend descend",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba50",
+            "key": "sortDirections",
+            "name": "排序方式",
+            "types": [
+              {
+                "multiple": true,
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "desc": "设置粘性头部和滚动条",
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642ba51",
+            "key": "sticky",
+            "name": "滚动条",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "desc": "个性化单元格",
+            "id": "641a7053cf44f6204642ba55",
+            "key": "bodyCell",
+            "name": "个性化单元格",
+            "parameters": [],
+          },
+          {
+            "desc": "自定义筛选菜单，需要配合 column.customFilterDropdown 使用",
+            "id": "641a7053cf44f6204642ba56",
+            "key": "customFilterDropdown",
+            "name": "自定义筛选菜单",
+            "parameters": [],
+          },
+          {
+            "desc": "自定义筛选图标",
+            "id": "641a7053cf44f6204642ba57",
+            "key": "customFilterIcon",
+            "name": "自定义筛选图标",
+            "parameters": [],
+          },
+          {
+            "desc": "自定义空数据时的显示内容",
+            "id": "641a7053cf44f6204642ba58",
+            "key": "emptyText",
+            "name": "显示内容",
+            "parameters": [],
+          },
+          {
+            "desc": "个性化头部单元格",
+            "id": "641a7053cf44f6204642ba59",
+            "key": "headerCell",
+            "name": "个性化头部单元格",
+            "parameters": [],
+          },
+          {
+            "desc": "总结栏",
+            "id": "641a7053cf44f6204642ba5a",
+            "key": "summary",
+            "name": "总结栏",
+            "parameters": [],
+          },
+        ],
+        "variables": [],
+      },
+      {
+        "emits": [
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b87b",
+            "key": "change",
+            "name": "值改变",
+            "parameters": [
+              {
+                "id": "642b8a819a04dc6fabaa5d55",
+                "key": "event",
+                "name": "事件数据",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "642b8a909a04dc6fabaa5d56",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "642be22b451c381a2ec381f7",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                  {
+                                    "id": "642be234451c381a2ec381f8",
+                                    "key": "focus",
+                                    "name": "focus",
+                                    "types": [
+                                      {
+                                        "type": "action",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b87c",
+            "key": "pressEnter",
+            "name": "按下回车",
+            "parameters": [
+              {
+                "id": "642f7f986c9551f4750537bd",
+                "key": "event",
+                "name": "事件数据",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "642f7fac6c9551f4750537be",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "642f7fb56c9551f4750537bf",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        "functions": [],
+        "id": "613ecb25af722dc29c7fc3b1",
+        "key": "a-input",
+        "lifeCycle": [],
+        "name": "Input 输入框",
+        "nodes": [],
+        "props": [
+          {
+            "desc": "输入框默认内容",
+            "extendPlatform": undefined,
+            "id": "defaultValue",
+            "key": "defaultValue",
+            "name": "默认内容",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b86e",
+            "key": "disabled",
+            "name": "禁用状态",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b86f",
+            "key": "id",
+            "name": "唯一标识",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b870",
+            "key": "maxlength",
+            "name": "最大长度",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b871",
+            "key": "prefix",
+            "name": "前缀图标",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b872",
+            "key": "size",
+            "name": "尺寸",
+            "types": [
+              {
+                "rules": {
+                  "items": [
+                    {
+                      "label": "大",
+                      "value": "large",
+                    },
+                    {
+                      "label": "中",
+                      "value": "default",
+                    },
+                    {
+                      "label": "小",
+                      "value": "small",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b873",
+            "key": "suffix",
+            "name": "后缀图标",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b874",
+            "key": "type",
+            "name": "输入框类型",
+            "types": [
+              {
+                "rules": {
+                  "items": [
+                    {
+                      "label": "文本",
+                      "value": "text",
+                    },
+                    {
+                      "label": "密码",
+                      "value": "password",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b875",
+            "key": "value",
+            "name": "输入框内容",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b876",
+            "key": "allowClear",
+            "name": "显示清除",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "是否有边框",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b877",
+            "key": "bordered",
+            "name": "边框",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "是否展示字数",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b878",
+            "key": "showCount",
+            "name": "展示字数",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "带标签的 input，设置后置标签",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b879",
+            "key": "addonAfter",
+            "name": "后置标签",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "带标签的 input，设置前置标签",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b87a",
+            "key": "addonBefore",
+            "name": "前置标签",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b87d",
+            "key": "default",
+            "name": "默认",
+            "parameters": [],
+          },
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b87e",
+            "key": "addonAfter",
+            "name": "后置标签",
+            "parameters": [],
+          },
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b87f",
+            "key": "addonBefore",
+            "name": "前置标签",
+            "parameters": [],
+          },
+          {
+            "desc": "带有前缀图标的 input",
+            "id": "641a7052cf44f6204642b880",
+            "key": "prefix",
+            "name": "前缀图标",
+            "parameters": [],
+          },
+          {
+            "desc": "带有后缀图标的 input",
+            "id": "641a7052cf44f6204642b881",
+            "key": "suffix",
+            "name": "后缀图标",
+            "parameters": [],
+          },
+        ],
+        "variables": [],
+      },
+    ],
+    "functions": [],
+    "id": "6352061254bb9b1c84ce3570",
+    "key": "antd",
+    "name": "ANTD",
+    "version": undefined,
+  },
+  {
+    "components": [
+      {
+        "emits": [],
+        "functions": [],
+        "id": "62c68d5d27d4bddfa728890d",
+        "key": "span",
+        "lifeCycle": [],
+        "name": "span 行内段落",
+        "nodes": [],
+        "props": [],
+        "slots": [
+          {
+            "desc": undefined,
+            "id": "641a7052cf44f6204642b628",
+            "key": "default",
+            "name": "默认",
+            "parameters": [],
+          },
+        ],
+        "variables": [],
+      },
+      {
+        "emits": [],
+        "functions": [],
+        "id": "62c68d5d27d4bddfa72888e7",
+        "key": "a",
+        "lifeCycle": [],
+        "name": "a 超链接",
+        "nodes": [],
+        "props": [
+          {
+            "desc": "超链接地址",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b610",
+            "key": "href",
+            "name": "超链接",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "打开方式",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b611",
+            "key": "target",
+            "name": "打开方式",
+            "types": [
+              {
+                "rules": {
+                  "items": [
+                    {
+                      "label": "当前页面",
+                      "value": "self",
+                    },
+                    {
+                      "label": "新开页签",
+                      "value": "blank",
+                    },
+                    {
+                      "label": "父级窗口",
+                      "value": "parent",
+                    },
+                    {
+                      "label": "定位位置",
+                      "value": "top",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "desc": "对目标地址的描述说明",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b612",
+            "key": "rel",
+            "name": "目标说明",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "定义锚点的目标位置",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b613",
+            "key": "name",
+            "name": "锚点名",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "浏览器下载",
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b614",
+            "key": "download",
+            "name": "下载地址",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+        ],
+        "slots": [],
+        "variables": [],
+      },
+    ],
+    "functions": [],
+    "id": "6352061a54bb9b1c84ce357d",
+    "key": "html",
+    "name": "HTML",
+    "version": undefined,
+  },
+  {
+    "components": [
+      {
+        "emits": [],
+        "functions": [],
+        "id": "62c68d5d27d4bddfa72888fb",
+        "key": "text",
+        "lifeCycle": [],
+        "name": "文本",
+        "nodes": [],
+        "props": [
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7052cf44f6204642b61f",
+            "key": "text",
+            "name": "文本内容",
+            "types": [
+              {
+                "type": "text",
+                "ui": {
+                  "props": [
+                    {
+                      "propId": "rows",
+                      "value": 10,
+                    },
+                  ],
+                  "tag": "textarea",
+                },
+              },
+            ],
+          },
+        ],
+        "slots": [],
+        "variables": [],
+      },
+      {
+        "emits": [],
+        "functions": [],
+        "id": "62fcba919b358224524e3737",
+        "key": "icon",
+        "lifeCycle": [],
+        "name": "图标",
+        "nodes": [],
+        "props": [
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bbd9",
+            "key": "config",
+            "name": "配置",
+            "types": [
+              {
+                "type": "icon",
+              },
+            ],
+          },
+        ],
+        "slots": [],
+        "variables": [],
+      },
+      {
+        "emits": [],
+        "functions": [],
+        "id": "638867aa778ed45307ce183b",
+        "key": "rd-img",
+        "lifeCycle": [],
+        "name": "图片",
+        "nodes": [],
+        "props": [
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bc06",
+            "key": "fit",
+            "name": "填充方式",
+            "types": [
+              {
+                "multiple": false,
+                "rules": {
+                  "items": [
+                    {
+                      "label": "适应",
+                      "value": "contain",
+                    },
+                    {
+                      "label": "充满",
+                      "value": "cover",
+                    },
+                    {
+                      "label": "拉伸",
+                      "value": "fill",
+                    },
+                    {
+                      "label": "原始大小",
+                      "value": "none",
+                    },
+                    {
+                      "label": "自动缩小",
+                      "value": "scale-down",
+                    },
+                  ],
+                  "required": true,
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "desc": undefined,
+            "extendPlatform": undefined,
+            "id": "641a7053cf44f6204642bc07",
+            "key": "id",
+            "name": "图片",
+            "types": [
+              {
+                "type": "image",
+              },
+            ],
+          },
+        ],
+        "slots": [],
+        "variables": [],
+      },
+    ],
+    "functions": [],
+    "id": "000000000000000000000001",
+    "key": "program_element",
+    "name": "程序原件",
+    "version": undefined,
+  },
+]
+`;

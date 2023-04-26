@@ -9,7 +9,7 @@ import { ITech } from './tech';
 
 export interface ICodeSchema {
   id: string;
-  tech: ITech;
+  tech?: ITech;
   meta: {
     title: string; // 应用标题（目前仅前端用）
     describe: string; // 应用描述（目前仅前端用）
@@ -20,6 +20,6 @@ export interface ICodeSchema {
   components: Array<ICS_Component>; // 前端组件
   functions: Array<ICS_Function>;
   apis: Array<ICS_Api>; // 后端接口信息
-  databases: Array<ICS_Databases>; // 数据库信息
+  databases?: Array<ICS_Databases>; // 数据库信息
   directories?: Array<ICS_Directory>;
 }

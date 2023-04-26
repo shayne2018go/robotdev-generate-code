@@ -1,11 +1,11 @@
-import { IDataTypeSchema_Properties_Item } from './dataType/dataTypeSchema';
-import { IViewNode } from './view';
+import { DBSchema } from './DBSchema';
+import { Identifier, IdentifierType } from './code-schema/Identifier';
 
 // 一个前端组件
 export interface ICS_Function {
   id: string;
   name: string;
   key: string;
-  parameters: Array<IDataTypeSchema_Properties_Item>;
-  outTypes: Array<IDataTypeSchema_Properties_Item>;
+  parameters: Array<Identifier>;
+  outTypes: Array<IdentifierType>;
 }

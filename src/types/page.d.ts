@@ -1,26 +1,28 @@
 import { IEvent } from './event';
 import { ICS_Function } from './function';
-import { IDataTypeSchema_Properties_Item } from './dataType/dataTypeSchema';
+import { Identifier } from './code-schema/Identifier';
+import { INode, IViewNode } from './view';
 import { IQuantity } from './programming/quantity';
-import { IViewNode } from './view';
+import { ICodeSchema } from './ICodeSchema';
+import { DBSchema } from './DBSchema';
+import { I_component_LifeCycle } from './component';
 
 // 一个页面
 export interface ICS_Page {
   id: string;
-  key: string; // 页面标识名
+  // key: string; // 页面标识名 不需要（在directory中取, 这里可视为一个页面的描述，类似一个组件的描述）
   mate: {
-    title: IQuantity; // 页面标题（可动态拼接，因此用“量”表示）
-    describe: IQuantity; // 页面描述（可动态拼接，因此用“量”表示）
-    keyword: IQuantity; // 页面关键词（可动态拼接，因此用“量”表示）
+    title: DBSchema.RdData; // 页面标题（可动态拼接，因此用“量”表示）
+    describe?: DBSchema.RdData; // 页面描述（可动态拼接，因此用“量”表示）
+    keyword?: DBSchema.RdData; // 页面关键词（可动态拼接，因此用“量”表示）
   };
   route?: {
     path?: string; // 路径包括路由参数,例：xxxx/:id/yyy/:type
-    params?: Array<IDataTypeSchema_Properties_Item>; // 路径参数
-    query?: Array<IDataTypeSchema_Properties_Item>; // 路由get参数声明
+    params?: Array<Identifier>; // 路径参数
+    query?: Array<Identifier>; // 路由get参数声明
   };
-  variables?: Array<IDataTypeSchema_Properties_Item>;
-  nodes: Array<IViewNode>;
-  events: Array<IEvent>;
+  variables?: Array<Identifier>;
+  nodes: Array<INode>;
+  lifeCycle: Array<I_component_LifeCycle>;
   functions: Array<ICS_Function>;
-  // types?: Array<IDataTypeSchema>;
 }

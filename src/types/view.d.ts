@@ -1,3 +1,5 @@
+import { DBSchema } from './DBSchema';
+import { IdentifierValue, IdentifierValueArgs } from './code-schema/Identifier';
 import { IEvent } from './event';
 import { IProp } from './prop';
 
@@ -18,4 +20,31 @@ export interface IViewTemplateSlot {
   parentId: IViewNode['id'];
   name?: string; // 插槽名
   nodes?: Array<IViewNode>;
+}
+
+export interface INodeProps {
+  propId: string; // 属性名
+  value?: IdentifierValueArgs;
+  static?: any; // 目前只有class和style在用
+  dynamic?: IdentifierValue; // 目前只有class和style在用
+  ui?: {
+    // 如果支持用户自己选择用什么控件输入static，则在ui中记录具体的输入控件，用于ui配置界面具体显示什么控件，该数据在编译代码时会被忽略掉
+    tag?: string; // 输入控件的组件名
+    props?: { [key: string]: any };
+  };
+}
+
+export interface INodeEvent extends DBSchema.RdEvent {}
+
+export interface INode {
+  id: string;
+  parentId?: string | null;
+  preId?: string | null;
+  nextId?: string | null;
+
+  tagId: string;
+  packageId?: string | null;
+
+  props?: Array<INodeProps> | null;
+  events?: Array<INodeEvent> | null;
 }

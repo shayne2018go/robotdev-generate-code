@@ -1,4 +1,4 @@
-export namespace IDBSchema {
+export namespace DBWSchema {
   export interface Project {
     project: string;
     id: string;
@@ -15,15 +15,13 @@ export namespace IDBSchema {
   }
 }
 
-export namespace IDBSchema {
-  export interface DATA_COMMON {
-    name: string;
+export namespace DBWSchema {
+  export interface ComponentBase {
     type?: 'page' | 'theme' | 'component' | 'template' | 'action' | 'function';
-    nodes: RdNode[];
-    decl: RdDecl[];
+    nodes?: RdNode[];
+    decl?: RdDecl[];
     classes?: Css[];
-    events: RdEvent[];
-
+    events?: RdEvent[];
     spec?: {
       props?: RdComponentDefineProp[];
       slots?: RdComponentDefineSlot[];
@@ -31,10 +29,11 @@ export namespace IDBSchema {
     };
   }
 
-  export interface Page extends DATA_COMMON {
+  export interface Page extends ComponentBase {
     originId: string;
     project: string;
     name: string;
+    // key: string; projectIndex中取key
     type: 'page';
     cover: string;
     flowcharts: string[];
@@ -43,11 +42,50 @@ export namespace IDBSchema {
     platforms?: any[];
   }
 
-  export interface Dependencies extends DATA_COMMON {
+  export interface Component extends ComponentBase {
     id: string;
     tag: string;
-    project: string;
+    projectId?: string;
+    productId?: string;
+    name: string;
+    type: 'component';
   }
+
+  export interface Action {
+    projectId?: string;
+    productId?: string;
+    id: string;
+    tag: string;
+    name: string;
+    key: string;
+    type?: 'action';
+    func?: {
+      parameters?: RdDefineProp[]; // 传参属性定义（注意解析时是按顺序的）
+      output?: {
+        desc?: string; //出参描述
+        types?: RdDefinePropType[]; // 出参类型（选填）
+      };
+    };
+  }
+
+  export interface Function {
+    projectId?: string;
+    productId?: string;
+    id: string;
+    tag: string;
+    name: string;
+    key: string;
+    type?: 'function';
+    func?: {
+      parameters?: RdDefineProp[]; // 传参属性定义（注意解析时是按顺序的）
+      output?: {
+        desc?: string; //出参描述
+        types?: RdDefinePropType[]; // 出参类型（选填）
+      };
+    };
+  }
+
+  export type Dependencies = Component | Action | Function;
 
   export interface DependenciesPackages {
     projectId: string;
@@ -61,6 +99,7 @@ export namespace IDBSchema {
     id: string;
     project: string;
     name: string;
+    key: string;
     type?: string;
     model?: any;
     params?: {
@@ -72,20 +111,48 @@ export namespace IDBSchema {
   }
 
   export interface ProjectIndex {
-    page: {
-      id: string;
-      type: 'page' | 'directory';
-      name: string;
-      depth: number;
-      parentId: string | null;
-      preId: string | null;
-      cover: string;
-      namespace: 'page';
-    }[];
+    page: ProjectIndexPage[];
+    flowchart?: ProjectIndexFlowchart[];
+    api?: ProjectIndexApi[];
+  }
+
+  export interface ProjectIndexPage {
+    id: string;
+    type: 'page' | 'directory';
+    name: string;
+    key: string;
+    depth: number;
+    parentId: string | null;
+    preId: string | null;
+    cover: string;
+    namespace: 'page';
+  }
+
+  export interface ProjectIndexFlowchart {
+    id: string;
+    type: 'flowchart' | 'directory';
+    name: string;
+    key: string;
+    depth: number;
+    parentId: string | null;
+    preId: string | null;
+    cover: string;
+    namespace: 'flowchart';
+  }
+  export interface ProjectIndexApi {
+    id: string;
+    type: 'api' | 'directory';
+    name: string;
+    key: string;
+    depth: number;
+    parentId: string | null;
+    preId: string | null;
+    cover: string;
+    namespace: 'api';
   }
 }
 
-export namespace IDBSchema {
+export namespace DBWSchema {
   export interface RdNode {
     id: string; // 节点唯一id标识
     parentId: string | null; // 父节点id
@@ -131,7 +198,7 @@ export namespace IDBSchema {
   }
 }
 
-export namespace IDBSchema {
+export namespace DBWSchema {
   export interface RdData {
     id?: string;
     modeId?: string;
@@ -149,18 +216,19 @@ export namespace IDBSchema {
   export type RdObject = { [key: string]: RdDataArguments | RdActionArguments };
 }
 
-export namespace IDBSchema {
+export namespace DBWSchema {
   export interface RdEvent {
     eventId: string;
     actions: RdAction[]; // 绑定行为的配置
   }
 }
 
-export namespace IDBSchema {
+export namespace DBWSchema {
   export interface RdAction {
     type: 'action';
     id: string;
     modeId?: string;
+    name?: string;
     // returnType: 'assignment' | 'async' // assignment：赋值类型；async：异步类型（远程数据请求、计时器、延时器）
     // returnModel?: any // 待定，记录当时选中的那个 数据的数据结构
     mode: string; // 具体的行为（例如 业务数据赋值、节点属性赋值）、获取数据（例如 业务数据、元素属性值、计算结果、判断结果）
@@ -174,12 +242,12 @@ export namespace IDBSchema {
   export type RdActionArguments = RdBasicData | RdData | RdAction | RdActionArguments[];
 }
 
-export namespace IDBSchema {
+export namespace DBWSchema {
   export interface RdDecl extends RdDefineProp {}
 
   export interface RdDefineProp {
     id: string; // 唯一id
-    key?: string; // 属性名（生成代码用），元件 手输，组件 自动生成
+    key: string; // 属性名（生成代码用），元件 手输，组件 自动生成
     types: RdDefinePropType[]; // 类型定义配置（包括输入控件、数据结构）
     required?: boolean;
     name?: string; // 属性标题（ui配置界面用）
@@ -197,6 +265,7 @@ export namespace IDBSchema {
   }
 
   export interface RdDefinePropType {
+    id?: string;
     type: RdInType;
     multiple?: boolean; // 存储多个还是单个（multiple实际就是将returnType用数组包起来，可以存多个，就是一个数组类型）
     // modelId?: string; // returnType 为 model时参能选，且必选
@@ -235,16 +304,16 @@ export namespace IDBSchema {
       // tableId?: string; // 表头唯一标识的key
       // tableTitle?: string; // 表头标题的key
       /*
-      // 类型选择为“array”时的相关配置存于此处
-      arrayFiexdLength?: boolean; // 是否长度限制 true / false（default）
-      arraySame?: boolean; // 当长度限制 true 时，此项 代表是否 每个元素相同，true（default） / false
-      arraySameItem?: RdDefinePropType; // 长度限制为false 或 每个元素相同为true时，每个元素的类型配置存此处
-      arraySameLength?: number; // 每个元素相同 配置为true时，限制长度
-      arrayDiffItems?: {
-        label: string;
-        type: RdDefinePropType;
-      }[]; // 长度限制为true且每个元素不相同时，各个元素的类型配置存此处
-      */
+        // 类型选择为“array”时的相关配置存于此处
+        arrayFiexdLength?: boolean; // 是否长度限制 true / false（default）
+        arraySame?: boolean; // 当长度限制 true 时，此项 代表是否 每个元素相同，true（default） / false
+        arraySameItem?: RdDefinePropType; // 长度限制为false 或 每个元素相同为true时，每个元素的类型配置存此处
+        arraySameLength?: number; // 每个元素相同 配置为true时，限制长度
+        arrayDiffItems?: {
+          label: string;
+          type: RdDefinePropType;
+        }[]; // 长度限制为true且每个元素不相同时，各个元素的类型配置存此处
+        */
       minLength?: number;
       maxLength?: number;
       modelId?: string; // returnType 为 model 时必须要选一个引用的模型，为module是选填
@@ -279,7 +348,7 @@ export namespace IDBSchema {
   }
 }
 
-export namespace IDBSchema {
+export namespace DBWSchema {
   export const DATA_TYPE_KEYS = [
     'text', //纯文字
     'richText', //富文本
@@ -317,10 +386,10 @@ export namespace IDBSchema {
     'table', // 表格
   ] as const;
 
-  export type RdInType = typeof DATA_TYPE_KEYS[number] | '';
+  export type RdInType = (typeof DATA_TYPE_KEYS)[number] | '';
 }
 
-export namespace IDBSchema {
+export namespace DBWSchema {
   export type Css = {
     [key: CssClass]: CssStyle;
   };
@@ -331,12 +400,12 @@ export namespace IDBSchema {
   };
 }
 
-export namespace IDBSchema {
+export namespace DBWSchema {
   export interface RdComponentDefineProp extends RdDefineProp {}
 
   export interface RdComponentDefineSlot {
     id: string; // 唯一id
-    key?: string; // 插槽名（生成代码用），元件 手输，组件 自动生成
+    key: string; // 插槽名（生成代码用），元件 手输，组件 自动生成
     name?: string; // 插槽标题（ui配置界面用）
     desc?: string; // 描述
     extendPlatform?: boolean; // 是否全平台支持
@@ -352,7 +421,7 @@ export namespace IDBSchema {
 
   export interface RdComponentDefineEvent {
     id: string; // 唯一id
-    key?: string; // 事件名（生成代码用），元件 手输，组件 自动生成
+    key: string; // 事件名（生成代码用），元件 手输，组件 自动生成
     name?: string; // 事件标题（ui配置界面用）
     desc?: string; // 描述
     extendPlatform?: boolean; // 是否全平台支持

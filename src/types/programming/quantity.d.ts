@@ -32,7 +32,7 @@ type IQuantity =
   | IQuantity_Command;
 
 interface IQuantity_Common {
-  __Iquantity_: true;
+  __quantity__: true;
   id: string;
   mode: 'variable' | 'call' | 'new' | 'literal' | 'ternary' | 'binary' | 'class' | 'command';
   computed?: boolean;
@@ -134,76 +134,76 @@ interface IQuantity_Literal_Common extends IQuantity_Common {
 }
 
 interface IQuantity_Literal_Null extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Null | IDataTypeSchema_Null;
+  dataType: IDataTypeSchema_Null;
 }
 
 interface IQuantity_Literal_String extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_String | IDataTypeSchema_String;
+  dataType: IDataTypeSchema_String;
   value: string;
 }
 
 interface IQuantity_Literal_Long extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Long | IDataTypeSchema_Long;
+  dataType: IDataTypeSchema_Long;
   value: string;
 }
 interface IQuantity_Literal_Int extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Int | IDataTypeSchema_Int;
+  dataType: IDataTypeSchema_Int;
   value: number;
 }
 interface IQuantity_Literal_Decimal extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Decimal | IDataTypeSchema_Decimal;
+  dataType: IDataTypeSchema_Decimal;
   value: number;
 }
 interface IQuantity_Literal_Boolean extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Boolean | IDataTypeSchema_Boolean;
+  dataType: IDataTypeSchema_Boolean;
   value: boolean;
 }
 
 interface IQuantity_Literal_Array extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Array | IDataTypeSchema_Array;
+  dataType: IDataTypeSchema_Array;
   value: LiteralArray;
 }
 interface IQuantity_Literal_Tuple extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Tuple | IDataTypeSchema_Tuple;
+  dataType: IDataTypeSchema_Tuple;
   value: LiteralArray;
 }
 
 interface IQuantity_Literal_Object extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Object | IDataTypeSchema_Object;
+  dataType: IDataTypeSchema_Object;
   value: IQuantity_Literal_Object_Key_Value;
 }
 
 interface IQuantity_Literal_Enum extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Enum | IDataTypeSchema_Enum;
+  dataType: IDataTypeSchema_Enum;
   value: IQuantity;
 }
 interface IQuantity_Literal_Enums extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Enums | IDataTypeSchema_Enums;
+  dataType: IDataTypeSchema_Enums;
   value: string;
 }
 interface IQuantity_Literal_DateTime extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Datetime | IDataTypeSchema_Datetime;
+  dataType: IDataTypeSchema_Datetime;
   value: string;
 }
 interface IQuantity_Literal_Date extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Date | IDataTypeSchema_Date;
+  dataType: IDataTypeSchema_Date;
   value: string;
 }
 interface IQuantity_Literal_Time extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Time | IDataTypeSchema_Time;
+  dataType: IDataTypeSchema_Time;
   value: string;
 }
 interface IQuantity_Literal_Timestamp extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Timestamp | IDataTypeSchema_Timestamp;
+  dataType: IDataTypeSchema_Timestamp;
   value: string;
 }
 
 interface IQuantity_Literal_Function extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Function | IDataTypeSchema_Function;
+  dataType: IDataTypeSchema_Function;
   value: Array<ICodeLine>;
 }
 
 interface IQuantity_Literal_Ref extends IQuantity_Literal_Common {
-  dataType: IDataTypeSchema_Ref | IDataTypeSchema_Ref;
+  dataType: IDataTypeSchema_Ref;
   value: IQuantity;
 }

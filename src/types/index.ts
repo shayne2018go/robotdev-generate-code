@@ -1,3 +1,5 @@
 export * from './ICodeSchema';
 
-export * from './IDBSchema';
+export * from './DBSchema';
+
+export * from './DBWSchema';
