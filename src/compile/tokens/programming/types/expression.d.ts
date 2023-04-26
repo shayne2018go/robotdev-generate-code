@@ -147,21 +147,24 @@ export namespace Expression {
 
   export type Literal_String = Literal_Common &
     ExpressionDataType.Schema_String_Common & {
-      value: string;
+      value?: string;
     };
 
   export type Literal_Long = Literal_Common &
     ExpressionDataType.Schema_Long_Common & {
-      value: string;
+      value?: string;
     };
+
   export type Literal_Int = Literal_Common &
     ExpressionDataType.Schema_Int_Common & {
       value: number;
     };
+
   export type Literal_Decimal = Literal_Common &
     ExpressionDataType.Schema_Decimal_Common & {
       value: number;
     };
+
   export type Literal_Boolean = Literal_Common &
     ExpressionDataType.Schema_Boolean_Common & {
       value: boolean;
@@ -169,8 +172,9 @@ export namespace Expression {
 
   export type Literal_Array = Literal_Common &
     ExpressionDataType.Schema_Array_Common & {
-      value: Array<Unknown>;
+      value?: Array<Unknown>;
     };
+
   export type Literal_Tuple = Literal_Common &
     ExpressionDataType.Schema_Tuple_Common & {
       value: Array<Unknown>;
@@ -178,7 +182,7 @@ export namespace Expression {
 
   export type Literal_Object = Literal_Common &
     ExpressionDataType.Schema_Object_Common & {
-      value: Array<{
+      value?: Array<{
         key: Unknown;
         value: Unknown;
       }>;

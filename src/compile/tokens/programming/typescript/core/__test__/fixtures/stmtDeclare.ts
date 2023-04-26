@@ -1,4 +1,5 @@
-import { Statement } from '../../../types/statement';
+import { Statement } from '../../../../types/statement';
+
 export const mock_declare: Statement.Declare = {
   _statement_: 'declare',
   name: {
