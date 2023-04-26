@@ -43,6 +43,7 @@ export namespace Expression {
     _expression_: ExpressionType['access'];
     expression: Unknown;
     name: Unknown;
+    isOptionalChaining?: boolean;
   }
 
   // 调用函数
@@ -140,43 +141,43 @@ export namespace Expression {
   };
 
   export type Literal_Null = Literal_Common &
-    ExpressionDataType.Schema_Null & {
+    ExpressionDataType.Schema_Null_Common & {
       value?: null;
     };
 
   export type Literal_String = Literal_Common &
-    ExpressionDataType.Schema_String & {
+    ExpressionDataType.Schema_String_Common & {
       value: string;
     };
 
   export type Literal_Long = Literal_Common &
-    ExpressionDataType.Schema_Long & {
+    ExpressionDataType.Schema_Long_Common & {
       value: string;
     };
   export type Literal_Int = Literal_Common &
-    ExpressionDataType.Schema_Int & {
+    ExpressionDataType.Schema_Int_Common & {
       value: number;
     };
   export type Literal_Decimal = Literal_Common &
-    ExpressionDataType.Schema_Decimal & {
+    ExpressionDataType.Schema_Decimal_Common & {
       value: number;
     };
   export type Literal_Boolean = Literal_Common &
-    ExpressionDataType.Schema_Boolean & {
+    ExpressionDataType.Schema_Boolean_Common & {
       value: boolean;
     };
 
   export type Literal_Array = Literal_Common &
-    ExpressionDataType.Schema_Array & {
+    ExpressionDataType.Schema_Array_Common & {
       value: Array<Unknown>;
     };
   export type Literal_Tuple = Literal_Common &
-    ExpressionDataType.Schema_Tuple & {
+    ExpressionDataType.Schema_Tuple_Common & {
       value: Array<Unknown>;
     };
 
   export type Literal_Object = Literal_Common &
-    ExpressionDataType.Schema_Object & {
+    ExpressionDataType.Schema_Object_Common & {
       value: Array<{
         key: Unknown;
         value: Unknown;
@@ -184,7 +185,7 @@ export namespace Expression {
     };
 
   export type Literal_Enum = Literal_Common &
-    ExpressionDataType.Schema_Enum & {
+    ExpressionDataType.Schema_Enum_Common & {
       value: Unknown;
     };
 
@@ -194,27 +195,27 @@ export namespace Expression {
   //   };
 
   export type Literal_Datetime = Literal_Common &
-    ExpressionDataType.Schema_Datetime & {
+    ExpressionDataType.Schema_Datetime_Common & {
       value: string;
     };
 
   export type Literal_Date = Literal_Common &
-    ExpressionDataType.Schema_Date & {
+    ExpressionDataType.Schema_Date_Common & {
       value: string;
     };
 
   export type Literal_Time = Literal_Common &
-    ExpressionDataType.Schema_Time & {
+    ExpressionDataType.Schema_Time_Common & {
       value: string;
     };
 
   export type Literal_Timestamp = Literal_Common &
-    ExpressionDataType.Schema_Timestamp & {
+    ExpressionDataType.Schema_Timestamp_Common & {
       value: string;
     };
 
   export type Literal_Function = Literal_Common &
-    ExpressionDataType.Schema_Function & {
+    ExpressionDataType.Schema_Function_Common & {
       value: Array<Statement.Line>;
     };
 

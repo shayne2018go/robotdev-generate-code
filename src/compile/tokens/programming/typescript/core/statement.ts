@@ -23,7 +23,22 @@ export const statement = {
     return code;
   },
   declare(schema: Statement.Declare, config?: Config) {
+    if (!helper.isDeclare(schema)) {
+      throw new Error('statement.declare 方法的 schema参数 错误！');
+    }
     let code = '';
+    if (schema.isConst) {
+      code += 'const ';
+    } else {
+      code += 'let ';
+    }
+    code += expression.identifier(schema.name);
+    if (Array.isArray(schema.dataTypes) && schema.dataTypes.length) {
+      code += ':' + expression.dataType(schema.dataTypes, config);
+    }
+    if (schema.value) {
+      code += '=' + statement.expression(schema.value, config);
+    }
     return code;
   },
   expression(schema: Statement.Expression, config?: Config) {

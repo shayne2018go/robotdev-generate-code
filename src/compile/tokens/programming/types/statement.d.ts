@@ -1,27 +1,36 @@
 import { DataType } from './dataType';
 import { StatementType } from './statementType';
 import { Expression as StatementExpression } from './expression';
+import { Keyword } from './keyword';
 
 export namespace Statement {
   export type Expression = StatementExpression.Unknown;
 
   export interface Export {
     _statement_: StatementType['export'];
-    default: string;
-    keys: Array<string>;
-    path: string;
+    all?: boolean | StatementExpression.Identifier;
+    elements?: Array<{
+      propertyName?: StatementExpression.Identifier;
+      name: StatementExpression.Identifier;
+    }>;
+    path?: StatementExpression.Literal_String;
   }
 
   export interface Import {
     _statement_: StatementType['import'];
-    default?: string;
-    keys?: Array<string>;
-    path: string;
+    all?: boolean | StatementExpression.Identifier;
+    default?: StatementExpression.Identifier;
+    elements?: Array<{
+      propertyName?: StatementExpression.Identifier;
+      name: StatementExpression.Identifier;
+    }>;
+    path?: StatementExpression.Literal_String;
   }
 
   export interface Declare {
     _statement_: StatementType['declare'];
     name: StatementExpression.Identifier;
+    modifiers?: Array<Keyword.Unknown>;
     isConst?: boolean;
     isGlobal?: boolean;
     dataTypes?: Array<DataType.Unknown>;
