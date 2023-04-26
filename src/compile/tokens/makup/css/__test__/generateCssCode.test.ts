@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { generateBlock, generateAttr } from '../core';
-import { IBlock, IAttr } from '../types';
+import { generateCss, generateStyle } from '../core';
+import { ICss, IStyle } from '../types';
 
-const schema_block1: IBlock = [
+const schema_block1: ICss = [
   {
     type: 'block',
     key: '@media screen and (min-width: 900px)',
@@ -60,7 +60,7 @@ const schema_block1: IBlock = [
     ],
   },
 ];
-const schema_attr1: IAttr = [
+const schema_attr1: IStyle = [
   {
     key: 'background-color',
     value: '#ffffff',
@@ -74,7 +74,7 @@ const schema_attr1: IAttr = [
     value: 'rgba(0, 0, 0, .6)',
   },
 ];
-const schema_common1: IBlock = [
+const schema_common1: ICss = [
   {
     type: 'common',
     key: '@charset',
@@ -86,22 +86,22 @@ const schema_common1: IBlock = [
     value: '"../../index.block"',
   },
 ];
-describe('generate', () => {
-  describe('generateJson schema_block', () => {
+describe('generateCss', () => {
+  describe('generateCss schema_block', () => {
     it('block', () => {
-      const code = generateBlock(schema_block1);
+      const code = generateCss(schema_block1);
       expect(
         `@media screen and (min-width: 900px){body{background-color:#000;}}@font-face{font-family:"Open Sans";}body{background-color:#fff;}body{div{background-color:#000;}}`
       ).toEqual(code);
     });
   });
-  describe('generateJson schema_attr', () => {
+  describe('generateCss schema_attr', () => {
     it('attr', () => {
-      const code = generateAttr(schema_attr1);
+      const code = generateStyle(schema_attr1);
       expect(`background-color:#ffffff;font-size:14px;color:rgba(0, 0, 0, .6);`).toEqual(code);
     });
     it('common', () => {
-      const code = generateBlock(schema_common1);
+      const code = generateCss(schema_common1);
       expect(`@charset "UTF-8";@import "../../index.block";`).toEqual(code);
     });
   });

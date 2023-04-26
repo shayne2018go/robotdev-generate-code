@@ -1,18 +1,12 @@
-import {
-  IBlock,
-  IAttr,
-  IBlock_CommonSchema,
-  IBlock_BlockSchema,
-  IBlock_AttrSchema,
-} from '../types';
+import { ICss, IStyle, ICss_CommonSchema, ICss_BlockSchema, ICss_AttrSchema } from '../types';
 import { CssDataType } from '../types/cssDataType';
 
 /**
- * 数组BlockSchema值转block
- * @param {IBlock} array
+ * css 数组转 css string
+ * @param {ICss} array
  * @returns {string}
  */
-export const generateBlock = (array: IBlock): string => {
+export const generateCss = (array: ICss): string => {
   let code = '';
   const vLen = array.length;
   for (let index = 0; index < vLen; index++) {
@@ -30,11 +24,11 @@ export const generateBlock = (array: IBlock): string => {
 };
 
 /**
- * 数组AttrSchema值转attr
- * @param {IAttr} array
+ * 样式数组转 style string
+ * @param {IStyle} array
  * @returns {string}
  */
-export const generateAttr = (array: IAttr): string => {
+export const generateStyle = (array: IStyle): string => {
   let code = '';
   const vLen = array.length;
   for (let index = 0; index < vLen; index++) {
@@ -45,31 +39,31 @@ export const generateAttr = (array: IAttr): string => {
 };
 
 /**
- * BlockSchema转block
- * @param schema 
+ * BlockSchema 转 block string
+ * @param {ICss_BlockSchema} schema
  * @returns {string}
  */
-const generateBlockData = (schema: IBlock_BlockSchema): string => {
+const generateBlockData = (schema: ICss_BlockSchema): string => {
   const { key, value } = schema;
-  return `${key}{${generateBlock(value)}}`;
+  return `${key}{${generateCss(value)}}`;
 };
 
 /**
- * AttrSchema转attr
- * @param schema 
+ * AttrSchema 转 attr string
+ * @param {ICss_AttrSchema} schema
  * @returns {string}
  */
-const generateAttrData = (schema: IBlock_AttrSchema): string => {
+const generateAttrData = (schema: ICss_AttrSchema): string => {
   const { key, value } = schema;
   return `${key}:${value};`;
 };
 
 /**
- * CommonSchema转code
- * @param schema 
+ * CommonSchema 转 common string
+ * @param {ICss_CommonSchema} schema
  * @returns {string}
  */
-const generateCommonData = (schema: IBlock_CommonSchema): string => {
+const generateCommonData = (schema: ICss_CommonSchema): string => {
   let code = '';
   const { key, value } = schema;
   code += `${key} ${value};`;
