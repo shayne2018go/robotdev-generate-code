@@ -1,5 +1,11 @@
 import { Statement } from "../../../types/statement";
 
+// export{temp}from'module'
+// export{default as alias,temp,temp1}from'module'
+// export*from'module'
+// export * as alias from'module'
+// export{temp,temp1}
+
 export const mock_export: Statement.Export = {
   _statement_: 'export',
   elements: [
@@ -15,7 +21,7 @@ export const mock_export: Statement.Export = {
     _statement_: 'expression',
     _expression_: 'literal',
     type: 'string',
-    value: './core',
+    value: 'module',
   },
 }
 export const mock_export_default: Statement.Export = {
@@ -25,7 +31,7 @@ export const mock_export_default: Statement.Export = {
       name: {
         _statement_: 'expression',
         _expression_: 'identifier',
-        escapedText: 'defaultTemp',
+        escapedText: 'alias',
       },
       propertyName: {
         _statement_: 'expression',
@@ -52,7 +58,7 @@ export const mock_export_default: Statement.Export = {
     _statement_: 'expression',
     _expression_: 'literal',
     type: 'string',
-    value: './core',
+    value: 'module',
   },
 }
 export const mock_export_all: Statement.Export = {
@@ -62,7 +68,7 @@ export const mock_export_all: Statement.Export = {
     _statement_: 'expression',
     _expression_: 'literal',
     type: 'string',
-    value: './core',
+    value: 'module',
   },
 }
 export const mock_export_all_as: Statement.Export = {
@@ -70,13 +76,13 @@ export const mock_export_all_as: Statement.Export = {
   all: {
     _statement_: 'expression',
     _expression_: 'identifier',
-    escapedText: 'all',
+    escapedText: 'alias',
   },
   path: {
     _statement_: 'expression',
     _expression_: 'literal',
     type: 'string',
-    value: './core',
+    value: 'module',
   },
 }
 export const mock_export_without_path: Statement.Export = {
