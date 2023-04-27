@@ -20,14 +20,20 @@ const common = {
 };
 
 const expression = {
-  isIdentifier(data: Expression.Identifier): data is Expression.Identifier {
+  isIdentifier(data: Expression.Unknown): data is Expression.Identifier {
     return common.isExpression(data) && data._expression_ === expressionType.identifier;
   },
-  isDataType(data: Expression.DataType): data is Expression.DataType {
+  isDataType(data: Expression.Unknown): data is Expression.DataType {
     return common.isExpression(data) && data._expression_ === expressionType.dataType;
   },
-  isLiteral(data: Expression.Literal): data is Expression.Literal {
+  isLiteral(data: Expression.Unknown): data is Expression.Literal {
     return common.isExpression(data) && data._expression_ === expressionType.literal;
+  },
+  isCall(data: Expression.Unknown): data is Expression.Call {
+    return common.isExpression(data) && data._expression_ === expressionType.call;
+  },
+  isAccess(data: Expression.Unknown): data is Expression.Access {
+    return common.isExpression(data) && data._expression_ === expressionType.access;
   },
 };
 
@@ -61,6 +67,9 @@ const literal = {
   ): data is Expression.Literal_Int | Expression.Literal_Decimal {
     return expression.isLiteral(data) && (data.type === dataTypeKey.int || data.type === dataTypeKey.decimal);
   },
+  isBoolean(data: Expression.Literal_Boolean): data is Expression.Literal_Boolean {
+    return expression.isLiteral(data) && data.type === dataTypeKey.boolean;
+  },
   canText(
     data: Expression.Literal_String | Expression.Literal_Int | Expression.Literal_Decimal
   ): data is Expression.Literal_String | Expression.Literal_Int | Expression.Literal_Decimal {
@@ -75,5 +84,7 @@ export const helper = {
   ...common,
   ...literal,
   ...expression,
+  expression,
+  literal,
   dataType,
 };

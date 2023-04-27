@@ -4,6 +4,7 @@ import { ExpressionTypeEnum } from '../../types/statementType';
 import { Config } from '../types';
 import { dataTypeHelper } from './dataType';
 import { literalHelper } from './literal';
+import { statement } from './statement';
 
 export const expressionHelper = {
   getFn(name: ExpressionTypeEnum) {
@@ -57,7 +58,22 @@ export const expression = {
     return code;
   },
   access(schema: Expression.Access, config?: Config) {
-    let code = '';
+    if (!helper.isAccess(schema)) {
+      throw new Error('expression.access 方法的 schema参数 错误！');
+    }
+
+    const isOptionalChaining =
+      typeof schema.isOptionalChaining === 'boolean'
+        ? schema.isOptionalChaining
+        : config?.accessOptionalChainingDefault === true;
+
+    let code = statement.expression(schema.expression, config);
+
+    if (helper.isIdentifier(schema.name)) {
+      code += `${isOptionalChaining ? '?' : ''}.${expression.identifier(schema.name, config)}`;
+    } else {
+      code += `${isOptionalChaining ? '?.' : ''}[${statement.expression(schema.name, config)}]`;
+    }
     return code;
   },
   identifier(schema: Expression.Identifier, config?: Config) {
@@ -69,7 +85,24 @@ export const expression = {
     return code;
   },
   call(schema: Expression.Call, config?: Config) {
+    if (!helper.isCall(schema)) {
+      throw new Error('expression.call 方法的 schema参数 错误！');
+    }
+    if (schema.args && !Array.isArray(schema.args)) {
+      throw new Error('expression.call 方法的 schema.args参数 错误！');
+    }
     let code = '';
+    code += statement.expression(schema.expression, config);
+    code += '(';
+    if (schema.args) {
+      schema.args.forEach((item, index) => {
+        if (index > 0) {
+          code += ',';
+        }
+        code += statement.expression(item);
+      });
+    }
+    code += ')';
     return code;
   },
   new(schema: Expression.New, config?: Config) {

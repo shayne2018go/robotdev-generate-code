@@ -157,3 +157,33 @@ export const expression_call5: Expression.Call = {
     },
   },
 };
+
+export const expression_call6: Expression.Call = {
+  _statement_: 'expression',
+  _expression_: 'call',
+  expression: {
+    _statement_: 'expression',
+    _expression_: 'access',
+    expression: {
+      _statement_: 'expression',
+      _expression_: 'identifier',
+      escapedText: 'tools',
+    },
+    name: {
+      _statement_: 'expression',
+      _expression_: 'call',
+      expression: {
+        _statement_: 'expression',
+        _expression_: 'identifier',
+        escapedText: 'isString',
+      },
+      args: [
+        {
+          _statement_: 'expression',
+          _expression_: 'identifier',
+          escapedText: 'title',
+        },
+      ],
+    },
+  },
+};

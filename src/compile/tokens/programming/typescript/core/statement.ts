@@ -70,7 +70,7 @@ export const statement = {
     }
     return code;
   },
-  expression(schema: Statement.Expression, config?: Config) {
+  expression(schema: Statement.Expression, config?: Config): string {
     if (!helper.isExpression(schema)) {
       throw new Error('statement.expression 方法的 schema参数 非法！');
     }

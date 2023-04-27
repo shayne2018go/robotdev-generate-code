@@ -14,14 +14,20 @@ export const literalHelper = {
 
 export const literal = {
   string(schema: Expression.Literal_String, config?: Config) {
-    if (!helper.isString(schema)) {
+    if (!helper.literal.isString(schema)) {
       throw new Error('dataType.string 方法的 schema参数 错误！');
     }
     let code = `'${schema.value}'`;
     return code;
   },
   boolean(schema: Expression.Literal_Boolean, config?: Config) {
-    let code = '';
+    if (!helper.literal.isBoolean(schema)) {
+      throw new Error('dataType.boolean 方法的 schema参数 错误！');
+    }
+    if (typeof schema.value !== 'boolean') {
+      throw new Error('dataType.boolean 方法的 schema.value 参数 错误！');
+    }
+    let code = `${schema.value.toString()}`;
     return code;
   },
   object(schema: Expression.Literal_Object, config?: Config) {
