@@ -116,8 +116,7 @@ export const statement = {
       throw new Error('statement.if 方法的 schema 参数非法！');
     }
     let code = '';
-    const { ifs, else: elseStmt } = schema;
-    code += ifs.reduce((start, arr, index) => {
+    code += schema.ifs.reduce((start, arr, index) => {
       return (
         start +
         `${index === 0 ? 'if' : 'else if'}(${statement.expression(arr[0], config)}){${arr[1].reduce(
@@ -126,8 +125,8 @@ export const statement = {
         )}}`
       );
     }, '');
-    if (!tools.dataType.isUndefined(elseStmt)) {
-      code += `else{${elseStmt.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
+    if (!tools.dataType.isUndefined(schema.else)) {
+      code += `else{${schema.else.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
     }
     return code;
   },
@@ -163,7 +162,7 @@ export const statement = {
     }
     let code = 'break';
     if (!tools.dataType.isUndefined(schema.label)) {
-      code += ` ${statement.expression(schema.label, config)}`;
+      code += ` ${expression.identifier(schema.label, config)}`
     }
     return code;
   },
@@ -173,7 +172,7 @@ export const statement = {
     }
     let code = 'continue';
     if (!tools.dataType.isUndefined(schema.label)) {
-      code += ` ${statement.expression(schema.label, config)}`;
+      code += ` ${expression.identifier(schema.label, config)}`
     }
     return code;
   },
