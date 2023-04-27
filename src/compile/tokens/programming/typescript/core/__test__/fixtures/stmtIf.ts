@@ -1,13 +1,14 @@
+import { expressionType, statementType } from '@/compile/tokens/programming/const/statementType';
 import { Statement } from '../../../../types/statement';
-import { mock_declare_type_value } from './stmtDeclare';
+import { dataTypeKey } from '@/compile/tokens/programming/const/dataType';
 
 export const mock_if: Statement.If = {
-  _statement_: 'if',
+  _statement_: statementType.if,
   ifs: [
     [
       {
-        _statement_: 'expression',
-        _expression_: 'identifier',
+        _statement_: statementType.expression,
+        _expression_: expressionType.identifier,
         escapedText: 'temp',
       },
       [],
@@ -15,12 +16,12 @@ export const mock_if: Statement.If = {
   ],
 };
 export const mock_if_else: Statement.If = {
-  _statement_: 'if',
+  _statement_: statementType.if,
   ifs: [
     [
       {
-        _statement_: 'expression',
-        _expression_: 'identifier',
+        _statement_: statementType.expression,
+        _expression_: expressionType.identifier,
         escapedText: 'temp',
       },
       [],
@@ -29,28 +30,28 @@ export const mock_if_else: Statement.If = {
   else: [],
 };
 export const mock_if_elseIf: Statement.If = {
-  _statement_: 'if',
+  _statement_: statementType.if,
   ifs: [
     [
       {
-        _statement_: 'expression',
-        _expression_: 'identifier',
+        _statement_: statementType.expression,
+        _expression_: expressionType.identifier,
         escapedText: 'temp',
       },
       [],
     ],
     [
       {
-        _statement_: 'expression',
-        _expression_: 'identifier',
+        _statement_: statementType.expression,
+        _expression_: expressionType.identifier,
         escapedText: 'temp1',
       },
       [],
     ],
     [
       {
-        _statement_: 'expression',
-        _expression_: 'identifier',
+        _statement_: statementType.expression,
+        _expression_: expressionType.identifier,
         escapedText: 'temp2',
       },
       [],
@@ -59,37 +60,37 @@ export const mock_if_elseIf: Statement.If = {
   else: [],
 };
 export const mock_if_elseIf_statement: Statement.If = {
-  _statement_: 'if',
+  _statement_: statementType.if,
   ifs: [
     [
       {
-        _statement_: 'expression',
-        _expression_: 'identifier',
+        _statement_: statementType.expression,
+        _expression_: expressionType.identifier,
         escapedText: 'temp',
       },
       [
         {
-          _statement_: 'expression',
-          _expression_: 'call',
+          _statement_: statementType.expression,
+          _expression_: expressionType.call,
           expression: {
-            _statement_: 'expression',
-            _expression_: 'access',
+            _statement_: statementType.expression,
+            _expression_: expressionType.access,
             expression: {
-              _statement_: 'expression',
-              _expression_: 'identifier',
+              _statement_: statementType.expression,
+              _expression_: expressionType.identifier,
               escapedText: 'console',
             },
             name: {
-              _statement_: 'expression',
-              _expression_: 'identifier',
+              _statement_: statementType.expression,
+              _expression_: expressionType.identifier,
               escapedText: 'log',
             },
           },
           args: [
             {
-              _statement_: 'expression',
-              _expression_: 'literal',
-              type: 'int',
+              _statement_: statementType.expression,
+              _expression_: expressionType.literal,
+              type: dataTypeKey.int,
               value: 1,
             },
           ],
@@ -99,40 +100,40 @@ export const mock_if_elseIf_statement: Statement.If = {
   ],
   else: [
     {
-      _statement_: 'declare',
+      _statement_: statementType.declare,
       name: {
-        _statement_: 'expression',
-        _expression_: 'identifier',
+        _statement_: statementType.expression,
+        _expression_: expressionType.identifier,
         escapedText: 'title',
       },
       value: {
-        _statement_: 'expression',
-        _expression_: 'literal',
-        type: 'string',
+        _statement_: statementType.expression,
+        _expression_: expressionType.literal,
+        type: dataTypeKey.string,
         value: '中国',
       },
     },
     {
-      _statement_: 'expression',
-      _expression_: 'call',
+      _statement_: statementType.expression,
+      _expression_: expressionType.call,
       expression: {
-        _statement_: 'expression',
-        _expression_: 'access',
+        _statement_: statementType.expression,
+        _expression_: expressionType.access,
         expression: {
-          _statement_: 'expression',
-          _expression_: 'identifier',
+          _statement_: statementType.expression,
+          _expression_: expressionType.identifier,
           escapedText: 'console',
         },
         name: {
-          _statement_: 'expression',
-          _expression_: 'identifier',
+          _statement_: statementType.expression,
+          _expression_: expressionType.identifier,
           escapedText: 'log',
         },
       },
       args: [
         {
-          _statement_: 'expression',
-          _expression_: 'identifier',
+          _statement_: statementType.expression,
+          _expression_: expressionType.identifier,
           escapedText: 'title',
         },
       ],
