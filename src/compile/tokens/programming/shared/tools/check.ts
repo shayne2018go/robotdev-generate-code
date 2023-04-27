@@ -4,7 +4,7 @@ import { DataType } from '../../types/dataType';
 import { Expression } from '../../types/expression';
 import { Statement } from '../../types/statement';
 
-const common = {
+const statement = {
   isStmt(data: Statement.Line): data is Statement.Line {
     return !!data._statement_;
   },
@@ -24,19 +24,19 @@ const common = {
 
 const expression = {
   isIdentifier(data: Expression.Unknown): data is Expression.Identifier {
-    return common.isExpression(data) && data._expression_ === expressionType.identifier;
+    return statement.isExpression(data) && data._expression_ === expressionType.identifier;
   },
   isDataType(data: Expression.Unknown): data is Expression.DataType {
-    return common.isExpression(data) && data._expression_ === expressionType.dataType;
+    return statement.isExpression(data) && data._expression_ === expressionType.dataType;
   },
   isLiteral(data: Expression.Unknown): data is Expression.Literal {
-    return common.isExpression(data) && data._expression_ === expressionType.literal;
+    return statement.isExpression(data) && data._expression_ === expressionType.literal;
   },
   isCall(data: Expression.Unknown): data is Expression.Call {
-    return common.isExpression(data) && data._expression_ === expressionType.call;
+    return statement.isExpression(data) && data._expression_ === expressionType.call;
   },
   isAccess(data: Expression.Unknown): data is Expression.Access {
-    return common.isExpression(data) && data._expression_ === expressionType.access;
+    return statement.isExpression(data) && data._expression_ === expressionType.access;
   },
 };
 
@@ -65,9 +65,7 @@ const literal = {
   isDecimal(data: Expression.Literal): data is Expression.Literal_Decimal {
     return expression.isLiteral(data) && data.type === dataTypeKey.decimal;
   },
-  isNumber(
-    data: Expression.Literal
-  ): data is Expression.Literal_Int | Expression.Literal_Decimal {
+  isNumber(data: Expression.Literal): data is Expression.Literal_Int | Expression.Literal_Decimal {
     return expression.isLiteral(data) && (data.type === dataTypeKey.int || data.type === dataTypeKey.decimal);
   },
   isBoolean(data: Expression.Literal_Boolean): data is Expression.Literal_Boolean {
@@ -84,9 +82,7 @@ const literal = {
 };
 
 export const helper = {
-  ...common,
-  ...literal,
-  ...expression,
+  statement,
   expression,
   literal,
   dataType,

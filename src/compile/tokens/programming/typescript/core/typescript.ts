@@ -5,7 +5,7 @@ import { Config } from '../types';
 import { statement, statementHelper } from './statement';
 
 export const generateStatement = (schema: Statement.Line, config?: Config) => {
-  if (!helper.isStmt(schema)) {
+  if (!helper.statement.isStmt(schema)) {
     throw new Error('generateStatement 方法的 schema参数 非法！');
   }
   const fn = statementHelper.getFn(schema._statement_);

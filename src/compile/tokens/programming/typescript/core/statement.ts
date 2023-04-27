@@ -16,7 +16,7 @@ export const statementHelper = {
 
 export const statement = {
   export(schema: Statement.Export, config?: Config) {
-    if (!helper.isExport(schema)) {
+    if (!helper.statement.isExport(schema)) {
       throw new Error('statement.export 方法的 schema 参数非法！');
     }
     let code = 'export';
@@ -45,14 +45,14 @@ export const statement = {
     return code;
   },
   import(schema: Statement.Import, config?: Config) {
-    if (!helper.isImport(schema)) {
+    if (!helper.statement.isImport(schema)) {
       throw new Error('statement.import 方法的 schema 参数非法！');
     }
-    const { all, default:def , elements, path } = schema;
+    const { all, default: def, elements, path } = schema;
     const hasDefault = !tools.dataType.isUndefined(def);
     const hasAll = !tools.dataType.isUndefined(all);
     const hasElements = !tools.dataType.isUndefined(elements);
-    let code = `import${(hasElements && !hasDefault) ||(!hasDefault && !hasAll && !hasElements) ? '' : ' '}` ;
+    let code = `import${(hasElements && !hasDefault) || (!hasDefault && !hasAll && !hasElements) ? '' : ' '}`;
     if (hasDefault) {
       code += `${expression.identifier(def)}${hasElements || hasAll ? ',' : ''}`;
     }
@@ -78,7 +78,7 @@ export const statement = {
     return code;
   },
   declare(schema: Statement.Declare, config?: Config) {
-    if (!helper.isDeclare(schema)) {
+    if (!helper.statement.isDeclare(schema)) {
       throw new Error('statement.declare 方法的 schema参数 错误！');
     }
     let code = '';
@@ -97,7 +97,7 @@ export const statement = {
     return code;
   },
   expression(schema: Statement.Expression, config?: Config): string {
-    if (!helper.isExpression(schema)) {
+    if (!helper.statement.isExpression(schema)) {
       throw new Error('statement.expression 方法的 schema参数 非法！');
     }
     const fn = expressionHelper.getFn(schema._expression_);

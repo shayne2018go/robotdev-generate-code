@@ -47,14 +47,14 @@ export const literal = {
     return code;
   },
   int(schema: Expression.Literal_Int, config?: Config) {
-    if (!helper.isInt(schema)) {
+    if (!helper.literal.isInt(schema)) {
       throw new Error('dataType.int 方法的 schema参数 错误！');
     }
     let code = `${schema.value}`;
     return code;
   },
   decimal(schema: Expression.Literal_Decimal, config?: Config) {
-    if (!helper.isDecimal(schema)) {
+    if (!helper.literal.isDecimal(schema)) {
       throw new Error('dataType.decimal 方法的 schema参数 错误！');
     }
     let code = `${schema.value}`;

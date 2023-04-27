@@ -16,7 +16,7 @@ export const expressionHelper = {
 };
 
 const dataType = (schema: Expression.DataType, config?: Config) => {
-  if (!helper.isDataType(schema)) {
+  if (!helper.expression.isDataType(schema)) {
     throw new Error('dataType 方法的 schema参数 错误！');
   }
   const fn = dataTypeHelper.getFn(schema.type);
@@ -44,7 +44,7 @@ export const expression = {
     return code;
   },
   literal(schema: Expression.Literal, config?: Config) {
-    if (!helper.isLiteral(schema)) {
+    if (!helper.expression.isLiteral(schema)) {
       throw new Error('expression.literal 方法的 schema参数 错误！');
     }
     const fn = literalHelper.getFn(schema.type);
@@ -58,7 +58,7 @@ export const expression = {
     return code;
   },
   access(schema: Expression.Access, config?: Config) {
-    if (!helper.isAccess(schema)) {
+    if (!helper.expression.isAccess(schema)) {
       throw new Error('expression.access 方法的 schema参数 错误！');
     }
 
@@ -69,7 +69,7 @@ export const expression = {
 
     let code = statement.expression(schema.expression, config);
 
-    if (helper.isIdentifier(schema.name)) {
+    if (helper.expression.isIdentifier(schema.name)) {
       code += `${isOptionalChaining ? '?' : ''}.${expression.identifier(schema.name, config)}`;
     } else {
       code += `${isOptionalChaining ? '?.' : ''}[${statement.expression(schema.name, config)}]`;
@@ -77,7 +77,7 @@ export const expression = {
     return code;
   },
   identifier(schema: Expression.Identifier, config?: Config) {
-    if (!helper.isIdentifier(schema)) {
+    if (!helper.expression.isIdentifier(schema)) {
       throw new Error('expression.literal 方法的 schema参数 错误！');
     }
     let code = '';
@@ -85,7 +85,7 @@ export const expression = {
     return code;
   },
   call(schema: Expression.Call, config?: Config) {
-    if (!helper.isCall(schema)) {
+    if (!helper.expression.isCall(schema)) {
       throw new Error('expression.call 方法的 schema参数 错误！');
     }
     if (schema.args && !Array.isArray(schema.args)) {
