@@ -18,7 +18,7 @@ export namespace Statement {
 
   export interface Import {
     _statement_: StatementType['import'];
-    all?: boolean | StatementExpression.Identifier;
+    all?: StatementExpression.Identifier;
     default?: StatementExpression.Identifier;
     elements?: Array<{
       propertyName?: StatementExpression.Identifier;
