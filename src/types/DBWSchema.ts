@@ -3,6 +3,7 @@ export namespace DBWSchema {
     project: string;
     id: string;
     name: string;
+    key: string;
     desc: string;
     type: 'resource' | 'application';
     subType: 'server' | 'client' | 'element' | 'component' | 'plugin' | 'httpReq';

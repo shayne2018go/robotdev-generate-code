@@ -7388,5 +7388,6 @@ const webJson = {
       name: 'ethan组件包2',
     },
   ],
+  key: 'ethanqianduan',
 } as DBWSchema.Project;
 export default webJson;

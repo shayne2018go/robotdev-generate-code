@@ -1,4 +1,4 @@
-import fse from "fs-extra";
+import fse from 'fs-extra';
 
 export default {
   create: async (path: string, content?: string) => {

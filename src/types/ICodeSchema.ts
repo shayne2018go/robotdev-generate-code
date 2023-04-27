@@ -10,6 +10,7 @@ import { ITech } from './tech';
 export interface ICodeSchema {
   id: string;
   tech?: ITech;
+  key: string;
   meta: {
     title: string; // 应用标题（目前仅前端用）
     describe: string; // 应用描述（目前仅前端用）

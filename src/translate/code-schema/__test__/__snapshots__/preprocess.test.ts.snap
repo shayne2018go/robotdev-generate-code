@@ -5999,6 +5999,7 @@ exports[`preprocess > code schema 1`] = `
   ],
   "functions": [],
   "id": "6448e26a0e7495603862225d",
+  "key": "ethanqianduan",
   "meta": {
     "describe": "项目提交到应用中心描述...",
     "keyword": "",

@@ -2,6 +2,7 @@ import { ICodeSchema } from '@/types';
 
 const codeSchema = {
   id: '6448e26a0e7495603862225d',
+  key: 'ethanqianduan',
   meta: {
     title: 'ethan前端',
     describe: '项目提交到应用中心描述...',

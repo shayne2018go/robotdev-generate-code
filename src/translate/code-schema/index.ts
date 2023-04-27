@@ -43,6 +43,7 @@ function preprocess(dbwSchema: DBWSchema.Project): ICodeSchema {
 
   return {
     id: dbwSchema.id,
+    key: dbwSchema.key,
     meta: {
       title: dbwSchema.name,
       describe: dbwSchema.desc,

@@ -7,6 +7,8 @@ function isObject(obj: unknown): obj is Record<string, any> {
 
 export const eachDBSchema = (dbJson: DBSchema.Project, fn: (data: any) => boolean) => {
   const { dependencies, apis, projectIndex, data } = dbJson;
+
+  fn(dbJson);
   dependencies.forEach((d) => {
     if (isComponent(d)) {
       eachComponent(d, fn);
