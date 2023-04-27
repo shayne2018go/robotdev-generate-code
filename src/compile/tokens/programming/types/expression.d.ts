@@ -112,6 +112,7 @@ export namespace Expression {
   // 字面量
   export type Literal =
     | Literal_Null
+    | Literal_Void
     | Literal_String
     | Literal_Long
     | Literal_Int
@@ -124,7 +125,7 @@ export namespace Expression {
     | Literal_Date
     | Literal_Time
     | Literal_Timestamp
-    | Literal_Enum
+    // | Literal_Enum
     // | Literal_Enums
     | Literal_Function;
   // | Literal_Ref;
@@ -139,6 +140,11 @@ export namespace Expression {
   export type Literal_Common = Common & {
     _expression_: 'literal';
   };
+
+  export type Literal_Void = Literal_Common &
+    ExpressionDataType.Schema_Void_Common & {
+      value?: null;
+    };
 
   export type Literal_Null = Literal_Common &
     ExpressionDataType.Schema_Null_Common & {
@@ -188,10 +194,10 @@ export namespace Expression {
       }>;
     };
 
-  export type Literal_Enum = Literal_Common &
-    ExpressionDataType.Schema_Enum_Common & {
-      value: Unknown;
-    };
+  // export type Literal_Enum = Literal_Common &
+  //   ExpressionDataType.Schema_Enum_Common & {
+  //     value: Unknown;
+  //   };
 
   // export type Literal_Enums = Literal_Common &
   //   ExpressionDataType.Schema_Enums & {

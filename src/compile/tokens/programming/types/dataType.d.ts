@@ -15,6 +15,10 @@ export namespace DataType {
     type: TypeKey['null'];
   }
 
+  export interface Schema_Void_Common {
+    type: TypeKey['void'];
+  }
+
   export interface Schema_String_Common {
     type: TypeKey['string'];
   }
@@ -51,13 +55,13 @@ export namespace DataType {
     type: TypeKey['timestamp'];
   }
 
-  export interface Schema_Enum_Common {
-    type: TypeKey['enum'];
-    range: Array<{
-      TypeKey: Unknown;
-      value: Expression.Unknown;
-    }>;
-  }
+  // export interface Schema_Enum_Common {
+  //   type: TypeKey['enum'];
+  //   range: Array<{
+  //     TypeKey: Unknown;
+  //     value: Expression.Unknown;
+  //   }>;
+  // }
 
   // export interface Schema_Enums {
   //   type: TypeKey['enums'];
@@ -68,24 +72,27 @@ export namespace DataType {
   // }
 
   interface Schema_Properties_Item {
-    key: string;
-    desc?: string;
+    key: Expression.Identifier;
     types: Array<Unknown>;
   }
 
   export interface Schema_Object_Common {
     type: TypeKey['object'];
+    record?: {
+      key: Array<Unknown>;
+      value: Array<Unknown>;
+    };
     properties?: Array<Schema_Properties_Item>;
   }
 
   export interface Schema_Array_Common {
     type: TypeKey['array'];
-    item?: Unknown;
+    items?: Array<Unknown>;
   }
 
   export interface Schema_Tuple_Common {
     type: TypeKey['tuple'];
-    item?: Array<Unknown>;
+    items?: Array<Unknown>;
   }
 
   export interface Schema_Function_Common {
@@ -107,28 +114,35 @@ export namespace DataType {
     | Schema_Datetime_Common
     | Schema_Date_Common
     | Schema_Time_Common
-    | Schema_Timestamp_Common
-    | Schema_Enum_Common;
+    | Schema_Timestamp_Common;
+  // | Schema_Enum_Common;
 
   interface DataType_Common extends Expression.Common {
     _expression_: ExpressionType['dataType'];
   }
 
   export type Schema_Object = DataType_Common & Schema_Object_Common;
-  export type Schema_Array = DataType_Common & Schema_Array_Common;
+  export type Schema_Array = DataType_Common &
+    Schema_Array_Common & {
+      items: Array<Unknown>;
+    };
   export type Schema_Function = DataType_Common & Schema_Function_Common;
   export type Schema_String = DataType_Common & Schema_String_Common;
   export type Schema_Long = DataType_Common & Schema_Long_Common;
   export type Schema_Boolean = DataType_Common & Schema_Boolean_Common;
   export type Schema_Int = DataType_Common & Schema_Int_Common;
   export type Schema_Decimal = DataType_Common & Schema_Decimal_Common;
-  export type Schema_Tuple = DataType_Common & Schema_Tuple_Common;
+  export type Schema_Tuple = DataType_Common &
+    Schema_Tuple_Common & {
+      items: Array<Unknown>;
+    };
   export type Schema_Datetime = DataType_Common & Schema_Datetime_Common;
   export type Schema_Date = DataType_Common & Schema_Date_Common;
   export type Schema_Time = DataType_Common & Schema_Time_Common;
   export type Schema_Timestamp = DataType_Common & Schema_Timestamp_Common;
-  export type Schema_Enum = DataType_Common & Schema_Enum_Common;
+  // export type Schema_Enum = DataType_Common & Schema_Enum_Common;
   export type Schema_Null = DataType_Common & Schema_Null_Common;
+  export type Schema_Void = DataType_Common & Schema_Void_Common;
 
   export type Unknown =
     | Schema_Object
@@ -144,6 +158,7 @@ export namespace DataType {
     | Schema_Date
     | Schema_Time
     | Schema_Timestamp
-    | Schema_Enum
-    | Schema_Null;
+    // | Schema_Enum
+    | Schema_Null
+    | Schema_Void;
 }

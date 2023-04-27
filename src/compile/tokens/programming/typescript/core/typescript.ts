@@ -1,64 +1,9 @@
-import { statementTypes } from '../../const/statementType';
-import { helper } from '../../shared/tools/check';
 import { Statement } from '../../types/statement';
 import { Config } from '../types';
-import { statement, statementHelper } from './statement';
-
-export const generateStatement = (schema: Statement.Line, config?: Config) => {
-  if (!helper.statement.isStmt(schema)) {
-    throw new Error('generateStatement 方法的 schema参数 非法！');
-  }
-  const fn = statementHelper.getFn(schema._statement_);
-  if (!fn) {
-    throw new Error(`generateStatement 方法没有找到“${schema._statement_}”对应的编译方法！`);
-  }
-  return fn(schema as any, config);
-
-  /*
-  switch (schema._statement_) {
-    case statementType.import: {
-      return statement.import(schema, config);
-    }
-    case statementType.export: {
-      return statement.export(schema, config);
-    }
-    case statementType.declare: {
-      return statement.declare(schema, config);
-    }
-    case statementType.expression: {
-      return statement.expression(schema, config);
-    }
-    case statementType.cond: {
-      return statement.cond(schema, config);
-    }
-    case statementType.for: {
-      return statement.for(schema, config);
-    }
-    case statementType.while: {
-      return statement.while(schema, config);
-    }
-    case statementType.break: {
-      return statement.break(schema, config);
-    }
-    case statementType.continue: {
-      return statement.continue(schema, config);
-    }
-    case statementType.return: {
-      return statement.return(schema, config);
-    }
-  }
-  */
-};
+import { statement } from './statement';
 
 export const generateTypeScript = (schema: Statement.List | Statement.Line, config?: Config) => {
-  let code = '';
-  if (!Array.isArray(schema)) {
-    return generateStatement(schema, config) + ';';
-  }
-  schema.forEach((item) => {
-    code += generateStatement(item, config) + ';';
-  });
-  return code;
+  return statement.unknowns(schema, config);
 };
 
 export class GenerateTypeScript {

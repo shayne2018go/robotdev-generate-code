@@ -1,4 +1,5 @@
 export const dataTypeKey = {
+  void: 'void',
   null: 'null',
   string: 'string',
   long: 'long',
@@ -8,7 +9,7 @@ export const dataTypeKey = {
   array: 'array',
   tuple: 'tuple',
   object: 'object',
-  enum: 'enum',
+  // enum: 'enum',
   // enums: 'enums',
   datetime: 'datetime',
   date: 'date',

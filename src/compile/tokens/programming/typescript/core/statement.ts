@@ -1,21 +1,30 @@
 import { tools } from '@/utils/tools';
 import { helper } from '../../shared/tools/check';
 import { Statement } from '../../types/statement';
-import { StatementTypeEnum } from '../../types/statementType';
 import { Config } from '../types';
-import { expression, expressionHelper } from './expression';
-
-export const statementHelper = {
-  getFn(name: StatementTypeEnum) {
-    if (typeof statement[name] !== 'function') {
-      return false;
-    }
-    return statement[name];
-  },
-};
+import { expression } from './expression';
 
 export const statement = {
-  export(schema: Statement.Export, config?: Config) {
+  unknowns(schema: Statement.Line | Statement.List, config?: Config) {
+    let code = '';
+    if (!Array.isArray(schema)) {
+      return statement.unknown(schema, config) + ';';
+    }
+    schema.forEach((item) => {
+      code += statement.unknown(item, config) + ';';
+    });
+    return code;
+  },
+  unknown(schema: Statement.Line, config?: Config) {
+    if (!helper.statement.isStmt(schema)) {
+      throw new Error('generateStatement 方法的 schema参数 非法！');
+    }
+    if (typeof statement[schema._statement_] !== 'function') {
+      return false;
+    }
+    return statement[schema._statement_](schema as any, config);
+  },
+  export(schema: Statement.Export, config?: Config): string {
     if (!helper.statement.isExport(schema)) {
       throw new Error('statement.export 方法的 schema 参数非法！');
     }
@@ -44,7 +53,7 @@ export const statement = {
     }
     return code;
   },
-  import(schema: Statement.Import, config?: Config) {
+  import(schema: Statement.Import, config?: Config): string {
     if (!helper.statement.isImport(schema)) {
       throw new Error('statement.import 方法的 schema 参数非法！');
     }
@@ -77,7 +86,7 @@ export const statement = {
     }
     return code;
   },
-  declare(schema: Statement.Declare, config?: Config) {
+  declare(schema: Statement.Declare, config?: Config): string {
     if (!helper.statement.isDeclare(schema)) {
       throw new Error('statement.declare 方法的 schema参数 错误！');
     }
@@ -97,36 +106,29 @@ export const statement = {
     return code;
   },
   expression(schema: Statement.Expression, config?: Config): string {
-    if (!helper.statement.isExpression(schema)) {
-      throw new Error('statement.expression 方法的 schema参数 非法！');
-    }
-    const fn = expressionHelper.getFn(schema._expression_);
-    if (!fn) {
-      throw new Error(`statement.expression 方法没有找到“${schema._expression_}”对应的编译方法！`);
-    }
-    return fn(schema as any, config);
+    return expression.unknown(schema, config);
   },
-  if(schema: Statement.If, config?: Config) {
+  if(schema: Statement.If, config?: Config): string {
     let code = '';
     return code;
   },
-  for(schema: Statement.For, config?: Config) {
+  for(schema: Statement.For, config?: Config): string {
     let code = '';
     return code;
   },
-  while(schema: Statement.While, config?: Config) {
+  while(schema: Statement.While, config?: Config): string {
     let code = '';
     return code;
   },
-  break(schema: Statement.Break, config?: Config) {
+  break(schema: Statement.Break, config?: Config): string {
     let code = '';
     return code;
   },
-  continue(schema: Statement.Continue, config?: Config) {
+  continue(schema: Statement.Continue, config?: Config): string {
     let code = '';
     return code;
   },
-  return(schema: Statement.Return, config?: Config) {
+  return(schema: Statement.Return, config?: Config): string {
     let code = '';
     return code;
   },

@@ -1,49 +1,25 @@
 import { helper } from '../../shared/tools/check';
 import { Expression } from '../../types/expression';
-import { ExpressionTypeEnum } from '../../types/statementType';
+import { Statement } from '../../types/statement';
 import { Config } from '../types';
-import { dataTypeHelper } from './dataType';
+import { dataType } from './dataType';
 import { literalHelper } from './literal';
 import { statement } from './statement';
 
-export const expressionHelper = {
-  getFn(name: ExpressionTypeEnum) {
-    if (typeof expression[name] !== 'function') {
-      return false;
-    }
-    return expression[name];
-  },
-};
-
-const dataType = (schema: Expression.DataType, config?: Config) => {
-  if (!helper.expression.isDataType(schema)) {
-    throw new Error('dataType 方法的 schema参数 错误！');
-  }
-  const fn = dataTypeHelper.getFn(schema.type);
-  if (!fn) {
-    throw new Error(`dataType 方法没有找到“${schema.type}”对应的编译方法！`);
-  }
-  return fn(schema as any, config);
-};
-
 export const expression = {
-  dataType(schema: Array<Expression.DataType> | Expression.DataType, config?: Config) {
-    let types: Array<Expression.DataType>;
-    if (Array.isArray(schema)) {
-      types = schema;
-    } else {
-      types = [schema];
+  unknown(schema: Statement.Expression, config?: Config): string {
+    if (!helper.statement.isExpression(schema)) {
+      throw new Error('statement.expression 方法的 schema参数 非法！');
     }
-    let code = '';
-    types.forEach((item, index) => {
-      if (index > 0) {
-        code += '|';
-      }
-      code += dataType(item, config);
-    });
-    return code;
+    if (typeof expression[schema._expression_] !== 'function') {
+      throw new Error(`statement.expression 方法没有找到“${schema._expression_}”对应的编译方法！`);
+    }
+    return expression[schema._expression_](schema as any, config);
   },
-  literal(schema: Expression.Literal, config?: Config) {
+  dataType(schema: Array<Expression.DataType> | Expression.DataType, config?: Config): string {
+    return dataType.unknowns(schema, config);
+  },
+  literal(schema: Expression.Literal, config?: Config): string {
     if (!helper.expression.isLiteral(schema)) {
       throw new Error('expression.literal 方法的 schema参数 错误！');
     }
@@ -53,11 +29,11 @@ export const expression = {
     }
     return fn(schema as any, config);
   },
-  class(schema: Expression.Class, config?: Config) {
+  class(schema: Expression.Class, config?: Config): string {
     let code = '';
     return code;
   },
-  access(schema: Expression.Access, config?: Config) {
+  access(schema: Expression.Access, config?: Config): string {
     if (!helper.expression.isAccess(schema)) {
       throw new Error('expression.access 方法的 schema参数 错误！');
     }
@@ -76,7 +52,7 @@ export const expression = {
     }
     return code;
   },
-  identifier(schema: Expression.Identifier, config?: Config) {
+  identifier(schema: Expression.Identifier, config?: Config): string {
     if (!helper.expression.isIdentifier(schema)) {
       throw new Error('expression.literal 方法的 schema参数 错误！');
     }
@@ -84,7 +60,7 @@ export const expression = {
     code += schema.escapedText;
     return code;
   },
-  call(schema: Expression.Call, config?: Config) {
+  call(schema: Expression.Call, config?: Config): string {
     if (!helper.expression.isCall(schema)) {
       throw new Error('expression.call 方法的 schema参数 错误！');
     }
@@ -105,27 +81,27 @@ export const expression = {
     code += ')';
     return code;
   },
-  new(schema: Expression.New, config?: Config) {
+  new(schema: Expression.New, config?: Config): string {
     let code = '';
     return code;
   },
-  assignment(schema: Expression.Assignment, config?: Config) {
+  assignment(schema: Expression.Assignment, config?: Config): string {
     let code = '';
     return code;
   },
-  binary(schema: Expression.Binary, config?: Config) {
+  binary(schema: Expression.Binary, config?: Config): string {
     let code = '';
     return code;
   },
-  conditional(schema: Expression.Conditional, config?: Config) {
+  conditional(schema: Expression.Conditional, config?: Config): string {
     let code = '';
     return code;
   },
-  postfixUnary(schema: Expression.PostfixUnary, config?: Config) {
+  postfixUnary(schema: Expression.PostfixUnary, config?: Config): string {
     let code = '';
     return code;
   },
-  prefixUnary(schema: Expression.PrefixUnary, config?: Config) {
+  prefixUnary(schema: Expression.PrefixUnary, config?: Config): string {
     let code = '';
     return code;
   },

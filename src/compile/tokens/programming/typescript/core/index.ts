@@ -1,1 +1,1 @@
-export { GenerateTypeScript, generateStatement } from './typescript';
+export { GenerateTypeScript, generateTypeScript } from './typescript';

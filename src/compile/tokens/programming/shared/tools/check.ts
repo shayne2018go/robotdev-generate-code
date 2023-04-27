@@ -41,8 +41,17 @@ const expression = {
 };
 
 const dataType = {
+  isVoid(data: DataType.Unknown): data is DataType.Schema_Void {
+    return expression.isDataType(data) && data.type === dataTypeKey.void;
+  },
+  isNull(data: DataType.Unknown): data is DataType.Schema_Null {
+    return expression.isDataType(data) && data.type === dataTypeKey.null;
+  },
   isString(data: DataType.Unknown): data is DataType.Schema_String {
     return expression.isDataType(data) && data.type === dataTypeKey.string;
+  },
+  isLone(data: DataType.Unknown): data is DataType.Schema_Long {
+    return expression.isDataType(data) && data.type === dataTypeKey.long;
   },
   isBoolean(data: DataType.Unknown): data is DataType.Schema_Boolean {
     return expression.isDataType(data) && data.type === dataTypeKey.boolean;
@@ -53,11 +62,50 @@ const dataType = {
   isDecimal(data: DataType.Unknown): data is DataType.Schema_Decimal {
     return expression.isDataType(data) && data.type === dataTypeKey.decimal;
   },
+  isObject(data: DataType.Unknown): data is DataType.Schema_Object {
+    return expression.isDataType(data) && data.type === dataTypeKey.object;
+  },
+  isArray(data: DataType.Unknown): data is DataType.Schema_Array {
+    return expression.isDataType(data) && data.type === dataTypeKey.array;
+  },
+  isTuple(data: DataType.Unknown): data is DataType.Schema_Tuple {
+    return expression.isDataType(data) && data.type === dataTypeKey.tuple;
+  },
+  isFunction(data: DataType.Unknown): data is DataType.Schema_Function {
+    return expression.isDataType(data) && data.type === dataTypeKey.function;
+  },
+  // isEnum(data: DataType.Unknown): data is DataType.Schema_Enum {
+  //   return expression.isDataType(data) && data.type === dataTypeKey.enum;
+  // },
+  isDatetime(data: DataType.Unknown): data is DataType.Schema_Datetime {
+    return expression.isDataType(data) && data.type === dataTypeKey.datetime;
+  },
+  isDate(data: DataType.Unknown): data is DataType.Schema_Date {
+    return expression.isDataType(data) && data.type === dataTypeKey.date;
+  },
+  isTime(data: DataType.Unknown): data is DataType.Schema_Time {
+    return expression.isDataType(data) && data.type === dataTypeKey.time;
+  },
+  isTimestamp(data: DataType.Unknown): data is DataType.Schema_Timestamp {
+    return expression.isDataType(data) && data.type === dataTypeKey.timestamp;
+  },
 };
 
 const literal = {
+  isVoid(data: Expression.Literal): data is Expression.Literal_Void {
+    return expression.isLiteral(data) && data.type === dataTypeKey.void;
+  },
+  isNull(data: Expression.Literal): data is Expression.Literal_Null {
+    return expression.isLiteral(data) && data.type === dataTypeKey.null;
+  },
   isString(data: Expression.Literal): data is Expression.Literal_String {
     return expression.isLiteral(data) && data.type === dataTypeKey.string;
+  },
+  isLone(data: Expression.Literal): data is Expression.Literal_Long {
+    return expression.isLiteral(data) && data.type === dataTypeKey.long;
+  },
+  isBoolean(data: Expression.Literal): data is Expression.Literal_Boolean {
+    return expression.isLiteral(data) && data.type === dataTypeKey.boolean;
   },
   isInt(data: Expression.Literal): data is Expression.Literal_Int {
     return expression.isLiteral(data) && data.type === dataTypeKey.int;
@@ -65,11 +113,36 @@ const literal = {
   isDecimal(data: Expression.Literal): data is Expression.Literal_Decimal {
     return expression.isLiteral(data) && data.type === dataTypeKey.decimal;
   },
+  isObject(data: Expression.Literal): data is Expression.Literal_Object {
+    return expression.isLiteral(data) && data.type === dataTypeKey.object;
+  },
+  isArray(data: Expression.Literal): data is Expression.Literal_Array {
+    return expression.isLiteral(data) && data.type === dataTypeKey.array;
+  },
+  isTuple(data: Expression.Literal): data is Expression.Literal_Tuple {
+    return expression.isLiteral(data) && data.type === dataTypeKey.tuple;
+  },
+  isFunction(data: Expression.Literal): data is Expression.Literal_Function {
+    return expression.isLiteral(data) && data.type === dataTypeKey.function;
+  },
+  // isEnum(data: Expression.Literal): data is Expression.Literal_Enum {
+  //   return expression.isLiteral(data) && data.type === dataTypeKey.enum;
+  // },
+  isDatetime(data: Expression.Literal): data is Expression.Literal_Datetime {
+    return expression.isLiteral(data) && data.type === dataTypeKey.datetime;
+  },
+  isDate(data: Expression.Literal): data is Expression.Literal_Date {
+    return expression.isLiteral(data) && data.type === dataTypeKey.date;
+  },
+  isTime(data: Expression.Literal): data is Expression.Literal_Time {
+    return expression.isLiteral(data) && data.type === dataTypeKey.time;
+  },
+  isTimestamp(data: Expression.Literal): data is Expression.Literal_Timestamp {
+    return expression.isLiteral(data) && data.type === dataTypeKey.timestamp;
+  },
+
   isNumber(data: Expression.Literal): data is Expression.Literal_Int | Expression.Literal_Decimal {
     return expression.isLiteral(data) && (data.type === dataTypeKey.int || data.type === dataTypeKey.decimal);
-  },
-  isBoolean(data: Expression.Literal_Boolean): data is Expression.Literal_Boolean {
-    return expression.isLiteral(data) && data.type === dataTypeKey.boolean;
   },
   canText(
     data: Expression.Literal
@@ -78,6 +151,15 @@ const literal = {
       expression.isLiteral(data) &&
       (data.type === dataTypeKey.string || data.type === dataTypeKey.int || data.type === dataTypeKey.decimal)
     );
+  },
+};
+
+export const errorText = {
+  schema(fnName: string) {
+    return `${fnName} 方法的 schema 参数 错误！`;
+  },
+  schemaProp(fnName: string, propName: string) {
+    return `${fnName} 方法的 schema.${propName} 参数 错误！`;
   },
 };
 
