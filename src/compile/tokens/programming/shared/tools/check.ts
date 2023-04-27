@@ -23,6 +23,9 @@ const statement = {
   isIf(data: Statement.Line): data is Statement.If {
     return data?._statement_ === statementType.if;
   },
+  isFor(data: Statement.Line): data is Statement.For {
+    return data?._statement_ === statementType.for;
+  },
 };
 
 const expression = {
@@ -40,6 +43,15 @@ const expression = {
   },
   isAccess(data: Expression.Unknown): data is Expression.Access {
     return statement.isExpression(data) && data._expression_ === expressionType.access;
+  },
+  isBinary(data: Expression.Unknown): data is Expression.Binary {
+    return statement.isExpression(data) && data._expression_ === expressionType.binary;
+  },
+  isPostfixUnary(data: Expression.Unknown): data is Expression.PostfixUnary {
+    return statement.isExpression(data) && data._expression_ === expressionType.postfixUnary;
+  },
+  isPrefixUnary(data: Expression.Unknown): data is Expression.PrefixUnary {
+    return statement.isExpression(data) && data._expression_ === expressionType.prefixUnary;
   },
 };
 
