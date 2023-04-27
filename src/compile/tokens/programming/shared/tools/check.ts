@@ -26,6 +26,9 @@ const statement = {
   isFor(data: Statement.Line): data is Statement.For {
     return data?._statement_ === statementType.for;
   },
+  isWhile(data: Statement.Line): data is Statement.While {
+    return data?._statement_ === statementType.while;
+  },
 };
 
 const expression = {

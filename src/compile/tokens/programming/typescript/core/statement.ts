@@ -141,13 +141,18 @@ export const statement = {
     } else if (schema.incrementor._expression_ == expressionType.prefixUnary) {
       code += `${expression.prefixUnary(schema.incrementor, config)}`;
     } else {
-      throw new Error('statement.For 方法的 schema 参数错误！');
+      throw new Error('statement.for 方法的 schema 参数错误！');
     }
     code += `){${schema.statements.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
     return code;
   },
   while(schema: Statement.While, config?: Config) {
-    let code = '';
+    if (!helper.statement.isWhile(schema)) {
+      throw new Error('statement.while 方法的 schema 参数非法！');
+    }
+    let code = 'while(';
+    code += `${statement.expression(schema.expression, config)}`;
+    code += `){${schema.statements.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
     return code;
   },
   break(schema: Statement.Break, config?: Config) {
