@@ -48,7 +48,33 @@ export const statement = {
     if (!helper.isImport(schema)) {
       throw new Error('statement.import 方法的 schema 参数非法！');
     }
-    let code = '';
+    const { all, default:def , elements, path } = schema;
+    const hasDefault = !tools.dataType.isUndefined(def);
+    const hasAll = !tools.dataType.isUndefined(all);
+    const hasElements = !tools.dataType.isUndefined(elements);
+    let code = `import${(hasElements && !hasDefault) ||(!hasDefault && !hasAll && !hasElements) ? '' : ' '}` ;
+    if (hasDefault) {
+      code += `${expression.identifier(def)}${hasElements || hasAll ? ',' : ''}`;
+    }
+    if (hasAll) {
+      code += `* as ${expression.identifier(all)}`;
+    }
+    if (hasElements) {
+      code += `{`;
+      code += elements.reduce((start, ele, index) => {
+        let str = expression.identifier(ele.name);
+        if (!tools.dataType.isUndefined(ele.propertyName)) {
+          str = `${expression.identifier(ele.propertyName)} as ${str}`;
+        }
+        return start + `${index > 0 ? ',' : ''}${str}`;
+      }, '');
+      code += `}`;
+    }
+    if (!tools.dataType.isUndefined(path)) {
+      code += `${hasDefault || hasAll || hasElements ? `${hasElements ? '' : ' '}from` : ''}${expression.literal(
+        path
+      )}`;
+    }
     return code;
   },
   declare(schema: Statement.Declare, config?: Config) {
