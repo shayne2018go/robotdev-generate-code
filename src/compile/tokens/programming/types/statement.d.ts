@@ -69,12 +69,12 @@ export namespace Statement {
 
   export interface Break {
     _statement_: StatementType['break'];
-    label?: Expression;
+    label?: StatementExpression.Identifier;
   }
 
   export interface Continue {
     _statement_: StatementType['continue'];
-    label?: Expression;
+    label?: StatementExpression.Identifier;
   }
 
   export type StatementLine = Expression | Export | Import | Declare | Return | If | While | For | Break | Continue;

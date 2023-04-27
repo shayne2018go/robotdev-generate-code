@@ -156,15 +156,33 @@ export const statement = {
     return code;
   },
   break(schema: Statement.Break, config?: Config) {
-    let code = '';
+    if (!helper.statement.isBreak(schema)) {
+      throw new Error('statement.break 方法的 schema 参数非法！');
+    }
+    let code = 'break';
+    if (!tools.dataType.isUndefined(schema.label)) {
+      code += ` ${statement.expression(schema.label, config)}`
+    }
     return code;
   },
   continue(schema: Statement.Continue, config?: Config) {
-    let code = '';
+    if (!helper.statement.isContinue(schema)) {
+      throw new Error('statement.continue 方法的 schema 参数非法！');
+    }
+    let code = 'continue';
+    if (!tools.dataType.isUndefined(schema.label)) {
+      code += ` ${statement.expression(schema.label, config)}`
+    }
     return code;
   },
   return(schema: Statement.Return, config?: Config) {
-    let code = '';
+    if (!helper.statement.isReturn(schema)) {
+      throw new Error('statement.return 方法的 schema 参数非法！');
+    }
+    let code = 'return';
+    if (!tools.dataType.isUndefined(schema.value)) {
+      code += ` ${statement.expression(schema.value, config)}`
+    }
     return code;
   },
 };

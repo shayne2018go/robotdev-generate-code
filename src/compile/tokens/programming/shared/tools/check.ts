@@ -29,6 +29,15 @@ const statement = {
   isWhile(data: Statement.Line): data is Statement.While {
     return data?._statement_ === statementType.while;
   },
+  isBreak(data: Statement.Line): data is Statement.Break {
+    return data?._statement_ === statementType.break;
+  },
+  isContinue(data: Statement.Line): data is Statement.Continue {
+    return data?._statement_ === statementType.continue;
+  },
+  isReturn(data: Statement.Line): data is Statement.Return {
+    return data?._statement_ === statementType.return;
+  },
 };
 
 const expression = {
