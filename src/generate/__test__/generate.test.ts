@@ -1,11 +1,12 @@
-import compilerFactory from "@/compile/compilerFactory";
-import { describe } from "vitest";
-import generate from "../generate";
+import compilerFactory from '@/compile/compilerFactory';
+import { describe } from 'vitest';
+import generate from '../generate';
+import tokens from '@/compile/framework/vite/__test__/fixture/compileViteTokens.json';
 
-describe("generate", () => {
-  const { compile } = compilerFactory({});
+describe('generate', () => {
+  // const { compile } = compilerFactory({});
 
-  const tokens = compile();
+  // const tokens = compile();
 
-  //   generate(tokens, )
+  generate(tokens);
 });
