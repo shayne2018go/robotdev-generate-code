@@ -1,3 +1,4 @@
+import { helper } from '../../shared/tools/check';
 import { DataType } from '../../types/dataType';
 import { Config } from '../types';
 
@@ -12,11 +13,17 @@ export const dataTypeHelper = {
 
 export const dataType = {
   string(schema: DataType.Schema_String, config?: Config) {
-    let code = '';
+    if (!helper.dataType.isString(schema)) {
+      throw new Error('dataType.string 方法的 schema参数 错误！');
+    }
+    let code = 'string';
     return code;
   },
   boolean(schema: DataType.Schema_Boolean, config?: Config) {
-    let code = '';
+    if (!helper.dataType.isBoolean(schema)) {
+      throw new Error('dataType.boolean 方法的 schema参数 错误！');
+    }
+    let code = 'boolean';
     return code;
   },
   object(schema: DataType.Schema_Object, config?: Config) {
@@ -36,11 +43,17 @@ export const dataType = {
     return code;
   },
   int(schema: DataType.Schema_Int, config?: Config) {
-    let code = '';
+    if (!helper.dataType.isInt(schema)) {
+      throw new Error('dataType.int 方法的 schema参数 错误！');
+    }
+    let code = 'number';
     return code;
   },
   decimal(schema: DataType.Schema_Decimal, config?: Config) {
-    let code = '';
+    if (!helper.dataType.isDecimal(schema)) {
+      throw new Error('dataType.decimal 方法的 schema参数 错误！');
+    }
+    let code = 'number';
     return code;
   },
   array(schema: DataType.Schema_Array, config?: Config) {

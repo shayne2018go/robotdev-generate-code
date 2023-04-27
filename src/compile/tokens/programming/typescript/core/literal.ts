@@ -1,3 +1,4 @@
+import { helper } from '../../shared/tools/check';
 import { DataType } from '../../types/dataType';
 import { Expression } from '../../types/expression';
 import { Config } from '../types';
@@ -13,7 +14,10 @@ export const literalHelper = {
 
 export const literal = {
   string(schema: Expression.Literal_String, config?: Config) {
-    let code = '';
+    if (!helper.isString(schema)) {
+      throw new Error('dataType.string 方法的 schema参数 错误！');
+    }
+    let code = `'${schema.value}'`;
     return code;
   },
   boolean(schema: Expression.Literal_Boolean, config?: Config) {
@@ -37,11 +41,17 @@ export const literal = {
     return code;
   },
   int(schema: Expression.Literal_Int, config?: Config) {
-    let code = '';
+    if (!helper.isInt(schema)) {
+      throw new Error('dataType.int 方法的 schema参数 错误！');
+    }
+    let code = `${schema.value}`;
     return code;
   },
   decimal(schema: Expression.Literal_Decimal, config?: Config) {
-    let code = '';
+    if (!helper.isDecimal(schema)) {
+      throw new Error('dataType.decimal 方法的 schema参数 错误！');
+    }
+    let code = `${schema.value}`;
     return code;
   },
   array(schema: Expression.Literal_Array, config?: Config) {

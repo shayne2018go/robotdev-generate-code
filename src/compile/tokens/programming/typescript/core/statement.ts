@@ -1,3 +1,4 @@
+import { tools } from '@/utils/tools';
 import { helper } from '../../shared/tools/check';
 import { Statement } from '../../types/statement';
 import { StatementTypeEnum } from '../../types/statementType';
@@ -15,15 +16,58 @@ export const statementHelper = {
 
 export const statement = {
   export(schema: Statement.Export, config?: Config) {
-    let code = '';
+    if (!helper.isExport(schema)) {
+      throw new Error('statement.export 方法的 schema 参数非法！');
+    }
+    let code = 'export';
+    const { all, elements, path } = schema;
+    if (!tools.dataType.isUndefined(all)) {
+      if (typeof all === 'boolean') {
+        code += '*';
+      } else {
+        code += ` * as ${expression.identifier(all)} `;
+      }
+    }
+    if (!tools.dataType.isUndefined(elements)) {
+      code += `{`;
+      code += elements.reduce((start, ele, index) => {
+        let str = expression.identifier(ele.name);
+        if (!tools.dataType.isUndefined(ele.propertyName)) {
+          str = `${expression.identifier(ele.propertyName)} as ${str}`;
+        }
+        return start + `${index > 0 ? ',' : ''}${str}`;
+      }, '');
+      code += `}`;
+    }
+    if (!tools.dataType.isUndefined(path)) {
+      code += `from${expression.literal(path)}`;
+    }
     return code;
   },
   import(schema: Statement.Import, config?: Config) {
+    if (!helper.isImport(schema)) {
+      throw new Error('statement.import 方法的 schema 参数非法！');
+    }
     let code = '';
     return code;
   },
   declare(schema: Statement.Declare, config?: Config) {
+    if (!helper.isDeclare(schema)) {
+      throw new Error('statement.declare 方法的 schema参数 错误！');
+    }
     let code = '';
+    if (schema.isConst) {
+      code += 'const ';
+    } else {
+      code += 'let ';
+    }
+    code += expression.identifier(schema.name);
+    if (Array.isArray(schema.dataTypes) && schema.dataTypes.length) {
+      code += ':' + expression.dataType(schema.dataTypes, config);
+    }
+    if (schema.value) {
+      code += '=' + statement.expression(schema.value, config);
+    }
     return code;
   },
   expression(schema: Statement.Expression, config?: Config) {

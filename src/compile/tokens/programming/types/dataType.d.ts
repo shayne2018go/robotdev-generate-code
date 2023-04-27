@@ -11,47 +11,47 @@ export namespace DataType {
   //   ref?: Unknown;
   // }
 
-  export interface Schema_Null {
+  export interface Schema_Null_Common {
     type: TypeKey['null'];
   }
 
-  export interface Schema_String {
+  export interface Schema_String_Common {
     type: TypeKey['string'];
   }
 
-  export interface Schema_Long {
+  export interface Schema_Long_Common {
     type: TypeKey['long'];
   }
 
-  export interface Schema_Boolean {
+  export interface Schema_Boolean_Common {
     type: TypeKey['boolean'];
   }
 
-  export interface Schema_Int {
+  export interface Schema_Int_Common {
     type: TypeKey['int'];
   }
 
-  export interface Schema_Decimal {
+  export interface Schema_Decimal_Common {
     type: TypeKey['decimal'];
   }
 
-  export interface Schema_Date {
+  export interface Schema_Date_Common {
     type: TypeKey['date'];
   }
 
-  export interface Schema_Datetime {
+  export interface Schema_Datetime_Common {
     type: TypeKey['datetime'];
   }
 
-  export interface Schema_Time {
+  export interface Schema_Time_Common {
     type: TypeKey['time'];
   }
 
-  export interface Schema_Timestamp {
+  export interface Schema_Timestamp_Common {
     type: TypeKey['timestamp'];
   }
 
-  export interface Schema_Enum {
+  export interface Schema_Enum_Common {
     type: TypeKey['enum'];
     range: Array<{
       TypeKey: Unknown;
@@ -73,28 +73,64 @@ export namespace DataType {
     types: Array<Unknown>;
   }
 
-  export interface Schema_Object {
+  export interface Schema_Object_Common {
     type: TypeKey['object'];
     properties?: Array<Schema_Properties_Item>;
   }
 
-  export interface Schema_Array {
+  export interface Schema_Array_Common {
     type: TypeKey['array'];
     item?: Unknown;
   }
 
-  export interface Schema_Tuple {
+  export interface Schema_Tuple_Common {
     type: TypeKey['tuple'];
     item?: Array<Unknown>;
   }
 
-  export interface Schema_Function {
+  export interface Schema_Function_Common {
     type: TypeKey['function'];
     parameters?: Array<Schema_Properties_Item>;
     outTypes?: Array<Unknown>;
   }
 
   export type Unknown_Common =
+    | Schema_Object_Common
+    | Schema_Array_Common
+    | Schema_Function_Common
+    | Schema_String_Common
+    | Schema_Long_Common
+    | Schema_Boolean_Common
+    | Schema_Int_Common
+    | Schema_Decimal_Common
+    | Schema_Tuple_Common
+    | Schema_Datetime_Common
+    | Schema_Date_Common
+    | Schema_Time_Common
+    | Schema_Timestamp_Common
+    | Schema_Enum_Common;
+
+  interface DataType_Common extends Expression.Common {
+    _expression_: ExpressionType['dataType'];
+  }
+
+  export type Schema_Object = DataType_Common & Schema_Object_Common;
+  export type Schema_Array = DataType_Common & Schema_Array_Common;
+  export type Schema_Function = DataType_Common & Schema_Function_Common;
+  export type Schema_String = DataType_Common & Schema_String_Common;
+  export type Schema_Long = DataType_Common & Schema_Long_Common;
+  export type Schema_Boolean = DataType_Common & Schema_Boolean_Common;
+  export type Schema_Int = DataType_Common & Schema_Int_Common;
+  export type Schema_Decimal = DataType_Common & Schema_Decimal_Common;
+  export type Schema_Tuple = DataType_Common & Schema_Tuple_Common;
+  export type Schema_Datetime = DataType_Common & Schema_Datetime_Common;
+  export type Schema_Date = DataType_Common & Schema_Date_Common;
+  export type Schema_Time = DataType_Common & Schema_Time_Common;
+  export type Schema_Timestamp = DataType_Common & Schema_Timestamp_Common;
+  export type Schema_Enum = DataType_Common & Schema_Enum_Common;
+  export type Schema_Null = DataType_Common & Schema_Null_Common;
+
+  export type Unknown =
     | Schema_Object
     | Schema_Array
     | Schema_Function
@@ -108,11 +144,6 @@ export namespace DataType {
     | Schema_Date
     | Schema_Time
     | Schema_Timestamp
-    | Schema_Enum;
-  // | Schema_Enums
-  // | Schema_Ref;
-
-  export type Unknown = Expression.Common & {
-    _expression_: ExpressionType['dataType'];
-  } & Unknown_Common;
+    | Schema_Enum
+    | Schema_Null;
 }
