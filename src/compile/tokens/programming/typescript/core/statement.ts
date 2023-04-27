@@ -5,6 +5,7 @@ import { StatementTypeEnum } from '../../types/statementType';
 import { Config } from '../types';
 import { expression, expressionHelper } from './expression';
 import { generateTypeScript } from './typescript';
+import { expressionType } from '../../const/statementType';
 
 export const statementHelper = {
   getFn(name: StatementTypeEnum) {
@@ -108,7 +109,7 @@ export const statement = {
     }
     return fn(schema as any, config);
   },
-  if(schema: Statement.If, config?: Config) {
+  if(schema: Statement.If, config?: Config): string {
     if (!helper.statement.isIf(schema)) {
       throw new Error('statement.if 方法的 schema 参数非法！');
     }
@@ -128,8 +129,21 @@ export const statement = {
     }
     return code;
   },
-  for(schema: Statement.For, config?: Config) {
-    let code = '';
+  for(schema: Statement.For, config?: Config): string {
+    if (!helper.statement.isFor(schema)) {
+      throw new Error('statement.for 方法的 schema 参数非法！');
+    }
+    let code = 'for(';
+    code += `${statement.declare(schema.declare, config)};`;
+    code += `${statement.expression(schema.initializer, config)};`;
+    if (schema.incrementor._expression_ == expressionType.postfixUnary) {
+      code += `${expression.postfixUnary(schema.incrementor, config)}`;
+    } else if (schema.incrementor._expression_ == expressionType.prefixUnary) {
+      code += `${expression.prefixUnary(schema.incrementor, config)}`;
+    } else {
+      throw new Error('statement.For 方法的 schema 参数错误！');
+    }
+    code += `){${schema.statements.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
     return code;
   },
   while(schema: Statement.While, config?: Config) {

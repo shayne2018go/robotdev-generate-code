@@ -1,5 +1,6 @@
 import { expressionType, statementType } from '@/compile/tokens/programming/const/statementType';
 import { Statement } from '../../../../types/statement';
+import { dataTypeKey } from '@/compile/tokens/programming/const/dataType';
 
 export const mock_for: Statement.For = {
   _statement_: statementType.for,
@@ -13,7 +14,7 @@ export const mock_for: Statement.For = {
     value: {
       _statement_: statementType.expression,
       _expression_: expressionType.literal,
-      type: 'int',
+      type: dataTypeKey.int,
       value: 0,
     },
   },
@@ -29,7 +30,7 @@ export const mock_for: Statement.For = {
     right: {
       _statement_: statementType.expression,
       _expression_: expressionType.literal,
-      type: 'int',
+      type: dataTypeKey.int,
       value: 10,
     },
   },
