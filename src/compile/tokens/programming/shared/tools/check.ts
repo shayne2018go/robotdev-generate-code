@@ -8,61 +8,64 @@ const common = {
   isStmt(data: Statement.Line): data is Statement.Line {
     return !!data._statement_;
   },
-  isDeclare(data: Statement.Declare): data is Statement.Declare {
+  isDeclare(data: Statement.Line): data is Statement.Declare {
     return data?._statement_ === statementType.declare;
   },
-  isExpression(data: Statement.Expression): data is Statement.Expression {
+  isExpression(data: Statement.Line): data is Statement.Expression {
     return data?._statement_ === statementType.expression;
   },
-  isExport(data: Statement.Export): data is Statement.Export {
+  isExport(data: Statement.Line): data is Statement.Export {
     return data?._statement_ === statementType.export;
+  },
+  isImport(data: Statement.Line): data is Statement.Import {
+    return data?._statement_ === statementType.import;
   },
 };
 
 const expression = {
-  isIdentifier(data: Expression.Identifier): data is Expression.Identifier {
+  isIdentifier(data: Expression.Unknown): data is Expression.Identifier {
     return common.isExpression(data) && data._expression_ === expressionType.identifier;
   },
-  isDataType(data: Expression.DataType): data is Expression.DataType {
+  isDataType(data: Expression.Unknown): data is Expression.DataType {
     return common.isExpression(data) && data._expression_ === expressionType.dataType;
   },
-  isLiteral(data: Expression.Literal): data is Expression.Literal {
+  isLiteral(data: Expression.Unknown): data is Expression.Literal {
     return common.isExpression(data) && data._expression_ === expressionType.literal;
   },
 };
 
 const dataType = {
-  isString(data: DataType.Schema_String): data is DataType.Schema_String {
+  isString(data: DataType.Unknown): data is DataType.Schema_String {
     return expression.isDataType(data) && data.type === dataTypeKey.string;
   },
-  isBoolean(data: DataType.Schema_Boolean): data is DataType.Schema_Boolean {
+  isBoolean(data: DataType.Unknown): data is DataType.Schema_Boolean {
     return expression.isDataType(data) && data.type === dataTypeKey.boolean;
   },
-  isInt(data: DataType.Schema_Int): data is DataType.Schema_Int {
+  isInt(data: DataType.Unknown): data is DataType.Schema_Int {
     return expression.isDataType(data) && data.type === dataTypeKey.int;
   },
-  isDecimal(data: DataType.Schema_Decimal): data is DataType.Schema_Decimal {
+  isDecimal(data: DataType.Unknown): data is DataType.Schema_Decimal {
     return expression.isDataType(data) && data.type === dataTypeKey.decimal;
   },
 };
 
 const literal = {
-  isString(data: Expression.Literal_String): data is Expression.Literal_String {
+  isString(data: Expression.Literal): data is Expression.Literal_String {
     return expression.isLiteral(data) && data.type === dataTypeKey.string;
   },
-  isInt(data: Expression.Literal_Int): data is Expression.Literal_Int {
+  isInt(data: Expression.Literal): data is Expression.Literal_Int {
     return expression.isLiteral(data) && data.type === dataTypeKey.int;
   },
-  isDecimal(data: Expression.Literal_Decimal): data is Expression.Literal_Decimal {
+  isDecimal(data: Expression.Literal): data is Expression.Literal_Decimal {
     return expression.isLiteral(data) && data.type === dataTypeKey.decimal;
   },
   isNumber(
-    data: Expression.Literal_Int | Expression.Literal_Decimal
+    data: Expression.Literal
   ): data is Expression.Literal_Int | Expression.Literal_Decimal {
     return expression.isLiteral(data) && (data.type === dataTypeKey.int || data.type === dataTypeKey.decimal);
   },
   canText(
-    data: Expression.Literal_String | Expression.Literal_Int | Expression.Literal_Decimal
+    data: Expression.Literal
   ): data is Expression.Literal_String | Expression.Literal_Int | Expression.Literal_Decimal {
     return (
       expression.isLiteral(data) &&
