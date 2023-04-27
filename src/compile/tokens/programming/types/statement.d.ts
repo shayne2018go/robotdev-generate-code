@@ -45,7 +45,7 @@ export namespace Statement {
   export interface If {
     _statement_: StatementType['if'];
     ifs: Array<[Expression, StatementList]>;
-    else: StatementList;
+    else?: StatementList;
   }
 
   export interface While {

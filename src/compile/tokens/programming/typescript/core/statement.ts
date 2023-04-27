@@ -4,6 +4,7 @@ import { Statement } from '../../types/statement';
 import { StatementTypeEnum } from '../../types/statementType';
 import { Config } from '../types';
 import { expression, expressionHelper } from './expression';
+import { generateTypeScript } from './typescript';
 
 export const statementHelper = {
   getFn(name: StatementTypeEnum) {
@@ -25,22 +26,22 @@ export const statement = {
       if (typeof all === 'boolean') {
         code += '*';
       } else {
-        code += ` * as ${expression.identifier(all)} `;
+        code += ` * as ${expression.identifier(all, config)} `;
       }
     }
     if (!tools.dataType.isUndefined(elements)) {
       code += `{`;
       code += elements.reduce((start, ele, index) => {
-        let str = expression.identifier(ele.name);
+        let str = expression.identifier(ele.name, config);
         if (!tools.dataType.isUndefined(ele.propertyName)) {
-          str = `${expression.identifier(ele.propertyName)} as ${str}`;
+          str = `${expression.identifier(ele.propertyName, config)} as ${str}`;
         }
         return start + `${index > 0 ? ',' : ''}${str}`;
       }, '');
       code += `}`;
     }
     if (!tools.dataType.isUndefined(path)) {
-      code += `from${expression.literal(path)}`;
+      code += `from${expression.literal(path, config)}`;
     }
     return code;
   },
@@ -54,17 +55,17 @@ export const statement = {
     const hasElements = !tools.dataType.isUndefined(elements);
     let code = `import${(hasElements && !hasDefault) || (!hasDefault && !hasAll && !hasElements) ? '' : ' '}`;
     if (hasDefault) {
-      code += `${expression.identifier(def)}${hasElements || hasAll ? ',' : ''}`;
+      code += `${expression.identifier(def, config)}${hasElements || hasAll ? ',' : ''}`;
     }
     if (hasAll) {
-      code += `* as ${expression.identifier(all)}`;
+      code += `* as ${expression.identifier(all, config)}`;
     }
     if (hasElements) {
       code += `{`;
       code += elements.reduce((start, ele, index) => {
-        let str = expression.identifier(ele.name);
+        let str = expression.identifier(ele.name, config);
         if (!tools.dataType.isUndefined(ele.propertyName)) {
-          str = `${expression.identifier(ele.propertyName)} as ${str}`;
+          str = `${expression.identifier(ele.propertyName, config)} as ${str}`;
         }
         return start + `${index > 0 ? ',' : ''}${str}`;
       }, '');
@@ -72,7 +73,8 @@ export const statement = {
     }
     if (!tools.dataType.isUndefined(path)) {
       code += `${hasDefault || hasAll || hasElements ? `${hasElements ? '' : ' '}from` : ''}${expression.literal(
-        path
+        path,
+        config
       )}`;
     }
     return code;
@@ -87,7 +89,7 @@ export const statement = {
     } else {
       code += 'let ';
     }
-    code += expression.identifier(schema.name);
+    code += expression.identifier(schema.name, config);
     if (Array.isArray(schema.dataTypes) && schema.dataTypes.length) {
       code += ':' + expression.dataType(schema.dataTypes, config);
     }
@@ -107,7 +109,23 @@ export const statement = {
     return fn(schema as any, config);
   },
   if(schema: Statement.If, config?: Config) {
+    if (!helper.statement.isIf(schema)) {
+      throw new Error('statement.if 方法的 schema 参数非法！');
+    }
     let code = '';
+    const { ifs, else: elseStmt } = schema;
+    code += ifs.reduce((start, arr, index) => {
+      return (
+        start +
+        `${index === 0 ? 'if' : 'else if'}(${statement.expression(arr[0], config)}){${arr[1].reduce(
+          (start, ele) => start + generateTypeScript(ele, config),
+          ''
+        )}}`
+      );
+    }, '');
+    if (!tools.dataType.isUndefined(elseStmt)) {
+      code += `else{${elseStmt.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
+    }
     return code;
   },
   for(schema: Statement.For, config?: Config) {

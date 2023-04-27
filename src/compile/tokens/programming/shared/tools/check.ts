@@ -20,6 +20,9 @@ const statement = {
   isImport(data: Statement.Line): data is Statement.Import {
     return data?._statement_ === statementType.import;
   },
+  isIf(data: Statement.Line): data is Statement.If {
+    return data?._statement_ === statementType.if;
+  },
 };
 
 const expression = {
@@ -59,6 +62,9 @@ const literal = {
   isString(data: Expression.Literal): data is Expression.Literal_String {
     return expression.isLiteral(data) && data.type === dataTypeKey.string;
   },
+  isBoolean(data: Expression.Literal): data is Expression.Literal_Boolean {
+    return expression.isLiteral(data) && data.type === dataTypeKey.boolean;
+  },
   isInt(data: Expression.Literal): data is Expression.Literal_Int {
     return expression.isLiteral(data) && data.type === dataTypeKey.int;
   },
@@ -67,9 +73,6 @@ const literal = {
   },
   isNumber(data: Expression.Literal): data is Expression.Literal_Int | Expression.Literal_Decimal {
     return expression.isLiteral(data) && (data.type === dataTypeKey.int || data.type === dataTypeKey.decimal);
-  },
-  isBoolean(data: Expression.Literal_Boolean): data is Expression.Literal_Boolean {
-    return expression.isLiteral(data) && data.type === dataTypeKey.boolean;
   },
   canText(
     data: Expression.Literal
