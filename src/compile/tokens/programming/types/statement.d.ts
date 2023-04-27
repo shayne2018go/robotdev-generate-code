@@ -51,7 +51,7 @@ export namespace Statement {
   export interface While {
     _statement_: StatementType['while'];
     expression: Expression;
-    statement: StatementList;
+    statements: StatementList;
   }
 
   export interface For {
@@ -59,7 +59,7 @@ export namespace Statement {
     declare: Declare;
     initializer: Expression;
     incrementor: StatementExpression.PostfixUnary | StatementExpression.PrefixUnary;
-    statement: StatementList;
+    statements: StatementList;
   }
 
   // export interface Free {
