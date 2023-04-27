@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { statement } from '../statement';
 import { mock_export, mock_export_all, mock_export_all_as, mock_export_default, mock_export_without_path } from './fixtures/stmtExport';
 
-describe('generateExport', () => {
+describe('statement export', () => {
   it('export', () => {
     const code = statement.export(mock_export);
     expect(`export{temp}from'module'`).toEqual(code);

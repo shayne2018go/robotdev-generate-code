@@ -1,8 +1,10 @@
 import { tools } from '@/utils/tools';
+import { expressionType } from '../../const/statementType';
 import { helper } from '../../shared/tools/check';
 import { Statement } from '../../types/statement';
 import { Config } from '../types';
 import { expression } from './expression';
+import { generateTypeScript } from './typescript';
 
 export const statement = {
   unknowns(schema: Statement.Line | Statement.List, config?: Config) {
@@ -34,22 +36,22 @@ export const statement = {
       if (typeof all === 'boolean') {
         code += '*';
       } else {
-        code += ` * as ${expression.identifier(all)} `;
+        code += ` * as ${expression.identifier(all, config)} `;
       }
     }
     if (!tools.dataType.isUndefined(elements)) {
       code += `{`;
       code += elements.reduce((start, ele, index) => {
-        let str = expression.identifier(ele.name);
+        let str = expression.identifier(ele.name, config);
         if (!tools.dataType.isUndefined(ele.propertyName)) {
-          str = `${expression.identifier(ele.propertyName)} as ${str}`;
+          str = `${expression.identifier(ele.propertyName, config)} as ${str}`;
         }
         return start + `${index > 0 ? ',' : ''}${str}`;
       }, '');
       code += `}`;
     }
     if (!tools.dataType.isUndefined(path)) {
-      code += `from${expression.literal(path)}`;
+      code += `from${expression.literal(path, config)}`;
     }
     return code;
   },
@@ -63,17 +65,17 @@ export const statement = {
     const hasElements = !tools.dataType.isUndefined(elements);
     let code = `import${(hasElements && !hasDefault) || (!hasDefault && !hasAll && !hasElements) ? '' : ' '}`;
     if (hasDefault) {
-      code += `${expression.identifier(def)}${hasElements || hasAll ? ',' : ''}`;
+      code += `${expression.identifier(def, config)}${hasElements || hasAll ? ',' : ''}`;
     }
     if (hasAll) {
-      code += `* as ${expression.identifier(all)}`;
+      code += `* as ${expression.identifier(all, config)}`;
     }
     if (hasElements) {
       code += `{`;
       code += elements.reduce((start, ele, index) => {
-        let str = expression.identifier(ele.name);
+        let str = expression.identifier(ele.name, config);
         if (!tools.dataType.isUndefined(ele.propertyName)) {
-          str = `${expression.identifier(ele.propertyName)} as ${str}`;
+          str = `${expression.identifier(ele.propertyName, config)} as ${str}`;
         }
         return start + `${index > 0 ? ',' : ''}${str}`;
       }, '');
@@ -81,7 +83,8 @@ export const statement = {
     }
     if (!tools.dataType.isUndefined(path)) {
       code += `${hasDefault || hasAll || hasElements ? `${hasElements ? '' : ' '}from` : ''}${expression.literal(
-        path
+        path,
+        config
       )}`;
     }
     return code;
@@ -96,7 +99,7 @@ export const statement = {
     } else {
       code += 'let ';
     }
-    code += expression.identifier(schema.name);
+    code += expression.identifier(schema.name, config);
     if (Array.isArray(schema.dataTypes) && schema.dataTypes.length) {
       code += ':' + expression.dataType(schema.dataTypes, config);
     }
@@ -109,27 +112,79 @@ export const statement = {
     return expression.unknown(schema, config);
   },
   if(schema: Statement.If, config?: Config): string {
+    if (!helper.statement.isIf(schema)) {
+      throw new Error('statement.if 方法的 schema 参数非法！');
+    }
     let code = '';
+    const { ifs, else: elseStmt } = schema;
+    code += ifs.reduce((start, arr, index) => {
+      return (
+        start +
+        `${index === 0 ? 'if' : 'else if'}(${statement.expression(arr[0], config)}){${arr[1].reduce(
+          (start, ele) => start + generateTypeScript(ele, config),
+          ''
+        )}}`
+      );
+    }, '');
+    if (!tools.dataType.isUndefined(elseStmt)) {
+      code += `else{${elseStmt.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
+    }
     return code;
   },
   for(schema: Statement.For, config?: Config): string {
-    let code = '';
+    if (!helper.statement.isFor(schema)) {
+      throw new Error('statement.for 方法的 schema 参数非法！');
+    }
+    let code = 'for(';
+    code += `${statement.declare(schema.declare, config)};`;
+    code += `${statement.expression(schema.initializer, config)};`;
+    if (schema.incrementor._expression_ == expressionType.postfixUnary) {
+      code += `${expression.postfixUnary(schema.incrementor, config)}`;
+    } else if (schema.incrementor._expression_ == expressionType.prefixUnary) {
+      code += `${expression.prefixUnary(schema.incrementor, config)}`;
+    } else {
+      throw new Error('statement.for 方法的 schema 参数错误！');
+    }
+    code += `){${schema.statements.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
     return code;
   },
-  while(schema: Statement.While, config?: Config): string {
-    let code = '';
+  while(schema: Statement.While, config?: Config) {
+    if (!helper.statement.isWhile(schema)) {
+      throw new Error('statement.while 方法的 schema 参数非法！');
+    }
+    let code = 'while(';
+    code += `${statement.expression(schema.expression, config)}`;
+    code += `){${schema.statements.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
     return code;
   },
-  break(schema: Statement.Break, config?: Config): string {
-    let code = '';
+  break(schema: Statement.Break, config?: Config) {
+    if (!helper.statement.isBreak(schema)) {
+      throw new Error('statement.break 方法的 schema 参数非法！');
+    }
+    let code = 'break';
+    if (!tools.dataType.isUndefined(schema.label)) {
+      code += ` ${statement.expression(schema.label, config)}`;
+    }
     return code;
   },
-  continue(schema: Statement.Continue, config?: Config): string {
-    let code = '';
+  continue(schema: Statement.Continue, config?: Config) {
+    if (!helper.statement.isContinue(schema)) {
+      throw new Error('statement.continue 方法的 schema 参数非法！');
+    }
+    let code = 'continue';
+    if (!tools.dataType.isUndefined(schema.label)) {
+      code += ` ${statement.expression(schema.label, config)}`;
+    }
     return code;
   },
-  return(schema: Statement.Return, config?: Config): string {
-    let code = '';
+  return(schema: Statement.Return, config?: Config) {
+    if (!helper.statement.isReturn(schema)) {
+      throw new Error('statement.return 方法的 schema 参数非法！');
+    }
+    let code = 'return';
+    if (!tools.dataType.isUndefined(schema.value)) {
+      code += ` ${statement.expression(schema.value, config)}`;
+    }
     return code;
   },
 };

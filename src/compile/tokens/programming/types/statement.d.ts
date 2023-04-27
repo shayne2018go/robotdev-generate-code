@@ -45,13 +45,13 @@ export namespace Statement {
   export interface If {
     _statement_: StatementType['if'];
     ifs: Array<[Expression, StatementList]>;
-    else: StatementList;
+    else?: StatementList;
   }
 
   export interface While {
     _statement_: StatementType['while'];
     expression: Expression;
-    statement: StatementList;
+    statements: StatementList;
   }
 
   export interface For {
@@ -59,7 +59,7 @@ export namespace Statement {
     declare: Declare;
     initializer: Expression;
     incrementor: StatementExpression.PostfixUnary | StatementExpression.PrefixUnary;
-    statement: StatementList;
+    statements: StatementList;
   }
 
   // export interface Free {
@@ -69,12 +69,12 @@ export namespace Statement {
 
   export interface Break {
     _statement_: StatementType['break'];
-    index?: number;
+    label?: StatementExpression.Identifier;
   }
 
   export interface Continue {
     _statement_: StatementType['continue'];
-    index?: number;
+    label?: StatementExpression.Identifier;
   }
 
   export type StatementLine = Expression | Export | Import | Declare | Return | If | While | For | Break | Continue;

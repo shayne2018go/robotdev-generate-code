@@ -20,6 +20,24 @@ const statement = {
   isImport(data: Statement.Line): data is Statement.Import {
     return data?._statement_ === statementType.import;
   },
+  isIf(data: Statement.Line): data is Statement.If {
+    return data?._statement_ === statementType.if;
+  },
+  isFor(data: Statement.Line): data is Statement.For {
+    return data?._statement_ === statementType.for;
+  },
+  isWhile(data: Statement.Line): data is Statement.While {
+    return data?._statement_ === statementType.while;
+  },
+  isBreak(data: Statement.Line): data is Statement.Break {
+    return data?._statement_ === statementType.break;
+  },
+  isContinue(data: Statement.Line): data is Statement.Continue {
+    return data?._statement_ === statementType.continue;
+  },
+  isReturn(data: Statement.Line): data is Statement.Return {
+    return data?._statement_ === statementType.return;
+  },
 };
 
 const expression = {
@@ -37,6 +55,15 @@ const expression = {
   },
   isAccess(data: Expression.Unknown): data is Expression.Access {
     return statement.isExpression(data) && data._expression_ === expressionType.access;
+  },
+  isBinary(data: Expression.Unknown): data is Expression.Binary {
+    return statement.isExpression(data) && data._expression_ === expressionType.binary;
+  },
+  isPostfixUnary(data: Expression.Unknown): data is Expression.PostfixUnary {
+    return statement.isExpression(data) && data._expression_ === expressionType.postfixUnary;
+  },
+  isPrefixUnary(data: Expression.Unknown): data is Expression.PrefixUnary {
+    return statement.isExpression(data) && data._expression_ === expressionType.prefixUnary;
   },
 };
 

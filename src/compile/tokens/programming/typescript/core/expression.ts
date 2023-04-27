@@ -90,19 +90,68 @@ export const expression = {
     return code;
   },
   binary(schema: Expression.Binary, config?: Config): string {
-    let code = '';
-    return code;
+    if (!helper.expression.isBinary(schema)) {
+      throw new Error('expression.binary 方法的 schema参数错误！');
+    }
+    const left = statement.expression(schema.left, config);
+    const right = statement.expression(schema.right, config);
+    switch (schema.logical) {
+      case 'eq': {
+        return `${left}===${right}`;
+      }
+      case 'neq': {
+        return `${left}!==${right}`;
+      }
+      case 'gt': {
+        return `${left}>${right}`;
+      }
+      case 'gte': {
+        return `${left}>=${right}`;
+      }
+      case 'lt': {
+        return `${left}<${right}`;
+      }
+      case 'lte': {
+        return `${left}<=${right}`;
+      }
+      default:
+        throw new Error('expression.binary 方法的 schema.logical 参数错误！');
+    }
   },
   conditional(schema: Expression.Conditional, config?: Config): string {
     let code = '';
     return code;
   },
   postfixUnary(schema: Expression.PostfixUnary, config?: Config): string {
-    let code = '';
-    return code;
+    if (!helper.expression.isPostfixUnary(schema)) {
+      throw new Error('expression.postfixUnary 方法的 schema 参数错误！');
+    }
+    switch (schema.action) {
+      case 'add': {
+        return `${expression.identifier(schema.identifier, config)}++`;
+      }
+      case 'subtract': {
+        return `${expression.identifier(schema.identifier, config)}--`;
+      }
+
+      default:
+        throw new Error('expression.postfixUnary 方法的 schema.action 参数错误！');
+    }
   },
   prefixUnary(schema: Expression.PrefixUnary, config?: Config): string {
-    let code = '';
-    return code;
+    if (!helper.expression.isPrefixUnary(schema)) {
+      throw new Error('expression.PrefixUnary 方法的 schema 参数错误！');
+    }
+    switch (schema.action) {
+      case 'add': {
+        return `++${expression.identifier(schema.identifier, config)}`;
+      }
+      case 'subtract': {
+        return `--${expression.identifier(schema.identifier, config)}`;
+      }
+
+      default:
+        throw new Error('expression.PrefixUnary 方法的 schema.action 参数错误！');
+    }
   },
 };
