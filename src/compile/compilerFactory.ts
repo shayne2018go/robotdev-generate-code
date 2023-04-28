@@ -9,7 +9,7 @@ function compilerFactory(codeSchema: ICodeSchema) {
   // 编译框架
   const frameworkTokens = compileFramework(codeSchema, compileConfig);
   // 编译语法文件
-  const syntaxTokens = compileSyntax(codeSchema);
+  const syntaxTokens = compileSyntax(codeSchema, compileConfig);
 
   const compiler = () => {
     return frameworkTokens.concat(syntaxTokens);

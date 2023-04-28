@@ -1,0 +1,38 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`object-expression > createExpression 1`] = `
+{
+  "properties": [
+    {
+      "computed": false,
+      "decorators": null,
+      "key": {
+        "name": "b",
+        "type": "Identifier",
+      },
+      "shorthand": false,
+      "type": "ObjectProperty",
+      "value": {
+        "properties": [
+          {
+            "computed": false,
+            "decorators": null,
+            "key": {
+              "name": "d",
+              "type": "Identifier",
+            },
+            "shorthand": false,
+            "type": "ObjectProperty",
+            "value": {
+              "type": "NumericLiteral",
+              "value": 123,
+            },
+          },
+        ],
+        "type": "ObjectExpression",
+      },
+    },
+  ],
+  "type": "ObjectExpression",
+}
+`;

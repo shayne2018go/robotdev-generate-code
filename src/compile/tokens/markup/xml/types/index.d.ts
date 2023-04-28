@@ -3,7 +3,7 @@ import { doctype, doctypeRange } from '../const/doctype';
 export type IXml_Prop_Item = string | number;
 
 export type IXml_Doctype = keyof typeof doctype;
-export type IXml_DoctypeRange = typeof doctypeRange[number];
+export type IXml_DoctypeRange = (typeof doctypeRange)[number];
 
 export interface IXml_Prop {
   key: string;

@@ -6,6 +6,7 @@ describe('compileViteTemplate', () => {
   it('code schema', () => {
     const { tokens } = compileViteTemplate('vue-ts');
 
+    debugger;
     expect(tokens).toMatchSnapshot();
     expect(tokens).toMatchObject(templateVueTsTokens);
   });
