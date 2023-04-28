@@ -1,19 +1,9 @@
 import { errorText, helper } from '../../shared/tools/check';
-import { DataType } from '../../types/dataType';
 import { Expression } from '../../types/expression';
 import { Config } from '../types';
 import { dataType } from './dataType';
 import { expression } from './expression';
 import { statement } from './statement';
-
-export const literalHelper = {
-  getFn(name: DataType.TypeKeyEnum) {
-    if (typeof literal[name] !== 'function') {
-      return false;
-    }
-    return literal[name];
-  },
-};
 
 export const literal = {
   unknown(schema: Expression.Literal, config?: Config): string {

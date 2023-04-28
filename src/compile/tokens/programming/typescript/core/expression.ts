@@ -3,7 +3,7 @@ import { Expression } from '../../types/expression';
 import { Statement } from '../../types/statement';
 import { Config } from '../types';
 import { dataType } from './dataType';
-import { literalHelper } from './literal';
+import { literal } from './literal';
 import { statement } from './statement';
 
 export const expression = {
@@ -20,14 +20,7 @@ export const expression = {
     return dataType.unknowns(schema, config);
   },
   literal(schema: Expression.Literal, config?: Config): string {
-    if (!helper.expression.isLiteral(schema)) {
-      throw new Error('expression.literal 方法的 schema参数 错误！');
-    }
-    const fn = literalHelper.getFn(schema.type);
-    if (!fn) {
-      throw new Error(`expression.dataType 方法没有找到“${schema.type}”对应的编译方法！`);
-    }
-    return fn(schema as any, config);
+    return literal.unknown(schema, config);
   },
   class(schema: Expression.Class, config?: Config): string {
     let code = '';

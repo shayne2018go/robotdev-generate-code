@@ -1,10 +1,10 @@
-import { StatementType, ExpressionType, ExpressionTypeEnum } from './statementType';
 import { DataType as ExpressionDataType } from './dataType';
-import { Statement } from './statement';
 import { Keyword } from './keyword';
+import { Statement } from './statement';
+import { ExpressionType, ExpressionTypeEnum } from './statementType';
 export namespace Expression {
-  export interface Common {
-    _statement_: StatementType['expression'];
+  export interface Common extends Statement.Common {
+    _expression_: ExpressionTypeEnum;
   }
   // Json类型字面量
   // export type Json_String = string;

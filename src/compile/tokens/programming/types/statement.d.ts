@@ -1,18 +1,24 @@
 import { DataType } from './dataType';
-import { StatementType } from './statementType';
 import { Expression as StatementExpression } from './expression';
 import { Keyword } from './keyword';
+import { StatementType, StatementTypeEnum } from './statementType';
 
 export namespace Statement {
+  export interface Common {
+    _statement_: StatementTypeEnum;
+  }
+
   export type Expression = StatementExpression.Unknown;
+
+  export interface ImportExportElementsItem {
+    propertyName?: StatementExpression.Identifier;
+    name: StatementExpression.Identifier;
+  }
 
   export interface Export {
     _statement_: StatementType['export'];
     all?: boolean | StatementExpression.Identifier;
-    elements?: Array<{
-      propertyName?: StatementExpression.Identifier;
-      name: StatementExpression.Identifier;
-    }>;
+    elements?: Array<ImportExportElementsItem>;
     path?: StatementExpression.Literal_String;
   }
 
@@ -20,10 +26,7 @@ export namespace Statement {
     _statement_: StatementType['import'];
     all?: StatementExpression.Identifier;
     default?: StatementExpression.Identifier;
-    elements?: Array<{
-      propertyName?: StatementExpression.Identifier;
-      name: StatementExpression.Identifier;
-    }>;
+    elements?: Array<ImportExportElementsItem>;
     path?: StatementExpression.Literal_String;
   }
 
@@ -100,4 +103,5 @@ export namespace Statement {
 
   export type Line = StatementLine;
   export type List = StatementList;
+  export type Unknown = StatementLine;
 }
