@@ -47,7 +47,7 @@ export namespace Statement {
       name: StatementExpression.Identifier;
       dataTypes?: Array<DataType.Unknown>;
       modifiers?: Array<Keyword.Unknown>;
-      value: Unknown;
+      value: Expression;
     }>;
   }
 
