@@ -53,11 +53,20 @@ const expression = {
   isCall(data: Expression.Unknown): data is Expression.Call {
     return statement.isExpression(data) && data._expression_ === expressionType.call;
   },
+  isNew(data: Expression.Unknown): data is Expression.New {
+    return statement.isExpression(data) && data._expression_ === expressionType.new;
+  },
   isAccess(data: Expression.Unknown): data is Expression.Access {
     return statement.isExpression(data) && data._expression_ === expressionType.access;
   },
+  isAssignment(data: Expression.Unknown): data is Expression.Assignment {
+    return statement.isExpression(data) && data._expression_ === expressionType.assignment;
+  },
   isBinary(data: Expression.Unknown): data is Expression.Binary {
     return statement.isExpression(data) && data._expression_ === expressionType.binary;
+  },
+  isConditional(data: Expression.Unknown): data is Expression.Conditional {
+    return statement.isExpression(data) && data._expression_ === expressionType.conditional;
   },
   isPostfixUnary(data: Expression.Unknown): data is Expression.PostfixUnary {
     return statement.isExpression(data) && data._expression_ === expressionType.postfixUnary;

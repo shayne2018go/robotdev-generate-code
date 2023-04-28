@@ -1,3 +1,4 @@
+import { tools } from '@/utils/tools';
 import { helper } from '../../shared/tools/check';
 import { Expression } from '../../types/expression';
 import { Statement } from '../../types/statement';
@@ -68,18 +69,44 @@ export const expression = {
         if (index > 0) {
           code += ',';
         }
-        code += statement.expression(item);
+        code += statement.expression(item, config);
       });
     }
     code += ')';
     return code;
   },
   new(schema: Expression.New, config?: Config): string {
-    let code = '';
+    if (!helper.expression.isNew(schema)) {
+      throw new Error('expression.new 方法的 schema参数错误！');
+    }
+    let code = 'new';
+    code += ` ${statement.expression(schema.expression)}`;
+    if (!tools.dataType.isUndefined(schema.args)) {
+      code += `(${schema.args.reduce((start, ele, index) => {
+        let str = statement.expression(ele, config);
+        return start + `${index > 0 ? ',' : ''}${str}`;
+      }, '')})`;
+    } else {
+      code += '()';
+    }
     return code;
   },
   assignment(schema: Expression.Assignment, config?: Config): string {
+    if (!helper.expression.isAssignment(schema)) {
+      throw new Error('expression.assignment 方法的 schema参数错误！');
+    }
     let code = '';
+    if (helper.expression.isIdentifier(schema.left)) {
+      code += expression.identifier(schema.left, config);
+    } else if (helper.expression.isAccess(schema.left)) {
+      code += expression.access(schema.left, config);
+    } else {
+      throw new Error('expression.assignment 方法的 schema.left 参数错误！');
+    }
+    code+='='
+    if (!tools.dataType.isUndefined(schema.right)) {
+      code += statement.expression(schema.right, config);
+    }
     return code;
   },
   binary(schema: Expression.Binary, config?: Config): string {
@@ -112,8 +139,13 @@ export const expression = {
     }
   },
   conditional(schema: Expression.Conditional, config?: Config): string {
-    let code = '';
-    return code;
+    if (!helper.expression.isConditional(schema)) {
+      throw new Error('expression.conditional 方法的 schema参数错误！');
+    }
+    return `${statement.expression(schema.condition, config)}?${statement.expression(
+      schema.true,
+      config
+    )}:${statement.expression(schema.false, config)}`;
   },
   postfixUnary(schema: Expression.PostfixUnary, config?: Config): string {
     if (!helper.expression.isPostfixUnary(schema)) {
