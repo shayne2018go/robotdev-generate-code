@@ -1,10 +1,10 @@
 import { tools } from '@/utils/tools';
-import { helper } from '../../shared/tools/check';
+import { errorText, helper } from '../../shared/tools/check';
 import { Expression } from '../../types/expression';
 import { Statement } from '../../types/statement';
 import { Config } from '../types';
 import { dataType } from './dataType';
-import { literal } from './literal';
+import { literal, literalHelper } from './literal';
 import { statement } from './statement';
 
 export const expression = {
@@ -24,7 +24,32 @@ export const expression = {
     return literal.unknown(schema, config);
   },
   class(schema: Expression.Class, config?: Config): string {
-    let code = '';
+    if (!helper.expression.isClass(schema)) {
+      throw new Error(errorText.schema('expression.class'));
+    }
+    let code = 'class';
+    code += ` ${expression.identifier(schema.name, config)}{`;
+    if (schema.members) {
+      if (!Array.isArray(schema.members)) {
+        throw new Error(errorText.schemaProp('expression.class', 'members'));
+      }
+      schema.members.forEach((item) => {
+        code += expression.unknown(item.name, config);
+        if (!tools.dataType.isUndefined(item.dataTypes) && item.dataTypes.length) {
+          code += ':' + expression.dataType(item.dataTypes, config);
+        }
+        if (
+          helper.expression.isLiteral(item.value) &&
+          helper.literal.isFunction(item.value) &&
+          item.value.mode === 'method'
+        ) {
+          code += `${literal.function(item.value, config)};`;
+        } else {
+          code += `=${expression.unknown(item.value, config)};`;
+        }
+      });
+    }
+    code += '}';
     return code;
   },
   access(schema: Expression.Access, config?: Config): string {
@@ -103,7 +128,7 @@ export const expression = {
     } else {
       throw new Error('expression.assignment 方法的 schema.left 参数错误！');
     }
-    code+='='
+    code += '=';
     if (!tools.dataType.isUndefined(schema.right)) {
       code += statement.expression(schema.right, config);
     }

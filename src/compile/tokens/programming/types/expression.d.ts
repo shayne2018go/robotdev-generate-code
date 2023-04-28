@@ -104,7 +104,13 @@ export namespace Expression {
 
   export interface Class extends Common {
     _expression_: ExpressionType['class'];
-    menbers: Literal_Object_Value;
+    name: Identifier,
+    members: Array<{
+      name: Unknown;
+      dataTypes?: Array<ExpressionDataType.Unknown>;
+      modifiers?: Array<Keyword.Unknown>;
+      value: Unknown;
+    }>;
   }
 
   export interface Await extends Common {
@@ -134,14 +140,6 @@ export namespace Expression {
     // | Literal_Enums
     | Literal_Function;
   // | Literal_Ref;
-
-  // Literal的dataType为object时，value对应的专属数据结构，不会出现在其他地方
-  export type Literal_Object_Value_Item = {
-    key: Unknown;
-    modifiers?: Array<Keyword.Unknown>;
-    value: Unknown;
-  };
-  export type Literal_Object_Value = Array<Literal_Object_Value_Item>;
 
   export type Literal_Common = Common & {
     _expression_: 'literal';
@@ -233,6 +231,7 @@ export namespace Expression {
   export type Literal_Function = Literal_Common &
     ExpressionDataType.Schema_Function_Common & {
       value: Array<Statement.Line>;
+      mode: 'function' | 'arrow' | 'method';
     };
 
   // export type Literal_Ref = Literal_Common &
