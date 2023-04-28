@@ -1,5 +1,4 @@
 import { tools } from '@/utils/tools';
-import { expressionType } from '../../const/statementType';
 import { helper } from '../../shared/tools/check';
 import { Statement } from '../../types/statement';
 import { Config } from '../types';
@@ -137,9 +136,9 @@ export const statement = {
     let code = 'for(';
     code += `${statement.declare(schema.declare, config)};`;
     code += `${statement.expression(schema.initializer, config)};`;
-    if (schema.incrementor._expression_ == expressionType.postfixUnary) {
+    if (helper.expression.isPostfixUnary(schema.incrementor)) {
       code += `${expression.postfixUnary(schema.incrementor, config)}`;
-    } else if (schema.incrementor._expression_ == expressionType.prefixUnary) {
+    } else if (helper.expression.isPrefixUnary(schema.incrementor)) {
       code += `${expression.prefixUnary(schema.incrementor, config)}`;
     } else {
       throw new Error('statement.for 方法的 schema 参数错误！');
@@ -186,4 +185,7 @@ export const statement = {
     }
     return code;
   },
+  throw() {
+    
+  }
 };
