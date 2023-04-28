@@ -1,11 +1,10 @@
+import { tools } from '@/utils/tools';
 import { dataTypeKey } from '../const/dataType';
-import { expressionType, statementType } from '../const/statementType';
+import { expressionType } from '../const/statementType';
 import { DataType } from '../types/dataType';
 import { Expression } from '../types/expression';
-import { Statement } from '../types/statement';
-import { ExpressionType, StatementType } from '../types/statementType';
+import { ExpressionType } from '../types/statementType';
 import { expression } from './expression';
-import { statement } from './statement';
 
 export const literal = {
   unknown<T extends DataType.TypeKeyEnum, R extends Record<string, any>>(
@@ -20,16 +19,46 @@ export const literal = {
       ...(data || ({} as R)),
     });
   },
-  void(data: any): Expression.Literal_Void {},
-  null(): Expression.Literal_Null {},
-  string(value: string): Expression.Literal_String {
-    return literal.unknown(dataTypeKey.string, {
-      value,
-    });
+  void(): Expression.Literal_Void {
+    return literal.unknown('void');
   },
-  long(): Expression.Literal_Long {},
-  boolean(): Expression.Literal_Boolean {},
-  int(): Expression.Literal_Int {},
+  null(): Expression.Literal_Null {
+    return literal.unknown('null');
+  },
+  string(value?: string): Expression.Literal_String {
+    return literal.unknown(
+      dataTypeKey.string,
+      value
+        ? {
+            value,
+          }
+        : undefined
+    );
+  },
+  long(value?: string): Expression.Literal_Long {
+    return literal.unknown(
+      dataTypeKey.long,
+      value
+        ? {
+            value,
+          }
+        : undefined
+    );
+  },
+  boolean(value: boolean): Expression.Literal_Boolean {
+    return literal.unknown(dataTypeKey.boolean, { value });
+  },
+  int(value: string | number): Expression.Literal_Int {
+    if (typeof value === 'string') {
+      value = parseFloat(value);
+      if (isNaN(value)) {
+        throw new Error('literal.int 方法 的value参数的值必须为纯数字或小鼠数字！');
+      }
+    } else if (typeof value !== 'number') {
+      throw new Error('literal.int 方法 的value参数必须为 文本 或 数字！');
+    }
+    return literal.unknown(dataTypeKey.int, { value: value });
+  },
   decimal(): Expression.Literal_Decimal {},
   object(): Expression.Literal_Object {},
   array(): Expression.Literal_Array {},

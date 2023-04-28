@@ -80,7 +80,7 @@ export const statement = {
   },
   declareVariable(
     name: string,
-    value?: Expression.Unknown,
+    value?: Expression.Unknown | null,
     dataTypes?: Statement.DeclareVariable['dataTypes']
   ): Statement.DeclareVariable {
     const schema: Statement.DeclareVariable = statement.unknown(statementType.variable, {
@@ -96,7 +96,7 @@ export const statement = {
   },
   declareConst(
     name: string,
-    value?: Expression.Unknown,
+    value?: Expression.Unknown | null,
     dataTypes?: Statement.DeclareVariable['dataTypes']
   ): Statement.DeclareVariable {
     const schema = statement.declareVariable(name, value, dataTypes);
