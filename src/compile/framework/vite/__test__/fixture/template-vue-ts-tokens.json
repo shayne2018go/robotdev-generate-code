@@ -4,7 +4,7 @@
     "token": "# Vue 3 + TypeScript + Vite\n\nThis template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.\n\n## Recommended IDE Setup\n\n- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).\n\n## Type Support For `.vue` Imports in TS\n\nTypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.\n\nIf the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:\n\n1. Disable the built-in TypeScript Extension\n   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette\n   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`\n2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.\n"
   },
   {
-    "path": "_gitignore",
+    "path": ".gitignore",
     "token": "# Logs\nlogs\n*.log\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\npnpm-debug.log*\nlerna-debug.log*\n\nnode_modules\ndist\ndist-ssr\n*.local\n\n# Editor directories and files\n.vscode/*\n!.vscode/extensions.json\n.idea\n.DS_Store\n*.suo\n*.ntvs*\n*.njsproj\n*.sln\n*.sw?\n"
   },
   {
@@ -13,7 +13,7 @@
   },
   {
     "path": "package.json",
-    "token": "{\n  \"name\": \"vite-vue-typescript-starter\",\n  \"private\": true,\n  \"version\": \"0.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vue-tsc && vite build\",\n    \"preview\": \"vite preview\"\n  },\n  \"dependencies\": {\n    \"vue\": \"^3.2.47\"\n  },\n  \"devDependencies\": {\n    \"@vitejs/plugin-vue\": \"^4.1.0\",\n    \"typescript\": \"^5.0.2\",\n    \"vite\": \"^4.3.0-beta.2\",\n    \"vue-tsc\": \"^1.2.0\"\n  }\n}\n"
+    "token": "{\n  \"name\": \"vite-vue-typescript-starter\",\n  \"private\": true,\n  \"version\": \"0.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vue-tsc && vite build\",\n    \"preview\": \"vite preview\"\n  },\n  \"dependencies\": {\n    \"vue\": \"^3.2.47\"\n  },\n  \"devDependencies\": {\n    \"@vitejs/plugin-vue\": \"^4.1.0\",\n    \"typescript\": \"^5.0.2\",\n    \"vite\": \"^4.3.0-beta.2\",\n    \"vue-tsc\": \"^1.2.0\",\n    \"less\": \"^4.1.2\"\n  }\n}\n"
   },
   {
     "path": "tsconfig.json",
@@ -25,7 +25,7 @@
   },
   {
     "path": "vite.config.ts",
-    "token": "import { defineConfig } from 'vite'\nimport vue from '@vitejs/plugin-vue'\n\n// https://vitejs.dev/config/\nexport default defineConfig({\n  plugins: [vue()],\n})\n"
+    "token": "import { defineConfig } from 'vite';\nimport vue from '@vitejs/plugin-vue';\n\nexport default defineConfig({\n  plugins: [vue()],\n  css: {\n    preprocessorOptions: {\n      less: {\n        javascriptEnabled: true,\n      },\n    },\n  },\n});\n"
   },
   {
     "path": "public/vite.svg",

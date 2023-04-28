@@ -5,11 +5,11 @@ import { ICS_Dependencies } from './dependencies';
 import { ICS_Directory } from './directory';
 import { ICS_Function } from './function';
 import { ICS_Page } from './page';
-import { ITech } from './tech';
+import { Tech } from './tech';
 
 export interface ICodeSchema {
   id: string;
-  tech?: ITech;
+  tech?: Tech;
   key: string;
   meta: {
     title: string; // 应用标题（目前仅前端用）
