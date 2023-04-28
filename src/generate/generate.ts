@@ -1,5 +1,4 @@
 import { Compile } from '@/types/compile/token';
-import { Tech } from '@/types/tech';
 import fileUtils from '@/utils/fileUtils';
 import { __dirname, resolve } from '@/utils/node';
 
