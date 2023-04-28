@@ -1,10 +1,9 @@
 import { expressionType, statementType } from '@/compile/tokens/programming/const/statementType';
 import { dataTypeKey } from '@/compile/tokens/programming/const/dataType';
-import { Expression } from '@/compile/tokens/programming/types/expression';
+import { Statement } from '@/compile/tokens/programming/types/statement';
 
-export const mock_class: Expression.Class = {
-  _statement_: statementType.expression,
-  _expression_: expressionType.class,
+export const mock_class: Statement.DeclareClass = {
+  _statement_: statementType.class,
   name: {
     _statement_: statementType.expression,
     _expression_: expressionType.identifier,

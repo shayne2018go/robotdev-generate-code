@@ -1,5 +1,5 @@
 import { tools } from '@/utils/tools';
-import { helper } from '../../shared/tools/check';
+import { errorText, helper } from '../../shared/tools/check';
 import { Expression } from '../../types/expression';
 import { Statement } from '../../types/statement';
 import { Config } from '../types';
@@ -10,10 +10,10 @@ import { statement } from './statement';
 export const expression = {
   unknown(schema: Statement.Expression, config?: Config): string {
     if (!helper.statement.isExpression(schema)) {
-      throw new Error('statement.expression 方法的 schema参数 非法！');
+      throw new Error(errorText.schema('expression.unknown'));
     }
     if (typeof expression[schema._expression_] !== 'function') {
-      throw new Error(`statement.expression 方法没有找到“${schema._expression_}”对应的编译方法！`);
+      throw new Error(errorText.schemaFn('expression', schema._expression_));
     }
     return expression[schema._expression_](schema as any, config);
   },
@@ -25,7 +25,7 @@ export const expression = {
   },
   access(schema: Expression.Access, config?: Config): string {
     if (!helper.expression.isAccess(schema)) {
-      throw new Error('expression.access 方法的 schema参数 错误！');
+      throw new Error(errorText.schema('expression.access'));
     }
 
     const isOptionalChaining =
@@ -44,7 +44,7 @@ export const expression = {
   },
   identifier(schema: Expression.Identifier, config?: Config): string {
     if (!helper.expression.isIdentifier(schema)) {
-      throw new Error('expression.literal 方法的 schema参数 错误！');
+      throw new Error(errorText.schema('expression.literal'));
     }
     let code = '';
     code += schema.escapedText;
@@ -52,10 +52,10 @@ export const expression = {
   },
   call(schema: Expression.Call, config?: Config): string {
     if (!helper.expression.isCall(schema)) {
-      throw new Error('expression.call 方法的 schema参数 错误！');
+      throw new Error(errorText.schema('expression.call'));
     }
     if (schema.args && !Array.isArray(schema.args)) {
-      throw new Error('expression.call 方法的 schema.args参数 错误！');
+      throw new Error(errorText.schemaProp('expression.call', 'args'));
     }
     let code = '';
     code += statement.expression(schema.expression, config);
@@ -73,7 +73,7 @@ export const expression = {
   },
   new(schema: Expression.New, config?: Config): string {
     if (!helper.expression.isNew(schema)) {
-      throw new Error('expression.new 方法的 schema参数错误！');
+      throw new Error(errorText.schema('expression.new'));
     }
     let code = 'new';
     code += ` ${statement.expression(schema.expression)}`;
@@ -89,7 +89,7 @@ export const expression = {
   },
   assignment(schema: Expression.Assignment, config?: Config): string {
     if (!helper.expression.isAssignment(schema)) {
-      throw new Error('expression.assignment 方法的 schema参数错误！');
+      throw new Error(errorText.schema('expression.assignment'));
     }
     let code = '';
     if (helper.expression.isIdentifier(schema.left)) {
@@ -97,7 +97,7 @@ export const expression = {
     } else if (helper.expression.isAccess(schema.left)) {
       code += expression.access(schema.left, config);
     } else {
-      throw new Error('expression.assignment 方法的 schema.left 参数错误！');
+      throw new Error(errorText.schemaProp('expression.assignment', 'left'));
     }
     code += '=';
     if (!tools.dataType.isUndefined(schema.right)) {
@@ -107,7 +107,7 @@ export const expression = {
   },
   binary(schema: Expression.Binary, config?: Config): string {
     if (!helper.expression.isBinary(schema)) {
-      throw new Error('expression.binary 方法的 schema参数错误！');
+      throw new Error(errorText.schema('expression.binary'));
     }
     const left = statement.expression(schema.left, config);
     const right = statement.expression(schema.right, config);
@@ -131,12 +131,12 @@ export const expression = {
         return `${left}<=${right}`;
       }
       default:
-        throw new Error('expression.binary 方法的 schema.logical 参数错误！');
+        throw new Error(errorText.schemaProp('expression.binary', 'logical'));
     }
   },
   conditional(schema: Expression.Conditional, config?: Config): string {
     if (!helper.expression.isConditional(schema)) {
-      throw new Error('expression.conditional 方法的 schema参数错误！');
+      throw new Error(errorText.schema('expression.conditional'));
     }
     return `${statement.expression(schema.condition, config)}?${statement.expression(
       schema.true,
@@ -145,7 +145,7 @@ export const expression = {
   },
   postfixUnary(schema: Expression.PostfixUnary, config?: Config): string {
     if (!helper.expression.isPostfixUnary(schema)) {
-      throw new Error('expression.postfixUnary 方法的 schema 参数错误！');
+      throw new Error(errorText.schema('expression.postfixUnary'));
     }
     switch (schema.action) {
       case 'add': {
@@ -154,14 +154,13 @@ export const expression = {
       case 'subtract': {
         return `${expression.identifier(schema.identifier, config)}--`;
       }
-
       default:
-        throw new Error('expression.postfixUnary 方法的 schema.action 参数错误！');
+        throw new Error(errorText.schemaProp('expression.postfixUnary', 'action'));
     }
   },
   prefixUnary(schema: Expression.PrefixUnary, config?: Config): string {
     if (!helper.expression.isPrefixUnary(schema)) {
-      throw new Error('expression.PrefixUnary 方法的 schema 参数错误！');
+      throw new Error(errorText.schema('expression.prefixUnary'));
     }
     switch (schema.action) {
       case 'add': {
@@ -170,9 +169,8 @@ export const expression = {
       case 'subtract': {
         return `--${expression.identifier(schema.identifier, config)}`;
       }
-
       default:
-        throw new Error('expression.PrefixUnary 方法的 schema.action 参数错误！');
+        throw new Error(errorText.schemaProp('expression.prefixUnary', 'action'));
     }
   },
 };

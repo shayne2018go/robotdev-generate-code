@@ -100,7 +100,7 @@ export const mock_if_elseIf_statement: Statement.If = {
   ],
   else: [
     {
-      _statement_: statementType.declare,
+      _statement_: statementType.variable,
       name: {
         _statement_: statementType.expression,
         _expression_: expressionType.identifier,

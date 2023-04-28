@@ -92,7 +92,7 @@ const dataType = {
   isString(data: DataType.Unknown): data is DataType.Schema_String {
     return expression.isDataType(data) && data.type === dataTypeKey.string;
   },
-  isLone(data: DataType.Unknown): data is DataType.Schema_Long {
+  isLong(data: DataType.Unknown): data is DataType.Schema_Long {
     return expression.isDataType(data) && data.type === dataTypeKey.long;
   },
   isBoolean(data: DataType.Unknown): data is DataType.Schema_Boolean {
@@ -143,7 +143,7 @@ const literal = {
   isString(data: Expression.Literal): data is Expression.Literal_String {
     return expression.isLiteral(data) && data.type === dataTypeKey.string;
   },
-  isLone(data: Expression.Literal): data is Expression.Literal_Long {
+  isLong(data: Expression.Literal): data is Expression.Literal_Long {
     return expression.isLiteral(data) && data.type === dataTypeKey.long;
   },
   isBoolean(data: Expression.Literal): data is Expression.Literal_Boolean {
@@ -198,10 +198,13 @@ const literal = {
 
 export const errorText = {
   schema(fnName: string) {
-    return `${fnName} 方法的 schema 参数 错误！`;
+    return `${fnName} 方法的 schema 参数错误！`;
   },
   schemaProp(fnName: string, propName: string) {
-    return `${fnName} 方法的 schema.${propName} 参数 错误！`;
+    return `${fnName} 方法的 schema.${propName} 参数错误！`;
+  },
+  schemaFn(fnName: string, type: string) {
+    return `${fnName} 方法没有找到 ${type} 对应的编译方法！`;
   },
 };
 

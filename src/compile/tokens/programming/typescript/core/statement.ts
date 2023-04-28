@@ -19,16 +19,16 @@ export const statement = {
   },
   unknown(schema: Statement.Line, config?: Config) {
     if (!helper.statement.isStmt(schema)) {
-      throw new Error('generateStatement 方法的 schema参数 非法！');
+      throw new Error(errorText.schema('statement.unknown'));
     }
     if (typeof statement[schema._statement_] !== 'function') {
-      return false;
+      throw new Error(errorText.schemaFn('unknown', schema._statement_));
     }
     return statement[schema._statement_](schema as any, config);
   },
   export(schema: Statement.Export, config?: Config): string {
     if (!helper.statement.isExport(schema)) {
-      throw new Error('statement.export 方法的 schema 参数非法！');
+      throw new Error(errorText.schema('statement.export'));
     }
     let code = 'export';
     const { all, elements, path } = schema;
@@ -57,7 +57,7 @@ export const statement = {
   },
   import(schema: Statement.Import, config?: Config): string {
     if (!helper.statement.isImport(schema)) {
-      throw new Error('statement.import 方法的 schema 参数非法！');
+      throw new Error(errorText.schema('statement.import'));
     }
     const { all, default: def, elements, path } = schema;
     const hasDefault = !tools.dataType.isUndefined(def);
@@ -91,7 +91,7 @@ export const statement = {
   },
   declareVariable(schema: Statement.DeclareVariable, config?: Config): string {
     if (!helper.statement.isDeclareVariable(schema)) {
-      throw new Error('statement.variable 方法的 schema参数 错误！');
+      throw new Error(errorText.schema('statement.declareVariable'));
     }
     let code = '';
     if (schema.isConst) {
@@ -110,13 +110,13 @@ export const statement = {
   },
   declareClass(schema: Statement.DeclareClass, config?: Config): string {
     if (!helper.statement.isDeclareClass(schema)) {
-      throw new Error(errorText.schema('expression.class'));
+      throw new Error(errorText.schema('statement.declareClass'));
     }
     let code = 'class';
     code += ` ${expression.identifier(schema.name, config)}{`;
     if (schema.members) {
       if (!Array.isArray(schema.members)) {
-        throw new Error(errorText.schemaProp('expression.class', 'members'));
+        throw new Error(errorText.schemaProp('statement.declareClass', 'members'));
       }
       schema.members.forEach((item) => {
         code += expression.unknown(item.name, config);
@@ -142,7 +142,7 @@ export const statement = {
   },
   if(schema: Statement.If, config?: Config): string {
     if (!helper.statement.isIf(schema)) {
-      throw new Error('statement.if 方法的 schema 参数非法！');
+      throw new Error(errorText.schema('statement.if'));
     }
     let code = '';
     code += schema.ifs.reduce((start, arr, index) => {
@@ -161,7 +161,7 @@ export const statement = {
   },
   for(schema: Statement.For, config?: Config): string {
     if (!helper.statement.isFor(schema)) {
-      throw new Error('statement.for 方法的 schema 参数非法！');
+      throw new Error(errorText.schema('statement.for'));
     }
     let code = 'for(';
     code += `${statement.declareVariable(schema.declare, config)};`;
@@ -171,14 +171,14 @@ export const statement = {
     } else if (helper.expression.isPrefixUnary(schema.incrementor)) {
       code += `${expression.prefixUnary(schema.incrementor, config)}`;
     } else {
-      throw new Error('statement.for 方法的 schema 参数错误！');
+      throw new Error(errorText.schemaProp('statement.for', 'incrementor'));
     }
     code += `){${schema.statements.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
     return code;
   },
   while(schema: Statement.While, config?: Config) {
     if (!helper.statement.isWhile(schema)) {
-      throw new Error('statement.while 方法的 schema 参数非法！');
+      throw new Error(errorText.schema('statement.while'));
     }
     let code = 'while(';
     code += `${expression.unknown(schema.expression, config)}`;
@@ -187,7 +187,7 @@ export const statement = {
   },
   break(schema: Statement.Break, config?: Config) {
     if (!helper.statement.isBreak(schema)) {
-      throw new Error('statement.break 方法的 schema 参数非法！');
+      throw new Error(errorText.schema('statement.break'));
     }
     let code = 'break';
     if (!tools.dataType.isUndefined(schema.label)) {
@@ -197,7 +197,7 @@ export const statement = {
   },
   continue(schema: Statement.Continue, config?: Config) {
     if (!helper.statement.isContinue(schema)) {
-      throw new Error('statement.continue 方法的 schema 参数非法！');
+      throw new Error(errorText.schema('statement.continue'));
     }
     let code = 'continue';
     if (!tools.dataType.isUndefined(schema.label)) {
@@ -207,7 +207,7 @@ export const statement = {
   },
   return(schema: Statement.Return, config?: Config) {
     if (!helper.statement.isReturn(schema)) {
-      throw new Error('statement.return 方法的 schema 参数非法！');
+      throw new Error(errorText.schema('statement.return'));
     }
     let code = 'return';
     if (!tools.dataType.isUndefined(schema.value)) {
@@ -217,7 +217,7 @@ export const statement = {
   },
   throw(schema: Statement.Throw, config?: Config) {
     if (!helper.statement.isThrow(schema)) {
-      throw new Error('statement.throw 方法的 schema 参数非法！');
+      throw new Error(errorText.schema('statement.throw'));
     }
     let code = 'throw';
     code += ` ${expression.unknown(schema.expression, config)}`;

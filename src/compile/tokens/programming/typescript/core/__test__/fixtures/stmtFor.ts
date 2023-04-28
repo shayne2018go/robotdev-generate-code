@@ -5,7 +5,7 @@ import { dataTypeKey } from '@/compile/tokens/programming/const/dataType';
 export const mock_for: Statement.For = {
   _statement_: statementType.for,
   declare: {
-    _statement_: statementType.declare,
+    _statement_: statementType.variable,
     name: {
       _statement_: statementType.expression,
       _expression_: expressionType.identifier,
