@@ -1,7 +1,7 @@
 import { Statement } from '../../../../types/statement';
 
-export const mock_declare: Statement.Declare = {
-  _statement_: 'declare',
+export const mock_declareVariable: Statement.DeclareVariable = {
+  _statement_: 'declareVariable',
   name: {
     _statement_: 'expression',
     _expression_: 'identifier',
@@ -9,8 +9,8 @@ export const mock_declare: Statement.Declare = {
   },
 };
 
-export const mock_declare_const: Statement.Declare = {
-  _statement_: 'declare',
+export const mock_declareVariable_const: Statement.DeclareVariable = {
+  _statement_: 'declareVariable',
   isConst: true,
   name: {
     _statement_: 'expression',
@@ -19,8 +19,8 @@ export const mock_declare_const: Statement.Declare = {
   },
 };
 
-export const mock_declare_type: Statement.Declare = {
-  _statement_: 'declare',
+export const mock_declareVariable_type: Statement.DeclareVariable = {
+  _statement_: 'declareVariable',
   name: {
     _statement_: 'expression',
     _expression_: 'identifier',
@@ -40,8 +40,8 @@ export const mock_declare_type: Statement.Declare = {
   ],
 };
 
-export const mock_declare_value: Statement.Declare = {
-  _statement_: 'declare',
+export const mock_declareVariable_value: Statement.DeclareVariable = {
+  _statement_: 'declareVariable',
   name: {
     _statement_: 'expression',
     _expression_: 'identifier',
@@ -55,8 +55,8 @@ export const mock_declare_value: Statement.Declare = {
   },
 };
 
-export const mock_declare_type_value: Statement.Declare = {
-  _statement_: 'declare',
+export const mock_declareVariable_type_value: Statement.DeclareVariable = {
+  _statement_: 'declareVariable',
   name: {
     _statement_: 'expression',
     _expression_: 'identifier',

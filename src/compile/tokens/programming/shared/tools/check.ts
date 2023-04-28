@@ -5,38 +5,44 @@ import { Expression } from '../../types/expression';
 import { Statement } from '../../types/statement';
 
 const statement = {
-  isStmt(data: Statement.Line): data is Statement.Line {
+  isStmt(data: Statement.Unknown): data is Statement.Unknown {
     return !!data._statement_;
   },
-  isDeclare(data: Statement.Line): data is Statement.Declare {
-    return data?._statement_ === statementType.declare;
+  isDeclareVariable(data: Statement.Unknown): data is Statement.DeclareVariable {
+    return data?._statement_ === statementType.variable;
   },
-  isExpression(data: Statement.Line): data is Statement.Expression {
+  isDeclareClass(data: Statement.Unknown): data is Statement.DeclareClass {
+    return data?._statement_ === statementType.class;
+  },
+  isExpression(data: Statement.Unknown): data is Statement.Expression {
     return data?._statement_ === statementType.expression;
   },
-  isExport(data: Statement.Line): data is Statement.Export {
+  isExport(data: Statement.Unknown): data is Statement.Export {
     return data?._statement_ === statementType.export;
   },
-  isImport(data: Statement.Line): data is Statement.Import {
+  isImport(data: Statement.Unknown): data is Statement.Import {
     return data?._statement_ === statementType.import;
   },
-  isIf(data: Statement.Line): data is Statement.If {
+  isIf(data: Statement.Unknown): data is Statement.If {
     return data?._statement_ === statementType.if;
   },
-  isFor(data: Statement.Line): data is Statement.For {
+  isFor(data: Statement.Unknown): data is Statement.For {
     return data?._statement_ === statementType.for;
   },
-  isWhile(data: Statement.Line): data is Statement.While {
+  isWhile(data: Statement.Unknown): data is Statement.While {
     return data?._statement_ === statementType.while;
   },
-  isBreak(data: Statement.Line): data is Statement.Break {
+  isBreak(data: Statement.Unknown): data is Statement.Break {
     return data?._statement_ === statementType.break;
   },
-  isContinue(data: Statement.Line): data is Statement.Continue {
+  isContinue(data: Statement.Unknown): data is Statement.Continue {
     return data?._statement_ === statementType.continue;
   },
-  isReturn(data: Statement.Line): data is Statement.Return {
+  isReturn(data: Statement.Unknown): data is Statement.Return {
     return data?._statement_ === statementType.return;
+  },
+  isThrow(data: Statement.Unknown): data is Statement.Throw {
+    return data?._statement_ === statementType.throw;
   },
 };
 
@@ -53,11 +59,20 @@ const expression = {
   isCall(data: Expression.Unknown): data is Expression.Call {
     return statement.isExpression(data) && data._expression_ === expressionType.call;
   },
+  isNew(data: Expression.Unknown): data is Expression.New {
+    return statement.isExpression(data) && data._expression_ === expressionType.new;
+  },
   isAccess(data: Expression.Unknown): data is Expression.Access {
     return statement.isExpression(data) && data._expression_ === expressionType.access;
   },
+  isAssignment(data: Expression.Unknown): data is Expression.Assignment {
+    return statement.isExpression(data) && data._expression_ === expressionType.assignment;
+  },
   isBinary(data: Expression.Unknown): data is Expression.Binary {
     return statement.isExpression(data) && data._expression_ === expressionType.binary;
+  },
+  isConditional(data: Expression.Unknown): data is Expression.Conditional {
+    return statement.isExpression(data) && data._expression_ === expressionType.conditional;
   },
   isPostfixUnary(data: Expression.Unknown): data is Expression.PostfixUnary {
     return statement.isExpression(data) && data._expression_ === expressionType.postfixUnary;
@@ -77,7 +92,7 @@ const dataType = {
   isString(data: DataType.Unknown): data is DataType.Schema_String {
     return expression.isDataType(data) && data.type === dataTypeKey.string;
   },
-  isLone(data: DataType.Unknown): data is DataType.Schema_Long {
+  isLong(data: DataType.Unknown): data is DataType.Schema_Long {
     return expression.isDataType(data) && data.type === dataTypeKey.long;
   },
   isBoolean(data: DataType.Unknown): data is DataType.Schema_Boolean {
@@ -128,7 +143,7 @@ const literal = {
   isString(data: Expression.Literal): data is Expression.Literal_String {
     return expression.isLiteral(data) && data.type === dataTypeKey.string;
   },
-  isLone(data: Expression.Literal): data is Expression.Literal_Long {
+  isLong(data: Expression.Literal): data is Expression.Literal_Long {
     return expression.isLiteral(data) && data.type === dataTypeKey.long;
   },
   isBoolean(data: Expression.Literal): data is Expression.Literal_Boolean {
@@ -183,10 +198,13 @@ const literal = {
 
 export const errorText = {
   schema(fnName: string) {
-    return `${fnName} 方法的 schema 参数 错误！`;
+    return `${fnName} 方法的 schema 参数错误！`;
   },
   schemaProp(fnName: string, propName: string) {
-    return `${fnName} 方法的 schema.${propName} 参数 错误！`;
+    return `${fnName} 方法的 schema.${propName} 参数错误！`;
+  },
+  schemaFn(fnName: string, type: string) {
+    return `${fnName} 方法没有找到 ${type} 对应的编译方法！`;
   },
 };
 

@@ -8,10 +8,10 @@ import { expression } from './expression';
 export const dataType = {
   unknown(schema: Expression.DataType, config?: Config): string {
     if (!helper.expression.isDataType(schema)) {
-      throw new Error('dataType 方法的 schema参数 错误！');
+      throw new Error(errorText.schema('dataType.unknown'));
     }
     if (typeof dataType[schema.type] !== 'function') {
-      throw new Error(`dataType 方法没有找到“${schema.type}”对应的编译方法！`);
+      throw new Error(errorText.schemaFn('dataType', schema.type));
     }
     return dataType[schema.type](schema as any, config);
   },
@@ -57,7 +57,7 @@ export const dataType = {
     return 'string';
   },
   long(schema: DataType.Schema_Long, config?: Config): string {
-    if (!helper.dataType.isLone(schema)) {
+    if (!helper.dataType.isLong(schema)) {
       throw new Error(errorText.schema('dataType.long'));
     }
     return 'string';

@@ -1,9 +1,11 @@
-import { StatementType, ExpressionType, ExpressionTypeEnum } from './statementType';
 import { DataType as ExpressionDataType } from './dataType';
+import { Keyword } from './keyword';
 import { Statement } from './statement';
+import { ExpressionType, ExpressionTypeEnum } from './statementType';
 export namespace Expression {
   export interface Common {
-    _statement_: StatementType['expression'];
+    _statement_: 'expression';
+    _expression_: ExpressionTypeEnum;
   }
   // Json类型字面量
   // export type Json_String = string;
@@ -23,7 +25,6 @@ export namespace Expression {
     | Conditional
     | Binary
     | Logical
-    | Class
     | PostfixUnary
     | PrefixUnary
     | Literal
@@ -101,10 +102,9 @@ export namespace Expression {
     identifier: Identifier;
   }
 
-  export interface Class extends Common {
-    _expression_: ExpressionType['class'];
-    constructor: Literal_Function;
-    attrs: Literal_Object_Value;
+  export interface Await extends Common {
+    _expression_: ExpressionType['await'];
+    expression: Unknown;
   }
 
   export type DataType = ExpressionDataType.Unknown;
@@ -129,13 +129,6 @@ export namespace Expression {
     // | Literal_Enums
     | Literal_Function;
   // | Literal_Ref;
-
-  // Literal的dataType为object时，value对应的专属数据结构，不会出现在其他地方
-  export type Literal_Object_Value_Item = {
-    key: Unknown;
-    value: Unknown;
-  };
-  export type Literal_Object_Value = Array<Literal_Object_Value_Item>;
 
   export type Literal_Common = Common & {
     _expression_: 'literal';
@@ -227,6 +220,7 @@ export namespace Expression {
   export type Literal_Function = Literal_Common &
     ExpressionDataType.Schema_Function_Common & {
       value: Array<Statement.Line>;
+      mode: 'function' | 'arrow' | 'method';
     };
 
   // export type Literal_Ref = Literal_Common &

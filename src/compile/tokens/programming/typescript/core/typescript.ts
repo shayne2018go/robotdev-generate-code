@@ -26,8 +26,8 @@ export class GenerateTypeScript {
   import(schema: Statement.Import) {
     return statement.import(schema, this.#config);
   }
-  declare(schema: Statement.Declare) {
-    return statement.declare(schema, this.#config);
+  variable(schema: Statement.DeclareVariable) {
+    return statement.declareVariable(schema, this.#config);
   }
   expression(schema: Statement.Expression) {
     return statement.expression(schema, this.#config);

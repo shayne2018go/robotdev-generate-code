@@ -1,18 +1,24 @@
 import { DataType } from './dataType';
-import { StatementType } from './statementType';
 import { Expression as StatementExpression } from './expression';
 import { Keyword } from './keyword';
+import { StatementType, StatementTypeEnum } from './statementType';
 
 export namespace Statement {
+  export interface Common {
+    _statement_: StatementTypeEnum;
+  }
+
   export type Expression = StatementExpression.Unknown;
+
+  export interface ImportExportElementsItem {
+    propertyName?: StatementExpression.Identifier;
+    name: StatementExpression.Identifier;
+  }
 
   export interface Export {
     _statement_: StatementType['export'];
     all?: boolean | StatementExpression.Identifier;
-    elements?: Array<{
-      propertyName?: StatementExpression.Identifier;
-      name: StatementExpression.Identifier;
-    }>;
+    elements?: Array<ImportExportElementsItem>;
     path?: StatementExpression.Literal_String;
   }
 
@@ -20,21 +26,29 @@ export namespace Statement {
     _statement_: StatementType['import'];
     all?: StatementExpression.Identifier;
     default?: StatementExpression.Identifier;
-    elements?: Array<{
-      propertyName?: StatementExpression.Identifier;
-      name: StatementExpression.Identifier;
-    }>;
+    elements?: Array<ImportExportElementsItem>;
     path?: StatementExpression.Literal_String;
   }
 
-  export interface Declare {
-    _statement_: StatementType['declare'];
+  export interface DeclareVariable {
+    _statement_: StatementType['variable'];
     name: StatementExpression.Identifier;
     modifiers?: Array<Keyword.Unknown>;
     isConst?: boolean;
-    isGlobal?: boolean;
+    // isGlobal?: boolean;
     dataTypes?: Array<DataType.Unknown>;
     value?: Expression;
+  }
+
+  export interface DeclareClass {
+    _statement_: StatementType['class'];
+    name: StatementExpression.Identifier;
+    members: Array<{
+      name: StatementExpression.Identifier;
+      dataTypes?: Array<DataType.Unknown>;
+      modifiers?: Array<Keyword.Unknown>;
+      value: Expression;
+    }>;
   }
 
   export interface Return {
@@ -56,7 +70,7 @@ export namespace Statement {
 
   export interface For {
     _statement_: StatementType['for'];
-    declare: Declare;
+    declare: DeclareVariable;
     initializer: Expression;
     incrementor: StatementExpression.PostfixUnary | StatementExpression.PrefixUnary;
     statements: StatementList;
@@ -77,11 +91,29 @@ export namespace Statement {
     label?: StatementExpression.Identifier;
   }
 
-  export type StatementLine = Expression | Export | Import | Declare | Return | If | While | For | Break | Continue;
+  export interface Throw {
+    _statement_: StatementType['throw'];
+    expression: Expression;
+  }
+
+  export type StatementLine =
+    | Expression
+    | Export
+    | Import
+    | DeclareVariable
+    | DeclareClass
+    | Return
+    | Throw
+    | If
+    | While
+    | For
+    | Break
+    | Continue;
   // | Free;
 
   export type StatementList = Array<Line>;
 
   export type Line = StatementLine;
   export type List = StatementList;
+  export type Unknown = StatementLine;
 }
