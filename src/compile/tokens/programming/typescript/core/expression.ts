@@ -23,10 +23,6 @@ export const expression = {
   literal(schema: Expression.Literal, config?: Config): string {
     return literal.unknown(schema, config);
   },
-  class(schema: Expression.Class, config?: Config): string {
-    let code = '';
-    return code;
-  },
   access(schema: Expression.Access, config?: Config): string {
     if (!helper.expression.isAccess(schema)) {
       throw new Error('expression.access 方法的 schema参数 错误！');
@@ -103,7 +99,7 @@ export const expression = {
     } else {
       throw new Error('expression.assignment 方法的 schema.left 参数错误！');
     }
-    code+='='
+    code += '=';
     if (!tools.dataType.isUndefined(schema.right)) {
       code += statement.expression(schema.right, config);
     }

@@ -1,13 +1,9 @@
-import { tools } from '@/utils/tools';
-import { expressionType } from '../../const/statementType';
-import { helper } from '../../shared/tools/check';
+import { statementType } from '../const/statementType';
+import { Expression } from '../types/expression';
 import { Statement } from '../types/statement';
-import { Config } from '../types';
 import { StatementTypeEnum } from '../types/statementType';
 import { expression } from './expression';
-import { generateTypeScript } from './typescript';
-import { Expression } from '../types/expression';
-import { statementType } from '../const/statementType';
+import { keyword } from './keyword';
 import { literal } from './literal';
 
 export const statement = {
@@ -15,7 +11,7 @@ export const statement = {
     statementType: T,
     data?: R
   ): {
-    _statement_: T;
+    _statement_: typeof statementType;
   } & R {
     return {
       _statement_: statementType,
@@ -82,7 +78,42 @@ export const statement = {
     }
     return schema;
   },
-  declare(): Statement.Declare {},
+  declareVariable(
+    name: string,
+    value?: Expression.Unknown,
+    dataTypes?: Statement.DeclareVariable['dataTypes']
+  ): Statement.DeclareVariable {
+    const schema: Statement.DeclareVariable = statement.unknown(statementType.variable, {
+      name: expression.identifier(name),
+    });
+    if (value) {
+      schema.value = value;
+    }
+    if (dataTypes) {
+      schema.dataTypes = dataTypes;
+    }
+    return schema;
+  },
+  declareConst(
+    name: string,
+    value?: Expression.Unknown,
+    dataTypes?: Statement.DeclareVariable['dataTypes']
+  ): Statement.DeclareVariable {
+    const schema = statement.declareVariable(name, value, dataTypes);
+    schema.isConst = true;
+    return schema;
+  },
+  exportDeclareConst(
+    name: string,
+    value: Expression.Unknown,
+    dataTypes: Statement.DeclareVariable['dataTypes']
+  ): Statement.DeclareVariable {
+    const schema = statement.declareConst(name, value, dataTypes);
+    schema.modifiers = [keyword.export()];
+    return schema;
+  },
+  declareClass(name: string, members: Statement.DeclareClass['members']): Statement.DeclareClass {},
+  class(): Statement.Class {},
   expression(): Statement.Expression {},
   if(): Statement.If {},
   for(): Statement.For {},

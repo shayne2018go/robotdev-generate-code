@@ -8,8 +8,8 @@ const statement = {
   isStmt(data: Statement.Line): data is Statement.Line {
     return !!data._statement_;
   },
-  isDeclare(data: Statement.Line): data is Statement.Declare {
-    return data?._statement_ === statementType.declare;
+  isDeclareVariable(data: Statement.Line): data is Statement.DeclareVariable {
+    return data?._statement_ === statementType.variable;
   },
   isExpression(data: Statement.Line): data is Statement.Expression {
     return data?._statement_ === statementType.expression;

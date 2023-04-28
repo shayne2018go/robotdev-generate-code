@@ -1,8 +1,8 @@
-import { keywordType } from '../const/statementType';
+import { keywordType, keywordTypes } from '../const/statementType';
 
+export type KeywordType = typeof keywordType;
+export type KeywordTypeEnmu = typeof keywordTypes[number];
 export namespace Keyword {
-  type KeywordType = typeof keywordType;
-
   export interface Export {
     _keyword_: KeywordType['export'];
   }

@@ -30,14 +30,25 @@ export namespace Statement {
     path?: StatementExpression.Literal_String;
   }
 
-  export interface Declare {
-    _statement_: StatementType['declare'];
+  export interface DeclareVariable {
+    _statement_: StatementType['variable'];
     name: StatementExpression.Identifier;
     modifiers?: Array<Keyword.Unknown>;
     isConst?: boolean;
     // isGlobal?: boolean;
     dataTypes?: Array<DataType.Unknown>;
     value?: Expression;
+  }
+
+  export interface DeclareClass {
+    _expression_: StatementType['class'];
+    name: StatementExpression.Identifier;
+    members: Array<{
+      name: Unknown;
+      dataTypes?: Array<DataType.Unknown>;
+      modifiers?: Array<Keyword.Unknown>;
+      value: Unknown;
+    }>;
   }
 
   export interface Return {
@@ -59,7 +70,7 @@ export namespace Statement {
 
   export interface For {
     _statement_: StatementType['for'];
-    declare: Declare;
+    declare: DeclareVariable;
     initializer: Expression;
     incrementor: StatementExpression.PostfixUnary | StatementExpression.PrefixUnary;
     statements: StatementList;
@@ -89,7 +100,8 @@ export namespace Statement {
     | Expression
     | Export
     | Import
-    | Declare
+    | DeclareVariable
+    | DeclareClass
     | Return
     | Throw
     | If

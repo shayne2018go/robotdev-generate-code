@@ -88,9 +88,9 @@ export const statement = {
     }
     return code;
   },
-  declare(schema: Statement.Declare, config?: Config): string {
-    if (!helper.statement.isDeclare(schema)) {
-      throw new Error('statement.declare 方法的 schema参数 错误！');
+  declareVariable(schema: Statement.DeclareVariable, config?: Config): string {
+    if (!helper.statement.isDeclareVariable(schema)) {
+      throw new Error('statement.variable 方法的 schema参数 错误！');
     }
     let code = '';
     if (schema.isConst) {
@@ -105,6 +105,10 @@ export const statement = {
     if (schema.value) {
       code += '=' + statement.expression(schema.value, config);
     }
+    return code;
+  },
+  declareClass(schema: Statement.DeclareClass, config?: Config): string {
+    let code = '';
     return code;
   },
   expression(schema: Statement.Expression, config?: Config): string {
@@ -134,7 +138,7 @@ export const statement = {
       throw new Error('statement.for 方法的 schema 参数非法！');
     }
     let code = 'for(';
-    code += `${statement.declare(schema.declare, config)};`;
+    code += `${statement.declareVariable(schema.declare, config)};`;
     code += `${statement.expression(schema.initializer, config)};`;
     if (helper.expression.isPostfixUnary(schema.incrementor)) {
       code += `${expression.postfixUnary(schema.incrementor, config)}`;
@@ -161,7 +165,7 @@ export const statement = {
     }
     let code = 'break';
     if (!tools.dataType.isUndefined(schema.label)) {
-      code += ` ${expression.identifier(schema.label, config)}`
+      code += ` ${expression.identifier(schema.label, config)}`;
     }
     return code;
   },
@@ -171,7 +175,7 @@ export const statement = {
     }
     let code = 'continue';
     if (!tools.dataType.isUndefined(schema.label)) {
-      code += ` ${expression.identifier(schema.label, config)}`
+      code += ` ${expression.identifier(schema.label, config)}`;
     }
     return code;
   },
@@ -185,7 +189,5 @@ export const statement = {
     }
     return code;
   },
-  throw() {
-    
-  }
+  throw() {},
 };

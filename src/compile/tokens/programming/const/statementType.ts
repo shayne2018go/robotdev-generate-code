@@ -2,7 +2,8 @@ export const statementType = {
   expression: 'expression',
   export: 'export', // 导出语句
   import: 'import', // 导入语句
-  declare: 'declare', // 声明语句
+  variable: 'declareVariable', // 声明变量语句
+  class: 'declareClass', // 声明class类语句
   return: 'return', // 返回值语句
   if: 'if', // 条件语句
   for: 'for', // for循环语句
@@ -16,7 +17,6 @@ export const statementType = {
 export const expressionType = {
   dataType: 'dataType', // 数据类型语句
   literal: 'literal', // 字面量语句
-  class: 'class', // class类语句
 
   access: 'access', // 访问变量、对象元素、数组元素等语句
 

@@ -93,7 +93,7 @@ export const literal_object1: Expression.Literal_Object = {
         type: 'function',
         value: [
           {
-            _statement_: 'declare',
+            _statement_: 'declareVariable',
             name: {
               _statement_: 'expression',
               _expression_: 'identifier',
@@ -107,7 +107,7 @@ export const literal_object1: Expression.Literal_Object = {
             },
           },
           {
-            _statement_: 'declare',
+            _statement_: 'declareVariable',
             name: {
               _statement_: 'expression',
               _expression_: 'identifier',
@@ -214,7 +214,7 @@ export const literal_function: Expression.Literal_Function = {
   ],
   value: [
     {
-      _statement_: 'declare',
+      _statement_: 'declareVariable',
       name: {
         _statement_: 'expression',
         _expression_: 'identifier',
@@ -228,7 +228,7 @@ export const literal_function: Expression.Literal_Function = {
       },
     },
     {
-      _statement_: 'declare',
+      _statement_: 'declareVariable',
       name: {
         _statement_: 'expression',
         _expression_: 'identifier',

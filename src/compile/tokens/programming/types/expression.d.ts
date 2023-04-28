@@ -3,7 +3,8 @@ import { Keyword } from './keyword';
 import { Statement } from './statement';
 import { ExpressionType, ExpressionTypeEnum } from './statementType';
 export namespace Expression {
-  export interface Common extends Statement.Common {
+  export interface Common {
+    _statement_: 'expression';
     _expression_: ExpressionTypeEnum;
   }
   // Json类型字面量
@@ -24,7 +25,6 @@ export namespace Expression {
     | Conditional
     | Binary
     | Logical
-    | Class
     | PostfixUnary
     | PrefixUnary
     | Literal
@@ -102,11 +102,6 @@ export namespace Expression {
     identifier: Identifier;
   }
 
-  export interface Class extends Common {
-    _expression_: ExpressionType['class'];
-    menbers: Literal_Object_Value;
-  }
-
   export interface Await extends Common {
     _expression_: ExpressionType['await'];
     expression: Unknown;
@@ -134,14 +129,6 @@ export namespace Expression {
     // | Literal_Enums
     | Literal_Function;
   // | Literal_Ref;
-
-  // Literal的dataType为object时，value对应的专属数据结构，不会出现在其他地方
-  export type Literal_Object_Value_Item = {
-    key: Unknown;
-    modifiers?: Array<Keyword.Unknown>;
-    value: Unknown;
-  };
-  export type Literal_Object_Value = Array<Literal_Object_Value_Item>;
 
   export type Literal_Common = Common & {
     _expression_: 'literal';
