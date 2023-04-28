@@ -12,9 +12,12 @@ import {
   numericLiteral,
   arrayExpression,
   functionExpression,
+  callExpression,
 } from '@babel/types';
 import { isArray, isPlanObject } from '../is';
 import { watch } from 'fs-extra';
+import { d } from 'vitest/dist/types-e3c9754d';
+import { generate } from '@/generate';
 
 function getObjectExpressionKeys(node: ObjectExpression): string[] {
   const keys: string[] = [];

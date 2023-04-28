@@ -10,10 +10,9 @@ import createToken from '@/compile/config/createToken';
 const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',
 };
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function compileViteTemplate(temp: ViteTemplate, compileConfig?: CompileConfig): { tokens: Compile.Token[] } {
-  const __dirname = dirname(fileURLToPath(import.meta.url));
-
   const templatesRoot = resolve(__dirname, './templates', `template-${temp}`);
 
   const paths = globbySync('**', { cwd: templatesRoot });

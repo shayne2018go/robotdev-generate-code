@@ -3,8 +3,6 @@ import { resolve } from 'path';
 import { describe, expect, it } from 'vitest';
 
 describe('compilerFactory', () => {
-  const root = resolve(__dirname, '../../../../generate-code-test');
-
   it('compile', () => {
     // const { compiler } = compilerFactory({});
 
