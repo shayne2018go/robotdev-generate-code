@@ -136,23 +136,38 @@ export const literal = {
     if (schema.parameters && !Array.isArray(schema.parameters)) {
       throw new Error(errorText.schemaProp('dataType.function', 'parameters'));
     }
-    let code = '(';
+    let code = '';
+    if (schema.mode === 'function') {
+      code += 'function(';
+    } else if (schema.mode === 'arrow') {
+      code += '(';
+    } else if (schema.mode === 'method') {
+      code += '(';
+    } else {
+      throw new Error(errorText.schemaProp('dataType.function', 'mode'));
+    }
     schema.parameters?.forEach((item, index) => {
       if (index > 0) {
         code += ',';
       }
       code += expression.identifier(item.key, config);
-      if (item.types) {
+      if (item.types && item.types.length) {
         code += ':';
         code += dataType.unknowns(item.types, config);
       }
     });
     code += ')';
-    if (schema.outTypes) {
+    if (schema.outTypes && schema.outTypes.length) {
       code += ':';
       code += dataType.unknowns(schema.outTypes, config);
     }
-    code += '=>{';
+    if (schema.mode === 'function') {
+      code += '{';
+    } else if (schema.mode === 'arrow') {
+      code += '=>{';
+    } else if (schema.mode === 'method') {
+      code += '{';
+    }
     if (schema.value) {
       code += statement.unknowns(schema.value, config);
     }

@@ -50,6 +50,9 @@ const expression = {
   isLiteral(data: Expression.Unknown): data is Expression.Literal {
     return statement.isExpression(data) && data._expression_ === expressionType.literal;
   },
+  isClass(data: Expression.Unknown): data is Expression.Class {
+    return statement.isExpression(data) && data._expression_ === expressionType.class;
+  },
   isCall(data: Expression.Unknown): data is Expression.Call {
     return statement.isExpression(data) && data._expression_ === expressionType.call;
   },
