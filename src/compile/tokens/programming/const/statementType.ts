@@ -9,6 +9,7 @@ export const statementType = {
   while: 'while', // while循环语句
   break: 'break', // 退出语句
   continue: 'continue', // 退出当前循环语句
+  throw: 'throw', // 抛出异常
   // free: 'free', // 自由代码语句。慎用！只有你在非常明确你需要编写某种特定语言的时候才能用，如果语言是可变的就不能用
 } as const;
 
@@ -32,8 +33,21 @@ export const expressionType = {
   conditional: 'conditional', // 三元表达式语句
   postfixUnary: 'postfixUnary', // 前缀一元达式语句
   prefixUnary: 'prefixUnary', // 后缀一元达式语句
+  await: 'await', // 等待
+} as const;
+
+export const keywordType = {
+  export: 'export',
+  import: 'import',
+  static: 'static',
+  private: 'private',
+  public: 'public',
+  protected: 'protected',
+  async: 'async',
 } as const;
 
 export const statementTypes = Object.values(statementType);
 
 export const expressionTypes = Object.values(expressionType);
+
+export const keywordTypes = Object.values(keywordType);

@@ -32,7 +32,7 @@ export namespace Statement {
     name: StatementExpression.Identifier;
     modifiers?: Array<Keyword.Unknown>;
     isConst?: boolean;
-    isGlobal?: boolean;
+    // isGlobal?: boolean;
     dataTypes?: Array<DataType.Unknown>;
     value?: Expression;
   }
@@ -77,7 +77,23 @@ export namespace Statement {
     label?: StatementExpression.Identifier;
   }
 
-  export type StatementLine = Expression | Export | Import | Declare | Return | If | While | For | Break | Continue;
+  export interface Throw {
+    _statement_: StatementType['throw'];
+    expression: Expression;
+  }
+
+  export type StatementLine =
+    | Expression
+    | Export
+    | Import
+    | Declare
+    | Return
+    | Throw
+    | If
+    | While
+    | For
+    | Break
+    | Continue;
   // | Free;
 
   export type StatementList = Array<Line>;
