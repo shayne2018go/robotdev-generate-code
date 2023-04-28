@@ -38,6 +38,9 @@ const statement = {
   isReturn(data: Statement.Line): data is Statement.Return {
     return data?._statement_ === statementType.return;
   },
+  isThrow(data: Statement.Line): data is Statement.Throw {
+    return data?._statement_ === statementType.throw;
+  },
 };
 
 const expression = {

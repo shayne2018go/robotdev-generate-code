@@ -103,7 +103,7 @@ export const statement = {
       code += ':' + expression.dataType(schema.dataTypes, config);
     }
     if (schema.value) {
-      code += '=' + statement.expression(schema.value, config);
+      code += '=' + expression.unknown(schema.value, config);
     }
     return code;
   },
@@ -118,7 +118,7 @@ export const statement = {
     code += schema.ifs.reduce((start, arr, index) => {
       return (
         start +
-        `${index === 0 ? 'if' : 'else if'}(${statement.expression(arr[0], config)}){${arr[1].reduce(
+        `${index === 0 ? 'if' : 'else if'}(${expression.unknown(arr[0], config)}){${arr[1].reduce(
           (start, ele) => start + generateTypeScript(ele, config),
           ''
         )}}`
@@ -135,7 +135,7 @@ export const statement = {
     }
     let code = 'for(';
     code += `${statement.declare(schema.declare, config)};`;
-    code += `${statement.expression(schema.initializer, config)};`;
+    code += `${expression.unknown(schema.initializer, config)};`;
     if (helper.expression.isPostfixUnary(schema.incrementor)) {
       code += `${expression.postfixUnary(schema.incrementor, config)}`;
     } else if (helper.expression.isPrefixUnary(schema.incrementor)) {
@@ -151,7 +151,7 @@ export const statement = {
       throw new Error('statement.while 方法的 schema 参数非法！');
     }
     let code = 'while(';
-    code += `${statement.expression(schema.expression, config)}`;
+    code += `${expression.unknown(schema.expression, config)}`;
     code += `){${schema.statements.reduce((start, ele) => start + generateTypeScript(ele, config), '')}}`;
     return code;
   },
@@ -181,11 +181,16 @@ export const statement = {
     }
     let code = 'return';
     if (!tools.dataType.isUndefined(schema.value)) {
-      code += ` ${statement.expression(schema.value, config)}`;
+      code += ` ${expression.unknown(schema.value, config)}`;
     }
     return code;
   },
-  throw() {
-    
+  throw(schema: Statement.Throw, config?: Config) {
+    if (!helper.statement.isThrow(schema)) {
+      throw new Error('statement.throw 方法的 schema 参数非法！');
+    }
+    let code = 'throw';
+    code += ` ${expression.unknown(schema.expression, config)}`;
+    return code;
   }
 };
