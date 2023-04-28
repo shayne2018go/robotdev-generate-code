@@ -5,38 +5,44 @@ import { Expression } from '../../types/expression';
 import { Statement } from '../../types/statement';
 
 const statement = {
-  isStmt(data: Statement.Line): data is Statement.Line {
+  isStmt(data: Statement.Unknown): data is Statement.Unknown {
     return !!data._statement_;
   },
-  isDeclareVariable(data: Statement.Line): data is Statement.DeclareVariable {
+  isDeclareVariable(data: Statement.Unknown): data is Statement.DeclareVariable {
     return data?._statement_ === statementType.variable;
   },
-  isExpression(data: Statement.Line): data is Statement.Expression {
+  isDeclareClass(data: Statement.Unknown): data is Statement.DeclareClass {
+    return data?._statement_ === statementType.class;
+  },
+  isExpression(data: Statement.Unknown): data is Statement.Expression {
     return data?._statement_ === statementType.expression;
   },
-  isExport(data: Statement.Line): data is Statement.Export {
+  isExport(data: Statement.Unknown): data is Statement.Export {
     return data?._statement_ === statementType.export;
   },
-  isImport(data: Statement.Line): data is Statement.Import {
+  isImport(data: Statement.Unknown): data is Statement.Import {
     return data?._statement_ === statementType.import;
   },
-  isIf(data: Statement.Line): data is Statement.If {
+  isIf(data: Statement.Unknown): data is Statement.If {
     return data?._statement_ === statementType.if;
   },
-  isFor(data: Statement.Line): data is Statement.For {
+  isFor(data: Statement.Unknown): data is Statement.For {
     return data?._statement_ === statementType.for;
   },
-  isWhile(data: Statement.Line): data is Statement.While {
+  isWhile(data: Statement.Unknown): data is Statement.While {
     return data?._statement_ === statementType.while;
   },
-  isBreak(data: Statement.Line): data is Statement.Break {
+  isBreak(data: Statement.Unknown): data is Statement.Break {
     return data?._statement_ === statementType.break;
   },
-  isContinue(data: Statement.Line): data is Statement.Continue {
+  isContinue(data: Statement.Unknown): data is Statement.Continue {
     return data?._statement_ === statementType.continue;
   },
-  isReturn(data: Statement.Line): data is Statement.Return {
+  isReturn(data: Statement.Unknown): data is Statement.Return {
     return data?._statement_ === statementType.return;
+  },
+  isThrow(data: Statement.Unknown): data is Statement.Throw {
+    return data?._statement_ === statementType.throw;
   },
 };
 

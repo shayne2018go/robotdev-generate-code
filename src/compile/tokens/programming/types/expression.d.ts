@@ -220,6 +220,7 @@ export namespace Expression {
   export type Literal_Function = Literal_Common &
     ExpressionDataType.Schema_Function_Common & {
       value: Array<Statement.Line>;
+      mode: 'function' | 'arrow' | 'method';
     };
 
   // export type Literal_Ref = Literal_Common &

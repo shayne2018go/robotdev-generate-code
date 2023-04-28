@@ -91,6 +91,7 @@ export const literal_object1: Expression.Literal_Object = {
         _statement_: 'expression',
         _expression_: 'literal',
         type: 'function',
+        mode: 'arrow',
         value: [
           {
             _statement_: 'declareVariable',
@@ -182,6 +183,7 @@ export const literal_function: Expression.Literal_Function = {
   _statement_: 'expression',
   _expression_: 'literal',
   type: 'function',
+  mode: 'arrow',
   parameters: [
     {
       key: {

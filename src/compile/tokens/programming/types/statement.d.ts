@@ -41,10 +41,10 @@ export namespace Statement {
   }
 
   export interface DeclareClass {
-    _expression_: StatementType['class'];
+    _statement_: StatementType['class'];
     name: StatementExpression.Identifier;
     members: Array<{
-      name: Unknown;
+      name: StatementExpression.Identifier;
       dataTypes?: Array<DataType.Unknown>;
       modifiers?: Array<Keyword.Unknown>;
       value: Unknown;
