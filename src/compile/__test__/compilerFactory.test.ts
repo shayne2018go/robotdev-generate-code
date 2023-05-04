@@ -1,7 +1,6 @@
-import compilerFactory from '@/compile/compilerFactory';
-import { resolve } from 'path';
-import { describe, expect, it } from 'vitest';
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
+import compilerFactory from '@/compile/compilerFactory';
+import { describe, expect, it } from 'vitest';
 
 describe('compilerFactory', () => {
   it('compile', () => {
@@ -9,6 +8,7 @@ describe('compilerFactory', () => {
 
     const tokens = compiler();
 
+    debugger;
     expect(tokens).toMatchSnapshot();
   });
 });

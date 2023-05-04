@@ -4,7 +4,7 @@ import compileRouter from '../compileRouter';
 import vueRouterTokens from './fixture/vue-router-tokens.json';
 
 describe('compile vue', () => {
-  it('router', () => {
+  it('compileRouter', () => {
     const { tokens } = compileRouter(codeSchema);
 
     debugger;

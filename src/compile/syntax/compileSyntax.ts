@@ -4,10 +4,11 @@ import { Compile } from '@/types/compile/token';
 import { CompileConfig } from '../config/parseCompileConfig';
 
 function compileSyntax(codeSchema: ICodeSchema, compileConfig?: CompileConfig): Compile.Token[] {
-  if (!compileConfig?.syntax) {
-    return compileVue(codeSchema);
-  }
-  return compileVue(codeSchema);
+  // if (!compileConfig?.syntax) {
+  //   return compileVue(codeSchema);
+  // }
+  const { tokens } = compileVue(codeSchema);
+  return tokens;
 }
 
 export default compileSyntax;

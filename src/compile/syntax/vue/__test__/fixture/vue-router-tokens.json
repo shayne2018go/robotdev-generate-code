@@ -1,6 +1,6 @@
 [
   {
-    "path": "router/routes.ts",
+    "path": "src/router/routes.ts",
     "token": "{\n  import { RouteRecordRaw } from \"vue-router\";\n  const routes = [{\n    path: \"/shouye\",\n    component: () => import(\"../pages/shouye.vue\")\n  }, {\n    path: \"/404\",\n    component: () => import(\"../pages/404.vue\")\n  }, {\n    path: \"/502\",\n    component: () => import(\"../pages/502.vue\")\n  }, {\n    path: \"/renyuanluruye\",\n    component: () => import(\"../pages/renyuanluruye.vue\")\n  }, {\n    path: \"/renyuanliebiao\",\n    component: () => import(\"../pages/renyuanliebiao.vue\")\n  }];\n  export { routes };\n}"
   }
 ]

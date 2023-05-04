@@ -1,9 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`compile vue > router 1`] = `
+exports[`compile vue > compileRouter 1`] = `
 [
   {
-    "path": "router/routes.ts",
+    "path": "src/router/routes.ts",
     "token": "{
   import { RouteRecordRaw } from \\"vue-router\\";
   const routes = [{

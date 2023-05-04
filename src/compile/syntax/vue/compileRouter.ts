@@ -6,7 +6,7 @@ import t from '@babel/types';
 import generate from '@babel/generator';
 
 function compileRouter(codeSchema: ICodeSchema): { tokens: Compile.Token[] } {
-  const routerPath = 'router/routes.ts';
+  const routerPath = 'src/router/routes.ts';
 
   const { directories = [], pages } = codeSchema;
   // directories
@@ -54,9 +54,8 @@ function getRouteByDirectories(directories: ICS_Directory[], id: string): VueRou
 }
 
 function generateRouterToken(routes: VueRoute[]) {
-  debugger;
   // 模拟
-  const statement = t.blockStatement([
+  const statement = t.program([
     // 1 导入
     // t.importDeclaration([t.importNamespaceSpecifier(t.identifier('aaa'))], t.stringLiteral('ant-design-vue')),
     t.importDeclaration(

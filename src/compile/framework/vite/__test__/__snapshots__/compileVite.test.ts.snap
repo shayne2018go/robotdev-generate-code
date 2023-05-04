@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`compilerFactory > compile 1`] = `
+exports[`compileVite > compileVite 1`] = `
 [
   {
     "path": "README.md",
@@ -290,29 +290,6 @@ const router = createRouter({
 
 export default router;
 ",
-  },
-  {
-    "path": "src/router/routes.ts",
-    "token": "{
-  import { RouteRecordRaw } from \\"vue-router\\";
-  const routes = [{
-    path: \\"/shouye\\",
-    component: () => import(\\"../pages/shouye.vue\\")
-  }, {
-    path: \\"/404\\",
-    component: () => import(\\"../pages/404.vue\\")
-  }, {
-    path: \\"/502\\",
-    component: () => import(\\"../pages/502.vue\\")
-  }, {
-    path: \\"/renyuanluruye\\",
-    component: () => import(\\"../pages/renyuanluruye.vue\\")
-  }, {
-    path: \\"/renyuanliebiao\\",
-    component: () => import(\\"../pages/renyuanliebiao.vue\\")
-  }];
-  export { routes };
-}",
   },
 ]
 `;

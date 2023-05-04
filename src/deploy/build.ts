@@ -1,33 +1,51 @@
+import fse from 'fs-extra';
+import { blue, cyan, red } from 'kolorist';
 import shelljs from 'shelljs';
-import { red, cyan, blue } from 'kolorist';
-import fs from 'fs';
-import { exec } from 'child_process';
+import type { ChildProcess } from 'child_process';
 
-function build(path: string) {
-  //   debugger;
+async function build(path: string) {
+  const isExist = fse.existsSync(path);
+  if (!isExist) {
+    shelljs.echo(red(`Error: dir does not exist ${cyan(path)}.`));
+    shelljs.exit(1);
+  }
+
   shelljs.cd(path);
+
   const hasNode = shelljs.which('node');
   if (!hasNode) {
-    console.log(red(`Error: command not found ${cyan('node')}.`));
-    return;
+    shelljs.echo(red(`Error: command not found ${cyan('node')}.`));
+    shelljs.exit(1);
   }
   const hasPnpm = shelljs.which('pnpm');
   if (!hasPnpm) {
-    console.log(red(`Error: command not found ${cyan('pnpm')}.`));
-    return;
+    shelljs.echo(red(`Error: command not found ${cyan('pnpm')}.`));
+    shelljs.exit(1);
   }
-  const iexec = shelljs.exec('pnpm i', { silent: true });
-  console.log(`------------- ${red(`install dependencies`)} -------------`);
-  console.log(blue(iexec.stdout));
 
-  const bexec = shelljs.exec('pnpm build', { silent: true });
-  console.log(`------------- ${red(`build`)} -------------`);
-  console.log(blue(bexec.stdout));
+  console.log(shelljs.pwd());
+  debugger;
+  await promiseExec(shelljs.exec('pnpm install', { silent: true, async: true }));
+  debugger;
+  await promiseExec(shelljs.exec('pnpm build', { silent: true, async: true }));
 
-  // const dexec = shelljs.exec('pnpm dev', { silent: true, async:true });
-  return { shelljs };
+  return Promise.resolve();
+}
 
-  //   return {close: dexec.}
+function promiseExec(exec: ChildProcess): Promise<void> {
+  return new Promise((resolve, reject) => {
+    exec.stdout?.on('data', (data) => {
+      console.log(blue(data));
+    });
+
+    exec.addListener('exit', () => {
+      resolve();
+    });
+
+    exec.addListener('error', (err) => {
+      reject(err);
+    });
+  });
 }
 
 export default build;

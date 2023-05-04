@@ -1,17 +1,22 @@
-import { defaultRootPath, defaultProjectName } from '@/const/generatePath';
+import { defaultProjectName, defaultRootPath } from '@/const/generatePath';
 import { Compile } from '@/types/compile/token';
 import fileUtils from '@/utils/fileUtils';
-import { fileURLToPath, resolve, dirname } from '@/utils/node';
+import { resolve } from '@/utils/node';
 
-function generate(tokens: Compile.Token[], projectName?: string): void;
+interface GenerateResult {
+  projectPath: string;
+}
+
+function generate(tokens: Compile.Token[], projectName?: string): GenerateResult;
 function generate(tokens: Compile.Token[], projectName: string = defaultProjectName) {
+  const projectPath = resolve(defaultRootPath, projectName);
   tokens.forEach((t) => {
-    const finalPath = resolve(defaultRootPath, projectName, t.path);
+    const finalPath = resolve(projectPath, t.path);
     // const finalPath = resolve('/home/dreawer/workspace', `/${defaultPath}`, t.path);
-    console.log(finalPath);
-    debugger;
     fileUtils.create(finalPath, t.token);
   });
+
+  return { projectPath };
 }
 
 export default generate;
