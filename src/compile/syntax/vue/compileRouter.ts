@@ -4,27 +4,37 @@ import { Compile } from '@/types/compile/token';
 import { ICS_Directory } from '@/types/directory';
 import t from '@babel/types';
 import generate from '@babel/generator';
+import { relative } from '@/utils/node';
 
-function compileRouter(codeSchema: ICodeSchema): { tokens: Compile.Token[] } {
-  const routerPath = 'src/router/routes.ts';
+export interface VueRoute {
+  id: string; // 页面id
+  path: string; // path
+  filePath: string; // 文件地址
+  name?: string; // name
+}
+
+function compileRouter(codeSchema: ICodeSchema): { tokens: Compile.Token[]; routes: VueRoute[] } {
+  const routerDir = 'src/router';
+
+  const routeFile = 'routes.ts';
 
   const { directories = [], pages } = codeSchema;
-  // directories
-  const routes = pages.map((page) => {
-    return getRouteByDirectories(directories, page.id);
-  });
 
-  const tokens = [createToken(routerPath, generateRouterToken(routes))] as Compile.Token[];
-  return { tokens };
+  const routes =
+    pages.map((page) => {
+      return getRouteByDirectories(directories, page.id);
+    }) || [];
+
+  const tokens = [createToken(`${routerDir}/${routeFile}`, generateRouterToken(routes, routerDir))] as Compile.Token[];
+  return { tokens, routes };
 }
 
-interface VueRoute {
-  id: string;
-  path: string;
-  component: string;
-  name?: string;
-}
-
+/**
+ * 根据目录获取路由
+ * @param directories 目录
+ * @param id 页面id
+ * @returns
+ */
 function getRouteByDirectories(directories: ICS_Directory[], id: string): VueRoute {
   const dirPath: ICS_Directory[] = [];
 
@@ -40,20 +50,22 @@ function getRouteByDirectories(directories: ICS_Directory[], id: string): VueRou
     }
   }
 
-  // 解析称 vue route 的path
+  // vue-router 的path
   const path = `/${dirPath.map((p) => p.key).join('/')}`;
 
-  const component = `../pages${path}.vue`;
+  // 文件的绝对路径
+  const filePath = `src/pages${path}.vue`;
 
   return {
     id,
     name: dirPath[dirPath.length - 1].key,
     path,
-    component,
+    filePath,
   };
 }
 
-function generateRouterToken(routes: VueRoute[]) {
+// 生成token
+function generateRouterToken(routes: VueRoute[], routerDir: string) {
   // 模拟
   const statement = t.program([
     // 1 导入
@@ -72,7 +84,10 @@ function generateRouterToken(routes: VueRoute[]) {
               t.objectProperty(t.identifier('path'), t.stringLiteral(r.path)),
               t.objectProperty(
                 t.identifier('component'),
-                t.arrowFunctionExpression([], t.callExpression(t.import(), [t.stringLiteral(r.component)]))
+                t.arrowFunctionExpression(
+                  [],
+                  t.callExpression(t.import(), [t.stringLiteral(relative(routerDir, r.filePath))])
+                )
               ),
             ])
           )

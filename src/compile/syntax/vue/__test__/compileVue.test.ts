@@ -2,8 +2,13 @@ import codeSchema from '@/__test__/__fixture__/CodeSchema';
 import { describe, expect, it } from 'vitest';
 import compileRouter from '../compileRouter';
 import vueRouterTokens from './fixture/vue-router-tokens.json';
+import compileVue from '../compileVue';
 
 describe('compile vue', () => {
+  it('compileVue', () => {
+    const { tokens } = compileVue(codeSchema);
+  });
+
   it('compileRouter', () => {
     const { tokens } = compileRouter(codeSchema);
 

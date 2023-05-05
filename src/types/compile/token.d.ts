@@ -3,4 +3,10 @@ export namespace Compile {
     path: string;
     token: string;
   }
+
+  // export interface ComponentDependencies {
+  //   [tagId:string]: {
+
+  //   }
+  // }
 }

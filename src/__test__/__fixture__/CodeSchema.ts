@@ -6573,7 +6573,7 @@ const codeSchema = {
       variables: [],
       lifeCycle: [
         {
-          eventId: '641a95e7cd3c6b0921a79f2b',
+          eventId: '641a95e7cd3c6b0921a79f2b', // onMounted
           actions: [
             {
               id: '64473c5323bb5dfddd8bdd31',

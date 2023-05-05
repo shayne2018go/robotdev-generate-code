@@ -23,6 +23,8 @@ export interface ICS_Page {
   };
   variables?: Array<Identifier>;
   nodes: Array<INode>;
-  lifeCycle: Array<I_component_LifeCycle>;
+  lifeCycle: Array<I_component_LifeCycle>; // 声明周期
   functions: Array<ICS_Function>;
 }
+
+// vue -> template/script/style

@@ -1,3 +1,3 @@
-import { resolve, dirname } from 'path';
+import { resolve, dirname, relative } from 'path';
 
-export { resolve, dirname };
+export { resolve, dirname, relative };

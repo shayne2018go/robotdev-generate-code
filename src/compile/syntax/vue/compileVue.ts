@@ -1,16 +1,35 @@
 import { ICodeSchema } from '@/types/ICodeSchema';
-import { compileTemplate, compileScript, compileStyle } from './sfc';
-import compileRouter from './compileRouter';
 import compilePages from './compilePages';
+import compileRouter, { VueRoute } from './compileRouter';
+import compileComponents, { VueComponent } from './compileComponents';
+import compileFunctions, { VueFunction } from './compileFunctions';
+
+export interface VueCompileOptions {
+  routes: VueRoute[]; // 路由相关
+  components: VueComponent[]; // 组件相关
+  functions: VueFunction[]; // 函数相关
+}
 
 function compileVue(codeSchema: ICodeSchema) {
-  const { tokens: routerTokens } = compileRouter(codeSchema);
+  const vueCompileOptions = {
+    routes: [],
+    functions: [],
+    components: [],
+  } as VueCompileOptions;
+
+  const { tokens: routerTokens, routes } = compileRouter(codeSchema);
+  vueCompileOptions['routes'] = routes;
+
+  const { tokens: functionTokens, functions } = compileFunctions(codeSchema);
+  vueCompileOptions['functions'] = functions;
+
+  const { tokens: componentTokens, components } = compileComponents(codeSchema, vueCompileOptions);
+  vueCompileOptions['components'] = components;
+
   const { tokens: pageTokens } = compilePages(codeSchema);
 
-  // const template = compileTemplate(codeSchema);
-  // const script = compileScript(codeSchema);
-  // const style = compileStyle(codeSchema);
-  const tokens = routerTokens.concat(pageTokens);
+  const tokens = routerTokens.concat(componentTokens).concat(functionTokens).concat(pageTokens);
+
   return { tokens };
 }
 
