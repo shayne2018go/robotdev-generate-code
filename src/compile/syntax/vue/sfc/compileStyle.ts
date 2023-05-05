@@ -1,7 +1,12 @@
-import { ICodeSchema } from "@/types/ICodeSchema";
+import { ICodeSchema } from '@/types/ICodeSchema';
+import { Compile } from '@/types/compile/token';
+import { ICS_Page } from '@/types/page';
+import { CompilePageOptions } from '../compilePages';
 
-function compileStyle(codeSchema: ICodeSchema): string {
-  return "";
+function compileStyle(page: ICS_Page, compileOptions: CompilePageOptions): { token: string } {
+  const token = '';
+
+  return { token };
 }
 
 export default compileStyle;

@@ -26,7 +26,7 @@ function compileVue(codeSchema: ICodeSchema) {
   const { tokens: componentTokens, components } = compileComponents(codeSchema, vueCompileOptions);
   vueCompileOptions['components'] = components;
 
-  const { tokens: pageTokens } = compilePages(codeSchema);
+  const { tokens: pageTokens } = compilePages(codeSchema, vueCompileOptions);
 
   const tokens = routerTokens.concat(componentTokens).concat(functionTokens).concat(pageTokens);
 

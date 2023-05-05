@@ -15,7 +15,7 @@ export interface VueComponent {
   protocol: ICS_Component; // 协议
 }
 
-type RequiredPicke1<T, K extends keyof T> = {
+export type RequiredPicke1<T, K extends keyof T> = {
   [P in K]-?: T[P];
 };
 

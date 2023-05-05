@@ -1,28 +1,16 @@
-import { ICodeSchema } from '@/types/ICodeSchema';
 import { Compile } from '@/types/compile/token';
 import { INode } from '@/types/view';
-import t from '@babel/types';
-import { reduce } from 'lodash-es';
+import { CompilePageOptions } from '../compilePages';
+import { ICS_Page } from '@/types/page';
 
 const WHITE_TAG = ['each', 'cond', 'slot', 'tpl'];
 
-interface CompileTemplateOptions {}
+// interface CompileTemplateOptions {}
 
-function compileTemplate(nodes: Array<INode>): { tokens: Compile.Token[] } {
-  const tokens = [] as Compile.Token[];
+function compileTemplate(page: ICS_Page, compileOptions: CompilePageOptions): { token: string } {
+  const token = '';
 
-  // const
-
-  // nodes.forEach((node) => {});
-  return { tokens };
+  return { token };
 }
-
-// const listToTree = (
-//   list: Array<INode>,
-//   parentId: string | null = null,
-//   opts = { parentKey: 'parentId', key: 'id', childrenKey: 'children' }
-// ) => {
-//   return treeData;
-// };
 
 export default compileTemplate;
