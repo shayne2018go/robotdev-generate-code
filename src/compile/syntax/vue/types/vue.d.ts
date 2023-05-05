@@ -9,7 +9,7 @@ declare namespace VueTypes {
    */
   export interface Component {
     id: string; // tagId
-    tag: string; // tag 标签
+    key: string; // tag 标签
     source: {
       filePath?: string; // 本地路径
       packageName?: string; // 包路径
