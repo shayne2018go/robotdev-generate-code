@@ -23,6 +23,7 @@
     "kolorist": "^1.8.0",
     "lodash-es": "^4.17.21",
     "prompts": "^2.4.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^4.9.3",
     "vite": "^4.2.0",
     "vite-plugin-dts": "^2.3.0",
