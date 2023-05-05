@@ -1,13 +1,14 @@
 import { ICodeSchema } from '@/types/ICodeSchema';
 import compilePages from './compilePages';
 import compileRouter, { VueRoute } from './compileRouter';
-import compileComponents, { VueComponent } from './compileComponents';
-import compileFunctions, { VueFunction } from './compileFunctions';
+import compileComponents from './compileComponents';
+import compileFunctions from './compileFunctions';
+import { VueTypes } from './types/vue';
 
 export interface VueCompileOptions {
   routes: VueRoute[]; // 路由相关
-  components: VueComponent[]; // 组件相关
-  functions: VueFunction[]; // 函数相关
+  components: VueTypes.Component[]; // 组件相关
+  functions: VueTypes.Function[]; // 函数相关
 }
 
 function compileVue(codeSchema: ICodeSchema) {
@@ -40,3 +41,9 @@ function compileVue(codeSchema: ICodeSchema) {
 }
 
 export default compileVue;
+
+// 修改数据
+
+// 执行业务 打开弹窗
+
+//

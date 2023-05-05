@@ -1,24 +1,23 @@
+import createToken from '@/compile/config/createToken';
 import { ICodeSchema } from '@/types';
 import { Compile } from '@/types/compile/token';
-import { ICS_Page } from '@/types/page';
-import { compileScript, compileStyle, compileTemplate } from './sfc';
-import { RequiredPicke1, VueComponent } from './compileComponents';
-import { VueCompileOptions } from './compileVue';
 import { ICS_Directory } from '@/types/directory';
-import createToken from '@/compile/config/createToken';
-import { IdentifierValue } from '@/types/code-schema/Identifier';
+import { ICS_Page } from '@/types/page';
 import { INode } from '@/types/view';
-import { VueFunction } from './compileFunctions';
+import { VueCompileOptions } from './compileVue';
+import { compileScript, compileStyle, compileTemplate } from './sfc';
+import { getNodesComponentDependencies } from './shared/helper';
+import { VueTypes } from './types/vue';
 
 export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult;
 
 interface ParsingPageResult {
   nodeMap?: Map<string, INode>;
-  componentMap?: Map<string, VueComponent>;
-  functionMap?: Map<string, VueFunction>;
+  componentMap?: Map<string, VueTypes.Component>;
+  functionMap?: Map<string, VueTypes.Function>;
 }
 
-function compilePages(codeSchema: ICodeSchema, compileOptions: CompilePageOptions): { tokens: Compile.Token[] } {
+function compilePages(codeSchema: ICodeSchema, compileOptions: VueCompileOptions): { tokens: Compile.Token[] } {
   const tokens = [] as Compile.Token[];
 
   const { directories = [] } = codeSchema;
@@ -35,14 +34,14 @@ function compilePages(codeSchema: ICodeSchema, compileOptions: CompilePageOption
   return { tokens };
 }
 
-function compilePage(page: ICS_Page, compileOptions: CompilePageOptions) {
-  const { nodeMap } = parsingPage(page, compileOptions);
+function compilePage(page: ICS_Page, compileOptions: VueCompileOptions) {
+  const parsingPageResult = parsingPage(page, compileOptions);
 
-  compileOptions.nodeMap = nodeMap;
+  const currentPageCompileOptions: CompilePageOptions = Object.assign({}, compileOptions, parsingPageResult);
 
-  const { token: templateToken } = compileTemplate(page, compileOptions);
-  const { token: scriptToken } = compileScript(page, compileOptions);
-  const { token: styleToken } = compileStyle(page, compileOptions);
+  const { token: templateToken } = compileTemplate(page, currentPageCompileOptions);
+  const { token: scriptToken } = compileScript(page, currentPageCompileOptions);
+  const { token: styleToken } = compileStyle(page, currentPageCompileOptions);
 
   const token = templateToken + scriptToken + styleToken;
 
@@ -51,7 +50,12 @@ function compilePage(page: ICS_Page, compileOptions: CompilePageOptions) {
 
 function parsingPage(page: ICS_Page, compileOptions: CompilePageOptions): ParsingPageResult {
   // 1，当前页面的依赖 （组件、行为）
-  //TODO:
+  // 组件依赖
+  const componentMap = getNodesComponentDependencies(page.nodes, compileOptions.components);
+
+  // const actionMap = getNodesActionDependencies()
+
+  debugger;
   // 2，当前页面节点的依赖（属性，事件）
   const nodeMap = new Map<string, any>();
 
@@ -59,7 +63,7 @@ function parsingPage(page: ICS_Page, compileOptions: CompilePageOptions): Parsin
     nodeMap.set(node.id, node);
   });
 
-  return { nodeMap };
+  return { nodeMap, componentMap };
 }
 
 function getPageFilePath(page: ICS_Page, directories: ICS_Directory[]): string {
