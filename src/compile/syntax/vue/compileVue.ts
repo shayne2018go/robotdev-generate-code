@@ -11,10 +11,16 @@ export interface VueCompileOptions {
 }
 
 function compileVue(codeSchema: ICodeSchema) {
+  /**
+   * 1 内置行为协议
+   * 2 原生事件协议
+   * 3 内置函数协议
+   */
   const vueCompileOptions = {
     routes: [],
-    functions: [],
     components: [],
+    functions: [],
+    actions: [],
   } as VueCompileOptions;
 
   const { tokens: routerTokens, routes } = compileRouter(codeSchema);

@@ -9,7 +9,7 @@ export interface VueComponent {
   source: {
     filePath?: string; // 本地路径
     packageName?: string; // 包路径
-    exportName: string; // 导出名 (不能为空 默认default )
+    exportName: string; // 导出名 (不能为空 默认default ) aaa
     alias?: string; // 别名
   };
   protocol: ICS_Component; // 协议

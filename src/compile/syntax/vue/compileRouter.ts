@@ -67,6 +67,7 @@ function getRouteByDirectories(directories: ICS_Directory[], id: string): VueRou
 // 生成token
 function generateRouterToken(routes: VueRoute[], routerDir: string) {
   // 模拟
+  debugger;
   const statement = t.program([
     // 1 导入
     // t.importDeclaration([t.importNamespaceSpecifier(t.identifier('aaa'))], t.stringLiteral('ant-design-vue')),
