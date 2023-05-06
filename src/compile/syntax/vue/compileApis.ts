@@ -8,20 +8,20 @@ import createToken from '@/compile/config/createToken';
 import { AxiosRequestConfig } from 'axios';
 // import codeSchema from '@/__test__/__fixture__/CodeSchema';
 import { relative } from '@/utils/node';
+import { API_DIR, UTIL_DIR } from './const/config';
 
 // console.log(compileApis(codeSchema).tokens, compileApis(codeSchema).apis);
 // console.log(compileRequestInstance({})[0].path);
 // console.log(compileRequestInstance({})[0].token);
 
 function compileApis(codeSchema: ICodeSchema): { tokens: Compile.Token[]; apis: VueTypes.Api[] } {
-  const apiDir = 'src/api';
   const { apis: apiArray } = codeSchema;
   const tokens = [] as Compile.Token[];
   const apis = [] as VueTypes.Api[];
   for (let index = 0; index < apiArray.length; index++) {
     const api = apiArray[index];
     const apiFile = `${api.key}.ts`;
-    const path = `${apiDir}/${apiFile}`;
+    const path = `${API_DIR}/${apiFile}`;
     let token = getAxiosImport();
     token += getExportRequest(api);
     tokens.push(createToken(path, token));
@@ -41,13 +41,11 @@ function getAxiosImport(): string {
 
 // @ts-ignore
 function getAxiosUtilImport(): string {
-  const apiDir = 'src/api';
-  const utilDir = 'src/util';
   const utilFile = 'axios.ts';
   const program = t.program([
     t.importDeclaration(
       [t.importDefaultSpecifier(t.identifier('axios'))],
-      t.stringLiteral(relative(apiDir, `${utilDir}/${utilFile}`))
+      t.stringLiteral(relative(API_DIR, `${UTIL_DIR}/${utilFile}`))
     ),
   ]);
   const { code } = generate(program);
@@ -92,7 +90,6 @@ function getApiType(path: string, api: ICS_Api): VueTypes.Api {
 }
 
 export function compileRequestInstance({ timeout, baseURL, headers }: AxiosRequestConfig): Compile.Token[] {
-  const utilDir = 'src/util';
   const utilFile = 'axios.ts';
   const headersExpr: t.ObjectProperty[] = [];
   if (headers) {
@@ -163,7 +160,7 @@ export function compileRequestInstance({ timeout, baseURL, headers }: AxiosReque
     t.exportDefaultDeclaration(t.identifier('instance')),
   ]);
   const { code } = generate(program);
-  return [createToken(`${utilDir}/${utilFile}`, code)];
+  return [createToken(`${UTIL_DIR}/${utilFile}`, code)];
 }
 
 export default compileApis;

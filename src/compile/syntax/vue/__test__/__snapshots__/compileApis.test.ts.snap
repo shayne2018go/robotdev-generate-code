@@ -3,7 +3,7 @@
 exports[`compile apis > compileApis 1`] = `
 [
   {
-    "path": "src/api/chuangjianyonghu.ts",
+    "path": "src/apis/chuangjianyonghu.ts",
     "token": "import axios from \\"axios\\";
 export function chuangjianyonghu(data) {
   return axios({
@@ -14,7 +14,7 @@ export function chuangjianyonghu(data) {
 }",
   },
   {
-    "path": "src/api/chaxunsuoyouyonghu.ts",
+    "path": "src/apis/chaxunsuoyouyonghu.ts",
     "token": "import axios from \\"axios\\";
 export function chaxunsuoyouyonghu(data) {
   return axios({
@@ -30,7 +30,7 @@ export function chaxunsuoyouyonghu(data) {
 exports[`compile apis > compileRequestInstance 1`] = `
 [
   {
-    "path": "src/util/axios.ts",
+    "path": "src/utils/axios.ts",
     "token": "import axios from \\"axios\\";
 const instance = axios.create({
   timeout: 6000,
