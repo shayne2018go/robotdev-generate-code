@@ -1,0 +1,7 @@
+
+[
+  {
+    "path": "src/utils/axios.ts",
+    "token": "import axios from \"axios\";\nconst instance = axios.create({\n  timeout: 6000,\n  baseURL: \"\",\n  headers: {}\n});\ninstance.interceptors.request.use(function (config) {\n  return config;\n}, function (error) {\n  return error.reject(error);\n});\ninstance.interceptors.response.use(function (response) {\n  return response.data;\n}, function (error) {\n  return error.reject(error);\n});\nexport default instance;"
+  }
+]

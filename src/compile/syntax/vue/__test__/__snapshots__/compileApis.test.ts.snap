@@ -3,8 +3,9 @@
 exports[`compile apis > compileApis 1`] = `
 [
   {
-    "path": "src/api/chuangjianyonghu.ts",
-    "token": "export function chuangjianyonghu(data) {
+    "path": "src/apis/chuangjianyonghu.ts",
+    "token": "import axios from \\"axios\\";
+export function chuangjianyonghu(data) {
   return axios({
     method: \\"post\\",
     url: \\"chuangjianyonghu\\",
@@ -13,14 +14,40 @@ exports[`compile apis > compileApis 1`] = `
 }",
   },
   {
-    "path": "src/api/chaxunsuoyouyonghu.ts",
-    "token": "export function chaxunsuoyouyonghu(data) {
+    "path": "src/apis/chaxunsuoyouyonghu.ts",
+    "token": "import axios from \\"axios\\";
+export function chaxunsuoyouyonghu(data) {
   return axios({
     method: \\"post\\",
     url: \\"chaxunsuoyouyonghu\\",
     data: data
   });
 }",
+  },
+]
+`;
+
+exports[`compile apis > compileRequestInstance 1`] = `
+[
+  {
+    "path": "src/utils/axios.ts",
+    "token": "import axios from \\"axios\\";
+const instance = axios.create({
+  timeout: 6000,
+  baseURL: \\"\\",
+  headers: {}
+});
+instance.interceptors.request.use(function (config) {
+  return config;
+}, function (error) {
+  return error.reject(error);
+});
+instance.interceptors.response.use(function (response) {
+  return response.data;
+}, function (error) {
+  return error.reject(error);
+});
+export default instance;",
   },
 ]
 `;
