@@ -8,6 +8,7 @@ import { VueCompileOptions } from './compileVue';
 import { compileScript, compileStyle, compileTemplate } from './sfc';
 import { getNodesComponentDependencies } from './shared/helper';
 import { VueTypes } from './types/vue';
+import { PAGE_DIR } from './const/config';
 
 export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult;
 
@@ -55,7 +56,6 @@ function parsingPage(page: ICS_Page, compileOptions: CompilePageOptions): Parsin
 
   // const actionMap = getNodesActionDependencies()
 
-  debugger;
   // 2，当前页面节点的依赖（属性，事件）
   const nodeMap = new Map<string, any>();
 
@@ -67,8 +67,27 @@ function parsingPage(page: ICS_Page, compileOptions: CompilePageOptions): Parsin
 }
 
 function getPageFilePath(page: ICS_Page, directories: ICS_Directory[]): string {
-  // TODO: 获取页面地址 如 'src/page/home.vue'
-  return '';
+  const dirPath: ICS_Directory[] = [];
+
+  let curId: string | null = page.id;
+
+  while (curId) {
+    const current = directories.find((d) => d.id === curId);
+    if (current) {
+      dirPath.unshift(current);
+      curId = current.parentId;
+    } else {
+      break;
+    }
+  }
+
+  // vue-router 的path
+  const path = `/${dirPath.map((p) => p.key).join('/')}`;
+
+  // 文件的绝对路径
+  const filePath = `${PAGE_DIR}${path}.vue`;
+
+  return filePath;
 }
 
 export default compilePages;

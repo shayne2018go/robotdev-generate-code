@@ -13,6 +13,7 @@ import {
 import { packagesWhiteList } from './const/whiteList';
 import { ICS_Function } from '@/types/function';
 import { preprocessDeclare } from './shared/declare';
+import { elementData, actionData } from '@dreawer/robotdev-view-editor-mock-data';
 
 export interface DependenciesBuilder {
   dependencies: ICS_Dependencies[];
@@ -30,6 +31,48 @@ function preprocessDependencies(
   dependencies: DBWSchema.Dependencies[],
   dependenciesPackages: DBWSchema.DependenciesPackages[]
 ): PreprocessDependenciesResult {
+  // TODO： 加入内置的依赖（mock-data）
+  const finalDependencies = dependencies
+    .concat(
+      // 系统组件（逻辑）
+      elementData.sys.map(
+        (item) =>
+          ({
+            id: item.id!,
+            tag: item.tag!,
+            key: item.tag!,
+            projectId: item.project!,
+            name: item.name!,
+            type: 'component',
+            spec: item.spec,
+          } as DBWSchema.Dependencies)
+      )
+    )
+    .concat(
+      // 系统行为 (打开弹窗、执行业务、)
+      actionData.actions.map(
+        (item) =>
+          ({
+            id: item.id!,
+            tag: item.tag!,
+            key: item.tag!,
+            projectId: item.project!,
+            name: item.name!,
+            type: 'action',
+            func: item.func,
+          } as DBWSchema.Dependencies)
+      )
+    );
+  const finalDependenciesPackages = dependenciesPackages.concat(
+    actionData.packages.map(
+      (pkg) =>
+        ({
+          projectId: pkg.id,
+          name: pkg.name,
+        } as DBWSchema.DependenciesPackages)
+    )
+  );
+
   // tag 索引对象
   const tagDependenciesIndexs = {} as Record<string, DBWSchema.Dependencies>;
   dependencies.forEach((dp) => {

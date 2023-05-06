@@ -2,10 +2,9 @@ import { ICodeSchema } from '@/types';
 import { Compile } from '@/types/compile/token';
 import { ICS_Component } from '@/types/component';
 import { VueCompileOptions } from './compileVue';
-import { INode } from '@/types/view';
-import { getNodesComponentDependencies } from './shared/helper';
-import { COMPONENT_DIR } from './const/config';
+import { BUILT_IN_PACKAGES, COMPONENT_DIR } from './const/config';
 import { VueTypes } from './types/vue';
+import { elementData } from '@dreawer/robotdev-view-editor-mock-data';
 
 export type RequiredPicke1<T, K extends keyof T> = {
   [P in K]-?: T[P];
@@ -19,20 +18,7 @@ function compileComponents(
 ): { tokens: Compile.Token[]; components: VueTypes.Component[] } {
   const tokens = [] as Compile.Token[];
 
-  const components = [] as VueTypes.Component[];
-
-  //  优先生成组件路径 ,方便后续引用
-  codeSchema.components.forEach((component) => {
-    components.push({
-      id: component.id,
-      tag: component.key,
-      source: {
-        filePath: `${COMPONENT_DIR}/${component.key}.vue`,
-        exportName: 'default',
-      },
-      protocol: component,
-    });
-  });
+  const { components } = parsingComponents(codeSchema);
 
   codeSchema.components.forEach((component) => {
     const token = compileComponent(component, components);
@@ -42,20 +28,47 @@ function compileComponents(
 }
 
 function compileComponent(cmpt: ICS_Component, components: VueTypes.Component[]): string {
-  const {} = parsingComponent(cmpt, components);
   return '';
 }
 
-interface ParsingComponentResult {
-  nodeMap?: Map<string, INode>;
-  componentMap?: Map<string, VueTypes.Component>;
-  functionMap?: Map<string, VueTypes.Function>;
-}
+function parsingComponents(codeSchema: ICodeSchema) {
+  const components = [] as VueTypes.Component[];
 
-function parsingComponent(cmpt: ICS_Component, components: VueTypes.Component[]): ParsingComponentResult {
-  const componentMap = getNodesComponentDependencies(cmpt.nodes, components);
+  // 1 拿到内置包的组件描述
+  codeSchema.dependencies.forEach((dep) => {
+    if (!dep.components?.length) {
+      return;
+    }
+    if (BUILT_IN_PACKAGES.includes(dep.projectId)) {
+      dep.components.forEach((cmpt) => {
+        components.push({
+          id: cmpt.id,
+          tag: cmpt.key,
+          protocol: cmpt,
+        });
+      });
+    } else {
+      // 在线组件
+      dep.components.forEach((cmpt) => {
+        components.push({
+          id: cmpt.id,
+          tag: cmpt.key,
+          source: {
+            filePath: `${COMPONENT_DIR}/${cmpt.key}.vue`,
+            exportName: 'default',
+          },
+          protocol: cmpt,
+        });
+      });
+    }
+  });
 
-  return { componentMap };
+  // 2 特殊组件描述
+  elementData.sys.forEach((cmpt) => {
+    // components.push({})
+  });
+
+  return { components };
 }
 
 export default compileComponents;

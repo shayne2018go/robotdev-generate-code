@@ -71,8 +71,6 @@ function updateObjectExpression(node: ObjectExpression, key: string | string[], 
   let updatePath = path.slice(0, pathIndex);
 
   while (updatePath.length < path.length) {
-    debugger;
-
     const isExit = getObjectPropertyByKey(node, updatePath);
 
     pathIndex++;

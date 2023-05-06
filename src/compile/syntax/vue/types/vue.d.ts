@@ -10,7 +10,7 @@ declare namespace VueTypes {
   export interface Component {
     id: string; // tagId
     key: string; // tag 标签
-    source: {
+    source?: {
       filePath?: string; // 本地路径
       packageName?: string; // 包路径
       exportName: string; // 导出名 (不能为空 默认default ) aaa

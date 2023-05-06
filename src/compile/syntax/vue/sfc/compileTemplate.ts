@@ -8,9 +8,18 @@ const WHITE_TAG = ['each', 'cond', 'slot', 'tpl'];
 // interface CompileTemplateOptions {}
 
 function compileTemplate(page: ICS_Page, compileOptions: CompilePageOptions): { token: string } {
+  const { nodes = [] } = page;
+  const { componentMap } = compileOptions;
+
+  // listToTree
+  // tag props events children
   const token = '';
 
   return { token };
+}
+
+function getTag(tagId: string): string {
+  return '';
 }
 
 export default compileTemplate;

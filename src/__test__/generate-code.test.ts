@@ -18,6 +18,7 @@ describe('generate-code', () => {
 
     const tokens = compiler();
 
+    debugger;
     const { projectPath } = generate(tokens);
 
     await build(projectPath);

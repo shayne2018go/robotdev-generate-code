@@ -24,9 +24,7 @@ async function build(path: string) {
   }
 
   console.log(shelljs.pwd());
-  debugger;
   await promiseExec(shelljs.exec('pnpm install', { silent: true, async: true }));
-  debugger;
   await promiseExec(shelljs.exec('pnpm build', { silent: true, async: true }));
 
   return Promise.resolve();
