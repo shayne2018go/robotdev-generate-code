@@ -1,10 +1,10 @@
 [
   {
     "path": "src/api/chuangjianyonghu.ts",
-    "token": "export function chuangjianyonghu(data) {\n  return axios({\n    method: \"post\",\n    url: \"chuangjianyonghu\",\n    data: data\n  });\n}"
+    "token": "import axios from \"axios\";\nexport function chuangjianyonghu(data) {\n  return axios({\n    method: \"post\",\n    url: \"chuangjianyonghu\",\n    data: data\n  });\n}"
   },
   {
     "path": "src/api/chaxunsuoyouyonghu.ts",
-    "token": "export function chaxunsuoyouyonghu(data) {\n  return axios({\n    method: \"post\",\n    url: \"chaxunsuoyouyonghu\",\n    data: data\n  });\n}"
+    "token": "import axios from \"axios\";\nexport function chaxunsuoyouyonghu(data) {\n  return axios({\n    method: \"post\",\n    url: \"chaxunsuoyouyonghu\",\n    data: data\n  });\n}"
   }
 ]
