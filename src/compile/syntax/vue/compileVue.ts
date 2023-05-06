@@ -10,6 +10,7 @@ export interface VueCompileOptions {
   routes: VueRoute[]; // 路由相关
   components: VueTypes.Component[]; // 组件相关
   functions: VueTypes.Function[]; // 函数相关
+  actions: VueTypes.Action[]; // 函数相关
   apis: VueTypes.Api[]; // 函数相关
 }
 

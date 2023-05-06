@@ -9,6 +9,10 @@ import { compileScript, compileStyle, compileTemplate } from './sfc';
 import { getNodesComponentDependencies } from './shared/helper';
 import { VueTypes } from './types/vue';
 import { PAGE_DIR } from './const/config';
+import { componentsDataStore } from './shared/store/components';
+import { functionsDataStore } from './shared/store/functions';
+import { actionsDataStore } from './shared/store/actions';
+import { apisDataStore } from './shared/store/apis';
 
 export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult;
 
@@ -19,6 +23,11 @@ interface ParsingPageResult {
 }
 
 function compilePages(codeSchema: ICodeSchema, compileOptions: VueCompileOptions): { tokens: Compile.Token[] } {
+  const componentsStore = componentsDataStore(compileOptions.components);
+  const functionsStore = functionsDataStore(compileOptions.functions);
+  const actionsStore = actionsDataStore(compileOptions.actions);
+  const actionsApi = apisDataStore(compileOptions.apis);
+
   const tokens = [] as Compile.Token[];
 
   const { directories = [] } = codeSchema;
