@@ -6,3 +6,5 @@ export interface IProp {
   propId: Identifier['id'];
   value: IQuantity['id'];
 }
+
+export interface ICS_Property extends Identifier {}

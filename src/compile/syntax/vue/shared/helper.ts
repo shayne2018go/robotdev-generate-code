@@ -1,7 +1,7 @@
 import { INode } from '@/types/view';
-import { packagesWhiteList } from '@/translate/code-schema/const/whiteList';
 import { DBSchema } from '@/types';
 import { VueTypes } from '../types/vue';
+import { BUILT_IN_PACKAGES } from '../const/config';
 
 /**
  * 获取节点中的组件依赖
@@ -26,7 +26,7 @@ function getNodesComponentDependencies(
 
 function getOuterNodes(nodes: Array<INode>) {
   const outerNodes = nodes.filter((node) => {
-    return node.packageId && !packagesWhiteList.map((wl) => wl.id).includes(node.packageId);
+    return node.packageId && !BUILT_IN_PACKAGES.includes(node.packageId);
   });
   return outerNodes;
 }

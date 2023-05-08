@@ -13,8 +13,9 @@ import { DependenciesBuilder } from './dependencies';
 
 function preprocessComponents(dependenciesBuilder: DependenciesBuilder) {
   const { dependencies, packagesWhiteList } = dependenciesBuilder;
+
   const localPackages = dependencies.filter((dep) => {
-    const isWhite = packagesWhiteList.map((wl) => wl.id).includes(dep.projectId);
+    const isWhite = packagesWhiteList.includes(dep.projectId);
     return !isWhite;
   });
 

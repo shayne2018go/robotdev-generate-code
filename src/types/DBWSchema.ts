@@ -18,7 +18,7 @@ export namespace DBWSchema {
 
 export namespace DBWSchema {
   export interface ComponentBase {
-    type?: 'page' | 'theme' | 'component' | 'template' | 'action' | 'function';
+    type?: 'page' | 'theme' | 'component' | 'template' | 'action' | 'function' | 'element';
     nodes?: RdNode[];
     decl?: RdDecl[];
     classes?: Css[];
@@ -50,6 +50,15 @@ export namespace DBWSchema {
     productId?: string;
     name: string;
     type: 'component';
+  }
+
+  export interface Element extends ComponentBase {
+    id: string;
+    tag: string;
+    projectId?: string;
+    productId?: string;
+    name: string;
+    type: 'element';
   }
 
   export interface Action {
@@ -86,7 +95,40 @@ export namespace DBWSchema {
     };
   }
 
-  export type Dependencies = Component | Action | Function;
+  //插槽
+  export interface Slot {
+    projectId?: string;
+    productId?: string;
+    id: string; // 唯一id
+    key?: string; // 插槽名（生成代码用），元件 手输，组件 自动生成
+    name?: string; // 插槽标题（ui配置界面用）
+    desc?: string; // 描述
+    extendPlatform?: boolean; // 是否全平台支持
+    platforms?: string[]; // 端的key，由于key是动态配的，因此此处不应该指定有哪些key项
+    parameters?: RdDefineProp[];
+    isHide?: boolean; // 是否在大纲隐藏
+  }
+
+  // 事件
+  export interface Emit {
+    projectId?: string;
+    productId?: string;
+    id: string; // 唯一id
+    key?: string; // 事件名（生成代码用），元件 手输，组件 自动生成
+    name?: string; // 事件标题（ui配置界面用）
+    desc?: string; // 描述
+    extendPlatform?: boolean; // 是否全平台支持
+    platforms?: string[]; // 端的key，由于key是动态配的，因此此处不应该指定有哪些key项
+    parameters?: RdDefineProp[]; // 事件传参属性定义
+    icon?: string;
+  }
+
+  export interface Prop extends RdDefineProp {
+    projectId?: string;
+    productId?: string;
+  }
+
+  export type Dependencies = Element | Component | Action | Function | Emit | Slot | Prop;
 
   export interface DependenciesPackages {
     projectId: string;

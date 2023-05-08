@@ -189,41 +189,41 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "V313#641a7053cf44f6204642b9cc",
           "nextId": "V313#641a7053cf44f6204642b9cd",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "V313",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
           "id": "V986",
           "nextId": null,
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "V313#641a7053cf44f6204642b9cc",
           "preId": null,
           "props": undefined,
-          "tagId": "slot",
+          "tagId": "62d65a88e7021e08c65c4632",
         },
         {
           "events": undefined,
           "id": "V313#641a7053cf44f6204642b9cd",
           "nextId": "V313#641a7053cf44f6204642b9c9",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "V313",
           "preId": "V313#641a7053cf44f6204642b9cc",
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
           "id": "R787",
           "nextId": "L837",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "V313#641a7053cf44f6204642b9cd",
           "preId": null,
           "props": undefined,
-          "tagId": "slot",
+          "tagId": "62d65a88e7021e08c65c4632",
         },
         {
           "events": [
@@ -385,17 +385,17 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "J415#641a7052cf44f6204642b716",
           "nextId": "J415#641a7052cf44f6204642b717",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "J415",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
           "id": "Q544",
           "nextId": null,
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "J415#641a7052cf44f6204642b716",
           "preId": null,
           "props": [
@@ -410,17 +410,17 @@ exports[`preprocess > code schema 1`] = `
               },
             },
           ],
-          "tagId": "each",
+          "tagId": "62d65a88e7021e08c65c462e",
         },
         {
           "events": undefined,
           "id": "Q544#641a7052cf44f6204642b607",
           "nextId": null,
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "Q544",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
@@ -482,7 +482,59 @@ exports[`preprocess > code schema 1`] = `
   ],
   "dependencies": [
     {
-      "components": [
+      "actions": [
+        {
+          "id": "644650559c229310c169d806",
+          "key": "chenggongxinxi",
+          "name": "成功信息",
+          "outTypes": [
+            {
+              "type": "text",
+            },
+          ],
+          "parameters": [
+            {
+              "desc": "",
+              "extendPlatform": true,
+              "id": "6446507be73896f72bc0c174",
+              "key": "content",
+              "name": "消息内容",
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+            {
+              "desc": "",
+              "extendPlatform": true,
+              "id": "6446507be73896f72bc0c175",
+              "key": "duration",
+              "name": "持续时间",
+              "types": [
+                {
+                  "type": "number",
+                },
+              ],
+            },
+            {
+              "desc": "",
+              "extendPlatform": true,
+              "id": "6446507be73896f72bc0c176",
+              "key": "onClose",
+              "name": "关闭回调",
+              "types": [
+                {
+                  "type": "action",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      "apis": [],
+      "components": [],
+      "elements": [
         {
           "emits": [
             {
@@ -2429,64 +2481,21 @@ exports[`preprocess > code schema 1`] = `
           "variables": [],
         },
       ],
-      "functions": [
-        {
-          "id": "644650559c229310c169d806",
-          "key": "chenggongxinxi",
-          "name": "成功信息",
-          "outTypes": [
-            {
-              "type": "text",
-            },
-          ],
-          "parameters": [
-            {
-              "desc": "",
-              "extendPlatform": true,
-              "id": "6446507be73896f72bc0c174",
-              "key": "content",
-              "name": "消息内容",
-              "types": [
-                {
-                  "type": "text",
-                },
-              ],
-            },
-            {
-              "desc": "",
-              "extendPlatform": true,
-              "id": "6446507be73896f72bc0c175",
-              "key": "duration",
-              "name": "持续时间",
-              "types": [
-                {
-                  "type": "number",
-                },
-              ],
-            },
-            {
-              "desc": "",
-              "extendPlatform": true,
-              "id": "6446507be73896f72bc0c176",
-              "key": "onClose",
-              "name": "关闭回调",
-              "types": [
-                {
-                  "type": "action",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      "events": [],
+      "functions": [],
       "id": "6352061254bb9b1c84ce3570",
       "key": undefined,
       "name": "Ant Design",
       "projectId": "000000000000000000000010",
+      "props": [],
+      "slots": [],
       "version": undefined,
     },
     {
-      "components": [
+      "actions": [],
+      "apis": [],
+      "components": [],
+      "elements": [
         {
           "emits": [],
           "functions": [],
@@ -2522,15 +2531,22 @@ exports[`preprocess > code schema 1`] = `
           "variables": [],
         },
       ],
+      "events": [],
       "functions": [],
       "id": "6358fb8554bb9b1c84ce47a2",
       "key": undefined,
       "name": "程序元件",
       "projectId": "000000000000000000000001",
+      "props": [],
+      "slots": [],
       "version": undefined,
     },
     {
+      "actions": [],
+      "apis": [],
       "components": [],
+      "elements": [],
+      "events": [],
       "functions": [
         {
           "id": "64093e12583491a5ebecd88f",
@@ -5620,9 +5636,13 @@ exports[`preprocess > code schema 1`] = `
       "key": undefined,
       "name": "系统函数",
       "projectId": "6405a27e2d9335b17497fd8f",
+      "props": [],
+      "slots": [],
       "version": undefined,
     },
     {
+      "actions": [],
+      "apis": [],
       "components": [
         {
           "emits": [],
@@ -5646,41 +5666,41 @@ exports[`preprocess > code schema 1`] = `
               "events": undefined,
               "id": "V313#641a7053cf44f6204642b9cc",
               "nextId": "V313#641a7053cf44f6204642b9cd",
-              "packageId": undefined,
+              "packageId": "6455c49bc56f0402c3fd3436",
               "parentId": "V313",
               "preId": null,
               "props": undefined,
-              "tagId": "tpl",
+              "tagId": "62d65a88e7021e08c65c4634",
             },
             {
               "events": undefined,
               "id": "V986",
               "nextId": null,
-              "packageId": undefined,
+              "packageId": "6455c49bc56f0402c3fd3436",
               "parentId": "V313#641a7053cf44f6204642b9cc",
               "preId": null,
               "props": undefined,
-              "tagId": "slot",
+              "tagId": "62d65a88e7021e08c65c4632",
             },
             {
               "events": undefined,
               "id": "V313#641a7053cf44f6204642b9cd",
               "nextId": "V313#641a7053cf44f6204642b9c9",
-              "packageId": undefined,
+              "packageId": "6455c49bc56f0402c3fd3436",
               "parentId": "V313",
               "preId": "V313#641a7053cf44f6204642b9cc",
               "props": undefined,
-              "tagId": "tpl",
+              "tagId": "62d65a88e7021e08c65c4634",
             },
             {
               "events": undefined,
               "id": "R787",
               "nextId": "L837",
-              "packageId": undefined,
+              "packageId": "6455c49bc56f0402c3fd3436",
               "parentId": "V313#641a7053cf44f6204642b9cd",
               "preId": null,
               "props": undefined,
-              "tagId": "slot",
+              "tagId": "62d65a88e7021e08c65c4632",
             },
             {
               "events": [
@@ -5767,14 +5787,20 @@ exports[`preprocess > code schema 1`] = `
           "variables": [],
         },
       ],
+      "elements": [],
+      "events": [],
       "functions": [],
       "id": "64464a309c229310c169d473",
       "key": undefined,
       "name": "ethan组件包",
       "projectId": "64464a309c229310c169d473",
+      "props": [],
+      "slots": [],
       "version": undefined,
     },
     {
+      "actions": [],
+      "apis": [],
       "components": [
         {
           "emits": [
@@ -5852,17 +5878,17 @@ exports[`preprocess > code schema 1`] = `
               "events": undefined,
               "id": "J415#641a7052cf44f6204642b716",
               "nextId": "J415#641a7052cf44f6204642b717",
-              "packageId": undefined,
+              "packageId": "6455c49bc56f0402c3fd3436",
               "parentId": "J415",
               "preId": null,
               "props": undefined,
-              "tagId": "tpl",
+              "tagId": "62d65a88e7021e08c65c4634",
             },
             {
               "events": undefined,
               "id": "Q544",
               "nextId": null,
-              "packageId": undefined,
+              "packageId": "6455c49bc56f0402c3fd3436",
               "parentId": "J415#641a7052cf44f6204642b716",
               "preId": null,
               "props": [
@@ -5877,17 +5903,17 @@ exports[`preprocess > code schema 1`] = `
                   },
                 },
               ],
-              "tagId": "each",
+              "tagId": "62d65a88e7021e08c65c462e",
             },
             {
               "events": undefined,
               "id": "Q544#641a7052cf44f6204642b607",
               "nextId": null,
-              "packageId": undefined,
+              "packageId": "6455c49bc56f0402c3fd3436",
               "parentId": "Q544",
               "preId": null,
               "props": undefined,
-              "tagId": "tpl",
+              "tagId": "62d65a88e7021e08c65c4634",
             },
             {
               "events": undefined,
@@ -5947,11 +5973,831 @@ exports[`preprocess > code schema 1`] = `
           "variables": [],
         },
       ],
+      "elements": [],
+      "events": [],
       "functions": [],
       "id": "6448caed58252f48a6d485e5",
       "key": undefined,
       "name": "ethan组件包2",
       "projectId": "6448caed58252f48a6d485e5",
+      "props": [],
+      "slots": [],
+      "version": undefined,
+    },
+    {
+      "actions": [
+        {
+          "id": "6401884318eda303abe11c40",
+          "key": "api",
+          "name": "执行业务",
+          "outTypes": [
+            {
+              "type": "void",
+            },
+          ],
+          "parameters": [
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "id",
+              "key": "id",
+              "name": undefined,
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "params",
+              "key": "params",
+              "name": "业务参数",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "success",
+              "key": "success",
+              "name": "请求成功时执行",
+              "types": [
+                {
+                  "rules": {
+                    "parameters": [
+                      {
+                        "id": "res",
+                        "key": "res",
+                        "name": "成功数据",
+                        "types": [
+                          {
+                            "type": "module",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  "type": "functionVoid",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "fail",
+              "key": "fail",
+              "name": "请求失败时执行",
+              "types": [
+                {
+                  "rules": {
+                    "parameters": [
+                      {
+                        "id": "error",
+                        "key": "error",
+                        "name": "失败数据",
+                        "types": [
+                          {
+                            "type": "module",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  "type": "functionVoid",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "6401884418eda303abe11c41",
+          "key": "set",
+          "name": "数据赋值",
+          "outTypes": [
+            {
+              "type": "void",
+            },
+          ],
+          "parameters": [
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "actions",
+              "key": "actions",
+              "name": "赋值配置",
+              "types": [
+                {
+                  "multiple": true,
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "6401884818eda303abe11c42",
+          "key": "emit",
+          "name": "抛事件",
+          "outTypes": [
+            {
+              "type": "void",
+            },
+          ],
+          "parameters": [
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "name",
+              "key": "name",
+              "name": "事件名",
+              "types": [
+                {
+                  "type": "text",
+                  "ui": {
+                    "tag": "eventSelect",
+                  },
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "args",
+              "key": "args",
+              "name": "事件数据",
+              "types": [
+                {
+                  "multiple": true,
+                  "type": "unknown",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95e6cd3c6b0921a79f29",
+          "key": "open",
+          "name": "页面跳转",
+          "outTypes": [
+            {
+              "type": "void",
+            },
+          ],
+          "parameters": [
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "mode",
+              "key": "mode",
+              "name": "打开类型",
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "target",
+              "key": "target",
+              "name": "打开方式",
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": undefined,
+              "key": "url",
+              "name": undefined,
+              "types": [
+                {
+                  "type": "url",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": undefined,
+              "key": "page",
+              "name": undefined,
+              "types": [
+                {
+                  "type": "url",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": undefined,
+              "key": "query",
+              "name": undefined,
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": undefined,
+              "key": "target",
+              "name": undefined,
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "6401884818eda303abe11c43",
+          "key": "setVar",
+          "name": "变量赋值",
+          "outTypes": [
+            {
+              "type": "void",
+            },
+          ],
+          "parameters": [
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "id",
+              "key": "id",
+              "name": "被赋值变量",
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "path",
+              "key": "path",
+              "name": "取值路径",
+              "types": [
+                {
+                  "multiple": true,
+                  "type": "text",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "value",
+              "key": "value",
+              "name": "要赋的值",
+              "types": [
+                {
+                  "type": "unknown",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "6401884818eda303abe11c43",
+          "key": "setApiData",
+          "name": "业务数据赋值",
+          "outTypes": [
+            {
+              "type": "void",
+            },
+          ],
+          "parameters": [
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "id",
+              "key": "id",
+              "name": "被赋值业务",
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "path",
+              "key": "path",
+              "name": "取值路径",
+              "types": [
+                {
+                  "multiple": true,
+                  "type": "text",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "value",
+              "key": "value",
+              "name": "要赋的值",
+              "types": [
+                {
+                  "type": "unknown",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      "apis": [],
+      "components": [],
+      "elements": [
+        {
+          "emits": [],
+          "functions": [],
+          "id": "62d65a88e7021e08c65c462e",
+          "key": "each",
+          "lifeCycle": [],
+          "name": "循环",
+          "nodes": [],
+          "props": [
+            {
+              "desc": "预览次数",
+              "extendPlatform": undefined,
+              "id": "641a7052cf44f6204642b605",
+              "key": "times",
+              "name": "预览次数",
+              "types": [
+                {
+                  "type": "number",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "641a7052cf44f6204642b606",
+              "key": "data",
+              "name": "数据",
+              "types": [
+                {
+                  "multiple": true,
+                  "type": "unknown",
+                },
+              ],
+            },
+          ],
+          "slots": [
+            {
+              "desc": undefined,
+              "id": "641a7052cf44f6204642b607",
+              "key": "default",
+              "name": "默认插槽",
+              "properties": [],
+            },
+          ],
+          "variables": [],
+        },
+        {
+          "emits": [],
+          "functions": [],
+          "id": "62d65a88e7021e08c65c4630",
+          "key": "cond",
+          "lifeCycle": [],
+          "name": "条件",
+          "nodes": [],
+          "props": [
+            {
+              "desc": "条件表达式配置",
+              "extendPlatform": undefined,
+              "id": "641a7052cf44f6204642b608",
+              "key": "value",
+              "name": "条件配置",
+              "types": [
+                {
+                  "default": true,
+                  "type": "whether",
+                },
+              ],
+            },
+          ],
+          "slots": [
+            {
+              "desc": undefined,
+              "id": "641a7052cf44f6204642b609",
+              "key": "true",
+              "name": "真",
+              "properties": [],
+            },
+            {
+              "desc": undefined,
+              "id": "641a7052cf44f6204642b60a",
+              "key": "false",
+              "name": "假",
+              "properties": [],
+            },
+          ],
+          "variables": [],
+        },
+        {
+          "emits": [],
+          "functions": [],
+          "id": "62d65a88e7021e08c65c4632",
+          "key": "slot",
+          "lifeCycle": [],
+          "name": "插槽定义",
+          "nodes": [],
+          "props": [
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "641a7052cf44f6204642b60b",
+              "key": "dynamicName",
+              "name": "动态插槽名配置",
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+          ],
+          "slots": [
+            {
+              "desc": undefined,
+              "id": "641a7052cf44f6204642b60c",
+              "key": "default",
+              "name": "默认插槽",
+              "properties": [],
+            },
+          ],
+          "variables": [],
+        },
+        {
+          "emits": [],
+          "functions": [],
+          "id": "62d65a88e7021e08c65c4634",
+          "key": "tpl",
+          "lifeCycle": [],
+          "name": "插槽",
+          "nodes": [],
+          "props": [],
+          "slots": [
+            {
+              "desc": undefined,
+              "id": "641a7052cf44f6204642b60d",
+              "key": "default",
+              "name": "默认插槽",
+              "properties": [],
+            },
+          ],
+          "variables": [],
+        },
+      ],
+      "events": [
+        {
+          "id": "641a95cecd3c6b0921a79efa",
+          "key": "click",
+          "name": "单击",
+          "parameters": [
+            {
+              "id": "641a95e0cd3c6b0921a79f0b",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95d1cd3c6b0921a79efb",
+          "key": "dblclick",
+          "name": "双击",
+          "parameters": [
+            {
+              "id": "641a95e0cd3c6b0921a79f0c",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95d2cd3c6b0921a79efc",
+          "key": "mousedown",
+          "name": "鼠标按下",
+          "parameters": [
+            {
+              "id": "641a95e0cd3c6b0921a79f0d",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95d3cd3c6b0921a79efd",
+          "key": "mouseup",
+          "name": "鼠标松开",
+          "parameters": [
+            {
+              "id": "641a95e0cd3c6b0921a79f0e",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95ddcd3c6b0921a79efe",
+          "key": "mouseenter",
+          "name": "鼠标在里面",
+          "parameters": [
+            {
+              "id": "641a95e1cd3c6b0921a79f0f",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95ddcd3c6b0921a79eff",
+          "key": "mouseleave",
+          "name": "鼠标不在里面",
+          "parameters": [
+            {
+              "id": "641a95e1cd3c6b0921a79f10",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95decd3c6b0921a79f00",
+          "key": "mouseover",
+          "name": "鼠标移入瞬间",
+          "parameters": [
+            {
+              "id": "641a95e1cd3c6b0921a79f11",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95decd3c6b0921a79f01",
+          "key": "mouseout",
+          "name": "鼠标移出瞬间",
+          "parameters": [
+            {
+              "id": "641a95e1cd3c6b0921a79f12",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95decd3c6b0921a79f02",
+          "key": "mousemove",
+          "name": "鼠标在里面移动",
+          "parameters": [
+            {
+              "id": "641a95e1cd3c6b0921a79f13",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95decd3c6b0921a79f03",
+          "key": "input",
+          "name": "输入值",
+          "parameters": [
+            {
+              "id": "641a95e2cd3c6b0921a79f14",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95decd3c6b0921a79f04",
+          "key": "change",
+          "name": "值改变",
+          "parameters": [
+            {
+              "id": "641a95e2cd3c6b0921a79f15",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95dfcd3c6b0921a79f05",
+          "key": "focus",
+          "name": "获取光标",
+          "parameters": [
+            {
+              "id": "641a95e2cd3c6b0921a79f16",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95dfcd3c6b0921a79f06",
+          "key": "blur",
+          "name": "移除光标",
+          "parameters": [
+            {
+              "id": "641a95e2cd3c6b0921a79f17",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95dfcd3c6b0921a79f07",
+          "key": "keydown",
+          "name": "键盘按键按下",
+          "parameters": [
+            {
+              "id": "641a95e3cd3c6b0921a79f18",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95dfcd3c6b0921a79f08",
+          "key": "keyup",
+          "name": "键盘按键弹起",
+          "parameters": [
+            {
+              "id": "641a95e3cd3c6b0921a79f19",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95dfcd3c6b0921a79f09",
+          "key": "select",
+          "name": "选择",
+          "parameters": [
+            {
+              "id": "641a95e3cd3c6b0921a79f1a",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95e0cd3c6b0921a79f0a",
+          "key": "submit",
+          "name": "提交表单",
+          "parameters": [
+            {
+              "id": "641a95e3cd3c6b0921a79f1b",
+              "key": "event",
+              "name": "事件数据",
+              "types": [
+                {
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "641a95e7cd3c6b0921a79f2b",
+          "key": "loading",
+          "name": "加载时",
+          "parameters": [],
+        },
+      ],
+      "functions": [],
+      "id": "6455c49bc56f0402c3fd3436",
+      "key": undefined,
+      "name": "系统(pc)",
+      "projectId": "6455c49bc56f0402c3fd3436",
+      "props": [
+        {
+          "id": "641a95e6cd3c6b0921a79f27",
+          "key": "style",
+          "name": "Style样式",
+          "types": [
+            {
+              "type": "text",
+            },
+          ],
+        },
+        {
+          "id": "641a95e6cd3c6b0921a79f28",
+          "key": "class",
+          "name": "Class样式名",
+          "types": [
+            {
+              "type": "text",
+            },
+          ],
+        },
+      ],
+      "slots": [
+        {
+          "id": "641a95e6cd3c6b0921a79f2a",
+          "isHide": true,
+          "key": "default",
+          "name": "默认插槽",
+        },
+      ],
       "version": undefined,
     },
   ],
@@ -6034,11 +6880,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "F441#6446555398e11d19b610ef7b",
           "nextId": "F441#6446535998e11d19b610ef79",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "F441",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
@@ -6054,11 +6900,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "F955#641a7052cf44f6204642b856",
           "nextId": null,
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "F955",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
@@ -6086,11 +6932,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "C933#641a7052cf44f6204642b86c",
           "nextId": "C933#641a7052cf44f6204642b86a",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "C933",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
@@ -6128,11 +6974,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "A225#641a7052cf44f6204642b86c",
           "nextId": "A225#641a7052cf44f6204642b86a",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "A225",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
@@ -6170,11 +7016,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "J898#641a7052cf44f6204642b86c",
           "nextId": "J898#641a7052cf44f6204642b86a",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "J898",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
@@ -6234,11 +7080,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "H796#641a7053cf44f6204642b9cd",
           "nextId": "H796#641a7053cf44f6204642b9c9",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "H796",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
@@ -6254,11 +7100,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "C875#641a7052cf44f6204642b856",
           "nextId": null,
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "C875",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,
@@ -6286,11 +7132,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "S563#641a7052cf44f6204642b86c",
           "nextId": "S563#641a7052cf44f6204642b86a",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "S563",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": [
@@ -6373,11 +7219,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "H648#641a7052cf44f6204642b86c",
           "nextId": "H648#641a7052cf44f6204642b86a",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "H648",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": [
@@ -6449,11 +7295,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "J780#641a7052cf44f6204642b86c",
           "nextId": "J780#641a7052cf44f6204642b86a",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "J780",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": [
@@ -6550,11 +7396,11 @@ exports[`preprocess > code schema 1`] = `
           "events": undefined,
           "id": "R176#641a7052cf44f6204642b667",
           "nextId": "R176#641a7052cf44f6204642b668",
-          "packageId": undefined,
+          "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "R176",
           "preId": null,
           "props": undefined,
-          "tagId": "tpl",
+          "tagId": "62d65a88e7021e08c65c4634",
         },
         {
           "events": undefined,

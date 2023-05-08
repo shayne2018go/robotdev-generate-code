@@ -15,7 +15,8 @@ const codeSchema = {
       name: 'Ant Design',
       key: undefined,
       version: undefined,
-      components: [
+      components: [],
+      elements: [
         {
           id: '613ecb25af722dc29c7fc3c5',
           name: 'Card 卡片',
@@ -1962,7 +1963,8 @@ const codeSchema = {
           nodes: [],
         },
       ],
-      functions: [
+      functions: [],
+      actions: [
         {
           id: '644650559c229310c169d806',
           name: '成功信息',
@@ -2012,6 +2014,10 @@ const codeSchema = {
           ],
         },
       ],
+      events: [],
+      slots: [],
+      props: [],
+      apis: [],
     },
     {
       id: '6358fb8554bb9b1c84ce47a2',
@@ -2019,7 +2025,8 @@ const codeSchema = {
       name: '程序元件',
       key: undefined,
       version: undefined,
-      components: [
+      components: [],
+      elements: [
         {
           id: '62c68d5d27d4bddfa72888fb',
           name: '文本',
@@ -2056,6 +2063,11 @@ const codeSchema = {
         },
       ],
       functions: [],
+      actions: [],
+      events: [],
+      slots: [],
+      props: [],
+      apis: [],
     },
     {
       id: '64254754fdc7e85f87137555',
@@ -2064,6 +2076,7 @@ const codeSchema = {
       key: undefined,
       version: undefined,
       components: [],
+      elements: [],
       functions: [
         {
           id: '64093e12583491a5ebecd88f',
@@ -5146,6 +5159,11 @@ const codeSchema = {
           ],
         },
       ],
+      actions: [],
+      events: [],
+      slots: [],
+      props: [],
+      apis: [],
     },
     {
       id: '64464a309c229310c169d473',
@@ -5206,8 +5224,8 @@ const codeSchema = {
               preId: null,
               nextId: 'V313#641a7053cf44f6204642b9cd',
               parentId: 'V313',
-              tagId: 'tpl',
-              packageId: undefined,
+              tagId: '62d65a88e7021e08c65c4634',
+              packageId: '6455c49bc56f0402c3fd3436',
               props: undefined,
               events: undefined,
             },
@@ -5216,8 +5234,8 @@ const codeSchema = {
               preId: null,
               nextId: null,
               parentId: 'V313#641a7053cf44f6204642b9cc',
-              tagId: 'slot',
-              packageId: undefined,
+              tagId: '62d65a88e7021e08c65c4632',
+              packageId: '6455c49bc56f0402c3fd3436',
               props: undefined,
               events: undefined,
             },
@@ -5226,8 +5244,8 @@ const codeSchema = {
               preId: 'V313#641a7053cf44f6204642b9cc',
               nextId: 'V313#641a7053cf44f6204642b9c9',
               parentId: 'V313',
-              tagId: 'tpl',
-              packageId: undefined,
+              tagId: '62d65a88e7021e08c65c4634',
+              packageId: '6455c49bc56f0402c3fd3436',
               props: undefined,
               events: undefined,
             },
@@ -5236,8 +5254,8 @@ const codeSchema = {
               preId: null,
               nextId: 'L837',
               parentId: 'V313#641a7053cf44f6204642b9cd',
-              tagId: 'slot',
-              packageId: undefined,
+              tagId: '62d65a88e7021e08c65c4632',
+              packageId: '6455c49bc56f0402c3fd3436',
               props: undefined,
               events: undefined,
             },
@@ -5297,7 +5315,13 @@ const codeSchema = {
           nodes: [],
         },
       ],
+      elements: [],
       functions: [],
+      actions: [],
+      events: [],
+      slots: [],
+      props: [],
+      apis: [],
     },
     {
       id: '6448caed58252f48a6d485e5',
@@ -5428,8 +5452,8 @@ const codeSchema = {
               preId: null,
               nextId: 'J415#641a7052cf44f6204642b717',
               parentId: 'J415',
-              tagId: 'tpl',
-              packageId: undefined,
+              tagId: '62d65a88e7021e08c65c4634',
+              packageId: '6455c49bc56f0402c3fd3436',
               props: undefined,
               events: undefined,
             },
@@ -5438,8 +5462,8 @@ const codeSchema = {
               preId: null,
               nextId: null,
               parentId: 'J415#641a7052cf44f6204642b716',
-              tagId: 'each',
-              packageId: undefined,
+              tagId: '62d65a88e7021e08c65c462e',
+              packageId: '6455c49bc56f0402c3fd3436',
               props: [
                 {
                   propId: '641a7052cf44f6204642b606',
@@ -5459,8 +5483,8 @@ const codeSchema = {
               preId: null,
               nextId: null,
               parentId: 'Q544',
-              tagId: 'tpl',
-              packageId: undefined,
+              tagId: '62d65a88e7021e08c65c4634',
+              packageId: '6455c49bc56f0402c3fd3436',
               props: undefined,
               events: undefined,
             },
@@ -5477,7 +5501,829 @@ const codeSchema = {
           ],
         },
       ],
+      elements: [],
       functions: [],
+      actions: [],
+      events: [],
+      slots: [],
+      props: [],
+      apis: [],
+    },
+    {
+      id: '6455c49bc56f0402c3fd3436',
+      projectId: '6455c49bc56f0402c3fd3436',
+      name: '系统(pc)',
+      key: undefined,
+      version: undefined,
+      components: [],
+      elements: [
+        {
+          id: '62d65a88e7021e08c65c462e',
+          name: '循环',
+          key: 'each',
+          props: [
+            {
+              id: '641a7052cf44f6204642b605',
+              name: '预览次数',
+              key: 'times',
+              desc: '预览次数',
+              types: [
+                {
+                  type: 'number',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b606',
+              name: '数据',
+              key: 'data',
+              desc: undefined,
+              types: [
+                {
+                  type: 'unknown',
+                  multiple: true,
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          emits: [],
+          slots: [
+            {
+              id: '641a7052cf44f6204642b607',
+              key: 'default',
+              name: '默认插槽',
+              desc: undefined,
+              properties: [],
+            },
+          ],
+          lifeCycle: [],
+          functions: [],
+          variables: [],
+          nodes: [],
+        },
+        {
+          id: '62d65a88e7021e08c65c4630',
+          name: '条件',
+          key: 'cond',
+          props: [
+            {
+              id: '641a7052cf44f6204642b608',
+              name: '条件配置',
+              key: 'value',
+              desc: '条件表达式配置',
+              types: [
+                {
+                  type: 'whether',
+                  default: true,
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          emits: [],
+          slots: [
+            {
+              id: '641a7052cf44f6204642b609',
+              key: 'true',
+              name: '真',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b60a',
+              key: 'false',
+              name: '假',
+              desc: undefined,
+              properties: [],
+            },
+          ],
+          lifeCycle: [],
+          functions: [],
+          variables: [],
+          nodes: [],
+        },
+        {
+          id: '62d65a88e7021e08c65c4632',
+          name: '插槽定义',
+          key: 'slot',
+          props: [
+            {
+              id: '641a7052cf44f6204642b60b',
+              name: '动态插槽名配置',
+              key: 'dynamicName',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          emits: [],
+          slots: [
+            {
+              id: '641a7052cf44f6204642b60c',
+              key: 'default',
+              name: '默认插槽',
+              desc: undefined,
+              properties: [],
+            },
+          ],
+          lifeCycle: [],
+          functions: [],
+          variables: [],
+          nodes: [],
+        },
+        {
+          id: '62d65a88e7021e08c65c4634',
+          name: '插槽',
+          key: 'tpl',
+          props: [],
+          emits: [],
+          slots: [
+            {
+              id: '641a7052cf44f6204642b60d',
+              key: 'default',
+              name: '默认插槽',
+              desc: undefined,
+              properties: [],
+            },
+          ],
+          lifeCycle: [],
+          functions: [],
+          variables: [],
+          nodes: [],
+        },
+      ],
+      functions: [],
+      actions: [
+        {
+          id: '6401884318eda303abe11c40',
+          name: '执行业务',
+          key: 'api',
+          parameters: [
+            {
+              id: 'id',
+              name: undefined,
+              key: 'id',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'params',
+              name: '业务参数',
+              key: 'params',
+              desc: undefined,
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'success',
+              name: '请求成功时执行',
+              key: 'success',
+              desc: undefined,
+              types: [
+                {
+                  type: 'functionVoid',
+                  rules: {
+                    parameters: [
+                      {
+                        id: 'res',
+                        key: 'res',
+                        name: '成功数据',
+                        types: [
+                          {
+                            type: 'module',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'fail',
+              name: '请求失败时执行',
+              key: 'fail',
+              desc: undefined,
+              types: [
+                {
+                  type: 'functionVoid',
+                  rules: {
+                    parameters: [
+                      {
+                        id: 'error',
+                        key: 'error',
+                        name: '失败数据',
+                        types: [
+                          {
+                            type: 'module',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          outTypes: [
+            {
+              type: 'void',
+            },
+          ],
+        },
+        {
+          id: '6401884418eda303abe11c41',
+          name: '数据赋值',
+          key: 'set',
+          parameters: [
+            {
+              id: 'actions',
+              name: '赋值配置',
+              key: 'actions',
+              desc: undefined,
+              types: [
+                {
+                  type: 'module',
+                  multiple: true,
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          outTypes: [
+            {
+              type: 'void',
+            },
+          ],
+        },
+        {
+          id: '6401884818eda303abe11c42',
+          name: '抛事件',
+          key: 'emit',
+          parameters: [
+            {
+              id: 'name',
+              name: '事件名',
+              key: 'name',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                  ui: {
+                    tag: 'eventSelect',
+                  },
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'args',
+              name: '事件数据',
+              key: 'args',
+              desc: undefined,
+              types: [
+                {
+                  type: 'unknown',
+                  multiple: true,
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          outTypes: [
+            {
+              type: 'void',
+            },
+          ],
+        },
+        {
+          id: '641a95e6cd3c6b0921a79f29',
+          name: '页面跳转',
+          key: 'open',
+          parameters: [
+            {
+              id: 'mode',
+              name: '打开类型',
+              key: 'mode',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'target',
+              name: '打开方式',
+              key: 'target',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: undefined,
+              name: undefined,
+              key: 'url',
+              desc: undefined,
+              types: [
+                {
+                  type: 'url',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: undefined,
+              name: undefined,
+              key: 'page',
+              desc: undefined,
+              types: [
+                {
+                  type: 'url',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: undefined,
+              name: undefined,
+              key: 'query',
+              desc: undefined,
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: undefined,
+              name: undefined,
+              key: 'target',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          outTypes: [
+            {
+              type: 'void',
+            },
+          ],
+        },
+        {
+          id: '6401884818eda303abe11c43',
+          name: '变量赋值',
+          key: 'setVar',
+          parameters: [
+            {
+              id: 'id',
+              name: '被赋值变量',
+              key: 'id',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'path',
+              name: '取值路径',
+              key: 'path',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                  multiple: true,
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'value',
+              name: '要赋的值',
+              key: 'value',
+              desc: undefined,
+              types: [
+                {
+                  type: 'unknown',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          outTypes: [
+            {
+              type: 'void',
+            },
+          ],
+        },
+        {
+          id: '6401884818eda303abe11c43',
+          name: '业务数据赋值',
+          key: 'setApiData',
+          parameters: [
+            {
+              id: 'id',
+              name: '被赋值业务',
+              key: 'id',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'path',
+              name: '取值路径',
+              key: 'path',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                  multiple: true,
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'value',
+              name: '要赋的值',
+              key: 'value',
+              desc: undefined,
+              types: [
+                {
+                  type: 'unknown',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          outTypes: [
+            {
+              type: 'void',
+            },
+          ],
+        },
+      ],
+      events: [
+        {
+          id: '641a95cecd3c6b0921a79efa',
+          name: '单击',
+          key: 'click',
+          parameters: [
+            {
+              id: '641a95e0cd3c6b0921a79f0b',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95d1cd3c6b0921a79efb',
+          name: '双击',
+          key: 'dblclick',
+          parameters: [
+            {
+              id: '641a95e0cd3c6b0921a79f0c',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95d2cd3c6b0921a79efc',
+          name: '鼠标按下',
+          key: 'mousedown',
+          parameters: [
+            {
+              id: '641a95e0cd3c6b0921a79f0d',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95d3cd3c6b0921a79efd',
+          name: '鼠标松开',
+          key: 'mouseup',
+          parameters: [
+            {
+              id: '641a95e0cd3c6b0921a79f0e',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95ddcd3c6b0921a79efe',
+          name: '鼠标在里面',
+          key: 'mouseenter',
+          parameters: [
+            {
+              id: '641a95e1cd3c6b0921a79f0f',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95ddcd3c6b0921a79eff',
+          name: '鼠标不在里面',
+          key: 'mouseleave',
+          parameters: [
+            {
+              id: '641a95e1cd3c6b0921a79f10',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95decd3c6b0921a79f00',
+          name: '鼠标移入瞬间',
+          key: 'mouseover',
+          parameters: [
+            {
+              id: '641a95e1cd3c6b0921a79f11',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95decd3c6b0921a79f01',
+          name: '鼠标移出瞬间',
+          key: 'mouseout',
+          parameters: [
+            {
+              id: '641a95e1cd3c6b0921a79f12',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95decd3c6b0921a79f02',
+          name: '鼠标在里面移动',
+          key: 'mousemove',
+          parameters: [
+            {
+              id: '641a95e1cd3c6b0921a79f13',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95decd3c6b0921a79f03',
+          name: '输入值',
+          key: 'input',
+          parameters: [
+            {
+              id: '641a95e2cd3c6b0921a79f14',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95decd3c6b0921a79f04',
+          name: '值改变',
+          key: 'change',
+          parameters: [
+            {
+              id: '641a95e2cd3c6b0921a79f15',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95dfcd3c6b0921a79f05',
+          name: '获取光标',
+          key: 'focus',
+          parameters: [
+            {
+              id: '641a95e2cd3c6b0921a79f16',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95dfcd3c6b0921a79f06',
+          name: '移除光标',
+          key: 'blur',
+          parameters: [
+            {
+              id: '641a95e2cd3c6b0921a79f17',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95dfcd3c6b0921a79f07',
+          name: '键盘按键按下',
+          key: 'keydown',
+          parameters: [
+            {
+              id: '641a95e3cd3c6b0921a79f18',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95dfcd3c6b0921a79f08',
+          name: '键盘按键弹起',
+          key: 'keyup',
+          parameters: [
+            {
+              id: '641a95e3cd3c6b0921a79f19',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95dfcd3c6b0921a79f09',
+          name: '选择',
+          key: 'select',
+          parameters: [
+            {
+              id: '641a95e3cd3c6b0921a79f1a',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95e0cd3c6b0921a79f0a',
+          name: '提交表单',
+          key: 'submit',
+          parameters: [
+            {
+              id: '641a95e3cd3c6b0921a79f1b',
+              name: '事件数据',
+              key: 'event',
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '641a95e7cd3c6b0921a79f2b',
+          name: '加载时',
+          key: 'loading',
+          parameters: [],
+        },
+      ],
+      slots: [
+        {
+          id: '641a95e6cd3c6b0921a79f2a',
+          name: '默认插槽',
+          key: 'default',
+          isHide: true,
+        },
+      ],
+      props: [
+        {
+          id: '641a95e6cd3c6b0921a79f27',
+          key: 'style',
+          name: 'Style样式',
+          types: [
+            {
+              type: 'text',
+            },
+          ],
+        },
+        {
+          id: '641a95e6cd3c6b0921a79f28',
+          key: 'class',
+          name: 'Class样式名',
+          types: [
+            {
+              type: 'text',
+            },
+          ],
+        },
+      ],
+      apis: [],
     },
   ],
   components: [
@@ -5533,8 +6379,8 @@ const codeSchema = {
           preId: null,
           nextId: 'V313#641a7053cf44f6204642b9cd',
           parentId: 'V313',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -5543,8 +6389,8 @@ const codeSchema = {
           preId: null,
           nextId: null,
           parentId: 'V313#641a7053cf44f6204642b9cc',
-          tagId: 'slot',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4632',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -5553,8 +6399,8 @@ const codeSchema = {
           preId: 'V313#641a7053cf44f6204642b9cc',
           nextId: 'V313#641a7053cf44f6204642b9c9',
           parentId: 'V313',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -5563,8 +6409,8 @@ const codeSchema = {
           preId: null,
           nextId: 'L837',
           parentId: 'V313#641a7053cf44f6204642b9cd',
-          tagId: 'slot',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4632',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -5745,8 +6591,8 @@ const codeSchema = {
           preId: null,
           nextId: 'J415#641a7052cf44f6204642b717',
           parentId: 'J415',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -5755,8 +6601,8 @@ const codeSchema = {
           preId: null,
           nextId: null,
           parentId: 'J415#641a7052cf44f6204642b716',
-          tagId: 'each',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c462e',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: [
             {
               propId: '641a7052cf44f6204642b606',
@@ -5776,8 +6622,8 @@ const codeSchema = {
           preId: null,
           nextId: null,
           parentId: 'Q544',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -5838,8 +6684,8 @@ const codeSchema = {
           preId: null,
           nextId: 'F441#6446535998e11d19b610ef79',
           parentId: 'F441',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -5858,8 +6704,8 @@ const codeSchema = {
           preId: null,
           nextId: null,
           parentId: 'F955',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -5890,8 +6736,8 @@ const codeSchema = {
           preId: null,
           nextId: 'C933#641a7052cf44f6204642b86a',
           parentId: 'C933',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -5932,8 +6778,8 @@ const codeSchema = {
           preId: null,
           nextId: 'A225#641a7052cf44f6204642b86a',
           parentId: 'A225',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -5974,8 +6820,8 @@ const codeSchema = {
           preId: null,
           nextId: 'J898#641a7052cf44f6204642b86a',
           parentId: 'J898',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -6038,8 +6884,8 @@ const codeSchema = {
           preId: null,
           nextId: 'H796#641a7053cf44f6204642b9c9',
           parentId: 'H796',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -6058,8 +6904,8 @@ const codeSchema = {
           preId: null,
           nextId: null,
           parentId: 'C875',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -6090,8 +6936,8 @@ const codeSchema = {
           preId: null,
           nextId: 'S563#641a7052cf44f6204642b86a',
           parentId: 'S563',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -6177,8 +7023,8 @@ const codeSchema = {
           preId: null,
           nextId: 'H648#641a7052cf44f6204642b86a',
           parentId: 'H648',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -6253,8 +7099,8 @@ const codeSchema = {
           preId: null,
           nextId: 'J780#641a7052cf44f6204642b86a',
           parentId: 'J780',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -6354,8 +7200,8 @@ const codeSchema = {
           preId: null,
           nextId: 'R176#641a7052cf44f6204642b668',
           parentId: 'R176',
-          tagId: 'tpl',
-          packageId: undefined,
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
@@ -6573,7 +7419,7 @@ const codeSchema = {
       variables: [],
       lifeCycle: [
         {
-          eventId: '641a95e7cd3c6b0921a79f2b', // onMounted
+          eventId: '641a95e7cd3c6b0921a79f2b',
           actions: [
             {
               id: '64473c5323bb5dfddd8bdd31',

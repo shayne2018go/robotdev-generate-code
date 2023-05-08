@@ -5,7 +5,7 @@ specifiers:
   '@babel/parser': ^7.21.4
   '@babel/traverse': ^7.21.4
   '@babel/types': ^7.21.4
-  '@dreawer/robotdev-view-editor-mock-data': ^0.0.15
+  '@dreawer/robotdev-view-editor-mock-data': ^0.0.20
   '@robotdev/fx-code': ^0.0.6
   '@types/babel__generator': ^7.6.4
   '@types/fs-extra': ^11.0.1
@@ -28,7 +28,7 @@ dependencies:
   '@babel/parser': 7.21.4
   '@babel/traverse': 7.21.4
   '@babel/types': 7.21.4
-  '@dreawer/robotdev-view-editor-mock-data': 0.0.15
+  '@dreawer/robotdev-view-editor-mock-data': 0.0.20
   axios: 1.4.0
   fs-extra: 11.1.1
   shelljs: 0.8.5
@@ -158,8 +158,8 @@ packages:
     resolution: {integrity: sha512-6HwCo2EoBytUik+R2imrFmm5QJqT07c3jt/fw4rl1eeqKw6aISIY5N3VA4gjRMWdFwoop6krvpFPvz/uq9hLPQ==}
     dev: false
 
-  /@dreawer/robotdev-view-editor-mock-data/0.0.15:
-    resolution: {integrity: sha512-xDGxuHgYwrTwQSJnCMKEQYycjlLcLdJNlNiajHO9EyhmZPYAUZr8Mk1GbkALlq3AAzSdMd6i8bpYOMM/AnYZsA==}
+  /@dreawer/robotdev-view-editor-mock-data/0.0.20:
+    resolution: {integrity: sha512-72Bh65FuVob7sWG4rs+TU0vYX7euLKxqNvHcSPAz29j3AHJ1+abt49Jrytk7EFsRue0TfEHzt2U2lVikQFwJaA==}
     dependencies:
       '@dreawer/robotdev-design-types': 0.0.11
     dev: false
