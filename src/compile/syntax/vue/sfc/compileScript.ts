@@ -3,7 +3,7 @@ import * as t from '@babel/types';
 import { ICS_Page } from '@/types/page';
 import { Identifier } from '@/types/code-schema/Identifier';
 import { I_component_LifeCycle } from '@/types/component';
-import { CompilePageOptions } from '../compilePages';
+import { CompilePageCtx, CompilePageOptions } from '../compilePages';
 import { ICS_Function } from '@/types/function';
 import { relative } from '@/utils/node';
 import { VueTypes } from '../types/vue';
@@ -373,19 +373,18 @@ const apis = {
 //   ).token
 // );
 
-function compileScript(page: ICS_Page, compileOptions: CompilePageOptions): { token: string } {
+function compileScript(page: ICS_Page, ctx: CompilePageCtx): { token: string } {
   const { variables, lifeCycle, functions } = page;
-  // @ts-ignore
-  const { routes, componentMap, functionMap } = compileOptions;
+  const { importComponents, importFunctions } = ctx;
   let code = '';
   let tag = compileTag();
   code += tag[0];
   code += compileVueImports();
-  if (componentMap && componentMap.size > 0) {
-    code += compileImports(componentMap);
+  if (importComponents?.length > 0) {
+    code += compileImports(importComponents);
   }
-  if (functionMap && functionMap.size > 0) {
-    code += compileImports(functionMap);
+  if (importFunctions?.length > 0) {
+    code += compileImports(importFunctions);
   }
   if (variables && variables.length > 0) {
     code += compileVariables(variables);
@@ -518,7 +517,7 @@ function compileLifeCycle(lifeCycle: Array<I_component_LifeCycle>): string {
   for (let i = 0; i < lifeCycle.length; i++) {
     const lifeEle = lifeCycle[i];
     const actions = lifeEle.actions;
-    // @ts-ignore 
+    // @ts-ignore
     if (events[lifeEle.eventId].key === 'loading') {
       const actionStatements = [];
       for (let j = 0; j < actions.length; j++) {

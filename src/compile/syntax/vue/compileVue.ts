@@ -5,6 +5,10 @@ import compileComponents from './compileComponents';
 import compileFunctions from './compileFunctions';
 import { VueTypes } from './types/vue';
 import compileApis from './compileApis';
+import { componentsDataStore } from './shared/store/components';
+import { functionsDataStore } from './shared/store/functions';
+import { actionsDataStore } from './shared/store/actions';
+import { apisDataStore } from './shared/store/apis';
 
 export interface VueCompileOptions {
   routes: VueRoute[]; // 路由相关
@@ -12,6 +16,13 @@ export interface VueCompileOptions {
   functions: VueTypes.Function[]; // 函数相关
   actions: VueTypes.Action[]; // 函数相关
   apis: VueTypes.Api[]; // 函数相关
+}
+
+export interface VueCompileCtx {
+  components: ReturnType<typeof componentsDataStore>;
+  functions: ReturnType<typeof functionsDataStore>;
+  actions: ReturnType<typeof actionsDataStore>;
+  apis: ReturnType<typeof apisDataStore>;
 }
 
 function compileVue(codeSchema: ICodeSchema) {

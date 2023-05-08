@@ -3,6 +3,32 @@ import { DBSchema } from '@/types';
 import { VueTypes } from '../types/vue';
 import { BUILT_IN_PACKAGES } from '../const/config';
 
+// 出现次数统计工具
+export const occurrenceNumber = () => {
+  const cache: { [key: string]: number } = {};
+
+  return (varName: string) => {
+    if (!cache[varName]) {
+      cache[varName] = 0;
+    } else {
+      cache[varName]++;
+    }
+    return cache[varName];
+  };
+};
+
+export const genVarName = () => {
+  const occurrenceNumberHandler = occurrenceNumber();
+  return (varName: string) => {
+    const number = occurrenceNumberHandler(varName);
+    return varName + (number && number > 0 ? `_${number + 1}` : '');
+  };
+};
+
+export function outerNode(node: INode) {
+  return node.packageId && !BUILT_IN_PACKAGES.includes(node.packageId);
+}
+
 /**
  * 获取节点中的组件依赖
  * @param nodes
