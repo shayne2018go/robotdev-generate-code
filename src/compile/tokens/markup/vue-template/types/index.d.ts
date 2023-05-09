@@ -42,6 +42,40 @@ declare namespace VueTemplateTypes {
   export type ChildNodes = Array<ChildNode>;
   
   export interface VueTemplate {
-    nodes?: ChildNodes;
+    nodes: ChildNodes;
+  }
+}
+
+declare namespace GenerateVueTemplateTypes {
+  export type PropElement = Prop | Event | Directive;
+
+  export interface Prop extends VueTemplateTypes.Prop {
+    _prop_: 'prop';
+  }
+
+  export interface Event extends VueTemplateTypes.Event {
+    _prop_: 'event';
+  }
+
+  export interface Directive extends VueTemplateTypes.Directive {
+    _prop_: 'directive';
+  }
+
+  export type NodeElement = Node | Text | InsertText;
+
+  export interface Text extends VueTemplateTypes.Text {
+    _node_: 'text';
+  }
+
+  export interface InsertText extends VueTemplateTypes.InsertText {
+    _node_: 'insertText';
+  }
+
+  export interface Node {
+    _node_: 'node';
+    tag: string;
+    propArr: Array<PropElement>;
+    childNodeArr: Array<NodeElement>;
+    isSelfClosing: boolean;
   }
 }
