@@ -1,17 +1,10 @@
-import { DBSchema } from '../DBSchema';
+import { DBWSchema } from '../DBWSchema';
 
-export interface Identifier {
-  id: string;
-  name?: string;
-  key: string;
-  desc?: string;
-  extendPlatform?: boolean;
-  types: Array<IdentifierType>;
-}
+export interface Identifier extends DBWSchema.RdDefineProp {}
 
-export interface IdentifierType extends DBSchema.RdDefinePropType {}
+export interface IdentifierType extends DBWSchema.RdDefinePropType {}
 
-export interface IdentifierValue extends DBSchema.RdData {
+export interface IdentifierValue extends DBWSchema.RdData {
   id?: string;
   modeId?: string;
   mode: string;
@@ -21,4 +14,4 @@ export interface IdentifierValue extends DBSchema.RdData {
   };
 }
 
-export type IdentifierValueArgs = DBSchema.RdDataArguments;
+export type IdentifierValueArgs = DBWSchema.RdDataArguments;

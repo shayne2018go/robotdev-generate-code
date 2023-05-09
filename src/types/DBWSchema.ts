@@ -252,6 +252,112 @@ export namespace DBWSchema {
     };
   }
 
+  // 自定义数据
+  export interface RdData_Custom extends RdData {
+    mode: 'custom';
+    args: {
+      type: RdInType;
+      multiple?: boolean;
+      value: any;
+    };
+  }
+
+  // 变量数据
+  export interface RdData_GetVar extends RdData {
+    mode: 'getVar';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 业务请求的数据
+  export interface RdData_GetApiData extends RdData {
+    mode: 'getApiData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 循环节点数据
+  export interface RdData_GetEachData extends RdData {
+    mode: 'getEachData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 页面/业务 入参数据
+  export interface RdData_GetParam extends RdData {
+    mode: 'getParam';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 事件数据
+  export interface RdData_GetEventData extends RdData {
+    mode: 'getEventData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 作用域插槽数据
+  export interface RdData_GetSlotData extends RdData {
+    mode: 'getSlotData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 回调参数数据
+  export interface RdData_GetArguments extends RdData {
+    mode: 'getArguments';
+    args: {
+      id: string;
+      argId: string;
+    };
+  }
+
+  // 模型数据
+  export interface RdData_GetModelData extends RdData {
+    mode: 'getModelData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 组件属性
+  export interface RdData_GetCmptPropData extends RdData {
+    mode: 'getCmptPropData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 模型数据
+  export interface RdData_TableData extends RdData {
+    mode: 'tableData';
+    args: {
+      data?: null | RdData;
+      tableDataKey?: string; // 表格数据属性名
+      keyFieldName?: string; // 属性字段名
+      titleFieldName?: string; // 标题字段名
+      showColumns: string[]; // 勾选列的id存储在该数组中，用来标记哪些列需要显示
+      columns: {
+        [key: string]: any; // 每个列的各个属性配置。
+      }[];
+    };
+  }
+
   export type RdDataArguments = RdBasicData | RdData;
 
   export type RdBasicData = string | number | boolean | RdObject | string[] | number[] | boolean[] | RdObject[] | null; // args 中可以出现的数据类型（除RdAction）
@@ -318,13 +424,11 @@ export namespace DBWSchema {
     rules?: {
       min?: number;
       max?: number;
-      items?: (
-        | {
-            value: string;
-            label: string;
-          }
-        | string
-      )[];
+      items?: {
+        id: string;
+        value: string;
+        label: string;
+      }[];
       // 表格 类型属性
       tableDataKey?: string; // 表格数据的属性名
       tableConfig?: [
@@ -416,17 +520,18 @@ export namespace DBWSchema {
     'style', //样式
     'sequence', //排序序号
     'model', //模型
-    'api', // 接口id（业务id）
+    // 'api', // 接口id（业务id）
     // , 'apiData' // TODO还没想清楚
-    'functionData', // 带返回值的函数
-    'functionVoid', // 不带返回值的函数
+    // 'functionData', // 带返回值的函数
+    // 'functionVoid', // 不带返回值的函数
     'unknown', // 临时的未知类型，老数据转新数据可能会存在，新的不会有
-    'void',
+    // 'void',
     'assignment',
-    'async',
+    // 'async',
     'action', // 行为
     'function', // 函数
     'table', // 表格
+    'array', // 表格
   ] as const;
 
   export type RdInType = (typeof DATA_TYPE_KEYS)[number] | '';

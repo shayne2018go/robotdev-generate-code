@@ -16,6 +16,7 @@ import { VueTypes } from './types/vue';
 import { eventsDataStore } from './shared/store/events';
 import { propsDataStore } from './shared/store/props';
 import { tools } from '@/utils/tools';
+import { propertiesDataStore } from './shared/store/properties';
 
 export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult;
 export type CompilePageCtx = Required<VueCompileCtx> & ParsingPageResult;
@@ -40,6 +41,7 @@ interface ParsingPageResult {
     };
   };
   nodesStore: ReturnType<typeof nodesDataStore>;
+  variablesStore: ReturnType<typeof propertiesDataStore>;
   variablesNames: {
     [id: string]: {
       varName: string;
@@ -139,20 +141,24 @@ function parsingPage(page: ICS_Page, ctx: VueCompileCtx): ParsingPageResult {
     }
   });
 
-  const variablesNames: ParsingPageResult['variablesNames'] = {};
   const genVariablesNameHandler = genVarName();
-  page.variables?.forEach((item) => {
+  const variablesNames: ParsingPageResult['variablesNames'] = {};
+  const variablesStore = propertiesDataStore(page.variables || [], (item) => {
     variablesNames[item.id] = {
       varName: genVariablesNameHandler(item.key),
     };
   });
 
   return {
+    variablesRootName: 'variables',
+    apiVarRootName: 'apiState',
+    nodesVarRootName: 'nodesState',
     nodesStore,
     importComponents,
     nodesVarNames,
     importFunctions,
     variablesNames,
+    variablesStore,
   };
 }
 

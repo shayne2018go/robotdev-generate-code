@@ -7,6 +7,9 @@ const seach = <T extends boolean>(
   ruleKey: 'properties' | 'parameters',
   key: T
 ): T extends true ? string[] : Identifier[] => {
+  if (!Array.isArray(path)) {
+    return [];
+  }
   key = key || (false as T);
   const _path: any[] = [];
   let type: Identifier['types'][number] | undefined;
