@@ -21,6 +21,9 @@ export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult
 export type CompilePageCtx = Required<VueCompileCtx> & ParsingPageResult;
 
 interface ParsingPageResult {
+  variablesRootName: string;
+  apiVarRootName: string;
+  nodesVarRootName: string;
   nodesVarNames: {
     [nodeId: string]: {
       varName: string;
