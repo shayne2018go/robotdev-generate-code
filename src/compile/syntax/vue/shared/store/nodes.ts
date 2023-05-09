@@ -55,6 +55,7 @@ export const nodesDataStore = (
       } else {
         tree[node.id].parentId = node.parentId || null;
         tree[node.id].data = node;
+        delete tree[node.id].isUndefined;
       }
 
       if (node.parentId) {
