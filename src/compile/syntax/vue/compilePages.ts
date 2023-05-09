@@ -15,6 +15,7 @@ import { nodesDataStore } from './shared/store/nodes';
 import { VueTypes } from './types/vue';
 import { eventsDataStore } from './shared/store/events';
 import { propsDataStore } from './shared/store/props';
+import { tools } from '@/utils/tools';
 
 export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult;
 export type CompilePageCtx = Required<VueCompileCtx> & ParsingPageResult;
@@ -101,12 +102,15 @@ function parsingPage(page: ICS_Page, ctx: VueCompileCtx): ParsingPageResult {
   const importComponents: VueTypes.Component[] = [];
   const importFunctions: VueTypes.Function[] = [];
   const nodesVarNames: ParsingPageResult['nodesVarNames'] = {};
-
   const genNodeVarNameHandler = genVarName();
   const nodesStore = nodesDataStore(page.nodes, (node) => {
     const cmpt = ctx.components.getCmpt(node.tagId);
+    if (['slot', 'tpl'].includes(cmpt.key)) {
+      return;
+    }
+    const key = tools.string.lineToHump(cmpt.key);
     nodesVarNames[node.id] = {
-      varName: genNodeVarNameHandler(cmpt.key),
+      varName: genNodeVarNameHandler(key),
       propMembers: {},
       eventMembers: {},
     };

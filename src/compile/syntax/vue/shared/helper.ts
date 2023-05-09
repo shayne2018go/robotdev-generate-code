@@ -8,7 +8,7 @@ export const occurrenceNumber = () => {
   const cache: { [key: string]: number } = {};
 
   return (varName: string) => {
-    if (!cache[varName]) {
+    if (typeof cache[varName] !== 'number') {
       cache[varName] = 0;
     } else {
       cache[varName]++;
