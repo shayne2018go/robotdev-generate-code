@@ -44,13 +44,18 @@ export const nodesDataStore = (
   if (nodes) {
     store.created(nodes, (node, index) => {
       itemCallback(node, index);
-      const treeNode: TreeNode = {
-        id: node.id,
-        parentId: node.parentId || null,
-        data: node,
-        children: [],
-      };
-      tree[node.id] = treeNode;
+      if (!tree[node.id]) {
+        const treeNode: TreeNode = {
+          id: node.id,
+          parentId: node.parentId || null,
+          data: node,
+          children: [],
+        };
+        tree[node.id] = treeNode;
+      } else {
+        tree[node.id].parentId = node.parentId || null;
+        tree[node.id].data = node;
+      }
 
       if (node.parentId) {
         if (!tree[node.parentId]) {
@@ -66,7 +71,7 @@ export const nodesDataStore = (
       }
 
       if (!node.parentId) {
-        treeNodes.push(treeNode);
+        treeNodes.push(tree[node.id]);
       }
     });
   }
