@@ -13,6 +13,8 @@ import { componentsDataStore } from './shared/store/components';
 import { functionsDataStore } from './shared/store/functions';
 import { nodesDataStore } from './shared/store/nodes';
 import { VueTypes } from './types/vue';
+import { eventsDataStore } from './shared/store/events';
+import { propsDataStore } from './shared/store/props';
 
 export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult;
 export type CompilePageCtx = Required<VueCompileCtx> & ParsingPageResult;
@@ -48,6 +50,8 @@ function compilePages(codeSchema: ICodeSchema, compileOptions: VueCompileOptions
   const functionsStore = functionsDataStore(compileOptions.functions);
   const actionsStore = actionsDataStore(compileOptions.actions);
   const apisStore = apisDataStore(compileOptions.apis);
+  const eventsStore = eventsDataStore(compileOptions.events);
+  const propsStore = propsDataStore(compileOptions.props);
 
   const tokens = [] as Compile.Token[];
 
@@ -60,6 +64,8 @@ function compilePages(codeSchema: ICodeSchema, compileOptions: VueCompileOptions
       functions: functionsStore,
       actions: actionsStore,
       apis: apisStore,
+      events: eventsStore,
+      props: propsStore,
     });
     // 2 编译页面地址 ps： 根据directories
     const filePath = getPageFilePath(page, directories);
@@ -114,7 +120,7 @@ function parsingPage(page: ICS_Page, ctx: VueCompileCtx): ParsingPageResult {
     });
 
     const genEmitVarNameHandler = genVarName();
-    cmpt.protocol.props.forEach((item) => {
+    cmpt.protocol.emits.forEach((item) => {
       const emitOption = ctx.components.getEmit(node.tagId, item.id);
       nodesVarNames[node.id].eventMembers[item.id] = {
         varName: genEmitVarNameHandler(emitOption.key),

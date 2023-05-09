@@ -134,6 +134,7 @@ export function insertText(expression: string): GenerateVueTemplateTypes.InsertT
 /**
  * 节点
  */
+
 export function node(
   tag: string,
   propArr: Array<GenerateVueTemplateTypes.PropElement>,

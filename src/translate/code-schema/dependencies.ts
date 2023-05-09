@@ -97,12 +97,26 @@ function preprocessDependencies(
       }
     });
 
+    //TODO: ant design
+    let packageKey = dp.key;
+
+    switch (dp.projectId) {
+      case '000000000000000000000010':
+        packageKey = 'ant-design-vue';
+        break;
+      case '6405a27e2d9335b17497fd8f':
+        packageKey = '@robotdev/fx-common';
+        break;
+      default:
+        break;
+    }
+
     return {
       id: dp.productId || dp.projectId,
       projectId: dp.projectId,
       name: dp.name,
-      key: dp.key,
-      version: dp.version,
+      key: packageKey,
+      version: dp.version || 'latest',
       components: curComponents,
       elements: curElements,
       functions: curFunctions,

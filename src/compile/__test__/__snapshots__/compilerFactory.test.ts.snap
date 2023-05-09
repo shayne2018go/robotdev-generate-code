@@ -82,6 +82,7 @@ dist-ssr
     \\"preview\\": \\"vite preview\\"
   },
   \\"dependencies\\": {
+    \\"axios\\": \\"^1.4.0\\",
     \\"vue\\": \\"^3.2.47\\",
     \\"vue-router\\": \\"^4.1.6\\"
   },
@@ -293,26 +294,129 @@ export default router;
   },
   {
     "path": "src/router/routes.ts",
-    "token": "{
-  import { RouteRecordRaw } from \\"vue-router\\";
-  const routes = [{
-    path: \\"/shouye\\",
-    component: () => import(\\"../pages/shouye.vue\\")
-  }, {
-    path: \\"/404\\",
-    component: () => import(\\"../pages/404.vue\\")
-  }, {
-    path: \\"/502\\",
-    component: () => import(\\"../pages/502.vue\\")
-  }, {
-    path: \\"/renyuanluruye\\",
-    component: () => import(\\"../pages/renyuanluruye.vue\\")
-  }, {
-    path: \\"/renyuanliebiao\\",
-    component: () => import(\\"../pages/renyuanliebiao.vue\\")
-  }];
-  export { routes };
+    "token": "import { RouteRecordRaw } from \\"vue-router\\";
+const routes = [{
+  path: \\"/shouye\\",
+  component: () => import(\\"../pages/shouye.vue\\")
+}, {
+  path: \\"/404\\",
+  component: () => import(\\"../pages/404.vue\\")
+}, {
+  path: \\"/502\\",
+  component: () => import(\\"../pages/502.vue\\")
+}, {
+  path: \\"/renyuanluruye\\",
+  component: () => import(\\"../pages/renyuanluruye.vue\\")
+}, {
+  path: \\"/renyuanliebiao\\",
+  component: () => import(\\"../pages/renyuanliebiao.vue\\")
+}];
+export { routes };",
+  },
+  {
+    "path": "src/apis/chuangjianyonghu.ts",
+    "token": "import axios from \\"axios\\";
+export function chuangjianyonghu(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"chuangjianyonghu\\",
+    data: data
+  });
 }",
+  },
+  {
+    "path": "src/apis/chuangjianbanji.ts",
+    "token": "import axios from \\"axios\\";
+export function chuangjianbanji(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"chuangjianbanji\\",
+    data: data
+  });
+}",
+  },
+  {
+    "path": "src/apis/luruxueshengbanji.ts",
+    "token": "import axios from \\"axios\\";
+export function luruxueshengbanji(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"luruxueshengbanji\\",
+    data: data
+  });
+}",
+  },
+  {
+    "path": "src/apis/chaxunxueshengbanji.ts",
+    "token": "import axios from \\"axios\\";
+export function chaxunxueshengbanji(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"chaxunxueshengbanji\\",
+    data: data
+  });
+}",
+  },
+  {
+    "path": "src/apis/chaxunsuoyouyonghu.ts",
+    "token": "import axios from \\"axios\\";
+export function chaxunsuoyouyonghu(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"chaxunsuoyouyonghu\\",
+    data: data
+  });
+}",
+  },
+  {
+    "path": "src/pages/shouye.vue",
+    "token": "<script setup lang=\\"ts\\">
+import { onBeforeUnmount, onMounted, reactive, ref } from \\"vue\\";
+import { useRouter } from \\"vue-router\\";
+import f-1c87ade2 from \\"../components/f-1c87ade2.vue\\";
+import f-00d3776a from \\"../components/f-00d3776a.vue\\";
+const xueshengmingcheng = ref(null);
+const xueshengnianling = ref(null);
+</script>
+",
+  },
+  {
+    "path": "src/pages/404.vue",
+    "token": "<script setup lang=\\"ts\\">
+import { onBeforeUnmount, onMounted, reactive, ref } from \\"vue\\";
+import { useRouter } from \\"vue-router\\";
+</script>
+",
+  },
+  {
+    "path": "src/pages/502.vue",
+    "token": "<script setup lang=\\"ts\\">
+import { onBeforeUnmount, onMounted, reactive, ref } from \\"vue\\";
+import { useRouter } from \\"vue-router\\";
+</script>
+",
+  },
+  {
+    "path": "src/pages/renyuanluruye.vue",
+    "token": "<script setup lang=\\"ts\\">
+import { onBeforeUnmount, onMounted, reactive, ref } from \\"vue\\";
+import { useRouter } from \\"vue-router\\";
+
+const aaa = ref(null);
+</script>
+",
+  },
+  {
+    "path": "src/pages/renyuanliebiao.vue",
+    "token": "<script setup lang=\\"ts\\">
+import { onBeforeUnmount, onMounted, reactive, ref } from \\"vue\\";
+import { useRouter } from \\"vue-router\\";
+
+onMounted(() => {
+  chaxunsuoyouyonghu();
+});
+</script>
+",
   },
 ]
 `;
