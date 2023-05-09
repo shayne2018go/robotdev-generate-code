@@ -13,11 +13,16 @@ export interface VueRoute {
   name?: string; // name
 }
 
-function compileRouter(codeSchema: ICodeSchema): { tokens: Compile.Token[]; routes: VueRoute[] } {
+function compileRouter(codeSchema: ICodeSchema, routes: VueRoute[]): { tokens: Compile.Token[] } {
   const routerDir = 'src/router';
 
   const routeFile = 'routes.ts';
 
+  const tokens = [createToken(`${routerDir}/${routeFile}`, generateRouterToken(routes, routerDir))] as Compile.Token[];
+  return { tokens };
+}
+
+function parsingRouter(codeSchema: ICodeSchema): { routes: VueRoute[] } {
   const { directories = [], pages } = codeSchema;
 
   const routes =
@@ -25,8 +30,7 @@ function compileRouter(codeSchema: ICodeSchema): { tokens: Compile.Token[]; rout
       return getRouteByDirectories(directories, page.id);
     }) || [];
 
-  const tokens = [createToken(`${routerDir}/${routeFile}`, generateRouterToken(routes, routerDir))] as Compile.Token[];
-  return { tokens, routes };
+  return { routes };
 }
 
 /**
@@ -102,5 +106,7 @@ function generateRouterToken(routes: VueRoute[], routerDir: string) {
 
   return code;
 }
+
+export { parsingRouter };
 
 export default compileRouter;

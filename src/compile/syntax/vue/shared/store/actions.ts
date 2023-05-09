@@ -17,7 +17,7 @@ export const actionsDataStore = (actions: VueTypes.Action[]) => {
       };
     });
   return {
-    getaction(tagId: VueTypes.Action['id']) {
+    getAction(tagId: VueTypes.Action['id']) {
       return store.query(tagId);
     },
     getParameters(tagId: VueTypes.Action['id'], propId: VueTypes.Action['protocol']['parameters'][number]['id']) {

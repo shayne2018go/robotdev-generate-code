@@ -6,7 +6,7 @@ export interface Identifier {
   key: string;
   desc?: string;
   extendPlatform?: boolean;
-  types?: Array<IdentifierType>;
+  types: Array<IdentifierType>;
 }
 
 export interface IdentifierType extends DBSchema.RdDefinePropType {}

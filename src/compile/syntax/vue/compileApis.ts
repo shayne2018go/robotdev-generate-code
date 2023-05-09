@@ -14,29 +14,42 @@ import { API_DIR, UTIL_DIR } from './const/config';
 // console.log(compileRequestInstance({})[0].path);
 // console.log(compileRequestInstance({})[0].token);
 
-function compileApis(codeSchema: ICodeSchema): { tokens: Compile.Token[]; apis: VueTypes.Api[] } {
-  const { apis: apiArray } = codeSchema;
-  const tokens = [] as Compile.Token[];
-  const apis = [] as VueTypes.Api[];
-  for (let index = 0; index < apiArray.length; index++) {
-    const api = apiArray[index];
-    const apiFile = `${api.key}.ts`;
-    const path = `${API_DIR}/${apiFile}`;
-    let token = getAxiosImport();
-    token += getExportRequest(api);
-    tokens.push(createToken(path, token));
-    apis.push(getApiType(path, api));
-  }
-  return { tokens, apis };
+function compileApis(codeSchema: ICodeSchema, apis: VueTypes.Api[]): { tokens: Compile.Token[] } {
+  const tokens = apis.map((api) => {
+    if (!api.source.filePath) {
+      throw new Error(`${api}`);
+    }
+    return createToken(api.source.filePath, generateApiToken(api.protocol));
+  });
+  return { tokens };
 }
 
-// @ts-ignore
-function getAxiosImport(): string {
-  const program = t.program([
-    t.importDeclaration([t.importDefaultSpecifier(t.identifier('axios'))], t.stringLiteral('axios')),
-  ]);
-  const { code } = generate(program);
-  return code + '\n';
+function parsingApis(codeSchema: ICodeSchema): { apis: VueTypes.Api[] } {
+  const apis = [] as VueTypes.Api[];
+
+  codeSchema.apis.forEach((api) => {
+    const apiFile = `${api.key}.ts`;
+    const path = `${API_DIR}/${apiFile}`;
+    apis.push(getApiType(path, api));
+  });
+
+  return { apis };
+}
+
+function generateApiToken(api: ICS_Api): string {
+  const statement = t.program([getAxiosImport(), getExportRequests(api)]);
+
+  const { code } = generate(statement);
+  return code;
+}
+
+function getAxiosImport(): t.ImportDeclaration {
+  // const program = t.program([
+  //   t.importDeclaration([t.importDefaultSpecifier(t.identifier('axios'))], t.stringLiteral('axios')),
+  // ]);
+  // const { code } = generate(program);
+  // return code + '\n';
+  return t.importDeclaration([t.importDefaultSpecifier(t.identifier('axios'))], t.stringLiteral('axios'));
 }
 
 // @ts-ignore
@@ -52,28 +65,24 @@ function getAxiosUtilImport(): string {
   return code + '\n';
 }
 
-function getExportRequest(api: ICS_Api): string {
-  const program = t.program([
-    t.exportNamedDeclaration(
-      t.functionDeclaration(
-        t.identifier(api.key),
-        [t.identifier('data')],
-        t.blockStatement([
-          t.returnStatement(
-            t.callExpression(t.identifier('axios'), [
-              t.objectExpression([
-                t.objectProperty(t.identifier('method'), t.stringLiteral(api.method)),
-                t.objectProperty(t.identifier('url'), t.stringLiteral(api.key)),
-                t.objectProperty(t.identifier('data'), t.identifier('data')),
-              ]),
-            ])
-          ),
-        ])
-      )
-    ),
-  ]);
-  const { code } = generate(program);
-  return code;
+function getExportRequests(api: ICS_Api): t.ExportNamedDeclaration {
+  return t.exportNamedDeclaration(
+    t.functionDeclaration(
+      t.identifier(api.key),
+      [t.identifier('data')],
+      t.blockStatement([
+        t.returnStatement(
+          t.callExpression(t.identifier('axios'), [
+            t.objectExpression([
+              t.objectProperty(t.identifier('method'), t.stringLiteral(api.method)),
+              t.objectProperty(t.identifier('url'), t.stringLiteral(api.key)),
+              t.objectProperty(t.identifier('data'), t.identifier('data')),
+            ]),
+          ])
+        ),
+      ])
+    )
+  );
 }
 
 function getApiType(path: string, api: ICS_Api): VueTypes.Api {
@@ -163,4 +172,5 @@ export function compileRequestInstance({ timeout, baseURL, headers }: AxiosReque
   return [createToken(`${UTIL_DIR}/${utilFile}`, code)];
 }
 
+export { parsingApis };
 export default compileApis;

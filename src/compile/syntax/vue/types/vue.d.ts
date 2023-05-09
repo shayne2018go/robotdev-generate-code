@@ -1,7 +1,9 @@
 import { ICS_ACTION } from '@/types/action';
 import { ICS_Api } from '@/types/api';
 import { ICS_Component } from '@/types/component';
+import { ICS_Event } from '@/types/event';
 import { ICS_Function } from '@/types/function';
+import { ICS_Property } from '@/types/prop';
 
 declare namespace VueTypes {
   /**
@@ -25,7 +27,7 @@ declare namespace VueTypes {
   export interface Function {
     id: string; // 函数id
     key: string; // 函数名称
-    source: {
+    source?: {
       filePath?: string; // 本地路径
       packageName?: string; // 包路径
       exportName: string; // 导出名 (不能为空 默认default )
@@ -40,7 +42,7 @@ declare namespace VueTypes {
   export interface Action {
     id: string; // 行为id
     key: string; // 行为名称
-    source: {
+    source?: {
       filePath?: string; // 本地路径
       packageName?: string; // 包路径
       exportName: string; // 导出名 (不能为空 默认default )
@@ -59,5 +61,23 @@ declare namespace VueTypes {
       alias?: string; // 别名
     };
     protocol: ICS_Api; // 协议
+  }
+
+  export interface Event {
+    id: string; // 行为id
+    key: string; // 行为名称
+    source?: {
+      filePath?: string; // 本地路径
+      packageName?: string; // 包路径
+      exportName: string; // 导出名 (不能为空 默认default )
+      alias?: string; // 别名
+    };
+    protocol: ICS_Event; // 协议
+  }
+
+  export interface Property {
+    id: string; // 行为id
+    key: string; // 行为名称
+    protocol: ICS_Property; // 协议
   }
 }

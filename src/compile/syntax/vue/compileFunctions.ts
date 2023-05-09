@@ -2,20 +2,10 @@ import { ICodeSchema } from '@/types';
 import { Compile } from '@/types/compile/token';
 import { VueTypes } from './types/vue';
 
-function compileFunctions(codeSchema: ICodeSchema): { tokens: Compile.Token[]; functions: VueTypes.Function[] } {
+function compileFunctions(codeSchema: ICodeSchema, functions: VueTypes.Function[]): { tokens: Compile.Token[] } {
   const tokens = [] as Compile.Token[];
 
-  const functions = parsingFunctions(codeSchema);
-
-  return { tokens, functions };
+  return { tokens };
 }
-
-function parsingFunctions(codeSchema: ICodeSchema): VueTypes.Function[] {
-  const functions = [] as VueTypes.Function[];
-
-  return functions;
-}
-
-export { parsingFunctions };
 
 export default compileFunctions;
