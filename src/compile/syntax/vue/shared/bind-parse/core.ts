@@ -114,7 +114,7 @@ const defaultAst = (ctx: CompilePageCtx, types?: DBWSchema.RdDefinePropType[]) =
       return t.stringLiteral('');
     }
   }
-  return t.nullLiteral();
+  return;
 };
 
 const toAstMethods = {
@@ -278,7 +278,7 @@ const valueToAst = (data: IdentifierValueArgs, ctx: CompilePageCtx, types?: DBWS
 
 export const actionToAst = (action: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression | BinaryExpression => {};
 
-export const nodePropValueAst = (nodeId: string, propId: string, ctx: CompilePageCtx): BindAst => {
+export const nodePropValueAst = (nodeId: string, propId: string, ctx: CompilePageCtx): BindAst | undefined => {
   const node = ctx.nodesStore.getNode(nodeId);
   const prop = ctx.nodesStore.getNodeProp(nodeId, propId);
   const define = ctx.componentsStore.getProp(node.tagId, propId);
