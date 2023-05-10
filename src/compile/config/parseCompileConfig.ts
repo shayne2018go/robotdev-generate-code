@@ -1,12 +1,9 @@
-import { ICodeSchema } from '@/types';
-import { Tech } from '@/types/tech';
-
 export interface CompileConfig {
   projectKey: string;
-  syntax: Tech.SynTax;
+  syntax: CodeSchema.TechnologyStack.SynTax;
 }
 
-function parseCompileConfig(codeSchema: ICodeSchema): CompileConfig {
+function parseCompileConfig(codeSchema: CodeSchema.Project): CompileConfig {
   // 项目名称
 
   return {

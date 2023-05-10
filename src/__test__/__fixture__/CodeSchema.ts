@@ -1,5 +1,3 @@
-import { ICodeSchema } from '@/types';
-
 const codeSchema = {
   id: '6459b63b4d895f7313578dad',
   key: 'ethanqianduan',
@@ -8464,6 +8462,6 @@ const codeSchema = {
       resourceType: 'page',
     },
   ],
-} as ICodeSchema;
+} as CodeSchema.Project;
 
 export default codeSchema;

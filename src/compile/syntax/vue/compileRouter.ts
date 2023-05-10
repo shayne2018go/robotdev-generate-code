@@ -1,7 +1,5 @@
 import createToken from '@/compile/config/createToken';
-import { ICodeSchema } from '@/types';
 import { Compile } from '@/types/compile/token';
-import { ICS_Directory } from '@/types/directory';
 import t from '@babel/types';
 import generate from '@babel/generator';
 import { relative } from '@/utils/node';
@@ -13,7 +11,7 @@ export interface VueRoute {
   name?: string; // name
 }
 
-function compileRouter(codeSchema: ICodeSchema, routes: VueRoute[]): { tokens: Compile.Token[] } {
+function compileRouter(codeSchema: CodeSchema.Project, routes: VueRoute[]): { tokens: Compile.Token[] } {
   const routerDir = 'src/router';
 
   const routeFile = 'routes.ts';
@@ -22,7 +20,7 @@ function compileRouter(codeSchema: ICodeSchema, routes: VueRoute[]): { tokens: C
   return { tokens };
 }
 
-function parsingRouter(codeSchema: ICodeSchema): { routes: VueRoute[] } {
+function parsingRouter(codeSchema: CodeSchema.Project): { routes: VueRoute[] } {
   const { directories = [], pages } = codeSchema;
 
   const routes =
@@ -39,8 +37,8 @@ function parsingRouter(codeSchema: ICodeSchema): { routes: VueRoute[] } {
  * @param id 页面id
  * @returns
  */
-function getRouteByDirectories(directories: ICS_Directory[], id: string): VueRoute {
-  const dirPath: ICS_Directory[] = [];
+function getRouteByDirectories(directories: CodeSchema.Directory[], id: string): VueRoute {
+  const dirPath: CodeSchema.Directory[] = [];
 
   let curId: string | null = id;
 

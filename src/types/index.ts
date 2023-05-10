@@ -1,4 +1,4 @@
-export * from './ICodeSchema';
+// export * from './ICodeSchema';
 
 export * from './DBSchema';
 

@@ -1,4 +1,3 @@
-import { VueTypes } from '../../types/vue';
 import { localSqlStore } from '../local-map';
 
 export const apisDataStore = (apis: VueTypes.Api[]) => {

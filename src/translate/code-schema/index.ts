@@ -1,11 +1,11 @@
-import { DBWSchema, ICodeSchema } from '@/types';
+import { DBWSchema } from '@/types';
 import preprocessApis from './apis';
 import preprocessComponents from './components';
 import { preprocessDependencies } from './dependencies';
 import preprocessPages from './pages';
 import preprocessDirectories from './directory';
 
-function preprocess(dbwSchema: DBWSchema.Project): ICodeSchema {
+function preprocess(dbwSchema: DBWSchema.Project): CodeSchema.Project {
   /**
    *  解析依赖
    *

@@ -1,19 +1,14 @@
+import { relative } from '@/utils/node';
+import { tools } from '@/utils/tools';
 import generate from '@babel/generator';
 import * as t from '@babel/types';
-import { ICS_Page } from '@/types/page';
-import { Identifier } from '@/types/code-schema/Identifier';
-import { I_component_LifeCycle } from '@/types/component';
 import { CompilePageCtx } from '../compilePages';
-import { ICS_Function } from '@/types/function';
-import { relative } from '@/utils/node';
-import { VueTypes } from '../types/vue';
-import { tools } from '@/utils/tools';
 
-function compileScript(page: ICS_Page, ctx: CompilePageCtx): { token: string } {
+function compileScript(page: CodeSchema.Page, ctx: CompilePageCtx): { token: string } {
   return { token: gernateScriptToken(page, ctx) };
 }
 
-function gernateScriptToken(page: ICS_Page, ctx: CompilePageCtx): string {
+function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string {
   const { variables, lifeCycle, functions } = page;
   const statements: Array<t.Statement> = [];
   let code = '';
@@ -123,7 +118,7 @@ function compileSourceStr(packageName?: string, filePath?: string): string {
   return sourceStr;
 }
 
-function compileVariables(variables: Array<Identifier>, ctx: CompilePageCtx): t.VariableDeclaration {
+function compileVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: CompilePageCtx): t.VariableDeclaration {
   return t.variableDeclaration('const', [
     t.variableDeclarator(
       t.identifier(ctx.variablesRootName),
@@ -169,7 +164,10 @@ function compileNodesVariables(ctx: CompilePageCtx): t.VariableDeclaration {
   ]);
 }
 
-function compileFunctions(functions: Array<ICS_Function>, ctx: CompilePageCtx): t.FunctionDeclaration[] {
+function compileFunctions(
+  functions: Array<CodeSchema.Function_Protocol>,
+  ctx: CompilePageCtx
+): t.FunctionDeclaration[] {
   return functions.map((func) => {
     return t.functionDeclaration(
       t.identifier(func.key),
@@ -181,7 +179,7 @@ function compileFunctions(functions: Array<ICS_Function>, ctx: CompilePageCtx): 
   });
 }
 
-function compileLifeCycle(lifeCycle: Array<I_component_LifeCycle>, ctx: CompilePageCtx): t.Statement[] {
+function compileLifeCycle(lifeCycle: Array<CodeSchema.ComponentLifeCycle>, ctx: CompilePageCtx): t.Statement[] {
   const lifeStatements: t.Statement[] = [];
   for (let i = 0; i < lifeCycle.length; i++) {
     const lifeEle = lifeCycle[i];
@@ -191,7 +189,9 @@ function compileLifeCycle(lifeCycle: Array<I_component_LifeCycle>, ctx: CompileP
       const actionEle = actions[j];
       if (actionEle.mode === 'api') {
         actionStatements.push(
-          t.expressionStatement(t.callExpression(t.identifier(ctx.apis.getApi(actionEle.args.id as string).key), []))
+          t.expressionStatement(
+            t.callExpression(t.identifier(ctx.apisStore.getApi(actionEle.args.id as string).key), [])
+          )
         );
       }
     }

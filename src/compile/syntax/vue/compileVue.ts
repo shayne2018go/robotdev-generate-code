@@ -1,5 +1,3 @@
-import { ICodeSchema } from '@/types/ICodeSchema';
-import { ICS_Dependencies } from '@/types/dependencies';
 import compileApis, { parsingApis } from './compileApis';
 import compileComponents from './compileComponents';
 import compileFunctions from './compileFunctions';
@@ -10,7 +8,6 @@ import { actionsDataStore } from './shared/store/actions';
 import { apisDataStore } from './shared/store/apis';
 import { componentsDataStore } from './shared/store/components';
 import { functionsDataStore } from './shared/store/functions';
-import { VueTypes } from './types/vue';
 import { eventsDataStore } from './shared/store/events';
 import { propsDataStore } from './shared/store/props';
 
@@ -32,7 +29,7 @@ export interface VueGlobalCtx {
   eventsStore: ReturnType<typeof eventsDataStore>;
   propsStore: ReturnType<typeof propsDataStore>;
 }
-function compileVue(codeSchema: ICodeSchema) {
+function compileVue(codeSchema: CodeSchema.Project) {
   const vueCompileOptions = parsingVueCompileOptions(codeSchema);
 
   const vueGlobalCtx = buildGlobalCtx(vueCompileOptions);
@@ -63,7 +60,7 @@ function compileVue(codeSchema: ICodeSchema) {
  * @param codeSchema
  * @returns
  */
-export function parsingVueCompileOptions(codeSchema: ICodeSchema): VueCompileOptions {
+export function parsingVueCompileOptions(codeSchema: CodeSchema.Project): VueCompileOptions {
   const { routes } = parsingRouter(codeSchema);
 
   const { apis } = parsingApis(codeSchema);
@@ -113,7 +110,7 @@ export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalC
   };
 }
 
-function parsingDependenciesComponents(cur: ICS_Dependencies): VueTypes.Component[] {
+function parsingDependenciesComponents(cur: CodeSchema.Dependency): VueTypes.Component[] {
   const components = [] as VueTypes.Component[];
   if (BUILT_IN_PACKAGES.includes(cur.projectId)) {
     cur.components?.forEach((cmpt) => {
@@ -147,7 +144,7 @@ function parsingDependenciesComponents(cur: ICS_Dependencies): VueTypes.Componen
   return components;
 }
 
-function parsingDependenciesActions(cur: ICS_Dependencies): VueTypes.Action[] {
+function parsingDependenciesActions(cur: CodeSchema.Dependency): VueTypes.Action[] {
   const actions =
     cur.actions?.map((act) => {
       const exportName = act.key.split('.')[0];
@@ -169,7 +166,7 @@ function parsingDependenciesActions(cur: ICS_Dependencies): VueTypes.Action[] {
   return actions;
 }
 
-function parsingDependenciesFunctions(cur: ICS_Dependencies): VueTypes.Function[] {
+function parsingDependenciesFunctions(cur: CodeSchema.Dependency): VueTypes.Function[] {
   const functions =
     cur.functions?.map((func) => {
       const exportName = func.key.split('.')[0];
@@ -191,7 +188,7 @@ function parsingDependenciesFunctions(cur: ICS_Dependencies): VueTypes.Function[
   return functions;
 }
 
-function parsingDependenciesEvents(cur: ICS_Dependencies): VueTypes.Event[] {
+function parsingDependenciesEvents(cur: CodeSchema.Dependency): VueTypes.Event[] {
   const events =
     cur.events?.map((evt) => {
       const exportName = evt.key.split('.')[0];
@@ -213,7 +210,7 @@ function parsingDependenciesEvents(cur: ICS_Dependencies): VueTypes.Event[] {
   return events;
 }
 
-function parsingDependenciesProps(cur: ICS_Dependencies): VueTypes.Property[] {
+function parsingDependenciesProps(cur: CodeSchema.Dependency): VueTypes.Property[] {
   const props =
     cur.props?.map((pro) => {
       const exportName = pro.key.split('.')[0];

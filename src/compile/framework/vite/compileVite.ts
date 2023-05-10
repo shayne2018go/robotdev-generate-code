@@ -1,7 +1,5 @@
 import { CompileConfig } from '@/compile/config/parseCompileConfig';
-import { ICodeSchema } from '@/types/ICodeSchema';
 import compileViteTemplate from './compileViteTemplate';
-import { Tech } from '@/types/tech';
 import compileVitePlugins from './compileVitePlugins';
 
 export type ViteTemplate =
@@ -22,9 +20,9 @@ export type IViteCompilerOptions = {
   template: ViteTemplate;
 };
 
-function compileVite(codeSchema: ICodeSchema, compileConfig: CompileConfig) {
+function compileVite(codeSchema: CodeSchema.Project, compileConfig: CompileConfig) {
   const template: ViteTemplate = 'vue-ts';
-  const plugins: Tech.Plugin[] = [
+  const plugins: CodeSchema.TechnologyStack.Plugin[] = [
     {
       name: 'less',
       dependencies: [

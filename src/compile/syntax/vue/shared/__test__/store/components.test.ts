@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import { componentsDataStore } from '../../store/components';
-import { VueTypes } from '../../../types/vue';
 
 describe('components', () => {
   it('button', () => {

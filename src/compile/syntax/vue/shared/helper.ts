@@ -1,6 +1,4 @@
-import { INode } from '@/types/view';
 import { DBSchema } from '@/types';
-import { VueTypes } from '../types/vue';
 import { BUILT_IN_PACKAGES } from '../const/config';
 
 // 出现次数统计工具
@@ -25,7 +23,7 @@ export const genVarName = () => {
   };
 };
 
-export function outerNode(node: INode) {
+export function outerNode(node: CodeSchema.ComponentNode) {
   return node.packageId && !BUILT_IN_PACKAGES.includes(node.packageId);
 }
 
@@ -36,7 +34,7 @@ export function outerNode(node: INode) {
  * @returns
  */
 function getNodesComponentDependencies(
-  nodes: INode[],
+  nodes: CodeSchema.ComponentNode[],
   componentsDependencies: VueTypes.Component[]
 ): Map<string, VueTypes.Component> {
   const outerNodes = getOuterNodes(nodes);
@@ -50,7 +48,7 @@ function getNodesComponentDependencies(
   return map;
 }
 
-function getOuterNodes(nodes: Array<INode>) {
+function getOuterNodes(nodes: Array<CodeSchema.ComponentNode>) {
   const outerNodes = nodes.filter((node) => {
     return node.packageId && !BUILT_IN_PACKAGES.includes(node.packageId);
   });

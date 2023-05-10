@@ -1,8 +1,5 @@
 import createToken from '@/compile/config/createToken';
-import { ICodeSchema } from '@/types';
 import { Compile } from '@/types/compile/token';
-import { ICS_Directory } from '@/types/directory';
-import { ICS_Page } from '@/types/page';
 import { tools } from '@/utils/tools';
 import { VueCompileOptions, VueGlobalCtx } from './compileVue';
 import { PAGE_DIR } from './const/config';
@@ -10,7 +7,6 @@ import { compileScript, compileStyle, compileTemplate } from './sfc';
 import { genVarName, outerNode } from './shared/helper';
 import { nodesDataStore } from './shared/store/nodes';
 import { propertiesDataStore } from './shared/store/properties';
-import { VueTypes } from './types/vue';
 
 export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult;
 export type CompilePageCtx = Required<VueGlobalCtx> & ParsingPageResult;
@@ -45,7 +41,7 @@ interface ParsingPageResult {
   importFunctions: VueTypes.Function[];
 }
 
-function compilePages(codeSchema: ICodeSchema, vueGlobalCtx: VueGlobalCtx): { tokens: Compile.Token[] } {
+function compilePages(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx): { tokens: Compile.Token[] } {
   const tokens = [] as Compile.Token[];
 
   const { directories = [] } = codeSchema;
@@ -62,7 +58,7 @@ function compilePages(codeSchema: ICodeSchema, vueGlobalCtx: VueGlobalCtx): { to
   return { tokens };
 }
 
-function compilePage(page: ICS_Page, ctx: VueGlobalCtx) {
+function compilePage(page: CodeSchema.Page, ctx: VueGlobalCtx) {
   const parsingPageResult = parsingPage(page, ctx);
 
   const currentPageCompileOptions: CompilePageCtx = Object.assign({}, ctx, parsingPageResult);
@@ -76,7 +72,7 @@ function compilePage(page: ICS_Page, ctx: VueGlobalCtx) {
   return { token };
 }
 
-function parsingPage(page: ICS_Page, ctx: VueGlobalCtx): ParsingPageResult {
+function parsingPage(page: CodeSchema.Page, ctx: VueGlobalCtx): ParsingPageResult {
   // 1，当前页面的依赖 （组件、行为）
   // 组件依赖
 
@@ -101,6 +97,7 @@ function parsingPage(page: ICS_Page, ctx: VueGlobalCtx): ParsingPageResult {
     };
 
     const genPropVarNameHandler = genVarName();
+
     cmpt.protocol.props.forEach((item) => {
       const propOption = ctx.componentsStore.getProp(node.tagId, item.id);
       nodesVarNames[node.id].propMembers[item.id] = {
@@ -142,8 +139,8 @@ function parsingPage(page: ICS_Page, ctx: VueGlobalCtx): ParsingPageResult {
   };
 }
 
-function getPageFilePath(page: ICS_Page, directories: ICS_Directory[]): string {
-  const dirPath: ICS_Directory[] = [];
+function getPageFilePath(page: CodeSchema.Page, directories: CodeSchema.Directory[]): string {
+  const dirPath: CodeSchema.Directory[] = [];
 
   let curId: string | null = page.id;
 

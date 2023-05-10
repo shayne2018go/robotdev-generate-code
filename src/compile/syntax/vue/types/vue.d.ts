@@ -1,10 +1,3 @@
-import { ICS_ACTION } from '@/types/action';
-import { ICS_Api } from '@/types/api';
-import { ICS_Component } from '@/types/component';
-import { ICS_Event } from '@/types/event';
-import { ICS_Function } from '@/types/function';
-import { ICS_Property } from '@/types/prop';
-
 declare namespace VueTypes {
   /**
    * 组件
@@ -18,7 +11,7 @@ declare namespace VueTypes {
       exportName: string; // 导出名 (不能为空 默认default ) aaa
       alias?: string; // 别名
     };
-    protocol: ICS_Component; // 协议
+    protocol: CodeSchema.Component; // 协议
   }
 
   /**
@@ -33,7 +26,7 @@ declare namespace VueTypes {
       exportName: string; // 导出名 (不能为空 默认default )
       alias?: string; // 别名
     };
-    protocol: ICS_Function; // 协议
+    protocol: CodeSchema.Function_Protocol; // 协议
   }
 
   /**
@@ -48,7 +41,7 @@ declare namespace VueTypes {
       exportName: string; // 导出名 (不能为空 默认default )
       alias?: string; // 别名
     };
-    protocol: ICS_ACTION; // 协议
+    protocol: CodeSchema.Action_Protocol; // 协议
   }
 
   export interface Api {
@@ -60,7 +53,7 @@ declare namespace VueTypes {
       exportName: string; // 导出名 (不能为空 默认default )
       alias?: string; // 别名
     };
-    protocol: ICS_Api; // 协议
+    protocol: CodeSchema.Api_Protocol; // 协议
   }
 
   export interface Event {
@@ -72,12 +65,12 @@ declare namespace VueTypes {
       exportName: string; // 导出名 (不能为空 默认default )
       alias?: string; // 别名
     };
-    protocol: ICS_Event; // 协议
+    protocol: CodeSchema.Event_Protocol; // 协议
   }
 
   export interface Property {
-    id: string; // 行为id
-    key: string; // 行为名称
-    protocol: ICS_Property; // 协议
+    id: string; // 属性id
+    key: string; // 属性名称
+    protocol: CodeSchema.Property_Protocol; // 协议
   }
 }
