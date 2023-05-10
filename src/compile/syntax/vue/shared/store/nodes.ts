@@ -116,7 +116,7 @@ export const nodesDataStore = (nodes: INode[], itemCallback: (item: INode, index
     treeNodes,
     parents,
     nodes() {
-      return store.queries();
+      return nodes;
     },
     getNode(nodeId: INode['id']) {
       return store.query(nodeId);

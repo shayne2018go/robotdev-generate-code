@@ -1,8 +1,13 @@
-import { relative } from '@/utils/node';
-import { tools } from '@/utils/tools';
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 import { CompilePageCtx } from '../compilePages';
+import { relative } from '@/utils/node';
+import { tools } from '@/utils/tools';
+import { actionToAst, nodePropValueAst } from '../shared/bind-parse/core';
+
+const lifeCycleMap: { [propname: string]: string } = {
+  loading: 'onMounted',
+};
 
 function compileScript(page: CodeSchema.Page, ctx: CompilePageCtx): { token: string } {
   return { token: gernateScriptToken(page, ctx) };
@@ -12,7 +17,7 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
   const { variables, lifeCycle, functions } = page;
   const statements: Array<t.Statement> = [];
   let code = '';
-  let tag = compileTag();
+  let tag = getTagStrs();
   code += tag[0];
   statements.push(...getVueImports());
   if (ctx.importComponents.length > 0) {
@@ -22,16 +27,16 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
     statements.push(...getImports(ctx.importFunctions));
   }
   if (variables && variables.length > 0) {
-    statements.push(compileVariables(variables, ctx));
+    statements.push(getVariables(variables, ctx));
   }
   if (ctx.nodesVarNames) {
-    statements.push(compileNodesVariables(ctx));
+    statements.push(getNodesVariables(ctx));
   }
   if (functions && functions.length > 0) {
-    statements.push(...compileFunctions(functions, ctx));
+    statements.push(...getFunctions(functions, ctx));
   }
   if (lifeCycle && lifeCycle.length > 0) {
-    statements.push(...compileLifeCycle(lifeCycle, ctx));
+    statements.push(...getLifeCycles(lifeCycle, ctx));
   }
   const statement = t.program(statements);
   code += generate(statement).code + '\n';
@@ -39,7 +44,7 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
   return code;
 }
 
-function compileTag(): string[] {
+function getTagStrs(): string[] {
   const statement = t.jsxElement(
     t.jsxOpeningElement(t.jsxIdentifier('script'), [
       t.jsxAttribute(t.jsxIdentifier('setup')),
@@ -78,13 +83,13 @@ function getImports(imports: Array<VueTypes.Component> | Array<VueTypes.Function
     let { key, source } = ele;
     if (key && source) {
       const { filePath, packageName, exportName, alias } = source;
-      const sourceStr = compileSourceStr(packageName, filePath);
+      const sourceStr = packageName || relative('src/folder', filePath as string);
       if (packageObj[sourceStr] === undefined) {
-        let specifier = compileSpecifier(exportName, key, alias);
+        let specifier = getImportSpecifier(exportName, key, alias);
         let source = t.stringLiteral(sourceStr);
         importArray.push([[specifier], source]);
       } else {
-        importArray[packageObj[sourceStr]][0].push(compileSpecifier(exportName, key, alias));
+        importArray[packageObj[sourceStr]][0].push(getImportSpecifier(exportName, key, alias));
       }
       packageObj[sourceStr] = count;
       count++;
@@ -95,11 +100,11 @@ function getImports(imports: Array<VueTypes.Component> | Array<VueTypes.Function
   });
 }
 
-function compileSpecifier(
+function getImportSpecifier(
   exportName: string,
   key: string,
   alias?: string
-): t.ImportSpecifier | t.ImportDefaultSpecifier | t.ImportNamespaceSpecifier {
+): t.ImportSpecifier | t.ImportDefaultSpecifier {
   let specifier;
   if (exportName === 'default') {
     specifier = t.importDefaultSpecifier(t.identifier(tools.string.lineToHumpBig(key)));
@@ -113,12 +118,7 @@ function compileSpecifier(
   return specifier;
 }
 
-function compileSourceStr(packageName?: string, filePath?: string): string {
-  const sourceStr = packageName || relative('src/folder', filePath as string);
-  return sourceStr;
-}
-
-function compileVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: CompilePageCtx): t.VariableDeclaration {
+function getVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: CompilePageCtx): t.VariableDeclaration {
   return t.variableDeclaration('const', [
     t.variableDeclarator(
       t.identifier(ctx.variablesRootName),
@@ -133,41 +133,51 @@ function compileVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: C
   ]);
 }
 
-function compileNodesVariables(ctx: CompilePageCtx): t.VariableDeclaration {
-  // ctx.components.getCmpt(ctx.nodesStore.getNode('').tagId)
+function getNodesVariables(ctx: CompilePageCtx): t.VariableDeclaration {
+  const nodes = ctx.nodesStore.nodes();
+  const nodeProps: t.ObjectProperty[] = [];
+  nodes.forEach((node) => {
+    const propProps: t.ObjectProperty[] = [];
+    const eventProps: t.ObjectProperty[] = [];
+    if (!node.props?.length && !node.events?.length) {
+      return;
+    }
+    if (node.props?.length) {
+      node.props.forEach((prop) => {
+        const ast = nodePropValueAst(node.id, prop.propId, ctx);
+        if (ast) {
+          propProps.push(
+            t.objectProperty(t.identifier(ctx.nodesVarNames[node.id].propMembers[prop.propId].varName), ast)
+          );
+        }
+      });
+    }
+    if (node.events?.length) {
+      node.events.forEach((event) => {
+        const ast = nodePropValueAst(node.id, event.eventId, ctx);
+        if (ast) {
+          propProps.push(
+            t.objectProperty(t.identifier(ctx.nodesVarNames[node.id].eventMembers[event.eventId].varName), ast)
+          );
+        }
+      });
+    }
+    nodeProps.push(
+      t.objectProperty(
+        t.identifier(ctx.nodesVarNames[node.id].varName),
+        t.objectExpression([...propProps, ...eventProps])
+      )
+    );
+  });
   return t.variableDeclaration('const', [
     t.variableDeclarator(
       t.identifier(ctx.nodesVarRootName),
-      t.callExpression(t.identifier('reactive'), [
-        t.objectExpression(
-          Object.entries(ctx.nodesVarNames).map((node) => {
-            return t.objectProperty(
-              t.identifier(node[1].varName),
-              t.callExpression(t.identifier('reactive'), [
-                t.objectExpression(
-                  Object.entries(node[1].propMembers)
-                    .map((ele) => {
-                      return t.objectProperty(t.identifier(ele[1].varName), t.nullLiteral(/*这里是prop赋值*/));
-                    })
-                    .concat(
-                      Object.entries(node[1].eventMembers).map((ele) => {
-                        return t.objectProperty(t.identifier(ele[1].varName), t.nullLiteral(/*这里是event赋值*/));
-                      })
-                    )
-                ),
-              ])
-            );
-          })
-        ),
-      ])
+      t.callExpression(t.identifier('reactive'), [t.objectExpression(nodeProps)])
     ),
   ]);
 }
 
-function compileFunctions(
-  functions: Array<CodeSchema.Function_Protocol>,
-  ctx: CompilePageCtx
-): t.FunctionDeclaration[] {
+function getFunctions(functions: Array<CodeSchema.Function_Protocol>, ctx: CompilePageCtx): t.FunctionDeclaration[] {
   return functions.map((func) => {
     return t.functionDeclaration(
       t.identifier(func.key),
@@ -179,29 +189,17 @@ function compileFunctions(
   });
 }
 
-function compileLifeCycle(lifeCycle: Array<CodeSchema.ComponentLifeCycle>, ctx: CompilePageCtx): t.Statement[] {
-  const lifeStatements: t.Statement[] = [];
-  for (let i = 0; i < lifeCycle.length; i++) {
-    const lifeEle = lifeCycle[i];
-    const actions = lifeEle.actions;
-    const actionStatements = [];
-    for (let j = 0; j < actions.length; j++) {
-      const actionEle = actions[j];
-      if (actionEle.mode === 'api') {
-        actionStatements.push(
-          t.expressionStatement(
-            t.callExpression(t.identifier(ctx.apisStore.getApi(actionEle.args.id as string).key), [])
-          )
-        );
-      }
-    }
-    lifeStatements.push(
-      t.expressionStatement(
-        t.callExpression(t.identifier('onMounted'), [t.arrowFunctionExpression([], t.blockStatement(actionStatements))])
-      )
-    );
-  }
-  return lifeStatements;
+function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: CompilePageCtx): t.Statement[] {
+  return lifeCycles.map((lifeCycle) =>
+    t.expressionStatement(
+      t.callExpression(t.identifier(lifeCycleMap[ctx.eventsStore.getEvent(lifeCycle.eventId).key]), [
+        t.arrowFunctionExpression(
+          [],
+          t.blockStatement(lifeCycle.actions.map((action) => t.expressionStatement(actionToAst(action, ctx))))
+        ),
+      ])
+    )
+  );
 }
 
 export default compileScript;
