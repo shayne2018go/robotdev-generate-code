@@ -14,16 +14,6 @@ import { API_DIR, UTIL_DIR } from './const/config';
 // console.log(compileRequestInstance({})[0].path);
 // console.log(compileRequestInstance({})[0].token);
 
-function compileApis(codeSchema: ICodeSchema, apis: VueTypes.Api[]): { tokens: Compile.Token[] } {
-  const tokens = apis.map((api) => {
-    if (!api.source.filePath) {
-      throw new Error(`${api}`);
-    }
-    return createToken(api.source.filePath, generateApiToken(api.protocol));
-  });
-  return { tokens };
-}
-
 function parsingApis(codeSchema: ICodeSchema): { apis: VueTypes.Api[] } {
   const apis = [] as VueTypes.Api[];
 
@@ -36,33 +26,46 @@ function parsingApis(codeSchema: ICodeSchema): { apis: VueTypes.Api[] } {
   return { apis };
 }
 
+function getApiType(path: string, api: ICS_Api): VueTypes.Api {
+  const apiType: VueTypes.Api = {
+    id: api.id,
+    key: api.key,
+    source: {
+      filePath: path,
+      exportName: api.key,
+    },
+    protocol: api,
+  };
+  return apiType;
+}
+
+function compileApis(codeSchema: ICodeSchema, apis: VueTypes.Api[]): { tokens: Compile.Token[] } {
+  const tokens = apis.map((api) => {
+    if (!api.source.filePath) {
+      throw new Error(`${api}`);
+    }
+    return createToken(api.source.filePath, generateApiToken(api.protocol));
+  });
+  return { tokens };
+}
+
 function generateApiToken(api: ICS_Api): string {
   const statement = t.program([getAxiosImport(), getExportRequests(api)]);
-
   const { code } = generate(statement);
   return code;
 }
 
 function getAxiosImport(): t.ImportDeclaration {
-  // const program = t.program([
-  //   t.importDeclaration([t.importDefaultSpecifier(t.identifier('axios'))], t.stringLiteral('axios')),
-  // ]);
-  // const { code } = generate(program);
-  // return code + '\n';
   return t.importDeclaration([t.importDefaultSpecifier(t.identifier('axios'))], t.stringLiteral('axios'));
 }
 
 // @ts-ignore
-function getAxiosUtilImport(): string {
+function getAxiosUtilImport(): t.ImportDeclaration {
   const utilFile = 'axios.ts';
-  const program = t.program([
-    t.importDeclaration(
-      [t.importDefaultSpecifier(t.identifier('axios'))],
-      t.stringLiteral(relative(API_DIR, `${UTIL_DIR}/${utilFile}`))
-    ),
-  ]);
-  const { code } = generate(program);
-  return code + '\n';
+  return t.importDeclaration(
+    [t.importDefaultSpecifier(t.identifier('axios'))],
+    t.stringLiteral(relative(API_DIR, `${UTIL_DIR}/${utilFile}`))
+  );
 }
 
 function getExportRequests(api: ICS_Api): t.ExportNamedDeclaration {
@@ -85,20 +88,7 @@ function getExportRequests(api: ICS_Api): t.ExportNamedDeclaration {
   );
 }
 
-function getApiType(path: string, api: ICS_Api): VueTypes.Api {
-  const apiType: VueTypes.Api = {
-    id: api.id,
-    key: api.key,
-    source: {
-      filePath: path,
-      exportName: api.key,
-    },
-    protocol: api,
-  };
-  return apiType;
-}
-
-export function compileRequestInstance({ timeout, baseURL, headers }: AxiosRequestConfig): Compile.Token[] {
+function compileRequestInstance({ timeout, baseURL, headers }: AxiosRequestConfig): Compile.Token[] {
   const utilFile = 'axios.ts';
   const headersExpr: t.ObjectProperty[] = [];
   if (headers) {
@@ -172,5 +162,6 @@ export function compileRequestInstance({ timeout, baseURL, headers }: AxiosReque
   return [createToken(`${UTIL_DIR}/${utilFile}`, code)];
 }
 
-export { parsingApis };
+export { parsingApis, compileRequestInstance };
+
 export default compileApis;

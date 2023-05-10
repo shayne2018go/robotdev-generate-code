@@ -4,6 +4,18 @@
     "token": "import axios from \"axios\";\nexport function chuangjianyonghu(data) {\n  return axios({\n    method: \"post\",\n    url: \"chuangjianyonghu\",\n    data: data\n  });\n}"
   },
   {
+    "path": "src/apis/chuangjianbanji.ts",
+    "token": "import axios from \"axios\";\nexport function chuangjianbanji(data) {\n  return axios({\n    method: \"post\",\n    url: \"chuangjianbanji\",\n    data: data\n  });\n}"
+  },
+  {
+    "path": "src/apis/luruxueshengbanji.ts",
+    "token": "import axios from \"axios\";\nexport function luruxueshengbanji(data) {\n  return axios({\n    method: \"post\",\n    url: \"luruxueshengbanji\",\n    data: data\n  });\n}"
+  },
+  {
+    "path": "src/apis/chaxunxueshengbanji.ts",
+    "token": "import axios from \"axios\";\nexport function chaxunxueshengbanji(data) {\n  return axios({\n    method: \"post\",\n    url: \"chaxunxueshengbanji\",\n    data: data\n  });\n}"
+  },
+  {
     "path": "src/apis/chaxunsuoyouyonghu.ts",
     "token": "import axios from \"axios\";\nexport function chaxunsuoyouyonghu(data) {\n  return axios({\n    method: \"post\",\n    url: \"chaxunsuoyouyonghu\",\n    data: data\n  });\n}"
   }
