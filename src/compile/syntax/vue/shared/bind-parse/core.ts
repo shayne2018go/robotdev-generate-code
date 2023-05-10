@@ -152,16 +152,23 @@ export const dataParse = (ctx: CompilePageCtx) => {
       }
       throw new Error('rdData_custom中的类型"' + data.args.type + '"不支持编译');
     },
-    getVar(data: DBWSchema.RdData_GetVar): CallExpression {
+    getVar(data: DBWSchema.RdData_GetVar): t.MemberExpression {
       const types = ctx.variablesStore.get(data.args.id).types;
       if (!types) {
         throw new Error('getVar的id的types获取失败');
       }
       const rootName = ctx.variablesRootName; // 变量外层的变量名
-      const varName = ctx.variablesNames[data.args.id]; // 变量名
-      const path = searchModulePathKeys(types, data.args.path || []); // 路径中的每个属性名
-
-      return t.callExpression();
+      const varName = ctx.variablesNames[data.args.id].varName; // 变量名
+      const paths = searchModulePathKeys(types, data.args.path || []); // 路径中的每个属性名
+      const memberExpr = (paths: string[]): t.MemberExpression => {
+        const [varStr, ...memberPaths] = paths;
+        if (memberPaths.length !== 1) {
+          return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
+        } else {
+          return t.memberExpression(t.identifier(varStr),t.identifier(memberPaths[0]));
+        }
+      };
+      return memberExpr([...paths.reverse(), rootName, varName])
     },
     getApiData(data: DBWSchema.RdData_GetApiData): CallExpression {},
     getParam(data: DBWSchema.RdData_GetParam): CallExpression {},

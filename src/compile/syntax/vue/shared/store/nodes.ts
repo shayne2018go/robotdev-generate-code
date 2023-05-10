@@ -1,13 +1,13 @@
-import { ICS_Page } from '@/types/page';
 import { localSqlStore } from '../local-map';
+import { INode, INodeEvent, INodeProps, } from '@/types/view';
 
 export interface ViewNode {
   id: string;
   parentId?: string | null;
   tagId: string;
   packageId?: string | null; // 来源，如果定义了来源，则必须定义sourceId，refId指向sourceId中的资源id。如果未定义来源，则refId指向当前项目的组件id
-  props?: ICS_Page['nodes'][number]['props'] | null;
-  events?: ICS_Page['nodes'][number]['events'] | null;
+  props?: INode['props'] | null;
+  events?: INode['events'] | null;
   slots?: Array<ViewNodeSlot>;
 }
 
@@ -17,23 +17,27 @@ export interface ViewNodeSlot {
   id: string;
   parentId: ViewNode['id'];
   slotId: string;
-  props?: ICS_Page['nodes'][number]['props'] | null;
+  props?: INode['props'] | null;
   nodes?: Array<ViewNode>;
 }
 
-export type TreeNode = {
-  id: ICS_Page['nodes'][number]['id'];
-  parentId: string | null;
-  data: ICS_Page['nodes'][number];
-  children: TreeNode[];
-  isUndefined?: true;
-};
-
-export const nodesDataStore = (
-  nodes: ICS_Page['nodes'],
-  itemCallback: (item: ICS_Page['nodes'][number], index: number) => void
-) => {
-  const store = localSqlStore<ICS_Page['nodes'][number], 'id', []>({ primaryKey: 'id' });
+export const nodesDataStore = (nodes: INode, itemCallback: (item: INode, index: number) => void) => {
+  const store = localSqlStore<INode, 'id', []>({ primaryKey: 'id' });
+  const propsStore = localSqlStore<INodeProps, 'propId', []>;
+  const eventsStore = localSqlStore<INodeEvent, 'eventId', []>;
+  const cache: {
+    [nodeId: string]: {
+      propsStore: ReturnType<typeof propsStore>;
+      eventsStore: ReturnType<typeof eventsStore>;
+    };
+  } = {};
+  type TreeNode = {
+    id: INode['id'];
+    parentId: string | null;
+    data: INode;
+    children: TreeNode[];
+    isUndefined?: true;
+  };
 
   const tree: {
     [nodeId: string]: TreeNode;
@@ -44,6 +48,10 @@ export const nodesDataStore = (
   if (nodes) {
     store.created(nodes, (node, index) => {
       itemCallback(node, index);
+      cache[node.id] = {
+        propsStore: propsStore({ primaryKey: 'propId' }).created(node.props || []),
+        eventsStore: eventsStore({ primaryKey: 'eventId' }).created(node.events || []),
+      };
       if (!tree[node.id]) {
         const treeNode: TreeNode = {
           id: node.id,
@@ -77,7 +85,7 @@ export const nodesDataStore = (
     });
   }
 
-  const parents = (nodeId: ICS_Page['nodes'][number]['id'], filter: (item: TreeNode) => boolean, push?: boolean) => {
+  const parents = (nodeId: INode['id'], filter: (item: TreeNode) => boolean, push?: boolean) => {
     const parentId = tree[nodeId].parentId;
     if (!parentId) {
       return [];
@@ -110,8 +118,14 @@ export const nodesDataStore = (
     nodes() {
       return store.queries();
     },
-    getNode(nodeId: ICS_Page['nodes'][number]['id']) {
+    getNode(nodeId: INode['id']) {
       return store.query(nodeId);
+    },
+    getNodeProp(nodeId: INode['id'], propId: INodeProps['propId']) {
+      return cache[nodeId]?.propsStore.query(propId);
+    },
+    getNodeEvent(nodeId: INode['id'], eventId: INodeEvent['eventId']) {
+      return cache[nodeId]?.eventsStore.query(eventId);
     },
   };
 };
