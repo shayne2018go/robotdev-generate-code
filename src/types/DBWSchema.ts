@@ -358,6 +358,56 @@ export namespace DBWSchema {
     };
   }
 
+  // 修改变量数据
+  export interface RdAction_SetVar extends RdAction {
+    mode: 'setVar';
+    args: {
+      id: string;
+      path?: string[];
+      value: any;
+    };
+  }
+
+  // 修改业务数据
+  export interface RdAction_SetApiData extends RdAction {
+    mode: 'setApiData';
+    args: {
+      id: string;
+      path?: string[];
+      value: any;
+    };
+  }
+
+  // 修改数据
+  export interface RdAction_Set extends RdAction {
+    mode: 'set';
+    args: {
+      actions: (RdAction_SetVar | RdAction_SetApiData)[];
+    };
+  }
+
+  // 执行业务
+  export interface RdAction_Api extends RdAction {
+    mode: 'api';
+    args: {
+      id: string;
+      params: any[];
+      success: any[];
+      fail: any[];
+    };
+  }
+
+  // 执行业务
+  export interface RdAction_Open extends RdAction {
+    mode: 'open';
+    args: {
+      mode: 'in' | 'out';
+      target: string;
+      pageId: string;
+      url: string;
+    };
+  }
+
   export type RdDataArguments = RdBasicData | RdData;
 
   export type RdBasicData = string | number | boolean | RdObject | string[] | number[] | boolean[] | RdObject[] | null; // args 中可以出现的数据类型（除RdAction）

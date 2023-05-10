@@ -1,6 +1,13 @@
 import { IdentifierValueArgs } from '@/types/code-schema/Identifier';
 import { DBWSchema } from '@/types/DBWSchema';
-import { isRdData, literalToRdData_Custom, rdDataIsBind, rdDataisCustom } from './shared/helper';
+import {
+  isRdData,
+  literalToRdData_Custom,
+  rdActionIsSys,
+  rdDataIsBind,
+  rdDataisCustom,
+  rdDataIsTable,
+} from './shared/helper';
 import * as t from '@babel/types';
 import {
   ArrayExpression,
@@ -9,24 +16,30 @@ import {
   BooleanLiteral,
   CallExpression,
   DecimalLiteral,
+  Expression,
+  ExpressionStatement,
+  MemberExpression,
   NullLiteral,
   NumericLiteral,
   ObjectExpression,
+  ObjectProperty,
   StringLiteral,
 } from '@babel/types';
 import { CompilePageCtx } from '../../compilePages';
 import { searchModulePathKeys } from '../searchPath';
-import { ICS_Event, IEvent } from '@/types/event';
+import { tools } from '@/utils/tools';
 
+type ActionAst = CallExpression | BinaryExpression;
 type BindAst =
-  | NullLiteral
+  | MemberExpression
   | ArrayExpression
   | StringLiteral
   | NumericLiteral
   | BooleanLiteral
   | ObjectExpression
   | DecimalLiteral
-  | CallExpression;
+  | CallExpression
+  | NullLiteral;
 
 type BindRdData =
   | DBWSchema.RdData_GetVar
@@ -35,7 +48,7 @@ type BindRdData =
   | DBWSchema.RdData_GetEventData
   | DBWSchema.RdData_GetSlotData
   | DBWSchema.RdData_GetEachData
-  | DBWSchema.RdData_GetModelData
+  // | DBWSchema.RdData_GetModelData
   | DBWSchema.RdData_GetCmptPropData
   | DBWSchema.RdData_TableData;
 
@@ -153,9 +166,9 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), dataName, varName, rootName]);
   },
-  getParam: (data: DBWSchema.RdData_GetParam): CallExpression => {},
-  getEventData: (data: DBWSchema.RdData_GetEventData): CallExpression => {},
-  getSlotData: (data: DBWSchema.RdData_GetSlotData): CallExpression => {},
+  getParam: (data: DBWSchema.RdData_GetParam, ctx: CompilePageCtx): CallExpression => {},
+  getEventData: (data: DBWSchema.RdData_GetEventData, ctx: CompilePageCtx): CallExpression => {},
+  getSlotData: (data: DBWSchema.RdData_GetSlotData, ctx: CompilePageCtx): CallExpression => {},
   getEachData: (data: DBWSchema.RdData_GetEachData, ctx: CompilePageCtx): CallExpression => {
     // const types = ctx.nodesStore;
     // if (!types) {
@@ -167,7 +180,7 @@ const toAstMethods = {
     // return t.memberExpression(id);
   },
   getCmptPropData: (data: DBWSchema.RdData_GetCmptPropData, ctx: CompilePageCtx): CallExpression => {},
-  tableData: (data: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression => {},
+  tableData: (data: DBWSchema.RdData_TableData, ctx: CompilePageCtx): CallExpression => {},
   fx: (data: DBWSchema.RdData, ctx: CompilePageCtx): CallExpression => {},
   set: (data: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression => {},
   setVar: (data: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression => {},
@@ -177,37 +190,57 @@ const toAstMethods = {
   callAction: (data: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression => {},
 };
 
-const bindToAst = (data: BindRdData, ctx: CompilePageCtx) => {
+const bindToAst = (data: BindRdData, ctx: CompilePageCtx): BindAst | undefined => {
   switch (data.mode) {
     case 'getVar': {
-      return methods.getVar(data, ctx);
+      return toAstMethods.getVar(data, ctx);
     }
     case 'getApiData': {
-      return methods.getApiData(data);
+      return toAstMethods.getApiData(data, ctx);
     }
     case 'getParam': {
-      return methods.getParam(data);
+      return toAstMethods.getParam(data, ctx);
     }
     case 'getEventData': {
-      return methods.getEventData(data);
+      return toAstMethods.getEventData(data, ctx);
     }
     case 'getSlotData': {
-      return methods.getSlotData(data);
+      return toAstMethods.getSlotData(data, ctx);
     }
     case 'getEachData': {
-      return methods.getEachData(data);
+      return toAstMethods.getEachData(data, ctx);
     }
-    case 'getModelData': {
-      return methods.getModelData(data);
-    }
+    // case 'getModelData': {
+    //   return toAstMethods.getModelData(data, ctx);
+    // }
     case 'getCmptPropData': {
-      return methods.getCmptPropData(data);
-    }
-    case 'tableData': {
-      return methods.tableData(data);
+      return toAstMethods.getCmptPropData(data, ctx);
     }
   }
+  return;
 };
+
+export const actionToAst = (data: DBWSchema.RdAction, ctx: CompilePageCtx): ActionAst | undefined => {
+  switch (data.mode) {
+    case 'setVar': {
+      return toAstMethods.setVar(data, ctx);
+    }
+    case 'getApiData': {
+      return toAstMethods.setApiData(data, ctx);
+    }
+    case 'open': {
+      return toAstMethods.open(data, ctx);
+    }
+    case 'set': {
+      return toAstMethods.set(data, ctx);
+    }
+    case 'api': {
+      return toAstMethods.api(data, ctx);
+    }
+  }
+  return;
+};
+
 const literalToAst = (
   data: DBWSchema.RdData_Custom,
   ctx: CompilePageCtx,
@@ -245,17 +278,30 @@ const literalToAst = (
       if (!Array.isArray(data.args.value)) {
         throw new Error('不是module数组');
       }
-
-      return t.objectExpression(
-        data.args.value.map((item) => t.objectProperty(t.identifier(item.key), methods.unknown(item.value)))
-      );
+      const kv: ObjectProperty[] = [];
+      data.args.value.forEach((item) => {
+        const ast = valueToAst(item.value, ctx, types);
+        if (!ast.value || ast.type === 'table') {
+          return;
+        }
+        kv.push(t.objectProperty(t.identifier(item.key), ast.value as BindAst));
+      });
+      return t.objectExpression(kv);
     }
     case 'array': {
       if (!Array.isArray(data.args.value)) {
         throw new Error('不是数组');
       }
 
-      return t.arrayExpression(data.args.value.map((item) => methods.unknown(item)));
+      const array: Expression[] = [];
+      data.args.value.forEach((item) => {
+        const ast = valueToAst(item.value, ctx, types);
+        if (!ast.value || ast.type === 'table') {
+          return;
+        }
+        array.push(ast.value as BindAst);
+      });
+      return t.arrayExpression(array);
     }
     case 'url': {
       // TODO:分外部和内部链接
@@ -280,29 +326,96 @@ const literalToAst = (
   }
   throw new Error('rdData_custom中的类型"' + data.args.type + '"不支持编译');
 };
-const valueToAst = (data: IdentifierValueArgs, ctx: CompilePageCtx, types?: DBWSchema.RdDefinePropType[]): BindAst => {
-  if (!isRdData(data)) {
-    return literalToAst(literalToRdData_Custom(data), ctx, types);
-  }
-  if (rdDataisCustom(data)) {
-    return literalToAst(data, ctx, types);
-  } else if (rdDataIsBind(data)) {
-    return bindToAst(data, ctx);
-  }
-  return toAstMethods.fx(data, ctx);
+
+type TableProps = {
+  _table_: true;
+  columns: {
+    key: string;
+    value: ArrayExpression;
+  };
+  dataSource: {
+    key: string;
+    value: ArrayExpression;
+  };
 };
 
-export const actionToAst = (action: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression | BinaryExpression => {};
+export const isTableAst = (data: any): data is TableProps => {
+  return (
+    tools.dataType.isObject(data) &&
+    data._table_ === true &&
+    tools.object.has(data, 'columns') &&
+    tools.object.has(data, 'dataSource')
+  );
+};
 
-export const nodePropValueAst = (nodeId: string, propId: string, ctx: CompilePageCtx): BindAst | undefined => {
+const tableDataToAst = (
+  data: DBWSchema.RdData_TableData,
+  ctx: CompilePageCtx,
+  types?: DBWSchema.RdDefinePropType[]
+): TableProps => {
+  const res: TableProps = {
+    _table_: true,
+    columns: {
+      key: '',
+      value: t.arrayExpression(),
+    },
+    dataSource: {
+      key: '',
+      value: t.arrayExpression(),
+    },
+  };
+  return res;
+};
+
+type ReturnRef = {
+  type: 'table' | 'ast';
+  value?: ActionAst | BindAst | TableProps | undefined;
+};
+
+const valueToAst = (
+  data: IdentifierValueArgs | DBWSchema.RdAction,
+  ctx: CompilePageCtx,
+  types?: DBWSchema.RdDefinePropType[]
+): ReturnRef => {
+  const res: {
+    type: 'table' | 'ast';
+    value?: ActionAst | BindAst | TableProps | undefined;
+  } = {
+    type: 'ast',
+  };
+  if (rdActionIsSys(data)) {
+    res.value = actionToAst(data, ctx);
+  } else if (!isRdData(data)) {
+    res.value = literalToAst(literalToRdData_Custom(data), ctx, types);
+  } else if (rdDataisCustom(data)) {
+    res.value = literalToAst(data, ctx, types);
+  } else if (rdDataIsBind(data)) {
+    res.value = bindToAst(data, ctx);
+  } else if (rdDataIsTable(data)) {
+    res.type = 'table';
+    res.value = tableDataToAst(data, ctx);
+    return res;
+  } else {
+    res.value = toAstMethods.fx(data, ctx);
+  }
+  return res;
+};
+
+export const nodePropValueAst = (nodeId: string, propId: string, ctx: CompilePageCtx): ReturnRef => {
   const node = ctx.nodesStore.getNode(nodeId);
   const prop = ctx.nodesStore.getNodeProp(nodeId, propId);
   const define = ctx.componentsStore.getProp(node.tagId, propId);
   if (!prop.value) {
-    return defaultAst(ctx, define.types);
+    return {
+      type: 'ast',
+      value: defaultAst(ctx, define.types),
+    };
   }
-  return valueToAst(prop.value, ctx, define.types);
+  const res = valueToAst(prop.value, ctx, define.types);
+  return res;
 };
+
+export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectProperty[] => {};
 
 export const nodeEventValueAst = (
   nodeId: string,
@@ -321,13 +434,16 @@ export const nodeEventValueAst = (
     }) || [];
   parems.push(t.identifier(getEventArgVarName('ctx')));
 
-  const body = t.blockStatement(
-    event.actions.map((item) => {
-      return t.expressionStatement(actionToAst(item, ctx));
-    })
-  );
+  const body: ExpressionStatement[] = [];
+  event.actions.forEach((item) => {
+    const action = actionToAst(item, ctx);
+    if (!action) {
+      return;
+    }
+    body.push(t.expressionStatement(action));
+  });
 
-  return t.arrowFunctionExpression(parems, body);
+  return t.arrowFunctionExpression(parems, t.blockStatement(body));
 };
 
 /*

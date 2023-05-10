@@ -1,8 +1,32 @@
 import { DBWSchema } from '@/types/DBWSchema';
 import { tools } from '@/utils/tools';
 
+type BindRdData =
+  | DBWSchema.RdData_GetVar
+  | DBWSchema.RdData_GetApiData
+  | DBWSchema.RdData_GetParam
+  | DBWSchema.RdData_GetEventData
+  | DBWSchema.RdData_GetSlotData
+  | DBWSchema.RdData_GetEachData
+  // | DBWSchema.RdData_GetModelData
+  | DBWSchema.RdData_GetCmptPropData
+  | DBWSchema.RdData_TableData;
+
+type SysRdAction =
+  | DBWSchema.RdAction_SetVar
+  | DBWSchema.RdAction_SetApiData
+  | DBWSchema.RdAction_Set
+  | DBWSchema.RdAction_Api
+  | DBWSchema.RdAction_Open;
+
 export const isRdData = (data: any): data is DBWSchema.RdData => {
   if (tools.dataType.isObject(data) && data.type === 'data' && data.mode) {
+    return true;
+  }
+  return false;
+};
+export const isRdAction = (data: any): data is DBWSchema.RdData => {
+  if (tools.dataType.isObject(data) && data.type === 'action' && data.mode) {
     return true;
   }
   return false;
@@ -10,18 +34,7 @@ export const isRdData = (data: any): data is DBWSchema.RdData => {
 export const rdDataisCustom = (data: DBWSchema.RdData): data is DBWSchema.RdData_Custom => {
   return data.mode === 'custom';
 };
-export const rdDataIsBind = (
-  data: DBWSchema.RdData
-): data is
-  | DBWSchema.RdData_GetVar
-  | DBWSchema.RdData_GetApiData
-  | DBWSchema.RdData_GetParam
-  | DBWSchema.RdData_GetEventData
-  | DBWSchema.RdData_GetSlotData
-  | DBWSchema.RdData_GetEachData
-  | DBWSchema.RdData_GetModelData
-  | DBWSchema.RdData_GetCmptPropData
-  | DBWSchema.RdData_TableData => {
+export const rdDataIsBind = (data: DBWSchema.RdData): data is BindRdData => {
   return [
     'getVar',
     'getApiData',
@@ -33,6 +46,12 @@ export const rdDataIsBind = (
     'getCmptPropData',
     'tableData',
   ].includes(data.mode);
+};
+export const rdActionIsSys = (data: any): data is SysRdAction => {
+  return ['setVar', 'setApiData', 'set', 'api', 'open'].includes(data.mode);
+};
+export const rdDataIsTable = (data: DBWSchema.RdData): data is DBWSchema.RdData_TableData => {
+  return data.mode === 'tableData';
 };
 
 export const genRdData = (
