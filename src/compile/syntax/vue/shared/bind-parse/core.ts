@@ -136,7 +136,23 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), rootName, varName]);
   },
-  getApiData: (data: DBWSchema.RdData_GetApiData): CallExpression => {},
+  getApiData: (data: DBWSchema.RdData_GetApiData, ctx: CompilePageCtx): t.MemberExpression => {
+    const protocol = ctx.apisStore.getApi(data.args.id).protocol;
+    const types = protocol.response.body?.[0].types || [];
+    const rootName = ctx.apiVarRootName; // 变量外层的变量名
+    const varName = protocol.key; // 变量名
+    const [dataName, ...argPaths] = data.args.path || [];
+    const paths = searchModulePathKeys(types, argPaths || []); // 路径中的每个属性名
+    const memberExpr = (paths: string[]): t.MemberExpression => {
+      const [varStr, ...memberPaths] = paths;
+      if (memberPaths.length !== 1) {
+        return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
+      } else {
+        return t.memberExpression(t.identifier(varStr), t.identifier(memberPaths[0]));
+      }
+    };
+    return memberExpr([...paths.reverse(), dataName, varName, rootName]);
+  },
   getParam: (data: DBWSchema.RdData_GetParam): CallExpression => {},
   getEventData: (data: DBWSchema.RdData_GetEventData): CallExpression => {},
   getSlotData: (data: DBWSchema.RdData_GetSlotData): CallExpression => {},
