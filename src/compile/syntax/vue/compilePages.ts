@@ -3,23 +3,17 @@ import { ICodeSchema } from '@/types';
 import { Compile } from '@/types/compile/token';
 import { ICS_Directory } from '@/types/directory';
 import { ICS_Page } from '@/types/page';
-import { VueCompileCtx, VueCompileOptions } from './compileVue';
+import { tools } from '@/utils/tools';
+import { VueCompileOptions, VueGlobalCtx } from './compileVue';
 import { PAGE_DIR } from './const/config';
 import { compileScript, compileStyle, compileTemplate } from './sfc';
 import { genVarName, outerNode } from './shared/helper';
-import { actionsDataStore } from './shared/store/actions';
-import { apisDataStore } from './shared/store/apis';
-import { componentsDataStore } from './shared/store/components';
-import { functionsDataStore } from './shared/store/functions';
 import { nodesDataStore } from './shared/store/nodes';
-import { VueTypes } from './types/vue';
-import { eventsDataStore } from './shared/store/events';
-import { propsDataStore } from './shared/store/props';
-import { tools } from '@/utils/tools';
 import { propertiesDataStore } from './shared/store/properties';
+import { VueTypes } from './types/vue';
 
 export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult;
-export type CompilePageCtx = Required<VueCompileCtx> & ParsingPageResult;
+export type CompilePageCtx = Required<VueGlobalCtx> & ParsingPageResult;
 
 interface ParsingPageResult {
   variablesRootName: string;
@@ -51,28 +45,14 @@ interface ParsingPageResult {
   importFunctions: VueTypes.Function[];
 }
 
-function compilePages(codeSchema: ICodeSchema, compileOptions: VueCompileOptions): { tokens: Compile.Token[] } {
-  const componentsStore = componentsDataStore(compileOptions.components);
-  const functionsStore = functionsDataStore(compileOptions.functions);
-  const actionsStore = actionsDataStore(compileOptions.actions);
-  const apisStore = apisDataStore(compileOptions.apis);
-  const eventsStore = eventsDataStore(compileOptions.events);
-  const propsStore = propsDataStore(compileOptions.props);
-
+function compilePages(codeSchema: ICodeSchema, vueGlobalCtx: VueGlobalCtx): { tokens: Compile.Token[] } {
   const tokens = [] as Compile.Token[];
 
   const { directories = [] } = codeSchema;
 
   codeSchema.pages.forEach((page) => {
     // 1 编译页面代码字符串（token）
-    const { token } = compilePage(page, {
-      components: componentsStore,
-      functions: functionsStore,
-      actions: actionsStore,
-      apis: apisStore,
-      events: eventsStore,
-      props: propsStore,
-    });
+    const { token } = compilePage(page, vueGlobalCtx);
     // 2 编译页面地址 ps： 根据directories
     const filePath = getPageFilePath(page, directories);
 
@@ -82,7 +62,7 @@ function compilePages(codeSchema: ICodeSchema, compileOptions: VueCompileOptions
   return { tokens };
 }
 
-function compilePage(page: ICS_Page, ctx: VueCompileCtx) {
+function compilePage(page: ICS_Page, ctx: VueGlobalCtx) {
   const parsingPageResult = parsingPage(page, ctx);
 
   const currentPageCompileOptions: CompilePageCtx = Object.assign({}, ctx, parsingPageResult);
@@ -96,7 +76,7 @@ function compilePage(page: ICS_Page, ctx: VueCompileCtx) {
   return { token };
 }
 
-function parsingPage(page: ICS_Page, ctx: VueCompileCtx): ParsingPageResult {
+function parsingPage(page: ICS_Page, ctx: VueGlobalCtx): ParsingPageResult {
   // 1，当前页面的依赖 （组件、行为）
   // 组件依赖
 
@@ -109,7 +89,7 @@ function parsingPage(page: ICS_Page, ctx: VueCompileCtx): ParsingPageResult {
   const nodesVarNames: ParsingPageResult['nodesVarNames'] = {};
   const genNodeVarNameHandler = genVarName();
   const nodesStore = nodesDataStore(page.nodes, (node) => {
-    const cmpt = ctx.components.getCmpt(node.tagId);
+    const cmpt = ctx.componentsStore.getCmpt(node.tagId);
     if (['slot', 'tpl'].includes(cmpt.key)) {
       return;
     }
@@ -122,7 +102,7 @@ function parsingPage(page: ICS_Page, ctx: VueCompileCtx): ParsingPageResult {
 
     const genPropVarNameHandler = genVarName();
     cmpt.protocol.props.forEach((item) => {
-      const propOption = ctx.components.getProp(node.tagId, item.id);
+      const propOption = ctx.componentsStore.getProp(node.tagId, item.id);
       nodesVarNames[node.id].propMembers[item.id] = {
         varName: genPropVarNameHandler(propOption.key),
       };
@@ -130,7 +110,7 @@ function parsingPage(page: ICS_Page, ctx: VueCompileCtx): ParsingPageResult {
 
     const genEmitVarNameHandler = genVarName();
     cmpt.protocol.emits.forEach((item) => {
-      const emitOption = ctx.components.getEmit(node.tagId, item.id);
+      const emitOption = ctx.componentsStore.getEmit(node.tagId, item.id);
       nodesVarNames[node.id].eventMembers[item.id] = {
         varName: genEmitVarNameHandler(emitOption.key),
       };

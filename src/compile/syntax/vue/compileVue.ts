@@ -24,19 +24,19 @@ export interface VueCompileOptions {
   props: VueTypes.Property[]; // 属性相关
 }
 
-export interface VueCompileCtx {
-  components: ReturnType<typeof componentsDataStore>;
-  functions: ReturnType<typeof functionsDataStore>;
-  actions: ReturnType<typeof actionsDataStore>;
-  apis: ReturnType<typeof apisDataStore>;
-  events: ReturnType<typeof eventsDataStore>;
-  props: ReturnType<typeof propsDataStore>;
+export interface VueGlobalCtx {
+  componentsStore: ReturnType<typeof componentsDataStore>;
+  functionsStore: ReturnType<typeof functionsDataStore>;
+  actionsStore: ReturnType<typeof actionsDataStore>;
+  apisStore: ReturnType<typeof apisDataStore>;
+  eventsStore: ReturnType<typeof eventsDataStore>;
+  propsStore: ReturnType<typeof propsDataStore>;
 }
-
 function compileVue(codeSchema: ICodeSchema) {
   const vueCompileOptions = parsingVueCompileOptions(codeSchema);
 
-  debugger;
+  const vueGlobalCtx = buildGlobalCtx(vueCompileOptions);
+
   // 编译路由
   const { tokens: routerTokens } = compileRouter(codeSchema, vueCompileOptions.routes);
 
@@ -50,7 +50,7 @@ function compileVue(codeSchema: ICodeSchema) {
   const { tokens: componentTokens } = compileComponents(codeSchema, vueCompileOptions);
 
   // 编译页面
-  const { tokens: pageTokens } = compilePages(codeSchema, vueCompileOptions);
+  const { tokens: pageTokens } = compilePages(codeSchema, vueGlobalCtx);
 
   // 汇总
   const tokens = routerTokens.concat(apiTokens).concat(functionTokens).concat(componentTokens).concat(pageTokens);
@@ -63,7 +63,7 @@ function compileVue(codeSchema: ICodeSchema) {
  * @param codeSchema
  * @returns
  */
-function parsingVueCompileOptions(codeSchema: ICodeSchema): VueCompileOptions {
+export function parsingVueCompileOptions(codeSchema: ICodeSchema): VueCompileOptions {
   const { routes } = parsingRouter(codeSchema);
 
   const { apis } = parsingApis(codeSchema);
@@ -88,6 +88,29 @@ function parsingVueCompileOptions(codeSchema: ICodeSchema): VueCompileOptions {
   );
 
   return { routes, functions, apis, components, actions, events, props };
+}
+
+/**
+ * 状态管理相关依赖
+ * @param VueCompileOptions
+ * @returns
+ */
+export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalCtx {
+  const componentsStore = componentsDataStore(VueCompileOptions.components);
+  const functionsStore = functionsDataStore(VueCompileOptions.functions);
+  const actionsStore = actionsDataStore(VueCompileOptions.actions);
+  const apisStore = apisDataStore(VueCompileOptions.apis);
+  const eventsStore = eventsDataStore(VueCompileOptions.events);
+  const propsStore = propsDataStore(VueCompileOptions.props);
+
+  return {
+    componentsStore,
+    functionsStore,
+    actionsStore,
+    apisStore,
+    eventsStore,
+    propsStore,
+  };
 }
 
 function parsingDependenciesComponents(cur: ICS_Dependencies): VueTypes.Component[] {

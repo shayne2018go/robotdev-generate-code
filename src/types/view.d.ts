@@ -1,4 +1,5 @@
 import { DBSchema } from './DBSchema';
+import { DBWSchema } from './DBWSchema';
 import { IdentifierValue, IdentifierValueArgs } from './code-schema/Identifier';
 import { IEvent } from './event';
 import { IProp } from './prop';
@@ -34,7 +35,7 @@ export interface INodeProps {
   };
 }
 
-export interface INodeEvent extends DBSchema.RdEvent {}
+export interface INodeEvent extends DBWSchema.RdEvent {}
 
 export interface INode {
   id: string;

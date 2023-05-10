@@ -21,19 +21,19 @@ export interface ViewNodeSlot {
   nodes?: Array<ViewNode>;
 }
 
+export type TreeNode = {
+  id: ICS_Page['nodes'][number]['id'];
+  parentId: string | null;
+  data: ICS_Page['nodes'][number];
+  children: TreeNode[];
+  isUndefined?: true;
+};
+
 export const nodesDataStore = (
   nodes: ICS_Page['nodes'],
   itemCallback: (item: ICS_Page['nodes'][number], index: number) => void
 ) => {
   const store = localSqlStore<ICS_Page['nodes'][number], 'id', []>({ primaryKey: 'id' });
-
-  type TreeNode = {
-    id: ICS_Page['nodes'][number]['id'];
-    parentId: string | null;
-    data: ICS_Page['nodes'][number];
-    children: TreeNode[];
-    isUndefined?: true;
-  };
 
   const tree: {
     [nodeId: string]: TreeNode;
