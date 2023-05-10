@@ -1,5 +1,5 @@
 import { localSqlStore } from '../local-map';
-import { INode, INodeEvent, INodeProps, } from '@/types/view';
+import { INode, INodeEvent, INodeProp } from '@/types/view';
 
 export interface ViewNode {
   id: string;
@@ -21,9 +21,9 @@ export interface ViewNodeSlot {
   nodes?: Array<ViewNode>;
 }
 
-export const nodesDataStore = (nodes: INode, itemCallback: (item: INode, index: number) => void) => {
+export const nodesDataStore = (nodes: INode[], itemCallback: (item: INode, index: number) => void) => {
   const store = localSqlStore<INode, 'id', []>({ primaryKey: 'id' });
-  const propsStore = localSqlStore<INodeProps, 'propId', []>;
+  const propsStore = localSqlStore<INodeProp, 'propId', []>;
   const eventsStore = localSqlStore<INodeEvent, 'eventId', []>;
   const cache: {
     [nodeId: string]: {
@@ -121,7 +121,7 @@ export const nodesDataStore = (nodes: INode, itemCallback: (item: INode, index: 
     getNode(nodeId: INode['id']) {
       return store.query(nodeId);
     },
-    getNodeProp(nodeId: INode['id'], propId: INodeProps['propId']) {
+    getNodeProp(nodeId: INode['id'], propId: INodeProp['propId']) {
       return cache[nodeId]?.propsStore.query(propId);
     },
     getNodeEvent(nodeId: INode['id'], eventId: INodeEvent['eventId']) {

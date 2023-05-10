@@ -23,7 +23,7 @@ export interface IViewTemplateSlot {
   nodes?: Array<IViewNode>;
 }
 
-export interface INodeProps {
+export interface INodeProp {
   propId: string; // 属性名
   value?: IdentifierValueArgs;
   static?: any; // 目前只有class和style在用
@@ -46,6 +46,6 @@ export interface INode {
   tagId: string;
   packageId?: string | null;
 
-  props?: Array<INodeProps> | null;
+  props?: Array<INodeProp> | null;
   events?: Array<INodeEvent> | null;
 }
