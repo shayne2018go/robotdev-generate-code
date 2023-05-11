@@ -3,7 +3,7 @@ import * as t from '@babel/types';
 import { CompilePageCtx } from '../compilePages';
 import { relative } from '@/utils/node';
 import { tools } from '@/utils/tools';
-import { actionToAst, nodePropValueAst } from '../shared/bind-parse/core';
+import { actionToAst, isAstType, isTableType, nodeEventValueAst, nodePropValueAst } from '../shared/bind-parse/core';
 
 const lifeCycleMap: { [propname: string]: string } = {
   loading: 'onMounted',
@@ -144,17 +144,36 @@ function getNodesVariables(ctx: CompilePageCtx): t.VariableDeclaration {
     }
     if (node.props?.length) {
       node.props.forEach((prop) => {
-        const ast = nodePropValueAst(node.id, prop.propId, ctx);
-        if (ast) {
-          propProps.push(
-            t.objectProperty(t.identifier(ctx.nodesVarNames[node.id].propMembers[prop.propId].varName), ast)
-          );
+        const res = nodePropValueAst(node.id, prop.propId, ctx);
+        if (res) {
+          if (isAstType(res)) {
+            const ast = res.value;
+            if (ast) {
+              propProps.push(
+                t.objectProperty(t.identifier(ctx.nodesVarNames[node.id].propMembers[prop.propId].varName), ast)
+              );
+            }
+          } else if (isTableType(res)) {
+            const tableProp = res.value;
+            if (tableProp) {
+              propProps.push(
+                t.objectProperty(
+                  t.identifier(ctx.nodesVarNames[node.id].propMembers[prop.propId].varName),
+                  t.objectExpression([
+                    t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
+                    t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
+                  ])
+                )
+              );
+            }
+          } else {
+          }
         }
       });
     }
     if (node.events?.length) {
       node.events.forEach((event) => {
-        const ast = nodePropValueAst(node.id, event.eventId, ctx);
+        const ast = nodeEventValueAst(node.id, event.eventId, ctx);
         if (ast) {
           propProps.push(
             t.objectProperty(t.identifier(ctx.nodesVarNames[node.id].eventMembers[event.eventId].varName), ast)
@@ -189,17 +208,23 @@ function getFunctions(functions: Array<CodeSchema.Function_Protocol>, ctx: Compi
   });
 }
 
-function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: CompilePageCtx): t.Statement[] {
-  return lifeCycles.map((lifeCycle) =>
-    t.expressionStatement(
+function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: CompilePageCtx): t.ExpressionStatement[] {
+  const lifeCycleExprs: t.CallExpression[] = [];
+  lifeCycles.forEach((lifeCycle) => {
+    const actionStatements: t.ExpressionStatement[] = [];
+    lifeCycle.actions.forEach((action) => {
+      const ast = actionToAst(action, ctx);
+      if (ast) {
+        actionStatements.push(t.expressionStatement(ast));
+      }
+    });
+    lifeCycleExprs.push(
       t.callExpression(t.identifier(lifeCycleMap[ctx.eventsStore.getEvent(lifeCycle.eventId).key]), [
-        t.arrowFunctionExpression(
-          [],
-          t.blockStatement(lifeCycle.actions.map((action) => t.expressionStatement(actionToAst(action, ctx))))
-        ),
+        t.arrowFunctionExpression([], t.blockStatement(actionStatements)),
       ])
-    )
-  );
+    );
+  });
+  return lifeCycleExprs.map(ele => t.expressionStatement(ele));
 }
 
 export default compileScript;

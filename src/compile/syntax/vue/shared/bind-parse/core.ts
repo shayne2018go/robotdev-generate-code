@@ -77,6 +77,14 @@ export const isEachOrSlot = (tagId: string, ctx: CompilePageCtx) => {
   return ctx.componentsStore.getCmpt(tagId).key === 'slot' || ctx.componentsStore.getCmpt(tagId).key === 'each';
 };
 
+export const isAstType = (ref: ReturnRef): ref is { type: 'ast'; value: ActionAst | BindAst | undefined } => {
+  return ref.type === 'ast';
+};
+
+export const isTableType = (ref: ReturnRef): ref is { type: 'table'; value: TableProps | undefined } => {
+  return ref.type === 'table';
+};
+
 // 拼接循环节点的item变量名
 export const getEachItemVarName = (eachVarName: string) => `${eachVarName}_item`;
 // 拼接循环节点的index变量名
@@ -169,7 +177,7 @@ const toAstMethods = {
     // 页面路由参数 ctx.pageStore.route.query
     const [queryId, ...argPaths] = data.args.path || [];
     if (!queryId) {
-      throw new Error('getEventData的paramId失败');
+      throw new Error('getEventData的data.args.path失败');
     }
     let query = ctx.pagesStore.getQuery(data.args.id, queryId);
     if (!query) {
@@ -194,7 +202,7 @@ const toAstMethods = {
     // 事件参数 @click="(evt,prop) => {const temp = `${evt.target}`;const temp1 = `${prop}`}"
     const [paramId, ...argPaths] = data.args.path || [];
     if (!paramId) {
-      throw new Error('getEventData的paramId失败');
+      throw new Error('getEventData的data.args.path失败');
     }
     let param = ctx.eventsStore.getParameters(data.args.id, paramId);
     const varName = param.key; // 变量外层的变量名
