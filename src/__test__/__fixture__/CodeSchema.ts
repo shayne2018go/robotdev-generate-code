@@ -7996,6 +7996,18 @@ const codeSchema = {
       ],
       variables: [
         {
+          id: '6447262e0b661be9e0b91ac1',
+          name: '学生名称',
+          key: 'xueshengmingcheng',
+          desc: undefined,
+          types: [
+            {
+              type: 'text',
+            },
+          ],
+          extendPlatform: undefined,
+        },
+        {
           id: '6454c8d32f633c035f506d50',
           name: 'aaa',
           key: 'aaa',
