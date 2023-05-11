@@ -41,7 +41,8 @@ export const rdDataIsBind = (data: CodeSchema.DataValue): data is BindRdData => 
     'getEventData',
     'getSlotData',
     'getEachData',
-    'getModelData',
+    'getArguments',
+    // 'getModelData',
     'getCmptPropData',
     'tableData',
   ].includes(data.mode);

@@ -5,6 +5,7 @@ import compilePages from './compilePages';
 import compileRouter from './compileRouter';
 import { BUILT_IN_PACKAGES, COMPONENT_DIR, PAGE_DIR } from './const/config';
 import { getPathByDirectories } from './shared/directory-helper';
+import { genVarName } from './shared/helper';
 import { actionsDataStore } from './shared/store/actions';
 import { apisDataStore } from './shared/store/apis';
 import { componentsDataStore } from './shared/store/components';
@@ -31,6 +32,14 @@ export interface VueGlobalCtx {
   apisStore: ReturnType<typeof apisDataStore>;
   eventsStore: ReturnType<typeof eventsDataStore>;
   propsStore: ReturnType<typeof propsDataStore>;
+  variablesRootName: string;
+  apiVarRootName: string;
+  nodesVarRootName: string;
+  apiNames: {
+    [id: string]: {
+      varName: string;
+    };
+  };
 }
 function compileVue(codeSchema: CodeSchema.Project) {
   // 解析相关依赖协议
@@ -106,6 +115,14 @@ export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalC
   const eventsStore = eventsDataStore(VueCompileOptions.events);
   const propsStore = propsDataStore(VueCompileOptions.props);
 
+  const getApiNameHandler = genVarName();
+  const apiNames: VueGlobalCtx['apiNames'] = {};
+  VueCompileOptions.apis.forEach((api) => {
+    apiNames[api.id] = {
+      varName: getApiNameHandler(api.key),
+    };
+  });
+
   return {
     componentsStore,
     functionsStore,
@@ -114,6 +131,10 @@ export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalC
     eventsStore,
     propsStore,
     pagesStore,
+    apiVarRootName: 'apiState',
+    variablesRootName: 'variables',
+    nodesVarRootName: 'nodesState',
+    apiNames,
   };
 }
 

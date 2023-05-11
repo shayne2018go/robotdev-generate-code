@@ -9,12 +9,15 @@ import { nodesDataStore } from './shared/store/nodes';
 import { propertiesDataStore } from './shared/store/properties';
 
 export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult;
-export type CompilePageCtx = Required<VueGlobalCtx> & ParsingPageResult;
+export type CompilePageCtx = {
+  global: VueGlobalCtx;
+  scope: {
+    page: ParsingPageResult;
+  };
+};
 
 interface ParsingPageResult {
-  variablesRootName: string;
-  apiVarRootName: string;
-  nodesVarRootName: string;
+  page: CodeSchema.Page;
   nodesVarNames: {
     [nodeId: string]: {
       varName: string;
@@ -39,11 +42,6 @@ interface ParsingPageResult {
   };
   importComponents: GlobalContext.Component[];
   importFunctions: GlobalContext.Function[];
-  apiNames: {
-    [id: string]: {
-      varName: string;
-    };
-  };
 }
 
 // var
@@ -68,7 +66,12 @@ function compilePages(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx
 function compilePage(page: CodeSchema.Page, ctx: VueGlobalCtx) {
   const parsingPageResult = parsingPage(page, ctx);
 
-  const currentPageCompileOptions: CompilePageCtx = Object.assign({}, ctx, parsingPageResult);
+  const currentPageCompileOptions: CompilePageCtx = {
+    global: ctx,
+    scope: {
+      page: parsingPageResult,
+    },
+  };
 
   const { token: templateToken } = compileTemplate(page, currentPageCompileOptions);
   const { token: scriptToken } = compileScript(page, currentPageCompileOptions);
@@ -132,25 +135,15 @@ export function parsingPage(page: CodeSchema.Page, ctx: VueGlobalCtx): ParsingPa
       varName: genVariablesNameHandler(item.key),
     };
   });
-  const getApiNameHandler = genVarName();
-  const apiNames: ParsingPageResult['apiNames'] = {};
-  ctx.apisStore.apis().forEach((api) => {
-    apiNames[api.id] = {
-      varName: getApiNameHandler(api.key),
-    };
-  });
 
   return {
-    variablesRootName: 'variables',
-    apiVarRootName: 'apiState',
-    nodesVarRootName: 'nodesState',
+    page,
     nodesStore,
-    importComponents,
     nodesVarNames,
-    importFunctions,
     variablesNames,
     variablesStore,
-    apiNames,
+    importComponents,
+    importFunctions,
   };
 }
 

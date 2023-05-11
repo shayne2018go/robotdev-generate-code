@@ -15,11 +15,11 @@ export const occurrenceNumber = () => {
   };
 };
 
-export const genVarName = () => {
+export const genVarName = (hasLine?: boolean) => {
   const occurrenceNumberHandler = occurrenceNumber();
   return (varName: string) => {
     const number = occurrenceNumberHandler(varName);
-    return varName + (number && number > 0 ? `_${number + 1}` : '');
+    return varName + (number && number > 0 ? `${hasLine === false ? '' : '_'}${number + 1}` : '');
   };
 };
 
