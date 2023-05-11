@@ -1,17 +1,16 @@
-import { Identifier } from '@/types/code-schema/Identifier';
 import { localSqlStore } from '../local-map';
 
 export const propertiesDataStore = (
-  properties: Identifier[],
-  itemCallback?: (item: Identifier, index: number) => void
+  properties: CodeSchema.Property_Protocol[],
+  itemCallback?: (item: CodeSchema.Property_Protocol, index: number) => void
 ) => {
-  const store = localSqlStore<Identifier, 'id', []>({ primaryKey: 'id' });
+  const store = localSqlStore<CodeSchema.Property_Protocol, 'id', []>({ primaryKey: 'id' });
 
   if (properties) {
     store.created(properties, itemCallback);
   }
   return {
-    get(varId: Identifier['id']) {
+    get(varId: CodeSchema.Property_Protocol['id']) {
       return store.query(varId);
     },
   };
