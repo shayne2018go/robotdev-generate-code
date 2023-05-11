@@ -150,12 +150,11 @@ const toAstMethods = {
     return memberExpr([...paths.reverse(), rootName, varName]);
   },
   getApiData: (data: DBWSchema.RdData_GetApiData, ctx: CompilePageCtx): t.MemberExpression => {
-    const protocol = ctx.apisStore.getApi(data.args.id).protocol;
-    const types = protocol.response.body?.[0].types || [];
+    const [dataName, bodyId, ...argPaths] = data.args.path || [];
     const rootName = ctx.apiVarRootName; // 变量外层的变量名
-    const varName = protocol.key; // 变量名
-    const [dataName, ...argPaths] = data.args.path || [];
-    const paths = searchModulePathKeys(types, argPaths || []); // 路径中的每个属性名
+    const varName = ctx.apiNames[data.args.id].varName; // 变量名 这里去api映射的varName
+    const types = bodyId ? ctx.apisStore.getApiBody(data.args.id, bodyId) : [];
+    const paths = searchModulePathKeys(types, argPaths); // 路径中的每个属性名
     const memberExpr = (paths: string[]): t.MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
@@ -166,8 +165,50 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), dataName, varName, rootName]);
   },
-  getParam: (data: DBWSchema.RdData_GetParam, ctx: CompilePageCtx): CallExpression => {},
-  getEventData: (data: DBWSchema.RdData_GetEventData, ctx: CompilePageCtx): CallExpression => {},
+  getParam: (data: DBWSchema.RdData_GetParam, ctx: CompilePageCtx): t.MemberExpression | t.Identifier => {
+    // 页面路由参数 ctx.pageStore.route.query
+    const [queryId, ...argPaths] = data.args.path || [];
+    if (!queryId) {
+      throw new Error('getEventData的paramId失败');
+    }
+    let query = ctx.pagesStore.getQuery(data.args.id, queryId);
+    const varName = query.key; // 变量外层的变量名
+    const paths = searchModulePathKeys(query.types, argPaths); // 路径中的每个属性名
+    if (paths.length === 0) {
+      return t.identifier(varName);
+    }
+    const memberExpr = (paths: string[]): t.MemberExpression => {
+      const [varStr, ...memberPaths] = paths;
+      if (memberPaths.length !== 1) {
+        return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
+      } else {
+        return t.memberExpression(t.identifier(varStr), t.identifier(memberPaths[0]));
+      }
+    };
+    return memberExpr([...paths.reverse(), varName]);
+  },
+  getEventData: (data: DBWSchema.RdData_GetEventData, ctx: CompilePageCtx): t.MemberExpression | t.Identifier => {
+    // 事件参数 @click="(evt,prop) => {const temp = `${evt.target}`;const temp1 = `${prop}`}"
+    const [paramId, ...argPaths] = data.args.path || [];
+    if (!paramId) {
+      throw new Error('getEventData的paramId失败');
+    }
+    let param = ctx.eventsStore.getParameters(data.args.id, paramId);
+    const varName = param.key; // 变量外层的变量名
+    const paths = searchModulePathKeys(param.types, argPaths); // 路径中的每个属性名
+    if (paths.length === 0) {
+      return t.identifier(varName);
+    }
+    const memberExpr = (paths: string[]): t.MemberExpression => {
+      const [varStr, ...memberPaths] = paths;
+      if (memberPaths.length !== 1) {
+        return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
+      } else {
+        return t.memberExpression(t.identifier(varStr), t.identifier(memberPaths[0]));
+      }
+    };
+    return memberExpr([...paths.reverse(), varName]);
+  },
   getSlotData: (data: DBWSchema.RdData_GetSlotData, ctx: CompilePageCtx): CallExpression => {},
   getEachData: (data: DBWSchema.RdData_GetEachData, ctx: CompilePageCtx): CallExpression => {
     // const types = ctx.nodesStore;
@@ -403,7 +444,15 @@ const valueToAst = (
 
 export const nodePropValueAst = (nodeId: string, propId: string, ctx: CompilePageCtx): ReturnRef => {
   const node = ctx.nodesStore.getNode(nodeId);
-  const prop = ctx.nodesStore.getNodeProp(nodeId, propId);
+  let prop = ctx.nodesStore.getNodeProp(nodeId, propId);
+  if (!prop) {
+    prop = ctx.propsStore.getProp(propId);
+    if (!prop) {
+      return {
+        type: 'ast',
+      };
+    }
+  }
   const define = ctx.componentsStore.getProp(node.tagId, propId);
   if (!prop.value) {
     return {

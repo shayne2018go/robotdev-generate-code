@@ -37,6 +37,11 @@ interface ParsingPageResult {
       varName: string;
     };
   };
+  apiNames: {
+    [id: string]: {
+      varName: string;
+    };
+  };
   importComponents: VueTypes.Component[];
   importFunctions: VueTypes.Function[];
 }
@@ -125,6 +130,13 @@ function parsingPage(page: CodeSchema.Page, ctx: VueGlobalCtx): ParsingPageResul
       varName: genVariablesNameHandler(item.key),
     };
   });
+  const getApiNameHandler = genVarName();
+  const apiNames: ParsingPageResult['apiNames'] = {};
+  ctx.apisStore.apis().forEach((api) => {
+    apiNames[api.id] = {
+      varName: getApiNameHandler(api.key),
+    };
+  });
 
   return {
     variablesRootName: 'variables',
@@ -136,6 +148,7 @@ function parsingPage(page: CodeSchema.Page, ctx: VueGlobalCtx): ParsingPageResul
     importFunctions,
     variablesNames,
     variablesStore,
+    apiNames,
   };
 }
 
