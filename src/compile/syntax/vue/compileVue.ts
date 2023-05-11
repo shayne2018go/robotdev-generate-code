@@ -55,7 +55,7 @@ function compileVue(codeSchema: CodeSchema.Project) {
   const { tokens: functionTokens } = compileFunctions(codeSchema, vueCompileOptions.functions);
 
   // 编译API
-  const { tokens: apiTokens } = compileApis(codeSchema, vueCompileOptions.apis);
+  const { tokens: apiTokens } = compileApis(codeSchema, vueGlobalCtx);
 
   // 编译组件
   const { tokens: componentTokens } = compileComponents(codeSchema, vueCompileOptions);

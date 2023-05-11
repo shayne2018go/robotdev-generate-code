@@ -17,7 +17,7 @@ function compileRouter(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCt
 function generateRouterToken(pages: CodeSchema.Page[], routerDir: string, vueGlobalCtx: VueGlobalCtx) {
   const statement = generateRoutesDeclarationAst(
     pages.map((r) => {
-      const page = vueGlobalCtx.pagesStore.get(r.id);
+      const page = vueGlobalCtx.pagesStore.getPage(r.id);
       if (!page) {
         throw new Error('找不到page');
       }

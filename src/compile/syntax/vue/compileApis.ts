@@ -3,13 +3,9 @@ import * as t from '@babel/types';
 import { Compile } from '@/types/compile/token';
 import createToken from '@/compile/config/createToken';
 import { AxiosRequestConfig } from 'axios';
-// import codeSchema from '@/__test__/__fixture__/CodeSchema';
 import { relative } from '@/utils/node';
 import { API_DIR, UTIL_DIR } from './const/config';
-
-// console.log(compileApis(codeSchema).tokens, compileApis(codeSchema).apis);
-// console.log(compileRequestInstance({})[0].path);
-// console.log(compileRequestInstance({})[0].token);
+import { VueGlobalCtx } from './compileVue';
 
 function parsingApis(codeSchema: CodeSchema.Project): { apis: GlobalContext.Api[] } {
   const apis = [] as GlobalContext.Api[];
@@ -36,8 +32,8 @@ function getApiType(path: string, api: CodeSchema.Api_Protocol): GlobalContext.A
   return apiType;
 }
 
-function compileApis(codeSchema: CodeSchema.Project, apis: GlobalContext.Api[]): { tokens: Compile.Token[] } {
-  const tokens = apis.map((api) => {
+function compileApis(_codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx): { tokens: Compile.Token[] } {
+  const tokens = vueGlobalCtx.apisStore.apis().map((api) => {
     if (!api.source.filePath) {
       throw new Error(`${api}`);
     }

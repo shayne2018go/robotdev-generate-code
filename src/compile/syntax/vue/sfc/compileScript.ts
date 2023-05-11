@@ -4,6 +4,8 @@ import { CompilePageCtx } from '../compilePages';
 import { relative } from '@/utils/node';
 import { tools } from '@/utils/tools';
 import { actionToAst, isAstType, isTableType, nodeEventValueAst, nodePropValueAst } from '../shared/bind-parse/core';
+import { getNodeEventKeyByNodeId, getNodePropKeyByNodeId, getNodeTagVarName, getVariableVarName } from '../shared/script-helper';
+import { COMPONENT_DIR } from '../const/config';
 
 const lifeCycleMap: { [propname: string]: string } = {
   loading: 'onMounted',
@@ -21,10 +23,10 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
   code += tag[0];
   statements.push(...getVueImports());
   if (ctx.importComponents.length > 0) {
-    statements.push(...getImports(ctx.importComponents));
+    statements.push(...getComponentImports(ctx));
   }
   if (ctx.importFunctions.length > 0) {
-    statements.push(...getImports(ctx.importFunctions));
+    statements.push(...getFunctionImports(ctx));
   }
   if (variables && variables.length > 0) {
     statements.push(getVariables(variables, ctx));
@@ -75,11 +77,40 @@ function getVueImports(): t.ImportDeclaration[] {
   ];
 }
 
-function getImports(imports: Array<GlobalContext.Component> | Array<GlobalContext.Function>): t.ImportDeclaration[] {
+function getComponentImports(
+  ctx: CompilePageCtx
+): t.ImportDeclaration[] {
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
-  imports.forEach((ele) => {
+  ctx.importComponents.forEach((ele) => {
+    let { key, source } = ele;
+    if (key && source) {
+      const { filePath, packageName, exportName, alias } = source;
+      const sourceStr = packageName || relative(COMPONENT_DIR, filePath as string);
+      if (packageObj[sourceStr] === undefined) {
+        let specifier = getImportSpecifier(exportName, key, alias);
+        let source = t.stringLiteral(sourceStr);
+        importArray.push([[specifier], source]);
+      } else {
+        importArray[packageObj[sourceStr]][0].push(getImportSpecifier(exportName, key, alias));
+      }
+      packageObj[sourceStr] = count;
+      count++;
+    }
+  });
+  return importArray.map((ele) => {
+    return t.importDeclaration(ele[0], ele[1]);
+  });
+}
+
+function getFunctionImports(
+  ctx: CompilePageCtx
+): t.ImportDeclaration[] {
+  const importArray: any[] = [];
+  const packageObj: { [propname: string]: number } = {};
+  let count = 0;
+  ctx.importComponents.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
       const { filePath, packageName, exportName, alias } = source;
@@ -125,7 +156,7 @@ function getVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: Compi
       t.callExpression(t.identifier('reactive'), [
         t.objectExpression(
           variables.map((ele) => {
-            return t.objectProperty(t.identifier(ctx.variablesNames[ele.id].varName), t.nullLiteral());
+            return t.objectProperty(t.identifier(getVariableVarName(ele.id,ctx)), t.nullLiteral());
           })
         ),
       ])
@@ -149,16 +180,14 @@ function getNodesVariables(ctx: CompilePageCtx): t.VariableDeclaration {
           if (isAstType(res)) {
             const ast = res.value;
             if (ast) {
-              propProps.push(
-                t.objectProperty(t.identifier(ctx.nodesVarNames[node.id].propMembers[prop.propId].varName), ast)
-              );
+              propProps.push(t.objectProperty(t.identifier(getNodePropKeyByNodeId(node.id, prop.propId, ctx)), ast));
             }
           } else if (isTableType(res)) {
             const tableProp = res.value;
             if (tableProp) {
               propProps.push(
                 t.objectProperty(
-                  t.identifier(ctx.nodesVarNames[node.id].propMembers[prop.propId].varName),
+                  t.identifier(getNodePropKeyByNodeId(node.id, prop.propId, ctx)),
                   t.objectExpression([
                     t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
                     t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
@@ -175,17 +204,12 @@ function getNodesVariables(ctx: CompilePageCtx): t.VariableDeclaration {
       node.events.forEach((event) => {
         const ast = nodeEventValueAst(node.id, event.eventId, ctx);
         if (ast) {
-          propProps.push(
-            t.objectProperty(t.identifier(ctx.nodesVarNames[node.id].eventMembers[event.eventId].varName), ast)
-          );
+          propProps.push(t.objectProperty(t.identifier(getNodeEventKeyByNodeId(node.id, event.eventId, ctx)), ast));
         }
       });
     }
     nodeProps.push(
-      t.objectProperty(
-        t.identifier(ctx.nodesVarNames[node.id].varName),
-        t.objectExpression([...propProps, ...eventProps])
-      )
+      t.objectProperty(t.identifier(getNodeTagVarName(node.id, ctx)), t.objectExpression([...propProps, ...eventProps]))
     );
   });
   return t.variableDeclaration('const', [
@@ -196,7 +220,7 @@ function getNodesVariables(ctx: CompilePageCtx): t.VariableDeclaration {
   ]);
 }
 
-function getFunctions(functions: Array<CodeSchema.Function_Protocol>, ctx: CompilePageCtx): t.FunctionDeclaration[] {
+function getFunctions(functions: Array<CodeSchema.Function_Protocol>, _ctx: CompilePageCtx): t.FunctionDeclaration[] {
   return functions.map((func) => {
     return t.functionDeclaration(
       t.identifier(func.key),
@@ -224,7 +248,7 @@ function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: Co
       ])
     );
   });
-  return lifeCycleExprs.map(ele => t.expressionStatement(ele));
+  return lifeCycleExprs.map((ele) => t.expressionStatement(ele));
 }
 
 export default compileScript;
