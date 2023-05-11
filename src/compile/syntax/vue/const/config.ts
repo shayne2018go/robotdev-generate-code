@@ -1,11 +1,14 @@
-export const COMPONENT_DIR = 'src/components';
+export const COMPONENT_DIR = 'src/components'; // 组件目录
 
-export const PAGE_DIR = 'src/pages';
+export const PAGE_DIR = 'src/pages'; // 页面目录
 
-export const API_DIR = 'src/apis';
+export const API_DIR = 'src/apis'; // api 目录
 
-export const UTIL_DIR = 'src/utils';
+export const UTIL_DIR = 'src/utils'; // 帮助函数睦
 
+export const ROUTER_DIR = 'src/router'; // 路由目录
+
+export const ROUTES_FILENAME = 'routes.ts'; // 路由文件名
 /**
  * 内部包
  */

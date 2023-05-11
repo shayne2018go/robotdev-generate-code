@@ -1,6 +1,6 @@
 [
   {
     "path": "src/router/routes.ts",
-    "token": "import { RouteRecordRaw } from \"vue-router\";\nconst routes = [{\n  path: \"/shouye\",\n  component: () => import(\"../pages/shouye.vue\")\n}, {\n  path: \"/404\",\n  component: () => import(\"../pages/404.vue\")\n}, {\n  path: \"/502\",\n  component: () => import(\"../pages/502.vue\")\n}, {\n  path: \"/renyuanluruye\",\n  component: () => import(\"../pages/renyuanluruye.vue\")\n}, {\n  path: \"/renyuanliebiao\",\n  component: () => import(\"../pages/renyuanliebiao.vue\")\n}];\nexport { routes };"
+    "token": "import { RouteRecordRaw } from \"vue-router\";\nconst routes = [{\n  path: \"/shouye\",\n  name: \"shouye\",\n  component: () => import(\"../pages/shouye.vue\")\n}, {\n  path: \"/404\",\n  name: \"404\",\n  component: () => import(\"../pages/404.vue\")\n}, {\n  path: \"/502\",\n  name: \"502\",\n  component: () => import(\"../pages/502.vue\")\n}, {\n  path: \"/renyuanluruye\",\n  name: \"renyuanluruye\",\n  component: () => import(\"../pages/renyuanluruye.vue\")\n}, {\n  path: \"/renyuanliebiao\",\n  name: \"renyuanliebiao\",\n  component: () => import(\"../pages/renyuanliebiao.vue\")\n}];\nexport { routes };"
   }
 ]

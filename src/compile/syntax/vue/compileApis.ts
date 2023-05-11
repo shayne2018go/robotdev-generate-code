@@ -11,8 +11,8 @@ import { API_DIR, UTIL_DIR } from './const/config';
 // console.log(compileRequestInstance({})[0].path);
 // console.log(compileRequestInstance({})[0].token);
 
-function parsingApis(codeSchema: CodeSchema.Project): { apis: VueTypes.Api[] } {
-  const apis = [] as VueTypes.Api[];
+function parsingApis(codeSchema: CodeSchema.Project): { apis: GlobalContext.Api[] } {
+  const apis = [] as GlobalContext.Api[];
 
   codeSchema.apis.forEach((api) => {
     const apiFile = `${api.key}.ts`;
@@ -23,8 +23,8 @@ function parsingApis(codeSchema: CodeSchema.Project): { apis: VueTypes.Api[] } {
   return { apis };
 }
 
-function getApiType(path: string, api: CodeSchema.Api_Protocol): VueTypes.Api {
-  const apiType: VueTypes.Api = {
+function getApiType(path: string, api: CodeSchema.Api_Protocol): GlobalContext.Api {
+  const apiType: GlobalContext.Api = {
     id: api.id,
     key: api.key,
     source: {
@@ -36,7 +36,7 @@ function getApiType(path: string, api: CodeSchema.Api_Protocol): VueTypes.Api {
   return apiType;
 }
 
-function compileApis(codeSchema: CodeSchema.Project, apis: VueTypes.Api[]): { tokens: Compile.Token[] } {
+function compileApis(codeSchema: CodeSchema.Project, apis: GlobalContext.Api[]): { tokens: Compile.Token[] } {
   const tokens = apis.map((api) => {
     if (!api.source.filePath) {
       throw new Error(`${api}`);

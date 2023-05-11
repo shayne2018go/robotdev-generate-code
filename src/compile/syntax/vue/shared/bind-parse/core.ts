@@ -1,5 +1,3 @@
-import { IdentifierValueArgs } from '@/types/code-schema/Identifier';
-import { DBWSchema } from '@/types/DBWSchema';
 import {
   isRdData,
   literalToRdData_Custom,
@@ -42,15 +40,15 @@ type BindAst =
   | NullLiteral;
 
 type BindRdData =
-  | DBWSchema.RdData_GetVar
-  | DBWSchema.RdData_GetApiData
-  | DBWSchema.RdData_GetParam
-  | DBWSchema.RdData_GetEventData
-  | DBWSchema.RdData_GetSlotData
-  | DBWSchema.RdData_GetEachData
-  // | DBWSchema.RdData_GetModelData
-  | DBWSchema.RdData_GetCmptPropData
-  | DBWSchema.RdData_TableData;
+  | CodeSchema.DataValue_GetVar
+  | CodeSchema.DataValue_GetApiData
+  | CodeSchema.DataValue_GetParam
+  | CodeSchema.DataValue_GetEventData
+  | CodeSchema.DataValue_GetSlotData
+  | CodeSchema.DataValue_GetEachData
+  // | CodeSchema.DataValue_GetModelData
+  | CodeSchema.DataValue_GetCmptPropData
+  | CodeSchema.DataValue_TableData;
 
 type LiteralAst =
   | ArrayExpression
@@ -94,7 +92,7 @@ export const nodeCtx = (nodeId: string, ctx: CompilePageCtx) => {
 
 /** helper end*/
 
-const defaultAst = (ctx: CompilePageCtx, types?: DBWSchema.RdDefinePropType[]) => {
+const defaultAst = (ctx: CompilePageCtx, types?: CodeSchema.PropertyType_Protocol[]) => {
   if (!types?.[0]) {
     return t.nullLiteral();
   }
@@ -131,7 +129,7 @@ const defaultAst = (ctx: CompilePageCtx, types?: DBWSchema.RdDefinePropType[]) =
 };
 
 const toAstMethods = {
-  getVar: (data: DBWSchema.RdData_GetVar, ctx: CompilePageCtx): t.MemberExpression => {
+  getVar: (data: CodeSchema.DataValue_GetVar, ctx: CompilePageCtx): t.MemberExpression => {
     const types = ctx.variablesStore.get(data.args.id).types;
     if (!types) {
       throw new Error('getVar的id的types获取失败');
@@ -149,7 +147,7 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), rootName, varName]);
   },
-  getApiData: (data: DBWSchema.RdData_GetApiData, ctx: CompilePageCtx): t.MemberExpression => {
+  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: CompilePageCtx): t.MemberExpression => {
     const protocol = ctx.apisStore.getApi(data.args.id).protocol;
     const types = protocol.response.body?.[0].types || [];
     const rootName = ctx.apiVarRootName; // 变量外层的变量名
@@ -166,10 +164,10 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), dataName, varName, rootName]);
   },
-  getParam: (data: DBWSchema.RdData_GetParam, ctx: CompilePageCtx): CallExpression => {},
-  getEventData: (data: DBWSchema.RdData_GetEventData, ctx: CompilePageCtx): CallExpression => {},
-  getSlotData: (data: DBWSchema.RdData_GetSlotData, ctx: CompilePageCtx): CallExpression => {},
-  getEachData: (data: DBWSchema.RdData_GetEachData, ctx: CompilePageCtx): CallExpression => {
+  getParam: (data: CodeSchema.DataValue_GetParam, ctx: CompilePageCtx): CallExpression => {},
+  getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: CompilePageCtx): CallExpression => {},
+  getSlotData: (data: CodeSchema.DataValue_GetSlotData, ctx: CompilePageCtx): CallExpression => {},
+  getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: CompilePageCtx): CallExpression => {
     // const types = ctx.nodesStore;
     // if (!types) {
     //   throw new Error('getVar的id的types获取失败');
@@ -179,15 +177,15 @@ const toAstMethods = {
     // const path = data.args.path?.slice(1) || []
     // return t.memberExpression(id);
   },
-  getCmptPropData: (data: DBWSchema.RdData_GetCmptPropData, ctx: CompilePageCtx): CallExpression => {},
-  tableData: (data: DBWSchema.RdData_TableData, ctx: CompilePageCtx): CallExpression => {},
-  fx: (data: DBWSchema.RdData, ctx: CompilePageCtx): CallExpression => {},
-  set: (data: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression => {},
-  setVar: (data: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression => {},
-  setApiData: (data: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression => {},
-  api: (data: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression => {},
-  open: (data: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression => {},
-  callAction: (data: DBWSchema.RdAction, ctx: CompilePageCtx): CallExpression => {},
+  getCmptPropData: (data: CodeSchema.DataValue_GetCmptPropData, ctx: CompilePageCtx): CallExpression => {},
+  tableData: (data: CodeSchema.DataValue_TableData, ctx: CompilePageCtx): CallExpression => {},
+  fx: (data: CodeSchema.DataValue, ctx: CompilePageCtx): CallExpression => {},
+  set: (data: CodeSchema.Action, ctx: CompilePageCtx): CallExpression => {},
+  setVar: (data: CodeSchema.Action_SetVar, ctx: CompilePageCtx): CallExpression => {},
+  setApiData: (data: CodeSchema.Action, ctx: CompilePageCtx): CallExpression => {},
+  api: (data: CodeSchema.Action, ctx: CompilePageCtx): CallExpression => {},
+  open: (data: CodeSchema.Action, ctx: CompilePageCtx): CallExpression => {},
+  callAction: (data: CodeSchema.Action, ctx: CompilePageCtx): CallExpression => {},
 };
 
 const bindToAst = (data: BindRdData, ctx: CompilePageCtx): BindAst | undefined => {
@@ -220,7 +218,7 @@ const bindToAst = (data: BindRdData, ctx: CompilePageCtx): BindAst | undefined =
   return;
 };
 
-export const actionToAst = (data: DBWSchema.RdAction, ctx: CompilePageCtx): ActionAst | undefined => {
+export const actionToAst = (data: CodeSchema.Action, ctx: CompilePageCtx): ActionAst | undefined => {
   switch (data.mode) {
     case 'setVar': {
       return toAstMethods.setVar(data, ctx);
@@ -242,9 +240,9 @@ export const actionToAst = (data: DBWSchema.RdAction, ctx: CompilePageCtx): Acti
 };
 
 const literalToAst = (
-  data: DBWSchema.RdData_Custom,
+  data: CodeSchema.DataValue_Custom,
   ctx: CompilePageCtx,
-  types?: DBWSchema.RdDefinePropType[]
+  types?: CodeSchema.PropertyType_Protocol[]
 ): LiteralAst => {
   switch (data.args.type) {
     case 'text':
@@ -349,9 +347,9 @@ export const isTableAst = (data: any): data is TableProps => {
 };
 
 const tableDataToAst = (
-  data: DBWSchema.RdData_TableData,
+  data: CodeSchema.DataValue_TableData,
   ctx: CompilePageCtx,
-  types?: DBWSchema.RdDefinePropType[]
+  types?: CodeSchema.PropertyType_Protocol[]
 ): TableProps => {
   const res: TableProps = {
     _table_: true,
@@ -373,9 +371,9 @@ type ReturnRef = {
 };
 
 const valueToAst = (
-  data: IdentifierValueArgs | DBWSchema.RdAction,
+  data: CodeSchema.DataValueArgument | CodeSchema.Action,
   ctx: CompilePageCtx,
-  types?: DBWSchema.RdDefinePropType[]
+  types?: CodeSchema.PropertyType_Protocol[]
 ): ReturnRef => {
   const res: {
     type: 'table' | 'ast';

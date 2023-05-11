@@ -1,4 +1,25 @@
-declare namespace VueTypes {
+declare namespace GlobalContext {
+  // export interface Router {
+  //   id: string; // 页面id
+  //   name?: string; // name
+  //   path: string; // path
+  //   filePath: string; // 文件地址
+  // }
+
+  /**
+   * 页面
+   */
+  export interface Page {
+    id: string;
+    key: string;
+    routerName?: string; // vur router 中的name
+    routerPath: string; //  vur router 中的path
+    source: {
+      filePath: string; // 文件地址
+    };
+    protocol: CodeSchema.Page; // 协议
+  }
+
   /**
    * 组件
    */

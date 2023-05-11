@@ -190,6 +190,59 @@ declare namespace CodeSchema {
   export type ActionArgument = LiteralValue | DataValue | Action | ActionArgument[];
 }
 
+// action 分类
+declare namespace CodeSchema {
+  // 修改变量数据
+  export interface Action_SetVar extends Action {
+    mode: 'setVar';
+    args: {
+      id: string;
+      path?: string[];
+      value: any;
+    };
+  }
+
+  // 修改业务数据
+  export interface Action_SetApiData extends Action {
+    mode: 'setApiData';
+    args: {
+      id: string;
+      path?: string[];
+      value: any;
+    };
+  }
+
+  // 修改数据
+  export interface Action_Set extends Action {
+    mode: 'set';
+    args: {
+      actions: (Action_SetVar | Action_SetApiData)[];
+    };
+  }
+
+  // 执行业务
+  export interface Action_Api extends Action {
+    mode: 'api';
+    args: {
+      id: string;
+      params: any[];
+      success: any[];
+      fail: any[];
+    };
+  }
+
+  // 执行业务
+  export interface Action_Open extends Action {
+    mode: 'open';
+    args: {
+      mode: 'in' | 'out';
+      target: string;
+      pageId: string;
+      url: string;
+    };
+  }
+}
+
 // event
 declare namespace CodeSchema {
   export interface Event_Protocol {
@@ -408,18 +461,125 @@ declare namespace CodeSchema {
     | LiteralNumber
     | LiteralBoolean
     | LiteralObject
-    | LiteralString[]
-    | LiteralNumber[]
-    | LiteralBoolean[]
-    | LiteralObject[]
+    | LiteralArray<LiteralString | LiteralNumber | LiteralBoolean | LiteralObject>
     | null;
 
   export type LiteralString = string;
   export type LiteralNumber = number;
   export type LiteralBoolean = boolean;
+  export type LiteralArray<T> = Array<T>;
   export type LiteralObject = { [key: string]: DataValueArgument | ActionArgument };
 }
 
+// data value 分类
+declare namespace CodeSchema {
+  // 自定义数据
+  export interface DataValue_Custom extends DataValue {
+    mode: 'custom';
+    args: {
+      type: PropertyTypeOne;
+      multiple?: boolean;
+      value: any;
+    };
+  }
+
+  export interface DataValue_GetVar extends DataValue {
+    mode: 'getVar';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 业务请求的数据
+  export interface DataValue_GetApiData extends DataValue {
+    mode: 'getApiData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 循环节点数据
+  export interface DataValue_GetEachData extends DataValue {
+    mode: 'getEachData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 页面/业务 入参数据
+  export interface DataValue_GetParam extends DataValue {
+    mode: 'getParam';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 事件数据
+  export interface DataValue_GetEventData extends DataValue {
+    mode: 'getEventData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 作用域插槽数据
+  export interface DataValue_GetSlotData extends DataValue {
+    mode: 'getSlotData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 回调参数数据
+  export interface DataValue_GetArguments extends DataValue {
+    mode: 'getArguments';
+    args: {
+      id: string;
+      argId: string;
+    };
+  }
+
+  // 模型数据
+  export interface DataValue_GetModelData extends DataValue {
+    mode: 'getModelData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 组件属性
+  export interface DataValue_GetCmptPropData extends DataValue {
+    mode: 'getCmptPropData';
+    args: {
+      id: string;
+      path?: string[];
+    };
+  }
+
+  // 模型数据
+  export interface DataValue_TableData extends DataValue {
+    mode: 'tableData';
+    args: {
+      data?: null | DataValue;
+      tableDataKey?: string; // 表格数据属性名
+      keyFieldName?: string; // 属性字段名
+      titleFieldName?: string; // 标题字段名
+      showColumns: string[]; // 勾选列的id存储在该数组中，用来标记哪些列需要显示
+      columns: {
+        [key: string]: any; // 每个列的各个属性配置。
+      }[];
+    };
+  }
+}
+
+// directory
 declare namespace CodeSchema {
   export interface Directory {
     id: string; // 页面/组件/接口/目录id号
@@ -433,7 +593,6 @@ declare namespace CodeSchema {
 }
 
 // database
-
 declare namespace CodeSchema {
   const database: {
     mongodb: 'mongodb';

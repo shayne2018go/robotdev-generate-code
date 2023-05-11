@@ -37,9 +37,11 @@ interface ParsingPageResult {
       varName: string;
     };
   };
-  importComponents: VueTypes.Component[];
-  importFunctions: VueTypes.Function[];
+  importComponents: GlobalContext.Component[];
+  importFunctions: GlobalContext.Function[];
 }
+
+// var
 
 function compilePages(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx): { tokens: Compile.Token[] } {
   const tokens = [] as Compile.Token[];
@@ -72,7 +74,7 @@ function compilePage(page: CodeSchema.Page, ctx: VueGlobalCtx) {
   return { token };
 }
 
-function parsingPage(page: CodeSchema.Page, ctx: VueGlobalCtx): ParsingPageResult {
+export function parsingPage(page: CodeSchema.Page, ctx: VueGlobalCtx): ParsingPageResult {
   // 1，当前页面的依赖 （组件、行为）
   // 组件依赖
 
@@ -80,8 +82,8 @@ function parsingPage(page: CodeSchema.Page, ctx: VueGlobalCtx): ParsingPageResul
 
   // 2，当前页面节点的依赖（属性，事件）
 
-  const importComponents: VueTypes.Component[] = [];
-  const importFunctions: VueTypes.Function[] = [];
+  const importComponents: GlobalContext.Component[] = [];
+  const importFunctions: GlobalContext.Function[] = [];
   const nodesVarNames: ParsingPageResult['nodesVarNames'] = {};
   const genNodeVarNameHandler = genVarName();
   const nodesStore = nodesDataStore(page.nodes, (node) => {

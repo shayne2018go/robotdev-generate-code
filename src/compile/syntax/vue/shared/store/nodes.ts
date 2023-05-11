@@ -1,13 +1,12 @@
 import { localSqlStore } from '../local-map';
-import { INode, INodeEvent, INodeProp } from '@/types/view';
 
 export interface ViewNode {
   id: string;
   parentId?: string | null;
   tagId: string;
   packageId?: string | null; // 来源，如果定义了来源，则必须定义sourceId，refId指向sourceId中的资源id。如果未定义来源，则refId指向当前项目的组件id
-  props?: INode['props'] | null;
-  events?: INode['events'] | null;
+  props?: CodeSchema.ComponentNode['props'] | null;
+  events?: CodeSchema.ComponentNode['events'] | null;
   slots?: Array<ViewNodeSlot>;
 }
 
@@ -17,27 +16,31 @@ export interface ViewNodeSlot {
   id: string;
   parentId: ViewNode['id'];
   slotId: string;
-  props?: INode['props'] | null;
+  props?: CodeSchema.ComponentNode['props'] | null;
   nodes?: Array<ViewNode>;
 }
 
-export const nodesDataStore = (nodes: INode[], itemCallback: (item: INode, index: number) => void) => {
-  const store = localSqlStore<INode, 'id', []>({ primaryKey: 'id' });
-  const propsStore = localSqlStore<INodeProp, 'propId', []>;
-  const eventsStore = localSqlStore<INodeEvent, 'eventId', []>;
+export type TreeNode = {
+  id: CodeSchema.ComponentNode['id'];
+  parentId: string | null;
+  data: CodeSchema.ComponentNode;
+  children: TreeNode[];
+  isUndefined?: true;
+};
+
+export const nodesDataStore = (
+  nodes: CodeSchema.ComponentNode[],
+  itemCallback: (item: CodeSchema.ComponentNode, index: number) => void
+) => {
+  const store = localSqlStore<CodeSchema.ComponentNode, 'id', []>({ primaryKey: 'id' });
+  const propsStore = localSqlStore<CodeSchema.Property, 'propId', []>;
+  const eventsStore = localSqlStore<CodeSchema.Event, 'eventId', []>;
   const cache: {
     [nodeId: string]: {
       propsStore: ReturnType<typeof propsStore>;
       eventsStore: ReturnType<typeof eventsStore>;
     };
   } = {};
-  type TreeNode = {
-    id: INode['id'];
-    parentId: string | null;
-    data: INode;
-    children: TreeNode[];
-    isUndefined?: true;
-  };
 
   const tree: {
     [nodeId: string]: TreeNode;
@@ -85,7 +88,7 @@ export const nodesDataStore = (nodes: INode[], itemCallback: (item: INode, index
     });
   }
 
-  const parents = (nodeId: INode['id'], filter: (item: TreeNode) => boolean, push?: boolean) => {
+  const parents = (nodeId: CodeSchema.ComponentNode['id'], filter: (item: TreeNode) => boolean, push?: boolean) => {
     const parentId = tree[nodeId].parentId;
     if (!parentId) {
       return [];
@@ -118,13 +121,13 @@ export const nodesDataStore = (nodes: INode[], itemCallback: (item: INode, index
     nodes() {
       return nodes;
     },
-    getNode(nodeId: INode['id']) {
+    getNode(nodeId: CodeSchema.ComponentNode['id']) {
       return store.query(nodeId);
     },
-    getNodeProp(nodeId: INode['id'], propId: INodeProp['propId']) {
+    getNodeProp(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {
       return cache[nodeId]?.propsStore.query(propId);
     },
-    getNodeEvent(nodeId: INode['id'], eventId: INodeEvent['eventId']) {
+    getNodeEvent(nodeId: CodeSchema.ComponentNode['id'], eventId: CodeSchema.Event['eventId']) {
       return cache[nodeId]?.eventsStore.query(eventId);
     },
   };

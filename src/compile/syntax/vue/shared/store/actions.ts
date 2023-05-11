@@ -1,8 +1,8 @@
 import { localSqlStore } from '../local-map';
 
-export const actionsDataStore = (actions: VueTypes.Action[]) => {
-  const store = localSqlStore<VueTypes.Action, 'id', []>({ primaryKey: 'id' });
-  const parameters = localSqlStore<VueTypes.Action['protocol']['parameters'][number], 'id', []>;
+export const actionsDataStore = (actions: GlobalContext.Action[]) => {
+  const store = localSqlStore<GlobalContext.Action, 'id', []>({ primaryKey: 'id' });
+  const parameters = localSqlStore<GlobalContext.Action['protocol']['parameters'][number], 'id', []>;
   const cache: {
     [tagId: string]: {
       parameters: ReturnType<typeof parameters>;
@@ -16,10 +16,13 @@ export const actionsDataStore = (actions: VueTypes.Action[]) => {
       };
     });
   return {
-    getAction(tagId: VueTypes.Action['id']) {
+    getAction(tagId: GlobalContext.Action['id']) {
       return store.query(tagId);
     },
-    getParameters(tagId: VueTypes.Action['id'], propId: VueTypes.Action['protocol']['parameters'][number]['id']) {
+    getParameters(
+      tagId: GlobalContext.Action['id'],
+      propId: GlobalContext.Action['protocol']['parameters'][number]['id']
+    ) {
       return cache[tagId]?.parameters.query(propId);
     },
   };

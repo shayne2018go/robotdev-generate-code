@@ -2,26 +2,29 @@ import compileApis, { parsingApis } from './compileApis';
 import compileComponents from './compileComponents';
 import compileFunctions from './compileFunctions';
 import compilePages from './compilePages';
-import compileRouter, { VueRoute, parsingRouter } from './compileRouter';
-import { BUILT_IN_PACKAGES, COMPONENT_DIR } from './const/config';
+import compileRouter from './compileRouter';
+import { BUILT_IN_PACKAGES, COMPONENT_DIR, PAGE_DIR } from './const/config';
+import { getPathByDirectories } from './shared/directory-helper';
 import { actionsDataStore } from './shared/store/actions';
 import { apisDataStore } from './shared/store/apis';
 import { componentsDataStore } from './shared/store/components';
-import { functionsDataStore } from './shared/store/functions';
 import { eventsDataStore } from './shared/store/events';
+import { functionsDataStore } from './shared/store/functions';
+import { pagesDataStore } from './shared/store/pages';
 import { propsDataStore } from './shared/store/props';
 
 export interface VueCompileOptions {
-  routes: VueRoute[]; // 路由相关
-  components: VueTypes.Component[]; // 组件相关
-  functions: VueTypes.Function[]; // 函数相关
-  apis: VueTypes.Api[]; // API相关
-  actions: VueTypes.Action[]; // 行为相关
-  events: VueTypes.Event[]; // 事件相关
-  props: VueTypes.Property[]; // 属性相关
+  pages: GlobalContext.Page[]; // 路由相关
+  components: GlobalContext.Component[]; // 组件相关
+  functions: GlobalContext.Function[]; // 函数相关
+  apis: GlobalContext.Api[]; // API相关
+  actions: GlobalContext.Action[]; // 行为相关
+  events: GlobalContext.Event[]; // 事件相关
+  props: GlobalContext.Property[]; // 属性相关
 }
 
 export interface VueGlobalCtx {
+  pagesStore: ReturnType<typeof pagesDataStore>;
   componentsStore: ReturnType<typeof componentsDataStore>;
   functionsStore: ReturnType<typeof functionsDataStore>;
   actionsStore: ReturnType<typeof actionsDataStore>;
@@ -30,12 +33,14 @@ export interface VueGlobalCtx {
   propsStore: ReturnType<typeof propsDataStore>;
 }
 function compileVue(codeSchema: CodeSchema.Project) {
+  // 解析相关依赖协议
   const vueCompileOptions = parsingVueCompileOptions(codeSchema);
 
+  // 构建全局上下文
   const vueGlobalCtx = buildGlobalCtx(vueCompileOptions);
 
   // 编译路由
-  const { tokens: routerTokens } = compileRouter(codeSchema, vueCompileOptions.routes);
+  const { tokens: routerTokens } = compileRouter(codeSchema, vueGlobalCtx);
 
   // 编译函数
   const { tokens: functionTokens } = compileFunctions(codeSchema, vueCompileOptions.functions);
@@ -61,7 +66,7 @@ function compileVue(codeSchema: CodeSchema.Project) {
  * @returns
  */
 export function parsingVueCompileOptions(codeSchema: CodeSchema.Project): VueCompileOptions {
-  const { routes } = parsingRouter(codeSchema);
+  const { pages } = parsingPages(codeSchema);
 
   const { apis } = parsingApis(codeSchema);
 
@@ -76,15 +81,15 @@ export function parsingVueCompileOptions(codeSchema: CodeSchema.Project): VueCom
       return pre;
     },
     {
-      components: [] as VueTypes.Component[],
-      actions: [] as VueTypes.Action[],
-      functions: [] as VueTypes.Function[],
-      events: [] as VueTypes.Event[],
-      props: [] as VueTypes.Property[],
+      components: [] as GlobalContext.Component[],
+      actions: [] as GlobalContext.Action[],
+      functions: [] as GlobalContext.Function[],
+      events: [] as GlobalContext.Event[],
+      props: [] as GlobalContext.Property[],
     }
   );
 
-  return { routes, functions, apis, components, actions, events, props };
+  return { pages, functions, apis, components, actions, events, props };
 }
 
 /**
@@ -93,6 +98,7 @@ export function parsingVueCompileOptions(codeSchema: CodeSchema.Project): VueCom
  * @returns
  */
 export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalCtx {
+  const pagesStore = pagesDataStore(VueCompileOptions.pages);
   const componentsStore = componentsDataStore(VueCompileOptions.components);
   const functionsStore = functionsDataStore(VueCompileOptions.functions);
   const actionsStore = actionsDataStore(VueCompileOptions.actions);
@@ -107,11 +113,39 @@ export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalC
     apisStore,
     eventsStore,
     propsStore,
+    pagesStore,
   };
 }
 
-function parsingDependenciesComponents(cur: CodeSchema.Dependency): VueTypes.Component[] {
-  const components = [] as VueTypes.Component[];
+function parsingPages(codeSchema: CodeSchema.Project): { pages: GlobalContext.Page[] } {
+  const { directories = [], pages } = codeSchema;
+
+  const _pages =
+    pages.map((page) => {
+      const pagePath = getPathByDirectories(directories, page.id);
+
+      const routerPath = `/${pagePath.map((p) => p.key).join('/')}`;
+      const routerName = pagePath[pagePath.length - 1].key;
+
+      // 文件的绝对路径
+      const filePath = `${PAGE_DIR}${routerPath}.vue`;
+
+      return {
+        id: page.id,
+        routerName,
+        routerPath,
+        source: {
+          filePath,
+        },
+        protocol: page,
+      } as GlobalContext.Page;
+    }) || [];
+
+  return { pages: _pages };
+}
+
+function parsingDependenciesComponents(cur: CodeSchema.Dependency): GlobalContext.Component[] {
+  const components = [] as GlobalContext.Component[];
   if (BUILT_IN_PACKAGES.includes(cur.projectId)) {
     cur.components?.forEach((cmpt) => {
       components.push({
@@ -144,7 +178,7 @@ function parsingDependenciesComponents(cur: CodeSchema.Dependency): VueTypes.Com
   return components;
 }
 
-function parsingDependenciesActions(cur: CodeSchema.Dependency): VueTypes.Action[] {
+function parsingDependenciesActions(cur: CodeSchema.Dependency): GlobalContext.Action[] {
   const actions =
     cur.actions?.map((act) => {
       const exportName = act.key.split('.')[0];
@@ -166,7 +200,7 @@ function parsingDependenciesActions(cur: CodeSchema.Dependency): VueTypes.Action
   return actions;
 }
 
-function parsingDependenciesFunctions(cur: CodeSchema.Dependency): VueTypes.Function[] {
+function parsingDependenciesFunctions(cur: CodeSchema.Dependency): GlobalContext.Function[] {
   const functions =
     cur.functions?.map((func) => {
       const exportName = func.key.split('.')[0];
@@ -188,7 +222,7 @@ function parsingDependenciesFunctions(cur: CodeSchema.Dependency): VueTypes.Func
   return functions;
 }
 
-function parsingDependenciesEvents(cur: CodeSchema.Dependency): VueTypes.Event[] {
+function parsingDependenciesEvents(cur: CodeSchema.Dependency): GlobalContext.Event[] {
   const events =
     cur.events?.map((evt) => {
       const exportName = evt.key.split('.')[0];
@@ -210,7 +244,7 @@ function parsingDependenciesEvents(cur: CodeSchema.Dependency): VueTypes.Event[]
   return events;
 }
 
-function parsingDependenciesProps(cur: CodeSchema.Dependency): VueTypes.Property[] {
+function parsingDependenciesProps(cur: CodeSchema.Dependency): GlobalContext.Property[] {
   const props =
     cur.props?.map((pro) => {
       const exportName = pro.key.split('.')[0];

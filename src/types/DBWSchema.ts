@@ -252,161 +252,161 @@ export namespace DBWSchema {
     };
   }
 
-  // 自定义数据
-  export interface RdData_Custom extends RdData {
-    mode: 'custom';
-    args: {
-      type: RdInType;
-      multiple?: boolean;
-      value: any;
-    };
-  }
+  // // 自定义数据
+  // export interface RdData_Custom extends RdData {
+  //   mode: 'custom';
+  //   args: {
+  //     type: RdInType;
+  //     multiple?: boolean;
+  //     value: any;
+  //   };
+  // }
 
-  // 变量数据
-  export interface RdData_GetVar extends RdData {
-    mode: 'getVar';
-    args: {
-      id: string;
-      path?: string[];
-    };
-  }
+  // // 变量数据
+  // export interface RdData_GetVar extends RdData {
+  //   mode: 'getVar';
+  //   args: {
+  //     id: string;
+  //     path?: string[];
+  //   };
+  // }
 
-  // 业务请求的数据
-  export interface RdData_GetApiData extends RdData {
-    mode: 'getApiData';
-    args: {
-      id: string;
-      path?: string[];
-    };
-  }
+  // // 业务请求的数据
+  // export interface RdData_GetApiData extends RdData {
+  //   mode: 'getApiData';
+  //   args: {
+  //     id: string;
+  //     path?: string[];
+  //   };
+  // }
 
-  // 循环节点数据
-  export interface RdData_GetEachData extends RdData {
-    mode: 'getEachData';
-    args: {
-      id: string;
-      path?: string[];
-    };
-  }
+  // // 循环节点数据
+  // export interface RdData_GetEachData extends RdData {
+  //   mode: 'getEachData';
+  //   args: {
+  //     id: string;
+  //     path?: string[];
+  //   };
+  // }
 
-  // 页面/业务 入参数据
-  export interface RdData_GetParam extends RdData {
-    mode: 'getParam';
-    args: {
-      id: string;
-      path?: string[];
-    };
-  }
+  // // 页面/业务 入参数据
+  // export interface RdData_GetParam extends RdData {
+  //   mode: 'getParam';
+  //   args: {
+  //     id: string;
+  //     path?: string[];
+  //   };
+  // }
 
-  // 事件数据
-  export interface RdData_GetEventData extends RdData {
-    mode: 'getEventData';
-    args: {
-      id: string;
-      path?: string[];
-    };
-  }
+  // // 事件数据
+  // export interface RdData_GetEventData extends RdData {
+  //   mode: 'getEventData';
+  //   args: {
+  //     id: string;
+  //     path?: string[];
+  //   };
+  // }
 
-  // 作用域插槽数据
-  export interface RdData_GetSlotData extends RdData {
-    mode: 'getSlotData';
-    args: {
-      id: string;
-      path?: string[];
-    };
-  }
+  // // 作用域插槽数据
+  // export interface RdData_GetSlotData extends RdData {
+  //   mode: 'getSlotData';
+  //   args: {
+  //     id: string;
+  //     path?: string[];
+  //   };
+  // }
 
-  // 回调参数数据
-  export interface RdData_GetArguments extends RdData {
-    mode: 'getArguments';
-    args: {
-      id: string;
-      argId: string;
-    };
-  }
+  // // 回调参数数据
+  // export interface RdData_GetArguments extends RdData {
+  //   mode: 'getArguments';
+  //   args: {
+  //     id: string;
+  //     argId: string;
+  //   };
+  // }
 
-  // 模型数据
-  export interface RdData_GetModelData extends RdData {
-    mode: 'getModelData';
-    args: {
-      id: string;
-      path?: string[];
-    };
-  }
+  // // 模型数据
+  // export interface RdData_GetModelData extends RdData {
+  //   mode: 'getModelData';
+  //   args: {
+  //     id: string;
+  //     path?: string[];
+  //   };
+  // }
 
-  // 组件属性
-  export interface RdData_GetCmptPropData extends RdData {
-    mode: 'getCmptPropData';
-    args: {
-      id: string;
-      path?: string[];
-    };
-  }
+  // // 组件属性
+  // export interface RdData_GetCmptPropData extends RdData {
+  //   mode: 'getCmptPropData';
+  //   args: {
+  //     id: string;
+  //     path?: string[];
+  //   };
+  // }
 
-  // 模型数据
-  export interface RdData_TableData extends RdData {
-    mode: 'tableData';
-    args: {
-      data?: null | RdData;
-      tableDataKey?: string; // 表格数据属性名
-      keyFieldName?: string; // 属性字段名
-      titleFieldName?: string; // 标题字段名
-      showColumns: string[]; // 勾选列的id存储在该数组中，用来标记哪些列需要显示
-      columns: {
-        [key: string]: any; // 每个列的各个属性配置。
-      }[];
-    };
-  }
+  // // 模型数据
+  // export interface RdData_TableData extends RdData {
+  //   mode: 'tableData';
+  //   args: {
+  //     data?: null | RdData;
+  //     tableDataKey?: string; // 表格数据属性名
+  //     keyFieldName?: string; // 属性字段名
+  //     titleFieldName?: string; // 标题字段名
+  //     showColumns: string[]; // 勾选列的id存储在该数组中，用来标记哪些列需要显示
+  //     columns: {
+  //       [key: string]: any; // 每个列的各个属性配置。
+  //     }[];
+  //   };
+  // }
 
-  // 修改变量数据
-  export interface RdAction_SetVar extends RdAction {
-    mode: 'setVar';
-    args: {
-      id: string;
-      path?: string[];
-      value: any;
-    };
-  }
+  // // 修改变量数据
+  // export interface RdAction_SetVar extends RdAction {
+  //   mode: 'setVar';
+  //   args: {
+  //     id: string;
+  //     path?: string[];
+  //     value: any;
+  //   };
+  // }
 
-  // 修改业务数据
-  export interface RdAction_SetApiData extends RdAction {
-    mode: 'setApiData';
-    args: {
-      id: string;
-      path?: string[];
-      value: any;
-    };
-  }
+  // // 修改业务数据
+  // export interface RdAction_SetApiData extends RdAction {
+  //   mode: 'setApiData';
+  //   args: {
+  //     id: string;
+  //     path?: string[];
+  //     value: any;
+  //   };
+  // }
 
-  // 修改数据
-  export interface RdAction_Set extends RdAction {
-    mode: 'set';
-    args: {
-      actions: (RdAction_SetVar | RdAction_SetApiData)[];
-    };
-  }
+  // // 修改数据
+  // export interface RdAction_Set extends RdAction {
+  //   mode: 'set';
+  //   args: {
+  //     actions: (RdAction_SetVar | RdAction_SetApiData)[];
+  //   };
+  // }
 
-  // 执行业务
-  export interface RdAction_Api extends RdAction {
-    mode: 'api';
-    args: {
-      id: string;
-      params: any[];
-      success: any[];
-      fail: any[];
-    };
-  }
+  // // 执行业务
+  // export interface RdAction_Api extends RdAction {
+  //   mode: 'api';
+  //   args: {
+  //     id: string;
+  //     params: any[];
+  //     success: any[];
+  //     fail: any[];
+  //   };
+  // }
 
-  // 执行业务
-  export interface RdAction_Open extends RdAction {
-    mode: 'open';
-    args: {
-      mode: 'in' | 'out';
-      target: string;
-      pageId: string;
-      url: string;
-    };
-  }
+  // // 执行业务
+  // export interface RdAction_Open extends RdAction {
+  //   mode: 'open';
+  //   args: {
+  //     mode: 'in' | 'out';
+  //     target: string;
+  //     pageId: string;
+  //     url: string;
+  //   };
+  // }
 
   export type RdDataArguments = RdBasicData | RdData;
 

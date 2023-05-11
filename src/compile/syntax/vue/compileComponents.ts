@@ -20,7 +20,7 @@ function compileComponents(
   return { tokens };
 }
 
-function compileComponent(cmpt: CodeSchema.Component, components: VueTypes.Component[]): string {
+function compileComponent(cmpt: CodeSchema.Component, components: GlobalContext.Component[]): string {
   return '';
 }
 

@@ -7,18 +7,23 @@ exports[`compile vue > compileRouter 1`] = `
     "token": "import { RouteRecordRaw } from \\"vue-router\\";
 const routes = [{
   path: \\"/shouye\\",
+  name: \\"shouye\\",
   component: () => import(\\"../pages/shouye.vue\\")
 }, {
   path: \\"/404\\",
+  name: \\"404\\",
   component: () => import(\\"../pages/404.vue\\")
 }, {
   path: \\"/502\\",
+  name: \\"502\\",
   component: () => import(\\"../pages/502.vue\\")
 }, {
   path: \\"/renyuanluruye\\",
+  name: \\"renyuanluruye\\",
   component: () => import(\\"../pages/renyuanluruye.vue\\")
 }, {
   path: \\"/renyuanliebiao\\",
+  name: \\"renyuanliebiao\\",
   component: () => import(\\"../pages/renyuanliebiao.vue\\")
 }];
 export { routes };",

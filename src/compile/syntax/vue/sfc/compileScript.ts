@@ -75,7 +75,7 @@ function getVueImports(): t.ImportDeclaration[] {
   ];
 }
 
-function getImports(imports: Array<VueTypes.Component> | Array<VueTypes.Function>): t.ImportDeclaration[] {
+function getImports(imports: Array<GlobalContext.Component> | Array<GlobalContext.Function>): t.ImportDeclaration[] {
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;

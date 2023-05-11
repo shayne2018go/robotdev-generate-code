@@ -35,13 +35,13 @@ export function outerNode(node: CodeSchema.ComponentNode) {
  */
 function getNodesComponentDependencies(
   nodes: CodeSchema.ComponentNode[],
-  componentsDependencies: VueTypes.Component[]
-): Map<string, VueTypes.Component> {
+  componentsDependencies: GlobalContext.Component[]
+): Map<string, GlobalContext.Component> {
   const outerNodes = getOuterNodes(nodes);
   const currentPageComponentDependencies = componentsDependencies.filter((cd) =>
     outerNodes.map((on) => on.tagId).includes(cd.id)
   );
-  const map = new Map<string, VueTypes.Component>();
+  const map = new Map<string, GlobalContext.Component>();
   currentPageComponentDependencies.forEach((cpcd) => {
     map.set(cpcd.id, cpcd);
   });

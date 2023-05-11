@@ -38,7 +38,7 @@ describe('components', () => {
         functions: [],
         classes: [],
       },
-    } as VueTypes.Component;
+    } as GlobalContext.Component;
     const store = componentsDataStore([button]);
     expect(button).toEqual(store.getCmpt('a'));
   });

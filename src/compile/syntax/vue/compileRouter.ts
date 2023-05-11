@@ -1,74 +1,48 @@
 import createToken from '@/compile/config/createToken';
 import { Compile } from '@/types/compile/token';
-import t from '@babel/types';
-import generate from '@babel/generator';
 import { relative } from '@/utils/node';
+import generate from '@babel/generator';
+import t from '@babel/types';
+import { VueGlobalCtx } from './compileVue';
+import { ROUTER_DIR, ROUTES_FILENAME } from './const/config';
 
-export interface VueRoute {
-  id: string; // 页面id
-  path: string; // path
-  filePath: string; // 文件地址
-  name?: string; // name
-}
-
-function compileRouter(codeSchema: CodeSchema.Project, routes: VueRoute[]): { tokens: Compile.Token[] } {
-  const routerDir = 'src/router';
-
-  const routeFile = 'routes.ts';
-
-  const tokens = [createToken(`${routerDir}/${routeFile}`, generateRouterToken(routes, routerDir))] as Compile.Token[];
+function compileRouter(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx): { tokens: Compile.Token[] } {
+  const tokens = [
+    createToken(`${ROUTER_DIR}/${ROUTES_FILENAME}`, generateRouterToken(codeSchema.pages, ROUTER_DIR, vueGlobalCtx)),
+  ] as Compile.Token[];
   return { tokens };
 }
 
-function parsingRouter(codeSchema: CodeSchema.Project): { routes: VueRoute[] } {
-  const { directories = [], pages } = codeSchema;
+// 生成token
+function generateRouterToken(pages: CodeSchema.Page[], routerDir: string, vueGlobalCtx: VueGlobalCtx) {
+  const statement = generateRoutesDeclarationAst(
+    pages.map((r) => {
+      const page = vueGlobalCtx.pagesStore.get(r.id);
+      if (!page) {
+        throw new Error('找不到page');
+      }
+      return generateRouteAst(page.routerPath, relative(routerDir, page.source.filePath), page.routerName);
+    })
+  );
 
-  const routes =
-    pages.map((page) => {
-      return getRouteByDirectories(directories, page.id);
-    }) || [];
+  // 3 生成
+  const { code } = generate(statement);
 
-  return { routes };
+  return code;
 }
 
 /**
- * 根据目录获取路由
- * @param directories 目录
- * @param id 页面id
+ *
+ * @param routesAst
  * @returns
+ *
+ * import {RouteRecordRaw} from 'vue-router'
+ *
+ * const routes = \routesAst\
+ *
+ * export {routes}
  */
-function getRouteByDirectories(directories: CodeSchema.Directory[], id: string): VueRoute {
-  const dirPath: CodeSchema.Directory[] = [];
-
-  let curId: string | null = id;
-
-  while (curId) {
-    const current = directories.find((d) => d.id === curId);
-    if (current) {
-      dirPath.unshift(current);
-      curId = current.parentId;
-    } else {
-      break;
-    }
-  }
-
-  // vue-router 的path
-  const path = `/${dirPath.map((p) => p.key).join('/')}`;
-
-  // 文件的绝对路径
-  const filePath = `src/pages${path}.vue`;
-
-  return {
-    id,
-    name: dirPath[dirPath.length - 1].key,
-    path,
-    filePath,
-  };
-}
-
-// 生成token
-function generateRouterToken(routes: VueRoute[], routerDir: string) {
-  // 模拟
+function generateRoutesDeclarationAst(routesAst: (t.SpreadElement | t.Expression | null)[]) {
   const statement = t.program([
     // 1 导入
     // t.importDeclaration([t.importNamespaceSpecifier(t.identifier('aaa'))], t.stringLiteral('ant-design-vue')),
@@ -77,34 +51,28 @@ function generateRouterToken(routes: VueRoute[], routerDir: string) {
       t.stringLiteral('vue-router')
     ),
     // 2 创建routes变量
-    t.variableDeclaration('const', [
-      t.variableDeclarator(
-        t.identifier('routes'),
-        t.arrayExpression(
-          routes.map((r) =>
-            t.objectExpression([
-              t.objectProperty(t.identifier('path'), t.stringLiteral(r.path)),
-              t.objectProperty(
-                t.identifier('component'),
-                t.arrowFunctionExpression(
-                  [],
-                  t.callExpression(t.import(), [t.stringLiteral(relative(routerDir, r.filePath))])
-                )
-              ),
-            ])
-          )
-        )
-      ),
-    ]),
+    t.variableDeclaration('const', [t.variableDeclarator(t.identifier('routes'), t.arrayExpression(routesAst))]),
     t.exportNamedDeclaration(null, [t.exportSpecifier(t.identifier('routes'), t.identifier('routes'))]),
   ]);
-
-  // 3 生成
-  const { code } = generate(statement);
-
-  return code;
+  return statement;
 }
 
-export { parsingRouter };
+/**
+ *
+ * @param path
+ * @param componentPath
+ * @param name
+ * @returns route {path: '/home', name: 'home', component: () => import('./pages/home.vue')}
+ */
+function generateRouteAst(path: string, componentPath: string, name: string = '') {
+  return t.objectExpression([
+    t.objectProperty(t.identifier('path'), t.stringLiteral(path)),
+    t.objectProperty(t.identifier('name'), t.stringLiteral(name)),
+    t.objectProperty(
+      t.identifier('component'),
+      t.arrowFunctionExpression([], t.callExpression(t.import(), [t.stringLiteral(componentPath)]))
+    ),
+  ]);
+}
 
 export default compileRouter;

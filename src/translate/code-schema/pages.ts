@@ -1,5 +1,4 @@
 import { DBWSchema } from '@/types';
-import { ICS_Page } from '@/types/page';
 import { preprocessComponentLifeCycle, preprocessComponentVariables, preprocessNodes } from './components';
 import { DependenciesBuilder } from './dependencies';
 import { preprocessDeclare } from './shared/declare';
@@ -11,12 +10,12 @@ import { preprocessDeclare } from './shared/declare';
 function preprocessPages(
   dbwSchema: DBWSchema.Project,
   dependenciesBuilder: DependenciesBuilder
-): { pages: ICS_Page[] } {
+): { pages: CodeSchema.Page[] } {
   const { data } = dbwSchema;
 
   const { tagDependenciesIndexs } = dependenciesBuilder;
 
-  function preprocessPage(pagemeta: DBWSchema.Page): ICS_Page {
+  function preprocessPage(pagemeta: DBWSchema.Page): CodeSchema.Page {
     const componentLifeCycle = preprocessComponentLifeCycle(pagemeta.events);
 
     const componentVariables = preprocessComponentVariables(pagemeta.decl);
@@ -41,7 +40,7 @@ function preprocessPages(
       variables: componentVariables,
       lifeCycle: componentLifeCycle,
       functions: [],
-    } as ICS_Page;
+    } as CodeSchema.Page;
   }
 
   const pages = data.map(preprocessPage);

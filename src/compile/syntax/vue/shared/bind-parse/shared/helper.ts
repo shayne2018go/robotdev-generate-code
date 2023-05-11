@@ -1,40 +1,39 @@
-import { DBWSchema } from '@/types/DBWSchema';
 import { tools } from '@/utils/tools';
 
 type BindRdData =
-  | DBWSchema.RdData_GetVar
-  | DBWSchema.RdData_GetApiData
-  | DBWSchema.RdData_GetParam
-  | DBWSchema.RdData_GetEventData
-  | DBWSchema.RdData_GetSlotData
-  | DBWSchema.RdData_GetEachData
-  // | DBWSchema.RdData_GetModelData
-  | DBWSchema.RdData_GetCmptPropData
-  | DBWSchema.RdData_TableData;
+  | CodeSchema.DataValue_GetVar
+  | CodeSchema.DataValue_GetApiData
+  | CodeSchema.DataValue_GetParam
+  | CodeSchema.DataValue_GetEventData
+  | CodeSchema.DataValue_GetSlotData
+  | CodeSchema.DataValue_GetEachData
+  // | CodeSchema.DataValue_GetModelData
+  | CodeSchema.DataValue_GetCmptPropData
+  | CodeSchema.DataValue_TableData;
 
-type SysRdAction =
-  | DBWSchema.RdAction_SetVar
-  | DBWSchema.RdAction_SetApiData
-  | DBWSchema.RdAction_Set
-  | DBWSchema.RdAction_Api
-  | DBWSchema.RdAction_Open;
+type SysAction =
+  | CodeSchema.Action_SetVar
+  | CodeSchema.Action_SetApiData
+  | CodeSchema.Action_Set
+  | CodeSchema.Action_Api
+  | CodeSchema.Action_Open;
 
-export const isRdData = (data: any): data is DBWSchema.RdData => {
+export const isRdData = (data: any): data is CodeSchema.DataValue => {
   if (tools.dataType.isObject(data) && data.type === 'data' && data.mode) {
     return true;
   }
   return false;
 };
-export const isRdAction = (data: any): data is DBWSchema.RdData => {
+export const isAction = (data: any): data is CodeSchema.DataValue => {
   if (tools.dataType.isObject(data) && data.type === 'action' && data.mode) {
     return true;
   }
   return false;
 };
-export const rdDataisCustom = (data: DBWSchema.RdData): data is DBWSchema.RdData_Custom => {
+export const rdDataisCustom = (data: CodeSchema.DataValue): data is CodeSchema.DataValue_Custom => {
   return data.mode === 'custom';
 };
-export const rdDataIsBind = (data: DBWSchema.RdData): data is BindRdData => {
+export const rdDataIsBind = (data: CodeSchema.DataValue): data is BindRdData => {
   return [
     'getVar',
     'getApiData',
@@ -47,18 +46,18 @@ export const rdDataIsBind = (data: DBWSchema.RdData): data is BindRdData => {
     'tableData',
   ].includes(data.mode);
 };
-export const rdActionIsSys = (data: any): data is SysRdAction => {
+export const rdActionIsSys = (data: any): data is SysAction => {
   return ['setVar', 'setApiData', 'set', 'api', 'open'].includes(data.mode);
 };
-export const rdDataIsTable = (data: DBWSchema.RdData): data is DBWSchema.RdData_TableData => {
+export const rdDataIsTable = (data: CodeSchema.DataValue): data is CodeSchema.DataValue_TableData => {
   return data.mode === 'tableData';
 };
 
 export const genRdData = (
-  type: DBWSchema.RdData_Custom['args']['type'],
+  type: CodeSchema.DataValue_Custom['args']['type'],
   value: any,
   multiple?: boolean
-): DBWSchema.RdData_Custom => {
+): CodeSchema.DataValue_Custom => {
   return {
     id: '',
     modeId: '',
@@ -72,7 +71,7 @@ export const genRdData = (
   };
 };
 
-export const literalToRdData_Custom = (data: any): DBWSchema.RdData_Custom => {
+export const literalToRdData_Custom = (data: any): CodeSchema.DataValue_Custom => {
   const type = tools.dataType.getType(data);
   switch (type) {
     case 'string': {
@@ -95,7 +94,7 @@ export const literalToRdData_Custom = (data: any): DBWSchema.RdData_Custom => {
       return genRdData('module', objList);
     }
     case 'array': {
-      let type: DBWSchema.RdData_Custom['args']['type'] = '';
+      let type: CodeSchema.DataValue_Custom['args']['type'] = '';
       const list: any[] = [];
       data.forEach((item: any, index: number) => {
         const itemRdData = isRdData(item) ? item : literalToRdData_Custom(item);

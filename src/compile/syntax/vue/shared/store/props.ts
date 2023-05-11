@@ -1,8 +1,8 @@
 import { localSqlStore } from '../local-map';
 
-export const propsDataStore = (props: VueTypes.Property[]) => {
-  const store = localSqlStore<VueTypes.Property, 'id', []>({ primaryKey: 'id' });
-  const types = localSqlStore<VueTypes.Property['protocol']['types'][number], 'id', []>;
+export const propsDataStore = (props: GlobalContext.Property[]) => {
+  const store = localSqlStore<GlobalContext.Property, 'id', []>({ primaryKey: 'id' });
+  const types = localSqlStore<GlobalContext.Property['protocol']['types'][number], 'id', []>;
   const cache: {
     [tagId: string]: {
       types: ReturnType<typeof types>;
@@ -16,10 +16,10 @@ export const propsDataStore = (props: VueTypes.Property[]) => {
       };
     });
   return {
-    getProp(tagId: VueTypes.Property['id']) {
+    getProp(tagId: GlobalContext.Property['id']) {
       return store.query(tagId);
     },
-    getTypes(tagId: VueTypes.Property['id'], propId: VueTypes.Property['protocol']['types'][number]['id']) {
+    getTypes(tagId: GlobalContext.Property['id'], propId: GlobalContext.Property['protocol']['types'][number]['id']) {
       return cache[tagId]?.types.query(propId!);
     },
   };

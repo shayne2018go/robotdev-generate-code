@@ -1,10 +1,10 @@
 import { localSqlStore } from '../local-map';
 
-export const componentsDataStore = (components?: VueTypes.Component[]) => {
-  const store = localSqlStore<VueTypes.Component, 'id', []>({ primaryKey: 'id' });
-  const propsStore = localSqlStore<VueTypes.Component['protocol']['props'][number], 'id', []>;
-  const emitsStore = localSqlStore<VueTypes.Component['protocol']['emits'][number], 'id', []>;
-  const slotsStore = localSqlStore<VueTypes.Component['protocol']['slots'][number], 'id', []>;
+export const componentsDataStore = (components?: GlobalContext.Component[]) => {
+  const store = localSqlStore<GlobalContext.Component, 'id', []>({ primaryKey: 'id' });
+  const propsStore = localSqlStore<GlobalContext.Component['protocol']['props'][number], 'id', []>;
+  const emitsStore = localSqlStore<GlobalContext.Component['protocol']['emits'][number], 'id', []>;
+  const slotsStore = localSqlStore<GlobalContext.Component['protocol']['slots'][number], 'id', []>;
   const cache: {
     [tagId: string]: {
       propsStore: ReturnType<typeof propsStore>;
@@ -21,16 +21,16 @@ export const componentsDataStore = (components?: VueTypes.Component[]) => {
       };
     });
   return {
-    getCmpt(tagId: VueTypes.Component['id']) {
+    getCmpt(tagId: GlobalContext.Component['id']) {
       return store.query(tagId);
     },
-    getProp(tagId: VueTypes.Component['id'], propId: VueTypes.Component['protocol']['props'][number]['id']) {
+    getProp(tagId: GlobalContext.Component['id'], propId: GlobalContext.Component['protocol']['props'][number]['id']) {
       return cache[tagId]?.propsStore.query(propId);
     },
-    getEmit(tagId: VueTypes.Component['id'], emitId: VueTypes.Component['protocol']['emits'][number]['id']) {
+    getEmit(tagId: GlobalContext.Component['id'], emitId: GlobalContext.Component['protocol']['emits'][number]['id']) {
       return cache[tagId]?.emitsStore.query(emitId);
     },
-    getSlot(tagId: VueTypes.Component['id'], slotId: VueTypes.Component['protocol']['slots'][number]['id']) {
+    getSlot(tagId: GlobalContext.Component['id'], slotId: GlobalContext.Component['protocol']['slots'][number]['id']) {
       return cache[tagId]?.slotsStore.query(slotId);
     },
   };
