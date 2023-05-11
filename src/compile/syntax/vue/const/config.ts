@@ -4,7 +4,7 @@ export const PAGE_DIR = 'src/pages'; // 页面目录
 
 export const API_DIR = 'src/apis'; // api 目录
 
-export const UTIL_DIR = 'src/utils'; // 帮助函数睦
+export const UTIL_DIR = 'src/utils'; // 帮助函数目录
 
 export const ROUTER_DIR = 'src/router'; // 路由目录
 
