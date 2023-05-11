@@ -456,14 +456,6 @@ const valueToAst = (
 export const nodePropValueAst = (nodeId: string, propId: string, ctx: CompilePageCtx): ReturnRef => {
   const node = ctx.nodesStore.getNode(nodeId);
   let prop = ctx.nodesStore.getNodeProp(nodeId, propId);
-  if (!prop) {
-    prop = ctx.propsStore.getProp(propId);
-    if (!prop) {
-      return {
-        type: 'ast',
-      };
-    }
-  }
   const define = ctx.componentsStore.getProp(node.tagId, propId);
   if (!prop.value) {
     return {
