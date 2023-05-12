@@ -27,7 +27,7 @@ export const typesToMap = (types?: CodeSchema.Property_Protocol['types']) => {
   }
   types?.forEach((typeItem) => {
     if (typeItem.multiple) {
-      const _typeItem = { ...typeItem }
+      const _typeItem = { ...typeItem };
       delete _typeItem.multiple;
       typeItem = { ...typeItem };
       typeItem.type = 'array';
@@ -75,10 +75,10 @@ export const propertiesDataStore = (
       return propertiesMap[id_or_Key] || propertiesKeyMap[id_or_Key];
     },
     findKey(key: CodeSchema.Property_Protocol['key']): PropertiesMapItem | undefined {
-      return propertiesMap[key];
+      return propertiesKeyMap[key];
     },
     findId(id: CodeSchema.Property_Protocol['id']): PropertiesMapItem | undefined {
-      return propertiesKeyMap[id];
+      return propertiesMap[id];
     },
     create(item: CodeSchema.Property_Protocol) {
       itemCallback?.(item, length++);

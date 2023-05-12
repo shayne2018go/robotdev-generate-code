@@ -5,6 +5,7 @@ import { generate } from '@/generate';
 import build from '@/deploy/build';
 import fse from 'fs-extra';
 import { resolve } from '@/utils/node';
+import { optimize } from '..';
 
 describe('generate-code', () => {
   beforeEach(() => {
@@ -17,6 +18,8 @@ describe('generate-code', () => {
     const { compiler } = compilerFactory(codeSchema);
 
     const tokens = compiler();
+
+    const optimizeTokens = optimize(tokens);
 
     debugger;
     const { projectPath } = generate(tokens);

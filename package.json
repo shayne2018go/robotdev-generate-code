@@ -18,6 +18,7 @@
     "@types/babel__generator": "^7.6.4",
     "@types/fs-extra": "^11.0.1",
     "@types/lodash-es": "^4.17.7",
+    "@types/prettier": "^2.7.2",
     "@types/shelljs": "^0.8.12",
     "globby": "^13.1.4",
     "kolorist": "^1.8.0",
@@ -34,8 +35,10 @@
     "@babel/traverse": "^7.21.4",
     "@babel/types": "^7.21.4",
     "@dreawer/robotdev-view-editor-mock-data": "^0.0.20",
+    "add": "^2.0.6",
     "axios": "^1.4.0",
     "fs-extra": "^11.1.1",
+    "prettier": "^2.8.8",
     "shelljs": "^0.8.5"
   }
 }

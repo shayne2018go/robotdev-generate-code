@@ -23,11 +23,8 @@ export const getNodePropKeyById = (nodeId: string, propId: string, ctx: CompileP
 
 export const getNodePropKeyByTagId = (tagId: string, propId: string, ctx: CompilePageCtx) => {
   const prop_protocol = ctx.global.componentsStore.getProp(tagId, propId);
-  if (!prop_protocol) {
-    throw new Error(`Cannot find tagId: ${tagId}`);
-  }
 
-  return prop_protocol.data.key || ctx.global.propsStore.getProp(propId).key;
+  return prop_protocol?.data.key || ctx.global.propsStore.getProp(propId).key;
 };
 
 export const getNodePropValueVariable = (nodeId: string, propId: string, ctx: CompilePageCtx) => {
@@ -43,11 +40,8 @@ export const getNodePropValueVariable = (nodeId: string, propId: string, ctx: Co
 
 export const getNodeEventKeyByTagId = (tagId: string, eventId: string, ctx: CompilePageCtx) => {
   const event_protocol = ctx.global.componentsStore.getEmit(tagId, eventId);
-  if (!event_protocol) {
-    throw new Error(`Cannot find event by tagId: ${tagId}`);
-  }
 
-  return event_protocol.data.key || ctx.global.eventsStore.getEvent(eventId).key;
+  return event_protocol?.data.key || ctx.global.eventsStore.getEvent(eventId).key;
 };
 
 export const getNodeEventValueVariable = (nodeId: string, eventId: string, ctx: CompilePageCtx) => {

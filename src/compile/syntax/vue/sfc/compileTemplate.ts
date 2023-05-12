@@ -105,7 +105,6 @@ function createEachExpression(prefix: string, identiferText: string) {
 function parsingNodeCond(node: TreeNode, compileCtx: CompileTemplateCtx): ParsingNodeReturn {
   const { id: nodeId, tagId, props, key } = node.data;
 
-  debugger;
   const ifData = props?.find((p) => getNodePropKeyByTagId(tagId, p.propId, compileCtx) === 'value');
 
   if (!ifData) {
