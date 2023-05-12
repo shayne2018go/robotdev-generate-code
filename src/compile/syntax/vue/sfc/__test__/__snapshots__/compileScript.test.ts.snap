@@ -1,0 +1,38 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`compileScript > script 1`] = `
+"<script setup lang=\\"ts\\">
+import { onBeforeUnmount, onMounted, reactive, ref } from \\"vue\\";
+import { useRouter } from \\"vue-router\\";
+const route = useRoute();
+const variables = reactive({
+  xueshengmingcheng: null,
+  aaa: null
+});
+const nodesState = reactive({
+  aFormItem: {
+    label: \\"\\\\u5B66\\\\u751F\\\\u540D\\\\u79F0\\"
+  },
+  aInput: {
+    value: variables.xueshengmingcheng,
+    change: event_ctx => {}
+  },
+  aFormItem_2: {
+    label: \\"\\\\u5B66\\\\u751F\\\\u5E74\\\\u9F84\\"
+  },
+  aInput_2: {
+    change: event_ctx => {}
+  },
+  aFormItem_3: {
+    label: \\"\\\\u5B66\\\\u751F\\\\u5E74\\\\u9F84\\"
+  },
+  aButton: {
+    type: \\"primary\\",
+    size: \\"middle\\",
+    shape: \\"round\\",
+    click: event_ctx => {}
+  }
+});
+</script>
+"
+`;

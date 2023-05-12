@@ -28,6 +28,7 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
   if (ctx.importFunctions.length > 0) {
     statements.push(...getFunctionImports(ctx));
   }
+  statements.push(getVueVariables())
   if (variables && variables.length > 0) {
     statements.push(getVariables(variables, ctx));
   }
@@ -147,6 +148,15 @@ function getImportSpecifier(
     }
   }
   return specifier;
+}
+
+function getVueVariables() {
+  return t.variableDeclaration('const', [
+    t.variableDeclarator(
+      t.identifier('route'),
+      t.callExpression(t.identifier('useRoute'), [])
+    ),
+  ]);  
 }
 
 function getVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: CompilePageCtx): t.VariableDeclaration {

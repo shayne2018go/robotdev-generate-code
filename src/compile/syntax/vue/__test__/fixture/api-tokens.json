@@ -1,22 +1,26 @@
 [
   {
     "path": "src/apis/chuangjianyonghu.ts",
-    "token": "import axios from \"axios\";\nexport function chuangjianyonghu(data) {\n  return axios({\n    method: \"post\",\n    url: \"chuangjianyonghu\",\n    data: data\n  });\n}"
+    "token": "import axios from\"axios\";export function chuangjianyonghu(data){return axios({method:\"post\",url:\"chuangjianyonghu\",data:data})}"
   },
   {
     "path": "src/apis/chuangjianbanji.ts",
-    "token": "import axios from \"axios\";\nexport function chuangjianbanji(data) {\n  return axios({\n    method: \"post\",\n    url: \"chuangjianbanji\",\n    data: data\n  });\n}"
+    "token": "import axios from\"axios\";export function chuangjianbanji(data){return axios({method:\"post\",url:\"chuangjianbanji\",data:data})}"
   },
   {
     "path": "src/apis/luruxueshengbanji.ts",
-    "token": "import axios from \"axios\";\nexport function luruxueshengbanji(data) {\n  return axios({\n    method: \"post\",\n    url: \"luruxueshengbanji\",\n    data: data\n  });\n}"
+    "token": "import axios from\"axios\";export function luruxueshengbanji(data){return axios({method:\"post\",url:\"luruxueshengbanji\",data:data})}"
   },
   {
     "path": "src/apis/chaxunxueshengbanji.ts",
-    "token": "import axios from \"axios\";\nexport function chaxunxueshengbanji(data) {\n  return axios({\n    method: \"post\",\n    url: \"chaxunxueshengbanji\",\n    data: data\n  });\n}"
+    "token": "import axios from\"axios\";export function chaxunxueshengbanji(data){return axios({method:\"post\",url:\"chaxunxueshengbanji\",data:data})}"
   },
   {
     "path": "src/apis/chaxunsuoyouyonghu.ts",
-    "token": "import axios from \"axios\";\nexport function chaxunsuoyouyonghu(data) {\n  return axios({\n    method: \"post\",\n    url: \"chaxunsuoyouyonghu\",\n    data: data\n  });\n}"
+    "token": "import axios from\"axios\";export function chaxunsuoyouyonghu(data){return axios({method:\"post\",url:\"chaxunsuoyouyonghu\",data:data})}"
+  },
+  {
+    "path": "src/apis/chaxunyonghu.ts",
+    "token": "import axios from\"axios\";export function chaxunyonghu(data){return axios({method:\"post\",url:\"chaxunyonghu\",data:data})}"
   }
 ]

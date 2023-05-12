@@ -1,10 +1,22 @@
 import { tools } from '@/utils/tools';
 import * as t from '@babel/types';
-import { ArrowFunctionExpression, CallExpression, Expression, ExpressionStatement, ObjectProperty } from '@babel/types';
+import {
+  ArrowFunctionExpression,
+  CallExpression,
+  Expression,
+  ExpressionStatement,
+  MemberExpression,
+  ObjectProperty,
+} from '@babel/types';
+import { CompilePageCtx } from '../../compilePages';
+import { genVarName } from '../helper';
+import { getNodeEventKeyByNodeId, getNodePropKeyByNodeId } from '../script-helper';
 import { searchModulePathKeys } from '../searchPath';
 import {
   getEventArgVarName,
+  isAstType,
   isRdData,
+  isTableType,
   literalToRdData_Custom,
   rdActionIsSys,
   rdDataIsBind,
@@ -58,7 +70,7 @@ const defaultAst = (ctx: BindParseCtx, types?: CodeSchema.PropertyType_Protocol[
 };
 
 const toAstMethods = {
-  getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): t.MemberExpression => {
+  getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): MemberExpression => {
     const types = ctx.scope.page.variablesStore.findId(data.args.id)?.data?.types;
     if (!types) {
       throw new Error('getVar的id的types获取失败');
@@ -66,7 +78,7 @@ const toAstMethods = {
     const rootName = ctx.global.variablesRootName; // 变量外层的变量名
     const varName = ctx.scope.page.variablesNames[data.args.id].varName; // 变量名
     const paths = searchModulePathKeys(types, data.args.path || []); // 路径中的每个属性名
-    const memberExpr = (paths: string[]): t.MemberExpression => {
+    const memberExpr = (paths: string[]): MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
         return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
@@ -76,7 +88,7 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), rootName, varName]);
   },
-  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): t.MemberExpression | undefined => {
+  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): MemberExpression | undefined => {
     const [dataName, bodyId, ...argPaths] = data.args.path || [];
     if (bodyId) {
       /**
@@ -91,9 +103,12 @@ const toAstMethods = {
       return;
     }
     const rootName = ctx.global.apiVarRootName; // 变量外层的变量名
-    const varName = ctx.global.apiNames[data.args.id].varName; // 变量名 这里去api映射的varName
+    const varName = ctx.global.apisStore.getApi(data.args.id)?.data.key; // 变量名 这里去api映射的varName
+    if (!varName) {
+      return;
+    }
     const paths = searchModulePathKeys(body.data.types, argPaths); // 路径中的每个属性名
-    const memberExpr = (paths: string[]): t.MemberExpression => {
+    const memberExpr = (paths: string[]): MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
         return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
@@ -103,22 +118,19 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), dataName, varName, rootName]);
   },
-  getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): t.MemberExpression | t.Identifier => {
-    // 页面路由参数 ctx.pageStore.route.query
-    const [queryId, ...argPaths] = data.args.path || [];
-    if (!queryId) {
-      throw new Error('getEventData的data.args.path失败');
+  getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): MemberExpression => {
+    // 页面路由参数 router.query.xxx
+    if (!data.args.id) {
+      throw new Error('getParam的data.args.id失败');
     }
-    let query = ctx.global.pagesStore.getQuery(data.args.id, queryId);
+    let query = ctx.global.pagesStore.getQuery(ctx.scope.page.page.id, data.args.id);
     if (!query) {
       throw new Error('getEventData的query失败');
     }
     const varName = query.data.key; // 变量外层的变量名
-    const paths = searchModulePathKeys(query.data.types, argPaths); // 路径中的每个属性名
-    if (paths.length === 0) {
-      return t.identifier(varName);
-    }
-    const memberExpr = (paths: string[]): t.MemberExpression => {
+    const paths = searchModulePathKeys(query.data.types, data.args.path || []); // 路径中的每个属性名
+
+    const memberExpr = (paths: string[]): MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
         return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
@@ -126,21 +138,22 @@ const toAstMethods = {
         return t.memberExpression(t.identifier(varStr), t.identifier(memberPaths[0]));
       }
     };
-    return memberExpr([...paths.reverse(), varName]);
+    return memberExpr([...paths.reverse(), varName, 'query', 'router']);
   },
-  getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): t.MemberExpression | t.Identifier => {
+  getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): MemberExpression | Identifier => {
     // 事件参数 @click="(evt,prop) => {const temp = `${evt.target}`;const temp1 = `${prop}`}"
-    const [paramId, ...argPaths] = data.args.path || [];
-    if (!paramId) {
-      throw new Error('getEventData的data.args.path失败');
+    if (!data.args.id) {
+      throw new Error('getEventData的data.args.id失败');
     }
-    let param = ctx.global.eventsStore.getParameters(data.args.id, paramId);
+    // 通过参数id拿到key和types
+    let param = getParam(data.args.id);
     const varName = param.key; // 变量外层的变量名
-    const paths = searchModulePathKeys(param.types, argPaths); // 路径中的每个属性名
+    const types = param.types || []; // 变量外层的变量名
+    const paths = searchModulePathKeys(types, data.args.path || []); // 路径中的每个属性名
     if (paths.length === 0) {
       return t.identifier(varName);
     }
-    const memberExpr = (paths: string[]): t.MemberExpression => {
+    const memberExpr = (paths: string[]): MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
         return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
@@ -155,6 +168,7 @@ const toAstMethods = {
   },
   getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: BindParseCtx): CallExpression => {
     // TODO: 待定
+    // const types = ctx.scope.page.nodesStore;
     // if (!types) {
     //   throw new Error('getVar的id的types获取失败');
     // }
@@ -230,6 +244,10 @@ export const actionToAst = (data: CodeSchema.Action, ctx: BindParseCtx): ActionA
     }
   }
   return;
+};
+
+export const actionsToAst = (eventId: string, ctx: CompilePageCtx): ExpressionStatement[] => {
+  return [];
 };
 
 const literalToAst = (
@@ -375,6 +393,64 @@ const valueToAst = (
   return res;
 };
 
+export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectProperty[] => {
+  const propProps: ObjectProperty[] = [];
+  const eventProps: ObjectProperty[] = [];
+  const node = ctx.scope.page.nodesStore.getNode(nodeId);
+  if (!node) {
+    throw new Error('节点不存在');
+  }
+  const bindParseCtx: BindParseCtx = Object.assign({}, ctx, {
+    scope: {
+      node: node,
+      actions: {
+        genVarName: genVarName(),
+        map: {},
+      },
+    },
+  });
+  if (!node.props?.length && !node.events?.length) {
+    return [];
+  }
+  if (node.props?.length) {
+    node.props.forEach((prop) => {
+      const res = nodePropValueAst(node.id, prop.propId, bindParseCtx);
+      if (res) {
+        if (isAstType(res)) {
+          const ast = res.value;
+          if (ast) {
+            propProps.push(t.objectProperty(t.identifier(getNodePropKeyByNodeId(node.id, prop.propId, ctx)), ast));
+          }
+        } else if (isTableType(res)) {
+          const tableProp = res.value;
+          if (tableProp) {
+            propProps.push(
+              t.objectProperty(
+                t.identifier(getNodePropKeyByNodeId(node.id, prop.propId, ctx)),
+                t.objectExpression([
+                  t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
+                  t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
+                ])
+              )
+            );
+          }
+        } else {
+        }
+      }
+    });
+  }
+  if (node.events?.length) {
+    node.events.forEach((event) => {
+      const ast = nodeEventValueAst(node.id, event.eventId, bindParseCtx);
+      if (ast) {
+        propProps.push(t.objectProperty(t.identifier(getNodeEventKeyByNodeId(node.id, event.eventId, ctx)), ast));
+      }
+    });
+  }
+
+  return propProps.concat(eventProps);
+};
+
 export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseCtx): ReturnRef | undefined => {
   const node = ctx.scope.page.nodesStore.getNode(nodeId);
   if (!node) {
@@ -395,10 +471,9 @@ export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseC
     };
   }
   const res = valueToAst(prop.value, ctx, define.data.types);
+  ctx.scope.prop = prop;
   return res;
 };
-
-export const nodePropsAst = (nodeId: string, ctx: BindParseCtx): ObjectProperty[] => {};
 
 export const nodeEventValueAst = (
   nodeId: string,
@@ -417,6 +492,10 @@ export const nodeEventValueAst = (
   if (!define) {
     return;
   }
+  if (!event.actions) {
+    return;
+  }
+  ctx.scope.event = event;
   const parems =
     define.data.parameters?.map((item) => {
       return t.identifier(getEventArgVarName(item.key));
@@ -440,7 +519,10 @@ export const nodeEventValueAst = (
   <template #default="box_slot">
     <template v-for="(each_item, each_index) in nodesState.each.data"> <!-- 匿名节点 -->
       <template v-for="(each2_item, each2_index) in each_item"> <!-- 匿名节点 -->
-        <template v-for="(box2_item, box2_index) in add(textjoin(textjoin(textjoin_textjoin2_textjoin3_arg1,"asdasd")))"> <!-- 具名节点(盒子) -->
+        <template v-for="(box2_item, box2_index) in nodesState.each.data({
+                  box_slot
+                  each_item,
+                })"> <!-- 具名节点(盒子) -->
           <template v-for="(box3_item, box3_index) in xxxxxx"> <!-- 具名节点(盒子) -->
             <box title="vars.title">
               <template #default="box4_slot">

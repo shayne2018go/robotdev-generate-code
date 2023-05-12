@@ -13,34 +13,37 @@ import {
 function compileTemplate(page: CodeSchema.Page, compileCtx: CompilePageCtx): { token: string } {
   // tag props events children
 
-  const ast = createTemplateAst(compileCtx.nodesStore.treeNodes, compileCtx);
+  const ast = createTemplateAst(compileCtx.scope.page.nodesStore.treeNodes, compileCtx);
 
   const token = g.generate([ast]);
 
   return { token };
 }
 
-interface ParsingNodesOptions {
-  getTag: (id: string) => string;
-  getPropKey: (tagId: string, propId: string) => string;
-  getPropValue: (tagId: string, propId: string) => string;
-  getEventKey: (tagId: string, eventId: string) => string;
-  getEventValue: (tagId: string, eventId: string) => string;
-  getEachData: (tagId: string) => string;
-  getValue: (tagId: string) => string;
-}
-
 function createTemplateAst(nodes: TreeNode[], compileCtx: CompilePageCtx) {
-  return g.node(
-    'template',
-    [],
-    nodes.map((node) => parsingNode(node, compileCtx))
-  );
+  return g.node('template', [], parsingChildren(nodes, compileCtx));
 }
 
 // const WHITE_TAG = ['each', 'cond', 'slot', 'tpl'];
 
-function parsingNode(node: TreeNode, compileCtx: CompilePageCtx): GenerateVueTemplateTypes.Node {
+function parsingChildren(nodes: TreeNode[], compileCtx: CompilePageCtx): GenerateVueTemplateTypes.Node[] {
+  let children = [] as GenerateVueTemplateTypes.Node[];
+
+  nodes.forEach((node) => {
+    const nodeAst = parsingNode(node, compileCtx);
+    if (Array.isArray(nodeAst)) {
+      children = children.concat(nodeAst);
+    } else {
+      children.push(nodeAst);
+    }
+  });
+
+  return children;
+}
+
+type ParsingNodeReturn = GenerateVueTemplateTypes.Node | GenerateVueTemplateTypes.Node[];
+
+function parsingNode(node: TreeNode, compileCtx: CompilePageCtx): ParsingNodeReturn {
   const tag = getNodeTag(node.data.tagId, compileCtx);
   switch (tag) {
     case VirtualTag.EACH:
@@ -56,13 +59,13 @@ function parsingNode(node: TreeNode, compileCtx: CompilePageCtx): GenerateVueTem
   }
 }
 
-function parsingNodeEach(node: TreeNode, compileCtx: CompilePageCtx): GenerateVueTemplateTypes.Node {
+function parsingNodeEach(node: TreeNode, compileCtx: CompilePageCtx): ParsingNodeReturn {
   const { tagId, props } = node.data;
   const eachData = props?.find((p) => getNodePropKeyByTagId(tagId, p.propId, compileCtx) === 'data');
   return g.node(
     'template',
     [], // eachData ? [g.directive('for', createEachExpression(node, getPropValue(tagId, eachData.propId)))] : [],
-    (node.children || []).map((node) => parsingNode(node, compileCtx))
+    parsingChildren(node.children || [], compileCtx)
   );
 }
 
@@ -71,37 +74,36 @@ function createEachExpression(node: TreeNode, identiferText: string) {
   return `(${prefix}_item, ${prefix}_index) in ${identiferText}`;
 }
 
-function parsingNodeCond(node: TreeNode, compileCtx: CompilePageCtx): GenerateVueTemplateTypes.Node {
+function parsingNodeCond(node: TreeNode, compileCtx: CompilePageCtx): ParsingNodeReturn {
   const { tagId } = node.data;
-  return g.node(
-    'template',
-    [g.directive('if')],
-    (node.children || []).map((node) => parsingNode(node, compileCtx))
-  );
+  return g.node('template', [g.directive('if')], parsingChildren(node.children || [], compileCtx));
 }
-function parsingNodeSlot(node: TreeNode, compileCtx: CompilePageCtx): GenerateVueTemplateTypes.Node {
+
+function parsingNodeSlot(node: TreeNode, compileCtx: CompilePageCtx): ParsingNodeReturn {
   const { tagId } = node.data;
-  return g.node(
-    'slot',
-    [],
-    (node.children || []).map((node) => parsingNode(node, compileCtx))
-  );
+  return g.node('slot', [], parsingChildren(node.children || [], compileCtx));
 }
-function parsingNodeTpl(node: TreeNode, compileCtx: CompilePageCtx): GenerateVueTemplateTypes.Node {
-  const { tagId } = node.data;
-  return g.node(
-    'template',
-    [],
-    (node.children || []).map((node) => parsingNode(node, compileCtx))
-  );
+
+function parsingNodeTpl(node: TreeNode, compileCtx: CompilePageCtx): ParsingNodeReturn {
+  const { tagId, props } = node.data;
+  if (!props && node.children?.length) {
+    // 过滤掉无属性的template标签
+    return parsingChildren(node.children || [], compileCtx);
+  }
+  return g.node('template', [], parsingChildren(node.children || [], compileCtx));
 }
-function parsingNodeNormal(node: TreeNode, compileCtx: CompilePageCtx): GenerateVueTemplateTypes.Node {
+
+function parsingNodeNormal(node: TreeNode, compileCtx: CompilePageCtx): ParsingNodeReturn {
   const { tagId, id: nodeId } = node.data;
   const tagName = getNodeTag(tagId, compileCtx);
 
   const props = [
     ...(node.data.props || []).map((p) =>
-      g.prop(getNodePropKeyByTagId(tagId, p.propId, compileCtx), getNodePropValueVariable(nodeId, p.propId, compileCtx))
+      g.prop(
+        getNodePropKeyByTagId(tagId, p.propId, compileCtx),
+        getNodePropValueVariable(nodeId, p.propId, compileCtx),
+        true
+      )
     ),
     ...(node.data.events || []).map((p) =>
       g.evt(
@@ -111,7 +113,7 @@ function parsingNodeNormal(node: TreeNode, compileCtx: CompilePageCtx): Generate
     ),
   ];
 
-  const children = (node.children || []).map((node) => parsingNode(node, compileCtx));
+  const children = parsingChildren(node.children || [], compileCtx);
   return g.node(tagName, props, children);
 }
 

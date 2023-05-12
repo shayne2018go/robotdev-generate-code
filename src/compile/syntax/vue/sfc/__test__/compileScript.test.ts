@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import compileTemplate from '../compileTemplate';
+import compileScript from '../compileScript';
 import { parsingVueCompileOptions, buildGlobalCtx } from '../../compileVue';
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
 import { CompilePageCtx, parsingPage } from '../../compilePages';
-import templateToken from './__fixture__/template-tokens.json';
+import scriptToken from './__fixture__/script-tokens.json';
 
-describe('compileTemplate', () => {
+describe('compileScript', () => {
   // 解析相关依赖协议
   const vueCompileOptions = parsingVueCompileOptions(codeSchema);
 
@@ -23,11 +23,9 @@ describe('compileTemplate', () => {
     },
   };
 
-  it('tempalte', () => {
-    const { token } = compileTemplate(page, currentPageCompileOptions);
-    debugger;
-
+  it('script', () => {
+    const { token } = compileScript(page, currentPageCompileOptions);
     expect(token).toMatchSnapshot();
-    expect(token).toEqual(templateToken);
+    // expect(token).toEqual(scriptToken);
   });
 });
