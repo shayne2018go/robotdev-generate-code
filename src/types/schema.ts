@@ -112,7 +112,7 @@ declare namespace CodeSchema {
 
   export interface ComponentProp extends Property_Protocol {}
   export interface ComponentEmit extends Omit<Event_Protocol, 'outTypes'> {}
-  export interface ComponentSlot extends Property_Protocol {}
+  export interface ComponentSlot extends Slot_Protocol {}
   export interface ComponentVariable extends Property_Protocol {}
   export interface ComponentNode {
     id: string;
