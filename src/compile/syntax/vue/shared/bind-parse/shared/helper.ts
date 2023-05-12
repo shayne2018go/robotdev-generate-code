@@ -117,17 +117,17 @@ export const genAccessPathItem = (key: string | number, type?: 'object' | 'array
   };
 };
 
-export const isSlot = (tagId: string, ctx: BindParseCtx) => {
-  return ctx.global.componentsStore.getCmpt(tagId)?.key === 'slot';
+export const isTplSlot = (tagId: string, ctx: BindParseCtx) => {
+  return ctx.global.componentsStore.getCmpt(tagId)?.key === 'tpl';
 };
 
 export const isEach = (tagId: string, ctx: BindParseCtx) => {
   return ctx.global.componentsStore.getCmpt(tagId)?.key === 'each';
 };
 
-export const isEachOrSlot = (tagId: string, ctx: BindParseCtx) => {
+export const isEach_Or_TplSlot = (tagId: string, ctx: BindParseCtx) => {
   return (
-    ctx.global.componentsStore.getCmpt(tagId)?.key === 'slot' ||
+    ctx.global.componentsStore.getCmpt(tagId)?.key === 'tpl' ||
     ctx.global.componentsStore.getCmpt(tagId)?.key === 'each'
   );
 };
@@ -151,7 +151,7 @@ export const getEventArgVarName = (argName: string) => `event_${argName}`;
 
 // 得到节点的上下文节点
 export const nodeCtx = (nodeId: string, ctx: BindParseCtx) => {
-  const parents = ctx.scope.page.nodesStore.parents(nodeId, (node) => isEachOrSlot(node.data.tagId, ctx));
+  const parents = ctx.scope.page.nodesStore.parents(nodeId, (node) => isEach_Or_TplSlot(node.data.tagId, ctx));
   return parents.map((item) => ctx.scope.page.nodesVarNames[item.id]);
 };
 

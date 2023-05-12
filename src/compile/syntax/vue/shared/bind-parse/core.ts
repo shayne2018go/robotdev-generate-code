@@ -71,13 +71,16 @@ const defaultAst = (ctx: BindParseCtx, types?: CodeSchema.PropertyType_Protocol[
 
 const toAstMethods = {
   getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): MemberExpression => {
-    const types = ctx.scope.page.variablesStore.findId(data.args.id)?.data?.types;
-    if (!types) {
-      throw new Error('getVar的id的types获取失败');
+    const variable = ctx.scope.page.variablesStore.findId(data.args.id);
+    if (!variable) {
+      throw new Error('getVar的variable获取失败');
     }
     const rootName = ctx.global.variablesRootName; // 变量外层的变量名
-    const varName = ctx.scope.page.variablesNames[data.args.id].varName; // 变量名
-    const paths = searchModulePathKeys(types, data.args.path || []); // 路径中的每个属性名
+    const varName = variable.varName; // 变量名
+    if (!varName) {
+      throw new Error('getVar的varName获取失败');
+    }
+    const paths = searchModulePathKeys(variable.data.types, data.args.path || []); // 路径中的每个属性名
     const memberExpr = (paths: string[]): MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
@@ -86,28 +89,27 @@ const toAstMethods = {
         return t.memberExpression(t.identifier(varStr), t.identifier(memberPaths[0]));
       }
     };
-    return memberExpr([...paths.reverse(), rootName, varName]);
+    return memberExpr([...paths.reverse(), varName, rootName]);
   },
   getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): MemberExpression | undefined => {
     const [dataName, bodyId, ...argPaths] = data.args.path || [];
+    let paths: string[] = [];
     if (bodyId) {
       /**
         const types = bodyId ? ctx.global.apisStore.getApiBody(data.args.id, bodyId) : [];
         const paths = searchModulePathKeys(types, argPaths); // 路径中的每个属性名
         注意：类似bodyId找不到这种问题，要么返回undefined，要么抛异常，不能继续往下走，不能容错，容错了后面怎么编呢？
        */
-      return;
-    }
-    const body = ctx.global.apisStore.getApiBody(data.args.id, bodyId);
-    if (!body) {
-      return;
+      const body = ctx.global.apisStore.getApiBody(data.args.id, bodyId);
+      if (body) {
+        paths = searchModulePathKeys(body.data.types, argPaths); // 路径中的每个属性名
+      }
     }
     const rootName = ctx.global.apiVarRootName; // 变量外层的变量名
-    const varName = ctx.global.apisStore.getApi(data.args.id)?.data.key; // 变量名 这里去api映射的varName
+    const varName = ctx.global.apisStore.getApi(data.args.id)?.data.key; // 变量名
     if (!varName) {
-      return;
+      throw new Error('getApiData的varName获取失败');
     }
-    const paths = searchModulePathKeys(body.data.types, argPaths); // 路径中的每个属性名
     const memberExpr = (paths: string[]): MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
@@ -125,9 +127,12 @@ const toAstMethods = {
     }
     let query = ctx.global.pagesStore.getQuery(ctx.scope.page.page.id, data.args.id);
     if (!query) {
-      throw new Error('getEventData的query失败');
+      throw new Error('getParam的query失败');
     }
-    const varName = query.data.key; // 变量外层的变量名
+    const varName = query.varName; // 变量外层的变量名
+    if (!varName) {
+      throw new Error('getParam的varName失败');
+    }
     const paths = searchModulePathKeys(query.data.types, data.args.path || []); // 路径中的每个属性名
 
     const memberExpr = (paths: string[]): MemberExpression => {
@@ -145,11 +150,16 @@ const toAstMethods = {
     if (!data.args.id) {
       throw new Error('getEventData的data.args.id失败');
     }
-    // 通过参数id拿到key和types
-    let param = getParam(data.args.id);
-    const varName = param.key; // 变量外层的变量名
-    const types = param.types || []; // 变量外层的变量名
-    const paths = searchModulePathKeys(types, data.args.path || []); // 路径中的每个属性名
+    // 通过参数id拿到varName和types
+    let eventParam = getEventParam(data.args.id);
+    if (!eventParam) {
+      throw new Error('getEventData的eventParam失败');
+    }
+    const varName = eventParam.varName; // 变量外层的变量名
+    if (!varName) {
+      throw new Error('getEventData的varName失败');
+    }
+    const paths = searchModulePathKeys(eventParam.data.types, data.args.path || []); // 路径中的每个属性名
     if (paths.length === 0) {
       return t.identifier(varName);
     }
@@ -255,6 +265,16 @@ const literalToAst = (
   ctx: BindParseCtx,
   types?: CodeSchema.PropertyType_Protocol[]
 ): LiteralAst => {
+  if (data?.args?.multiple === true) {
+    data = {
+      ...data,
+      args: {
+        ...data.args,
+        type: 'array',
+      },
+    };
+  }
+
   switch (data.args.type) {
     case 'text':
     case 'richText':
@@ -304,7 +324,7 @@ const literalToAst = (
 
       const array: Expression[] = [];
       data.args.value.forEach((item) => {
-        const ast = valueToAst(item.value, ctx, types);
+        const ast = valueToAst(item?.value || item, ctx, types);
         if (!ast.value || ast.type === 'table') {
           return;
         }
@@ -400,12 +420,15 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
   if (!node) {
     throw new Error('节点不存在');
   }
-  const bindParseCtx: BindParseCtx = Object.assign({}, ctx, {
+  const bindParseCtx: BindParseCtx = Object.assign(ctx, {
     scope: {
-      node: node,
-      actions: {
-        genVarName: genVarName(),
-        map: {},
+      ...ctx.scope,
+      ...{
+        node: node,
+        actions: {
+          genVarName: genVarName(),
+          map: {},
+        },
       },
     },
   });
