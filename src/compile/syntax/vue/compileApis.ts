@@ -35,7 +35,7 @@ function getApiType(key: string, api: CodeSchema.Api_Protocol): GlobalContext.Ap
 
 function compileApis(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx): { tokens: Compile.Token[] } {
   const tokens = codeSchema.apis.map((ele) => {
-    const api = vueGlobalCtx.apisStore.getApi(ele.id);
+    const api = vueGlobalCtx.apisStore.getApi(ele.id).data;
     return createToken(api.source.filePath!, generateApiToken(api));
   });
   return { tokens };

@@ -3,8 +3,14 @@ import * as t from '@babel/types';
 import { CompilePageCtx } from '../compilePages';
 import { relative } from '@/utils/node';
 import { tools } from '@/utils/tools';
-import { actionToAst, isAstType, isTableType, nodeEventValueAst, nodePropValueAst } from '../shared/bind-parse/core';
-import { getNodeEventKeyByNodeId, getNodePropKeyByNodeId, getNodeTagVarName, getVariableVarName } from '../shared/script-helper';
+import {
+  actionsToAst,
+  nodePropsAst,
+} from '../shared/bind-parse/core';
+import {
+  getNodeTagVarName,
+  getVariableVarName,
+} from '../shared/script-helper';
 import { COMPONENT_DIR } from '../const/config';
 
 const lifeCycleMap: { [propname: string]: string } = {
@@ -22,17 +28,17 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
   let tag = getTagStrs();
   code += tag[0];
   statements.push(...getVueImports());
-  if (ctx.importComponents.length > 0) {
+  if (ctx.scope.page.importComponents.length > 0) {
     statements.push(...getComponentImports(ctx));
   }
-  if (ctx.importFunctions.length > 0) {
+  if (ctx.scope.page.importFunctions.length > 0) {
     statements.push(...getFunctionImports(ctx));
   }
-  statements.push(getVueVariables())
+  statements.push(getVueVariables());
   if (variables && variables.length > 0) {
     statements.push(getVariables(variables, ctx));
   }
-  if (ctx.nodesVarNames) {
+  if (ctx.scope.page.nodesVarNames) {
     statements.push(getNodesVariables(ctx));
   }
   if (functions && functions.length > 0) {
@@ -78,13 +84,11 @@ function getVueImports(): t.ImportDeclaration[] {
   ];
 }
 
-function getComponentImports(
-  ctx: CompilePageCtx
-): t.ImportDeclaration[] {
+function getComponentImports(ctx: CompilePageCtx): t.ImportDeclaration[] {
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
-  ctx.importComponents.forEach((ele) => {
+  ctx.scope.page.importComponents.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
       const { filePath, packageName, exportName, alias } = source;
@@ -105,13 +109,11 @@ function getComponentImports(
   });
 }
 
-function getFunctionImports(
-  ctx: CompilePageCtx
-): t.ImportDeclaration[] {
+function getFunctionImports(ctx: CompilePageCtx): t.ImportDeclaration[] {
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
-  ctx.importComponents.forEach((ele) => {
+  ctx.scope.page.importComponents.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
       const { filePath, packageName, exportName, alias } = source;
@@ -152,21 +154,18 @@ function getImportSpecifier(
 
 function getVueVariables() {
   return t.variableDeclaration('const', [
-    t.variableDeclarator(
-      t.identifier('route'),
-      t.callExpression(t.identifier('useRoute'), [])
-    ),
-  ]);  
+    t.variableDeclarator(t.identifier('route'), t.callExpression(t.identifier('useRoute'), [])),
+  ]);
 }
 
 function getVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: CompilePageCtx): t.VariableDeclaration {
   return t.variableDeclaration('const', [
     t.variableDeclarator(
-      t.identifier(ctx.variablesRootName),
+      t.identifier(ctx.global.variablesRootName),
       t.callExpression(t.identifier('reactive'), [
         t.objectExpression(
           variables.map((ele) => {
-            return t.objectProperty(t.identifier(getVariableVarName(ele.id,ctx)), t.nullLiteral());
+            return t.objectProperty(t.identifier(getVariableVarName(ele.id, ctx)), t.nullLiteral());
           })
         ),
       ])
@@ -175,56 +174,18 @@ function getVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: Compi
 }
 
 function getNodesVariables(ctx: CompilePageCtx): t.VariableDeclaration {
-  const nodes = ctx.nodesStore.nodes();
+  const nodes = ctx.scope.page.nodesStore.nodes();
   const nodeProps: t.ObjectProperty[] = [];
   nodes.forEach((node) => {
-    const propProps: t.ObjectProperty[] = [];
-    const eventProps: t.ObjectProperty[] = [];
-    if (!node.props?.length && !node.events?.length) {
-      return;
+    const props = nodePropsAst(node.id, ctx);
+    const varName = getNodeTagVarName(node.id, ctx);
+    if (varName) {
+      nodeProps.push(t.objectProperty(t.identifier(varName), t.objectExpression(props)));
     }
-    if (node.props?.length) {
-      node.props.forEach((prop) => {
-        const res = nodePropValueAst(node.id, prop.propId, ctx);
-        if (res) {
-          if (isAstType(res)) {
-            const ast = res.value;
-            if (ast) {
-              propProps.push(t.objectProperty(t.identifier(getNodePropKeyByNodeId(node.id, prop.propId, ctx)), ast));
-            }
-          } else if (isTableType(res)) {
-            const tableProp = res.value;
-            if (tableProp) {
-              propProps.push(
-                t.objectProperty(
-                  t.identifier(getNodePropKeyByNodeId(node.id, prop.propId, ctx)),
-                  t.objectExpression([
-                    t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
-                    t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
-                  ])
-                )
-              );
-            }
-          } else {
-          }
-        }
-      });
-    }
-    if (node.events?.length) {
-      node.events.forEach((event) => {
-        const ast = nodeEventValueAst(node.id, event.eventId, ctx);
-        if (ast) {
-          propProps.push(t.objectProperty(t.identifier(getNodeEventKeyByNodeId(node.id, event.eventId, ctx)), ast));
-        }
-      });
-    }
-    nodeProps.push(
-      t.objectProperty(t.identifier(getNodeTagVarName(node.id, ctx)), t.objectExpression([...propProps, ...eventProps]))
-    );
   });
   return t.variableDeclaration('const', [
     t.variableDeclarator(
-      t.identifier(ctx.nodesVarRootName),
+      t.identifier(ctx.global.nodesVarRootName),
       t.callExpression(t.identifier('reactive'), [t.objectExpression(nodeProps)])
     ),
   ]);
@@ -245,15 +206,9 @@ function getFunctions(functions: Array<CodeSchema.Function_Protocol>, _ctx: Comp
 function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: CompilePageCtx): t.ExpressionStatement[] {
   const lifeCycleExprs: t.CallExpression[] = [];
   lifeCycles.forEach((lifeCycle) => {
-    const actionStatements: t.ExpressionStatement[] = [];
-    lifeCycle.actions.forEach((action) => {
-      const ast = actionToAst(action, ctx);
-      if (ast) {
-        actionStatements.push(t.expressionStatement(ast));
-      }
-    });
+    const actionStatements: t.ExpressionStatement[] = actionsToAst(lifeCycle.eventId, ctx);
     lifeCycleExprs.push(
-      t.callExpression(t.identifier(lifeCycleMap[ctx.eventsStore.getEvent(lifeCycle.eventId).key]), [
+      t.callExpression(t.identifier(lifeCycleMap[ctx.global.eventsStore.getEvent(lifeCycle.eventId).key]), [
         t.arrowFunctionExpression([], t.blockStatement(actionStatements)),
       ])
     );
