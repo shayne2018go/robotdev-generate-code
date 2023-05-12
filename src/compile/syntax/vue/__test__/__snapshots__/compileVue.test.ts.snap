@@ -26,6 +26,17 @@ exports[`compile vue > compileApis 1`] = `
     "path": "src/apis/chaxunyonghu.ts",
     "token": "import axios from\\"axios\\";export function chaxunyonghu(data){return axios({method:\\"post\\",url:\\"chaxunyonghu\\",data:data})}",
   },
+  {
+    "path": "src/apis/chaxunyonghu.ts",
+    "token": "import axios from \\"axios\\";
+export function chaxunyonghu(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"chaxunyonghu\\",
+    data: data
+  });
+}",
+  },
 ]
 `;
 

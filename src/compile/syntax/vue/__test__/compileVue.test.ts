@@ -19,7 +19,6 @@ describe('compile vue', () => {
   });
 
   it('compileRouter', () => {
-    debugger;
     const { tokens } = compileRouter(codeSchema, vueGlobalCtx);
 
     debugger;
@@ -30,9 +29,18 @@ describe('compile vue', () => {
   it('compileApis', () => {
     const { tokens: api } = compileApis(codeSchema, vueGlobalCtx);
     const { tokens: axios } = compileRequestInstance({});
+    debugger;
     expect(api).toMatchSnapshot();
     expect(axios).toMatchSnapshot();
     expect(api).toMatchObject(apiTokens);
     expect(axios).toMatchObject(axiosTokens);
+  });
+
+  it('compileRequestInstance', () => {
+    const tokens = compileRequestInstance({});
+
+    debugger;
+    expect(tokens).toMatchSnapshot();
+    expect(tokens).toMatchObject(axiosTokens);
   });
 });

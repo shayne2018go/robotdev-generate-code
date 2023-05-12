@@ -12,18 +12,37 @@ describe('compileTemplate', () => {
   // 构建全局上下文
   const vueGlobalCtx = buildGlobalCtx(vueCompileOptions);
 
-  const page = codeSchema.pages[3];
+  it('tempalte 变量 事件', () => {
+    const page = codeSchema.pages[3];
 
-  const parsingPageResult = parsingPage(page, vueGlobalCtx);
+    const parsingPageResult = parsingPage(page, vueGlobalCtx);
 
-  const currentPageCompileOptions: CompilePageCtx = {
-    global: vueGlobalCtx,
-    scope: {
-      page: parsingPageResult,
-    },
-  };
+    const currentPageCompileOptions: CompilePageCtx = {
+      global: vueGlobalCtx,
+      scope: {
+        page: parsingPageResult,
+      },
+    };
 
-  it('tempalte', () => {
+    const { token } = compileTemplate(page, currentPageCompileOptions);
+    debugger;
+
+    expect(token).toMatchSnapshot();
+    expect(token).toEqual(templateToken);
+  });
+
+  it('tempalte 循环 判断', () => {
+    const page = codeSchema.pages[0];
+
+    const parsingPageResult = parsingPage(page, vueGlobalCtx);
+
+    const currentPageCompileOptions: CompilePageCtx = {
+      global: vueGlobalCtx,
+      scope: {
+        page: parsingPageResult,
+      },
+    };
+
     const { token } = compileTemplate(page, currentPageCompileOptions);
     debugger;
 

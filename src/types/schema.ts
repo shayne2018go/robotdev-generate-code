@@ -116,6 +116,8 @@ declare namespace CodeSchema {
   export interface ComponentVariable extends Property_Protocol {}
   export interface ComponentNode {
     id: string;
+    name?: string;
+    key?: string;
     parentId?: string | null;
     preId?: string | null;
     nextId?: string | null;

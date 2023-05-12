@@ -24,4 +24,5 @@ export enum VirtualTag {
   SLOT = 'slot', // 插槽
   COND = 'cond', // 条件
   TPL = 'tpl', // 模板
+  TEXT = 'text', // 文本
 }

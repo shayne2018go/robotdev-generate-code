@@ -43,7 +43,7 @@ function compileApis(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx)
 
 function generateApiToken(api: GlobalContext.Api): string {
   const statement = t.program([getAxiosImport(), getExportRequests(api)]);
-  const { code } = generate(statement, {minified: true});
+  const { code } = generate(statement, { minified: true });
   return code;
 }
 
@@ -80,7 +80,7 @@ function getExportRequests(api: GlobalContext.Api): t.ExportNamedDeclaration {
   );
 }
 
-function compileRequestInstance({ timeout, baseURL, headers }: AxiosRequestConfig): {tokens: Compile.Token[]} {
+function compileRequestInstance({ timeout, baseURL, headers }: AxiosRequestConfig): { tokens: Compile.Token[] } {
   const utilFile = 'axios.ts';
   const headersExpr: t.ObjectProperty[] = [];
   if (headers) {
@@ -150,8 +150,8 @@ function compileRequestInstance({ timeout, baseURL, headers }: AxiosRequestConfi
     ),
     t.exportDefaultDeclaration(t.identifier('instance')),
   ]);
-  const { code } = generate(program, {minified: true});
-  return {tokens: [createToken(`${UTIL_DIR}/${utilFile}`, code)]};
+  const { code } = generate(program, { minified: true });
+  return { tokens: [createToken(`${UTIL_DIR}/${utilFile}`, code)] };
 }
 
 export { parsingApis, compileRequestInstance };
