@@ -75,6 +75,7 @@ const webJson = {
             ],
           },
           productId: '6358fb8554bb9b1c84ce47a2',
+          key: 'xunhuanwenbenshuzu',
         },
         {
           id: 'D767#641a7052cf44f6204642b607',
@@ -110,6 +111,7 @@ const webJson = {
             ],
           },
           productId: '6358fb8554bb9b1c84ce47a2',
+          key: 'xunhuanshuju',
         },
         {
           id: 'Y576#641a7052cf44f6204642b607',
@@ -269,6 +271,7 @@ const webJson = {
             ],
           },
           productId: '6358fb8554bb9b1c84ce47a2',
+          key: 'yonghumingwenben',
         },
         {
           id: 'Q246',
@@ -368,6 +371,7 @@ const webJson = {
             ],
           },
           productId: '6358fb8554bb9b1c84ce47a2',
+          key: 'yonghunianlingwenben',
         },
         {
           id: 'A908#641a7052cf44f6204642b60a',
@@ -948,6 +952,7 @@ const webJson = {
             ],
           },
           productId: '6358fb8554bb9b1c84ce47a2',
+          key: 'tijiaoanniu',
         },
       ],
       decl: [

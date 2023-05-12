@@ -6,7 +6,7 @@ function isObject(obj: unknown): obj is Record<string, any> {
 }
 
 export const eachDBSchema = (dbJson: DBSchema.Project, fn: (data: any) => boolean) => {
-  const { dependencies, apis, projectIndex, data } = dbJson;
+  const { dependencies, dependenciesPackages, apis, projectIndex, data } = dbJson;
 
   fn(dbJson);
   dependencies.forEach((d) => {
@@ -48,6 +48,12 @@ export const eachPage = (p: DBSchema.Page, fn: (data: any) => boolean) => {
       if (dd) {
         eachTypes(dd.types, fn);
       }
+    });
+  }
+
+  if (p.nodes?.length) {
+    p.nodes.forEach((dd: DBSchema.RdNode) => {
+      fn(dd);
     });
   }
 };
