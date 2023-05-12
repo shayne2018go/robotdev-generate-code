@@ -3,14 +3,8 @@ import * as t from '@babel/types';
 import { CompilePageCtx } from '../compilePages';
 import { relative } from '@/utils/node';
 import { tools } from '@/utils/tools';
-import {
-  actionsToAst,
-  nodePropsAst,
-} from '../shared/bind-parse/core';
-import {
-  getNodeTagVarName,
-  getVariableVarName,
-} from '../shared/script-helper';
+import { actionsToAst, nodePropsAst } from '../shared/bind-parse/core';
+import { getNodeTagVarName, getVariableVarName } from '../shared/script-helper';
 import { COMPONENT_DIR } from '../const/config';
 
 const lifeCycleMap: { [propname: string]: string } = {
@@ -38,7 +32,7 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
   if (variables && variables.length > 0) {
     statements.push(getVariables(variables, ctx));
   }
-  if (ctx.scope.page.nodesVarNames) {
+  if (ctx.scope.page.nodesStore.nodes()) {
     statements.push(getNodesVariables(ctx));
   }
   if (functions && functions.length > 0) {
@@ -48,7 +42,7 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
     statements.push(...getLifeCycles(lifeCycle, ctx));
   }
   const statement = t.program(statements);
-  code += generate(statement).code + '\n';
+  code += generate(statement,{minified: true}).code;
   code += tag[1];
   return code;
 }
@@ -63,7 +57,7 @@ function getTagStrs(): string[] {
     [t.jsxText('split')]
   );
   const { code } = generate(statement);
-  return code.split('split').map((ele) => ele + '\n');
+  return code.split('split');
 }
 
 function getVueImports(): t.ImportDeclaration[] {
@@ -159,16 +153,17 @@ function getVueVariables() {
 }
 
 function getVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: CompilePageCtx): t.VariableDeclaration {
+  const varProperty: t.ObjectProperty[] = [];
+  variables.forEach((ele) => {
+    const varName = getVariableVarName(ele.id, ctx);
+    if (varName) {
+      varProperty.push(t.objectProperty(t.identifier(varName), t.nullLiteral()));
+    }
+  });
   return t.variableDeclaration('const', [
     t.variableDeclarator(
       t.identifier(ctx.global.variablesRootName),
-      t.callExpression(t.identifier('reactive'), [
-        t.objectExpression(
-          variables.map((ele) => {
-            return t.objectProperty(t.identifier(getVariableVarName(ele.id, ctx)), t.nullLiteral());
-          })
-        ),
-      ])
+      t.callExpression(t.identifier('reactive'), [t.objectExpression(varProperty)])
     ),
   ]);
 }
