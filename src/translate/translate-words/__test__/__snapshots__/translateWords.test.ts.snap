@@ -264,6 +264,135 @@ exports[`translateWords > start 1`] = `
         },
       ],
     },
+    {
+      "id": "645c463fe94e7d605e79d693",
+      "key": "chaxunyonghu",
+      "name": "查询用户",
+      "project": "64464a659c229310c169d491",
+      "request": [
+        {
+          "id": "645c4643a257c532a654185f",
+          "key": "yonghuid",
+          "name": "用户id",
+          "required": true,
+          "types": [
+            {
+              "type": "text",
+            },
+          ],
+        },
+      ],
+      "response": [
+        {
+          "id": "645c4691a257c532a6541865",
+          "key": "yonghuxinxi",
+          "name": "用户信息",
+          "types": [
+            {
+              "rules": {
+                "properties": [
+                  {
+                    "id": "645c46a1a257c532a6541866",
+                    "key": "id",
+                    "name": "id",
+                    "types": [
+                      {
+                        "type": "text",
+                      },
+                    ],
+                  },
+                  {
+                    "id": "645c46aba257c532a6541867",
+                    "key": "yonghuming",
+                    "name": "用户名",
+                    "types": [
+                      {
+                        "type": "text",
+                      },
+                    ],
+                  },
+                  {
+                    "id": "645c46b4a257c532a6541868",
+                    "key": "yonghunianling",
+                    "name": "用户年龄",
+                    "types": [
+                      {
+                        "type": "number",
+                      },
+                    ],
+                  },
+                  {
+                    "id": "645c46bea257c532a6541869",
+                    "key": "dizhi",
+                    "name": "地址",
+                    "types": [
+                      {
+                        "rules": {
+                          "properties": [
+                            {
+                              "id": "645c46c7a257c532a654186a",
+                              "key": "guojia",
+                              "name": "国家",
+                              "types": [
+                                {
+                                  "type": "text",
+                                },
+                              ],
+                            },
+                            {
+                              "id": "645c46cda257c532a654186b",
+                              "key": "shengfen",
+                              "name": "省份",
+                              "types": [
+                                {
+                                  "type": "text",
+                                },
+                              ],
+                            },
+                            {
+                              "id": "645c46d2a257c532a654186c",
+                              "key": "shiqu",
+                              "name": "市区",
+                              "types": [
+                                {
+                                  "type": "text",
+                                },
+                              ],
+                            },
+                            {
+                              "id": "645c46d7a257c532a654186d",
+                              "key": "xiangxidizhi",
+                              "name": "详细地址",
+                              "types": [
+                                {
+                                  "type": "text",
+                                },
+                              ],
+                            },
+                            {
+                              "id": "645c472ea257c532a654186f",
+                              "key": "id",
+                              "name": "id",
+                              "types": [
+                                {
+                                  "type": "text",
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        "type": "module",
+                      },
+                    ],
+                  },
+                ],
+              },
+              "type": "module",
+            },
+          ],
+        },
+      ],
+    },
   ],
   "data": [
     {
@@ -290,342 +419,165 @@ exports[`translateWords > start 1`] = `
             },
           ],
         },
+        {
+          "id": "645d99c25b102b96f9fbb4f1",
+          "key": "xunhuancols",
+          "name": "循环cols",
+          "types": [
+            {
+              "default": {
+                "args": {
+                  "multiple": true,
+                  "type": "text",
+                  "value": [
+                    {
+                      "args": {
+                        "type": "text",
+                        "value": "",
+                      },
+                      "id": "",
+                      "mode": "custom",
+                      "modeId": "",
+                      "type": "data",
+                    },
+                  ],
+                },
+                "mode": "custom",
+                "type": "data",
+              },
+              "multiple": true,
+              "rules": {
+                "properties": [
+                  {
+                    "id": "645d99f15b102b96f9fbb4f3",
+                    "key": "name",
+                    "name": "name",
+                    "types": [
+                      {
+                        "type": "text",
+                      },
+                    ],
+                  },
+                  {
+                    "id": "645d99f55b102b96f9fbb4f4",
+                    "key": "game",
+                    "name": "game",
+                    "types": [
+                      {
+                        "type": "text",
+                      },
+                    ],
+                  },
+                ],
+              },
+              "type": "module",
+            },
+          ],
+        },
       ],
-      "events": [],
+      "events": [
+        {
+          "actions": [
+            {
+              "args": {
+                "id": "644731b09c229310c169e3fb",
+              },
+              "id": "645c3e718ffd89314abfd10e",
+              "mode": "api",
+              "modeId": "6401884318eda303abe11c40",
+              "name": "执行业务",
+              "type": "action",
+            },
+          ],
+          "eventId": "641a95e7cd3c6b0921a79f2b",
+        },
+      ],
       "extendPlatform": true,
       "flowcharts": [
+        "644731b09c229310c169e3fb",
+        "64464f4e9c229310c169d7da",
         "64464dfe9c229310c169d72b",
       ],
       "name": "首页",
       "nodes": [
         {
-          "depth": 0,
-          "id": "F441",
-          "nextId": "H796",
-          "parentId": null,
-          "preId": null,
-          "projectId": "64464a309c229310c169d473",
-          "tag": "f-1c87ade2",
-          "type": "component",
-        },
-        {
-          "depth": 1,
-          "id": "F441#6446555398e11d19b610ef7b",
-          "nextId": "F441#6446535998e11d19b610ef79",
-          "parentId": "F441",
-          "preId": null,
-          "slotId": "6446555398e11d19b610ef7b",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "depth": 2,
-          "id": "F955",
-          "nextId": null,
-          "parentId": "F441#6446555398e11d19b610ef7b",
-          "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-form",
-        },
-        {
-          "depth": 3,
-          "id": "F955#641a7052cf44f6204642b856",
-          "nextId": null,
-          "parentId": "F955",
-          "preId": null,
-          "slotId": "641a7052cf44f6204642b856",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
           "data": {
             "props": [
               {
-                "propId": "641a7052cf44f6204642b85e",
+                "propId": "641a7052cf44f6204642b606",
                 "value": {
                   "args": {
+                    "multiple": true,
                     "type": "text",
-                    "value": "学生名称",
-                  },
-                  "mode": "custom",
-                  "type": "data",
-                },
-              },
-            ],
-          },
-          "depth": 4,
-          "id": "C933",
-          "nextId": "A225",
-          "parentId": "F955#641a7052cf44f6204642b856",
-          "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-form-item",
-          "type": "element",
-        },
-        {
-          "depth": 5,
-          "id": "C933#641a7052cf44f6204642b86c",
-          "nextId": "C933#641a7052cf44f6204642b86a",
-          "parentId": "C933",
-          "preId": null,
-          "slotId": "641a7052cf44f6204642b86c",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "depth": 6,
-          "id": "U744",
-          "nextId": null,
-          "parentId": "C933#641a7052cf44f6204642b86c",
-          "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-input",
-          "type": "element",
-        },
-        {
-          "data": {
-            "props": [
-              {
-                "propId": "641a7052cf44f6204642b85e",
-                "value": {
-                  "args": {
-                    "type": "text",
-                    "value": "学生年龄",
-                  },
-                  "mode": "custom",
-                  "type": "data",
-                },
-              },
-            ],
-          },
-          "depth": 4,
-          "id": "A225",
-          "nextId": "J898",
-          "parentId": "F955#641a7052cf44f6204642b856",
-          "preId": "C933",
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-form-item",
-          "type": "element",
-        },
-        {
-          "depth": 5,
-          "id": "A225#641a7052cf44f6204642b86c",
-          "nextId": "A225#641a7052cf44f6204642b86a",
-          "parentId": "A225",
-          "preId": null,
-          "slotId": "641a7052cf44f6204642b86c",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "depth": 6,
-          "id": "Z547",
-          "nextId": null,
-          "parentId": "A225#641a7052cf44f6204642b86c",
-          "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-input",
-          "type": "element",
-        },
-        {
-          "data": {
-            "props": [
-              {
-                "propId": "641a7052cf44f6204642b85e",
-                "value": {
-                  "args": {
-                    "type": "text",
-                    "value": "学生年龄",
-                  },
-                  "mode": "custom",
-                  "type": "data",
-                },
-              },
-            ],
-          },
-          "depth": 4,
-          "id": "J898",
-          "nextId": null,
-          "parentId": "F955#641a7052cf44f6204642b856",
-          "preId": "A225",
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-form-item",
-          "type": "element",
-        },
-        {
-          "depth": 5,
-          "id": "J898#641a7052cf44f6204642b86c",
-          "nextId": "J898#641a7052cf44f6204642b86a",
-          "parentId": "J898",
-          "preId": null,
-          "slotId": "641a7052cf44f6204642b86c",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "data": {
-            "props": [
-              {
-                "propId": "641a7052cf44f6204642b65a",
-                "value": {
-                  "args": {
-                    "type": "option",
-                    "value": "primary",
-                  },
-                  "mode": "custom",
-                  "type": "data",
-                },
-              },
-              {
-                "propId": "641a7052cf44f6204642b65b",
-                "value": {
-                  "args": {
-                    "type": "option",
-                    "value": "middle",
-                  },
-                  "mode": "custom",
-                  "type": "data",
-                },
-              },
-              {
-                "propId": "641a7052cf44f6204642b65c",
-                "value": {
-                  "args": {
-                    "type": "option",
-                    "value": "circle",
-                  },
-                  "mode": "custom",
-                  "type": "data",
-                },
-              },
-            ],
-          },
-          "depth": 6,
-          "id": "X334",
-          "nextId": null,
-          "parentId": "J898#641a7052cf44f6204642b86c",
-          "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-button",
-          "type": "element",
-        },
-        {
-          "depth": 0,
-          "id": "H796",
-          "nextId": "U047",
-          "parentId": null,
-          "preId": "F441",
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-card",
-          "type": "element",
-        },
-        {
-          "depth": 1,
-          "id": "H796#641a7053cf44f6204642b9cd",
-          "nextId": "H796#641a7053cf44f6204642b9c9",
-          "parentId": "H796",
-          "preId": null,
-          "slotId": "641a7053cf44f6204642b9cd",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "depth": 2,
-          "id": "C875",
-          "nextId": null,
-          "parentId": "H796#641a7053cf44f6204642b9cd",
-          "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-form",
-        },
-        {
-          "depth": 3,
-          "id": "C875#641a7052cf44f6204642b856",
-          "nextId": null,
-          "parentId": "C875",
-          "preId": null,
-          "slotId": "641a7052cf44f6204642b856",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "data": {
-            "props": [
-              {
-                "propId": "641a7052cf44f6204642b85e",
-                "value": {
-                  "args": {
-                    "type": "text",
-                    "value": "学生名称",
-                  },
-                  "mode": "custom",
-                  "type": "data",
-                },
-              },
-            ],
-          },
-          "depth": 4,
-          "id": "S563",
-          "nextId": "H648",
-          "parentId": "C875#641a7052cf44f6204642b856",
-          "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-form-item",
-          "type": "element",
-        },
-        {
-          "depth": 5,
-          "id": "S563#641a7052cf44f6204642b86c",
-          "nextId": "S563#641a7052cf44f6204642b86a",
-          "parentId": "S563",
-          "preId": null,
-          "slotId": "641a7052cf44f6204642b86c",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "data": {
-            "events": [
-              {
-                "actions": [
-                  {
-                    "args": {
-                      "actions": [
-                        {
-                          "args": {
-                            "id": "6447262e0b661be9e0b91ac1",
-                            "value": {
-                              "args": {
-                                "type": "text",
-                                "value": "用户1",
-                              },
-                              "mode": "custom",
-                              "type": "data",
-                            },
-                          },
-                          "id": "64472977fafa3e71eb83f6c2",
-                          "mode": "setVar",
-                          "modeId": "6401884418eda303abe11c41",
-                          "type": "action",
+                    "value": [
+                      {
+                        "args": {
+                          "type": "text",
+                          "value": "a",
                         },
-                      ],
-                    },
-                    "id": "64472977fafa3e71eb83f6c2",
-                    "mode": "set",
-                    "modeId": "6401884418eda303abe11c41",
-                    "name": "数据赋值",
-                    "type": "action",
+                        "mode": "custom",
+                        "type": "data",
+                      },
+                      {
+                        "args": {
+                          "type": "text",
+                          "value": "b",
+                        },
+                        "mode": "custom",
+                        "type": "data",
+                      },
+                      {
+                        "args": {
+                          "type": "text",
+                          "value": "c",
+                        },
+                        "mode": "custom",
+                        "type": "data",
+                      },
+                      {
+                        "args": {
+                          "type": "text",
+                          "value": "d",
+                        },
+                        "mode": "custom",
+                        "type": "data",
+                      },
+                    ],
                   },
-                ],
-                "eventId": "641a7052cf44f6204642b87b",
+                  "mode": "custom",
+                  "type": "data",
+                },
               },
             ],
+          },
+          "depth": 0,
+          "id": "D767",
+          "name": "循环文本数组",
+          "nextId": null,
+          "parentId": null,
+          "preId": null,
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "each",
+          "type": "element",
+        },
+        {
+          "depth": 1,
+          "id": "D767#641a7052cf44f6204642b607",
+          "nextId": null,
+          "parentId": "D767",
+          "preId": null,
+          "slotId": "641a7052cf44f6204642b607",
+          "tag": "tpl",
+          "type": "element",
+        },
+        {
+          "data": {
             "props": [
               {
-                "propId": "641a7052cf44f6204642b875",
+                "propId": "641a7052cf44f6204642b606",
                 "value": {
                   "args": {
-                    "id": "6447262e0b661be9e0b91ac1",
+                    "id": "645d99c25b102b96f9fbb4f1",
                   },
                   "mode": "getVar",
                   "type": "data",
@@ -633,266 +585,331 @@ exports[`translateWords > start 1`] = `
               },
             ],
           },
-          "depth": 6,
-          "id": "C343",
+          "depth": 2,
+          "id": "Y576",
+          "name": "循环数据",
           "nextId": null,
-          "parentId": "S563#641a7052cf44f6204642b86c",
+          "parentId": "D767#641a7052cf44f6204642b607",
           "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-input",
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "each",
+          "type": "element",
+        },
+        {
+          "depth": 3,
+          "id": "Y576#641a7052cf44f6204642b607",
+          "nextId": null,
+          "parentId": "Y576",
+          "preId": null,
+          "slotId": "641a7052cf44f6204642b607",
+          "tag": "tpl",
           "type": "element",
         },
         {
           "data": {
             "props": [
               {
-                "propId": "641a7052cf44f6204642b85e",
+                "propId": "641a7052cf44f6204642b606",
                 "value": {
                   "args": {
-                    "type": "text",
-                    "value": "学生年龄",
+                    "id": "644731b09c229310c169e3fb",
+                    "path": [
+                      "data",
+                      "64473279425c9a11a9a475af",
+                    ],
                   },
-                  "mode": "custom",
+                  "mode": "getApiData",
                   "type": "data",
                 },
               },
             ],
           },
           "depth": 4,
-          "id": "H648",
-          "nextId": "J780",
-          "parentId": "C875#641a7052cf44f6204642b856",
-          "preId": "S563",
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-form-item",
+          "id": "F104",
+          "nextId": null,
+          "parentId": "Y576#641a7052cf44f6204642b607",
+          "preId": null,
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "each",
           "type": "element",
         },
         {
           "depth": 5,
-          "id": "H648#641a7052cf44f6204642b86c",
-          "nextId": "H648#641a7052cf44f6204642b86a",
-          "parentId": "H648",
-          "preId": null,
-          "slotId": "641a7052cf44f6204642b86c",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "data": {
-            "events": [
-              {
-                "actions": [
-                  {
-                    "args": {
-                      "actions": [
-                        {
-                          "args": {
-                            "id": "644726370b661be9e0b91ac2",
-                            "value": {
-                              "args": {
-                                "type": "number",
-                                "value": 21,
-                              },
-                              "mode": "custom",
-                              "type": "data",
-                            },
-                          },
-                          "id": "64472f16fafa3e71eb83f6c4",
-                          "mode": "setVar",
-                          "modeId": "6401884418eda303abe11c41",
-                          "type": "action",
-                        },
-                      ],
-                    },
-                    "id": "64472f16fafa3e71eb83f6c4",
-                    "mode": "set",
-                    "modeId": "6401884418eda303abe11c41",
-                    "name": "数据赋值",
-                    "type": "action",
-                  },
-                ],
-                "eventId": "641a7052cf44f6204642b87b",
-              },
-            ],
-          },
-          "depth": 6,
-          "id": "H029",
+          "id": "F104#641a7052cf44f6204642b607",
           "nextId": null,
-          "parentId": "H648#641a7052cf44f6204642b86c",
+          "parentId": "F104",
           "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-input",
+          "slotId": "641a7052cf44f6204642b607",
+          "tag": "tpl",
           "type": "element",
         },
         {
           "data": {
             "props": [
               {
-                "propId": "641a7052cf44f6204642b85e",
+                "propId": "641a7052cf44f6204642b608",
                 "value": {
                   "args": {
-                    "type": "text",
-                    "value": "学生年龄",
-                  },
-                  "mode": "custom",
-                  "type": "data",
-                },
-              },
-            ],
-          },
-          "depth": 4,
-          "id": "J780",
-          "nextId": null,
-          "parentId": "C875#641a7052cf44f6204642b856",
-          "preId": "H648",
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-form-item",
-          "type": "element",
-        },
-        {
-          "depth": 5,
-          "id": "J780#641a7052cf44f6204642b86c",
-          "nextId": "J780#641a7052cf44f6204642b86a",
-          "parentId": "J780",
-          "preId": null,
-          "slotId": "641a7052cf44f6204642b86c",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "data": {
-            "events": [
-              {
-                "actions": [
-                  {
-                    "args": {
-                      "fail": [],
-                      "id": "64464dfe9c229310c169d72b",
-                      "params": {
-                        "args": {
-                          "type": "module",
-                          "value": [
-                            {
-                              "propId": "64464e03442d4717949ba939",
-                              "value": {
-                                "args": {
-                                  "id": "6447262e0b661be9e0b91ac1",
-                                },
-                                "mode": "getVar",
-                                "type": "data",
-                              },
-                            },
-                            {
-                              "propId": "64464e29442d4717949ba93b",
-                              "value": {
-                                "args": {
-                                  "id": "644726370b661be9e0b91ac2",
-                                },
-                                "mode": "getVar",
-                                "type": "data",
-                              },
-                            },
-                          ],
-                        },
-                        "mode": "custom",
-                        "type": "data",
+                    "641a7054cf44f6204642c2f8": {
+                      "args": {
+                        "id": "F104",
+                        "path": [
+                          "item",
+                          "64473291425c9a11a9a475b2",
+                        ],
                       },
-                      "success": [],
+                      "id": "",
+                      "mode": "getEachData",
+                      "modeId": "",
+                      "type": "data",
                     },
-                    "id": "64472f27fafa3e71eb83f6c7",
-                    "mode": "api",
-                    "modeId": "6401884318eda303abe11c40",
-                    "name": "执行业务",
-                    "type": "action",
+                    "641a7054cf44f6204642c2f9": {
+                      "args": {
+                        "type": "number",
+                        "value": 10,
+                      },
+                      "mode": "custom",
+                      "type": "data",
+                    },
                   },
-                ],
-                "eventId": "641a95cecd3c6b0921a79efa",
-              },
-            ],
-            "props": [
-              {
-                "propId": "641a7052cf44f6204642b65a",
-                "value": {
-                  "args": {
-                    "type": "option",
-                    "value": "primary",
-                  },
-                  "mode": "custom",
-                  "type": "data",
-                },
-              },
-              {
-                "propId": "641a7052cf44f6204642b65b",
-                "value": {
-                  "args": {
-                    "type": "option",
-                    "value": "middle",
-                  },
-                  "mode": "custom",
-                  "type": "data",
-                },
-              },
-              {
-                "propId": "641a7052cf44f6204642b65c",
-                "value": {
-                  "args": {
-                    "type": "option",
-                    "value": "default",
-                  },
-                  "mode": "custom",
+                  "id": "",
+                  "mode": "gt",
+                  "modeId": "64099833237f2a94b9bd79ba",
                   "type": "data",
                 },
               },
             ],
           },
           "depth": 6,
-          "id": "R176",
+          "id": "A908",
           "nextId": null,
-          "parentId": "J780#641a7052cf44f6204642b86c",
+          "parentId": "F104#641a7052cf44f6204642b607",
           "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-button",
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "cond",
           "type": "element",
         },
         {
           "depth": 7,
-          "id": "R176#641a7052cf44f6204642b667",
-          "nextId": "R176#641a7052cf44f6204642b668",
-          "parentId": "R176",
+          "id": "A908#641a7052cf44f6204642b609",
+          "nextId": "A908#641a7052cf44f6204642b60a",
+          "parentId": "A908",
           "preId": null,
-          "slotId": "641a7052cf44f6204642b667",
+          "slotId": "641a7052cf44f6204642b609",
           "tag": "tpl",
           "type": "element",
         },
         {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7053cf44f6204642b9c7",
+                "value": {
+                  "args": {
+                    "id": "F104",
+                    "path": [
+                      "item",
+                      "64473284425c9a11a9a475b0",
+                    ],
+                  },
+                  "mode": "getEachData",
+                  "type": "data",
+                },
+              },
+            ],
+          },
           "depth": 8,
-          "id": "S925",
-          "name": "提交按钮",
+          "id": "X741",
           "nextId": null,
-          "parentId": "R176#641a7052cf44f6204642b667",
+          "parentId": "A908#641a7052cf44f6204642b609",
+          "preId": null,
+          "productId": "6352061254bb9b1c84ce3570",
+          "tag": "a-card",
+          "type": "element",
+        },
+        {
+          "depth": 9,
+          "id": "X741#641a7053cf44f6204642b9cd",
+          "nextId": "X741#641a7053cf44f6204642b9c9",
+          "parentId": "X741",
+          "preId": null,
+          "slotId": "641a7053cf44f6204642b9cd",
+          "tag": "tpl",
+          "type": "element",
+        },
+        {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "args": {
+                    "id": "F104",
+                    "path": [
+                      "item",
+                      "6447328c425c9a11a9a475b1",
+                    ],
+                  },
+                  "mode": "getEachData",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 10,
+          "id": "Y459",
+          "name": "用户名文本",
+          "nextId": "Q246",
+          "parentId": "X741#641a7053cf44f6204642b9cd",
           "preId": null,
           "productId": "6358fb8554bb9b1c84ce47a2",
           "tag": "text",
           "type": "element",
         },
         {
-          "depth": 0,
-          "id": "U047",
-          "nextId": "D472",
-          "parentId": null,
-          "preId": "H796",
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-button",
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "args": {
+                    "641a7054cf44f6204642c32b": {
+                      "args": {
+                        "multiple": true,
+                        "type": "text",
+                        "value": [
+                          {
+                            "args": {
+                              "type": "text",
+                              "value": "年龄大于十------",
+                            },
+                            "mode": "custom",
+                            "type": "data",
+                          },
+                          {
+                            "args": {
+                              "id": "D767",
+                              "path": [
+                                "index",
+                              ],
+                            },
+                            "id": "",
+                            "mode": "getEachData",
+                            "modeId": "",
+                            "type": "data",
+                          },
+                          {
+                            "args": {
+                              "id": "Y576",
+                              "path": [
+                                "item",
+                                "645d99f15b102b96f9fbb4f3",
+                              ],
+                            },
+                            "id": "",
+                            "mode": "getEachData",
+                            "modeId": "",
+                            "type": "data",
+                          },
+                          {
+                            "args": {
+                              "id": "F104",
+                              "path": [
+                                "item",
+                                "64473284425c9a11a9a475b0",
+                              ],
+                            },
+                            "id": "",
+                            "mode": "getEachData",
+                            "modeId": "",
+                            "type": "data",
+                          },
+                        ],
+                      },
+                      "mode": "custom",
+                      "type": "data",
+                    },
+                  },
+                  "id": "",
+                  "mode": "concatString",
+                  "modeId": "640aa8ec237f2a94b9bd85ab",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 10,
+          "id": "Q246",
+          "nextId": "V643",
+          "parentId": "X741#641a7053cf44f6204642b9cd",
+          "preId": "Y459",
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "text",
+          "type": "element",
         },
         {
-          "depth": 0,
-          "id": "D472",
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "args": {
+                    "id": "F104",
+                    "path": [
+                      "item",
+                      "64473291425c9a11a9a475b2",
+                    ],
+                  },
+                  "mode": "getEachData",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 10,
+          "id": "V643",
+          "name": "用户年龄文本",
           "nextId": null,
-          "parentId": null,
-          "preId": "U047",
-          "projectId": "64464a309c229310c169d473",
-          "tag": "f-00d3776a",
-          "type": "component",
+          "parentId": "X741#641a7053cf44f6204642b9cd",
+          "preId": "Q246",
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "text",
+          "type": "element",
+        },
+        {
+          "depth": 7,
+          "id": "A908#641a7052cf44f6204642b60a",
+          "nextId": null,
+          "parentId": "A908",
+          "preId": "A908#641a7052cf44f6204642b609",
+          "slotId": "641a7052cf44f6204642b60a",
+          "tag": "tpl",
+          "type": "element",
+        },
+        {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "args": {
+                    "type": "text",
+                    "value": "年龄小于10----------",
+                  },
+                  "mode": "custom",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 8,
+          "id": "Y355",
+          "nextId": null,
+          "parentId": "A908#641a7052cf44f6204642b60a",
+          "preId": null,
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "text",
+          "type": "element",
         },
       ],
       "originId": "64464a419c229310c169d486",
@@ -946,11 +963,21 @@ exports[`translateWords > start 1`] = `
       "decl": [
         {
           "id": "6454c8d32f633c035f506d50",
-          "key": "aaa",
-          "name": "aaa",
+          "key": "xueshengmingcheng",
+          "name": "学生名称",
           "types": [
             {
               "type": "text",
+            },
+          ],
+        },
+        {
+          "id": "645ca561aea28d56b0bdb3f8",
+          "key": "xueshengnianling",
+          "name": "学生年龄",
+          "types": [
+            {
+              "type": "number",
             },
           ],
         },
@@ -1051,13 +1078,16 @@ exports[`translateWords > start 1`] = `
                       "actions": [
                         {
                           "args": {
-                            "id": "6447262e0b661be9e0b91ac1",
+                            "id": "6454c8d32f633c035f506d50",
                             "value": {
                               "args": {
-                                "type": "text",
-                                "value": "用户1",
+                                "id": "642b8a819a04dc6fabaa5d55",
+                                "path": [
+                                  "642b8a909a04dc6fabaa5d56",
+                                  "642be22b451c381a2ec381f7",
+                                ],
                               },
-                              "mode": "custom",
+                              "mode": "getEventData",
                               "type": "data",
                             },
                           },
@@ -1083,9 +1113,12 @@ exports[`translateWords > start 1`] = `
                 "propId": "641a7052cf44f6204642b875",
                 "value": {
                   "args": {
-                    "id": "6447262e0b661be9e0b91ac1",
+                    "type": "text",
+                    "value": "",
                   },
-                  "mode": "getVar",
+                  "id": "",
+                  "mode": "custom",
+                  "modeId": "",
                   "type": "data",
                 },
               },
@@ -1145,41 +1178,41 @@ exports[`translateWords > start 1`] = `
                       "actions": [
                         {
                           "args": {
-                            "id": "644726370b661be9e0b91ac2",
+                            "id": "645ca561aea28d56b0bdb3f8",
                             "value": {
                               "args": {
                                 "type": "number",
-                                "value": 21,
+                                "value": 121,
                               },
                               "mode": "custom",
                               "type": "data",
                             },
                           },
-                          "id": "64472f16fafa3e71eb83f6c4",
+                          "id": "645cae275ab8a42ff0a6b9d7",
                           "mode": "setVar",
                           "modeId": "6401884418eda303abe11c41",
                           "type": "action",
                         },
                       ],
                     },
-                    "id": "64472f16fafa3e71eb83f6c4",
+                    "id": "645cae275ab8a42ff0a6b9d7",
                     "mode": "set",
                     "modeId": "6401884418eda303abe11c41",
                     "name": "数据赋值",
                     "type": "action",
                   },
                 ],
-                "eventId": "641a7052cf44f6204642b87b",
+                "eventId": "641a7052cf44f6204642b8a1",
               },
             ],
           },
           "depth": 6,
-          "id": "N795",
+          "id": "R618",
           "nextId": null,
           "parentId": "W588#641a7052cf44f6204642b86c",
           "preId": null,
           "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-input",
+          "tag": "a-input-number",
           "type": "element",
         },
         {
@@ -1255,53 +1288,22 @@ exports[`translateWords > start 1`] = `
                         "mode": "custom",
                         "type": "data",
                       },
-                      "success": [],
-                    },
-                    "id": "64472f27fafa3e71eb83f6c7",
-                    "mode": "api",
-                    "modeId": "6401884318eda303abe11c40",
-                    "name": "执行业务",
-                    "type": "action",
-                  },
-                  {
-                    "args": {
-                      "fail": [],
-                      "id": "644731b09c229310c169e3fb",
                       "success": [
                         {
                           "args": {
-                            "actions": [
-                              {
-                                "args": {
-                                  "id": "64464f4e9c229310c169d7da",
-                                  "path": [
-                                    "64464f8e442d4717949ba954",
-                                    "64464f9d442d4717949ba955",
-                                  ],
-                                  "value": {
-                                    "args": {
-                                      "id": "6454c8d32f633c035f506d50",
-                                    },
-                                    "mode": "getVar",
-                                    "type": "data",
-                                  },
-                                },
-                                "id": "6454c8dd2f633c035f506d55",
-                                "mode": "setApiData",
-                                "modeId": "6401884418eda303abe11c41",
-                                "type": "action",
-                              },
-                            ],
+                            "mode": "in",
+                            "page": "6447315b9c229310c169e36c",
+                            "target": "blank",
                           },
-                          "id": "6454c8dd2f633c035f506d55",
-                          "mode": "set",
-                          "modeId": "6401884418eda303abe11c41",
-                          "name": "数据赋值",
+                          "id": "645b2f08f191472727337c3c",
+                          "mode": "open",
+                          "modeId": "641a95e6cd3c6b0921a79f29",
+                          "name": "页面跳转",
                           "type": "action",
                         },
                       ],
                     },
-                    "id": "6454c8a12f633c035f506d4d",
+                    "id": "64472f27fafa3e71eb83f6c7",
                     "mode": "api",
                     "modeId": "6401884318eda303abe11c40",
                     "name": "执行业务",
@@ -1367,6 +1369,21 @@ exports[`translateWords > start 1`] = `
           "type": "element",
         },
         {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "args": {
+                    "type": "text",
+                    "value": "提交表单",
+                  },
+                  "mode": "custom",
+                  "type": "data",
+                },
+              },
+            ],
+          },
           "depth": 8,
           "id": "G606",
           "name": "提交按钮",
@@ -1506,141 +1523,421 @@ exports[`translateWords > start 1`] = `
       "project": "64464a419c229310c169d47e",
       "type": "page",
     },
-  ],
-  "dependencies": [
     {
+      "classes": [],
+      "cover": "62df689a9124c5a1826f5614/projects/64464a419c229310c169d47e/page/645c3f07e94e7d605e79d523.png",
       "decl": [],
-      "events": [],
-      "id": "6446531e9c229310c169d995",
-      "key": "e-card",
-      "name": "e-card",
+      "events": [
+        {
+          "actions": [
+            {
+              "args": {
+                "id": "645c463fe94e7d605e79d693",
+              },
+              "id": "645c47a262f62e7825159a63",
+              "mode": "api",
+              "modeId": "6401884318eda303abe11c40",
+              "name": "执行业务",
+              "type": "action",
+            },
+            {
+              "args": {
+                "id": "644731b09c229310c169e3fb",
+              },
+              "id": "645caf2ff7612041cb29cb60",
+              "mode": "api",
+              "modeId": "6401884318eda303abe11c40",
+              "name": "执行业务",
+              "type": "action",
+            },
+          ],
+          "eventId": "641a95e7cd3c6b0921a79f2b",
+        },
+      ],
+      "extendPlatform": true,
+      "flowcharts": [
+        "644731b09c229310c169e3fb",
+        "64464f4e9c229310c169d7da",
+        "645c463fe94e7d605e79d693",
+      ],
+      "name": "人员详情页",
       "nodes": [
         {
           "depth": 0,
-          "id": "V313",
+          "id": "R109",
+          "nextId": "F643",
+          "parentId": null,
+          "preId": null,
+          "productId": "6352061254bb9b1c84ce3570",
+          "tag": "a-typography-title",
+          "type": "element",
+        },
+        {
+          "depth": 1,
+          "id": "R109#641a7052cf44f6204642b68a",
+          "nextId": "R109#editableIcon",
+          "parentId": "R109",
+          "preId": null,
+          "slotId": "641a7052cf44f6204642b68a",
+          "tag": "tpl",
+          "type": "element",
+        },
+        {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "args": {
+                    "id": "645c463fe94e7d605e79d693",
+                    "path": [
+                      "data",
+                      "645c4691a257c532a6541865",
+                      "645c46aba257c532a6541867",
+                    ],
+                  },
+                  "mode": "getApiData",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 2,
+          "id": "G296",
+          "nextId": null,
+          "parentId": "R109#641a7052cf44f6204642b68a",
+          "preId": null,
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "text",
+          "type": "element",
+        },
+        {
+          "depth": 0,
+          "id": "F643",
           "nextId": null,
           "parentId": null,
+          "preId": "R109",
+          "productId": "6352061a54bb9b1c84ce357d",
+          "tag": "div",
+          "type": "element",
+        },
+        {
+          "depth": 1,
+          "id": "F643#641a95e6cd3c6b0921a79f2a",
+          "nextId": null,
+          "parentId": "F643",
+          "preId": null,
+          "slotId": "641a95e6cd3c6b0921a79f2a",
+          "tag": "tpl",
+          "type": "element",
+        },
+        {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b606",
+                "value": {
+                  "args": {
+                    "id": "644731b09c229310c169e3fb",
+                    "path": [
+                      "data",
+                      "64473279425c9a11a9a475af",
+                    ],
+                  },
+                  "mode": "getApiData",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 2,
+          "id": "N730",
+          "nextId": null,
+          "parentId": "F643#641a95e6cd3c6b0921a79f2a",
+          "preId": null,
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "each",
+          "type": "element",
+        },
+        {
+          "depth": 3,
+          "id": "N730#641a7052cf44f6204642b607",
+          "nextId": null,
+          "parentId": "N730",
+          "preId": null,
+          "slotId": "641a7052cf44f6204642b607",
+          "tag": "tpl",
+          "type": "element",
+        },
+        {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b608",
+                "value": {
+                  "args": {
+                    "641a95b29f9c8e74332f9993": {
+                      "args": {
+                        "id": "N730",
+                        "path": [
+                          "item",
+                          "64473291425c9a11a9a475b2",
+                        ],
+                      },
+                      "id": "",
+                      "mode": "getEachData",
+                      "modeId": "",
+                      "type": "data",
+                    },
+                    "641a95b29f9c8e74332f9994": {
+                      "args": {
+                        "type": "number",
+                        "value": 6,
+                      },
+                      "mode": "custom",
+                      "type": "data",
+                    },
+                  },
+                  "id": "",
+                  "mode": "lt",
+                  "modeId": "640998cf237f2a94b9bd79fe",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 4,
+          "id": "F221",
+          "nextId": null,
+          "parentId": "N730#641a7052cf44f6204642b607",
+          "preId": null,
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "cond",
+          "type": "element",
+        },
+        {
+          "depth": 5,
+          "id": "F221#641a7052cf44f6204642b609",
+          "nextId": "F221#641a7052cf44f6204642b60a",
+          "parentId": "F221",
+          "preId": null,
+          "slotId": "641a7052cf44f6204642b609",
+          "tag": "tpl",
+          "type": "element",
+        },
+        {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7053cf44f6204642b9c7",
+                "value": {
+                  "args": {
+                    "id": "N730",
+                    "path": [
+                      "item",
+                      "6447328c425c9a11a9a475b1",
+                    ],
+                  },
+                  "mode": "getEachData",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 6,
+          "id": "I275",
+          "nextId": null,
+          "parentId": "F221#641a7052cf44f6204642b609",
           "preId": null,
           "productId": "6352061254bb9b1c84ce3570",
           "tag": "a-card",
           "type": "element",
         },
         {
-          "depth": 1,
-          "id": "V313#641a7053cf44f6204642b9cc",
-          "nextId": "V313#641a7053cf44f6204642b9cd",
-          "parentId": "V313",
+          "depth": 7,
+          "id": "I275#641a7053cf44f6204642b9cd",
+          "nextId": "I275#641a7053cf44f6204642b9c9",
+          "parentId": "I275",
           "preId": null,
-          "slotId": "641a7053cf44f6204642b9cc",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "depth": 2,
-          "id": "V986",
-          "nextId": null,
-          "parentId": "V313#641a7053cf44f6204642b9cc",
-          "preId": null,
-          "productId": "000000000000000000000001",
-          "slotId": "6446535998e11d19b610ef79",
-          "tag": "slot",
-          "type": "element",
-        },
-        {
-          "depth": 1,
-          "id": "V313#641a7053cf44f6204642b9cd",
-          "nextId": "V313#641a7053cf44f6204642b9c9",
-          "parentId": "V313",
-          "preId": "V313#641a7053cf44f6204642b9cc",
           "slotId": "641a7053cf44f6204642b9cd",
           "tag": "tpl",
           "type": "element",
         },
         {
-          "depth": 2,
-          "id": "R787",
-          "nextId": "L837",
-          "parentId": "V313#641a7053cf44f6204642b9cd",
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "args": {
+                    "id": "N730",
+                    "path": [
+                      "item",
+                      "64473284425c9a11a9a475b0",
+                    ],
+                  },
+                  "mode": "getEachData",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 8,
+          "id": "R299",
+          "nextId": "H287",
+          "parentId": "I275#641a7053cf44f6204642b9cd",
           "preId": null,
-          "productId": "000000000000000000000001",
-          "slotId": "6446555398e11d19b610ef7b",
-          "tag": "slot",
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "text",
           "type": "element",
         },
         {
           "data": {
-            "events": [
+            "props": [
               {
-                "actions": [
-                  {
-                    "args": {
-                      "6446507be73896f72bc0c174": {
-                        "args": {
-                          "type": "text",
-                          "value": "选中成功",
-                        },
-                        "mode": "custom",
-                        "type": "data",
-                      },
-                      "6446507be73896f72bc0c175": {
-                        "args": {
-                          "type": "number",
-                          "value": 1,
-                        },
-                        "mode": "custom",
-                        "type": "data",
-                      },
-                    },
-                    "id": "6448d1dc5c080b31ed3129a7",
-                    "mode": "message.success",
-                    "modeId": "644650559c229310c169d806",
-                    "name": "成功信息",
-                    "type": "action",
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "args": {
+                    "type": "text",
+                    "value": "小于6",
                   },
-                ],
-                "eventId": "6448cdf4ff2be83d64646158",
+                  "mode": "custom",
+                  "type": "data",
+                },
               },
             ],
           },
-          "depth": 2,
-          "id": "L837",
+          "depth": 8,
+          "id": "H287",
           "nextId": null,
-          "parentId": "V313#641a7053cf44f6204642b9cd",
-          "preId": "R787",
-          "projectId": "6448caed58252f48a6d485e5",
-          "tag": "f-43272b44",
-          "type": "component",
+          "parentId": "I275#641a7053cf44f6204642b9cd",
+          "preId": "R299",
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "text",
+          "type": "element",
+        },
+        {
+          "depth": 5,
+          "id": "F221#641a7052cf44f6204642b60a",
+          "nextId": null,
+          "parentId": "F221",
+          "preId": "F221#641a7052cf44f6204642b609",
+          "slotId": "641a7052cf44f6204642b60a",
+          "tag": "tpl",
+          "type": "element",
+        },
+        {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7053cf44f6204642b9c7",
+                "value": {
+                  "args": {
+                    "id": "N730",
+                    "path": [
+                      "item",
+                      "6447328c425c9a11a9a475b1",
+                    ],
+                  },
+                  "mode": "getEachData",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 6,
+          "id": "U172",
+          "nextId": null,
+          "parentId": "F221#641a7052cf44f6204642b60a",
+          "preId": null,
+          "productId": "6352061254bb9b1c84ce3570",
+          "tag": "a-card",
+          "type": "element",
+        },
+        {
+          "depth": 7,
+          "id": "U172#641a7053cf44f6204642b9cd",
+          "nextId": "U172#641a7053cf44f6204642b9c9",
+          "parentId": "U172",
+          "preId": null,
+          "slotId": "641a7053cf44f6204642b9cd",
+          "tag": "tpl",
+          "type": "element",
+        },
+        {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "args": {
+                    "id": "N730",
+                    "path": [
+                      "item",
+                      "64473284425c9a11a9a475b0",
+                    ],
+                  },
+                  "mode": "getEachData",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 8,
+          "id": "R154",
+          "nextId": "Z865",
+          "parentId": "U172#641a7053cf44f6204642b9cd",
+          "preId": null,
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "text",
+          "type": "element",
+        },
+        {
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "args": {
+                    "type": "text",
+                    "value": "大于等于6",
+                  },
+                  "mode": "custom",
+                  "type": "data",
+                },
+              },
+            ],
+          },
+          "depth": 8,
+          "id": "Z865",
+          "nextId": null,
+          "parentId": "U172#641a7053cf44f6204642b9cd",
+          "preId": "R154",
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "tag": "text",
+          "type": "element",
         },
       ],
-      "projectId": "64464a309c229310c169d473",
-      "spec": {
-        "slots": [
-          {
-            "id": "6446535998e11d19b610ef79",
-            "key": "headerchacao",
-            "name": "header插槽",
-            "parameters": [
-              {
-                "id": "6446536798e11d19b610ef7a",
-                "key": "title",
-                "name": "title",
-                "types": [
-                  {
-                    "type": "text",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            "id": "6446555398e11d19b610ef7b",
-            "key": "bodychacao",
-            "name": "body插槽",
-          },
-        ],
-      },
-      "tag": "f-1c87ade2",
+      "originId": "645c3f07e94e7d605e79d523",
+      "params": [
+        {
+          "id": "645c3f3f62f62e7825159a5e",
+          "key": "renyuanid",
+          "name": "人员id",
+          "required": true,
+          "types": [
+            {
+              "type": "text",
+            },
+          ],
+        },
+      ],
+      "platforms": [],
+      "project": "64464a419c229310c169d47e",
+      "type": "page",
     },
+  ],
+  "dependencies": [
     {
       "classes": [],
       "id": "613ecb25af722dc29c7fc3c5",
@@ -1653,7 +1950,19 @@ exports[`translateWords > start 1`] = `
             "desc": "页签切换的回调",
             "id": "641a7053cf44f6204642b9c8",
             "key": "tabChange",
-            "name": "页签切换的回调",
+            "name": "页签切换",
+            "parameters": [
+              {
+                "id": "6433bda0142f1aa760d86bf2",
+                "key": "key",
+                "name": "标识",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
           },
         ],
         "props": [
@@ -1847,123 +2156,134 @@ exports[`translateWords > start 1`] = `
       "type": "element",
     },
     {
-      "decl": [],
-      "events": [],
-      "id": "6448cb0258252f48a6d48610",
-      "key": "e-menu",
-      "name": "e-menu",
-      "nodes": [
-        {
-          "depth": 0,
-          "id": "J415",
-          "nextId": null,
-          "parentId": null,
-          "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-menu",
-          "type": "element",
-        },
-        {
-          "depth": 1,
-          "id": "J415#641a7052cf44f6204642b716",
-          "nextId": "J415#641a7052cf44f6204642b717",
-          "parentId": "J415",
-          "preId": null,
-          "slotId": "641a7052cf44f6204642b716",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "data": {
-            "props": [
+      "id": "62c68d5d27d4bddfa72888fb",
+      "name": "文本",
+      "productId": "6358fb8554bb9b1c84ce47a2",
+      "spec": {
+        "props": [
+          {
+            "id": "641a7052cf44f6204642b61f",
+            "key": "text",
+            "name": "文本内容",
+            "types": [
               {
-                "propId": "641a7052cf44f6204642b606",
-                "value": {
-                  "args": {
-                    "id": "6448cb82319af5b84c5249f6",
-                  },
-                  "mode": "getCmptPropData",
-                  "type": "data",
+                "type": "text",
+                "ui": {
+                  "props": [
+                    {
+                      "propId": "rows",
+                      "value": 10,
+                    },
+                  ],
+                  "tag": "textarea",
                 },
               },
             ],
           },
-          "depth": 2,
-          "id": "Q544",
-          "nextId": null,
-          "parentId": "J415#641a7052cf44f6204642b716",
-          "preId": null,
-          "productId": "6358fb8554bb9b1c84ce47a2",
-          "tag": "each",
-          "type": "element",
-        },
-        {
-          "depth": 3,
-          "id": "Q544#641a7052cf44f6204642b607",
-          "nextId": null,
-          "parentId": "Q544",
-          "preId": null,
-          "slotId": "641a7052cf44f6204642b607",
-          "tag": "tpl",
-          "type": "element",
-        },
-        {
-          "depth": 4,
-          "id": "S946",
-          "nextId": null,
-          "parentId": "Q544#641a7052cf44f6204642b607",
-          "preId": null,
-          "productId": "6352061254bb9b1c84ce3570",
-          "tag": "a-menu-item",
-          "type": "element",
-        },
-      ],
-      "projectId": "6448caed58252f48a6d485e5",
+        ],
+      },
+      "tag": "text",
+      "type": "element",
+    },
+    {
+      "classes": [],
+      "id": "613ecb25af722dc29c7fc3af",
+      "name": "Form 表单",
+      "nodes": [],
+      "productId": "6352061254bb9b1c84ce3570",
       "spec": {
         "events": [
           {
-            "desc": "",
-            "extendPlatform": true,
-            "id": "6448cdf4ff2be83d64646158",
-            "key": "xuanzhongshijian",
-            "name": "选中事件",
+            "id": "641a7052cf44f6204642b851",
+            "key": "finish",
+            "name": "提交表单且数据验证成功",
             "parameters": [
               {
-                "id": "6448ce21ff2be83d6464615a",
-                "key": "data",
-                "name": "data",
+                "id": "641a7052cf44f6204642b852",
+                "key": "value",
+                "name": "值",
+                "types": [
+                  {
+                    "multiple": true,
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "id": "641a7052cf44f6204642b853",
+            "key": "FinishFailed",
+            "name": "提交表单且数据验证失败",
+            "parameters": [
+              {
+                "id": "641a7052cf44f6204642b854",
+                "key": "values",
+                "name": "值",
+                "types": [
+                  {
+                    "type": "unknown",
+                  },
+                ],
+              },
+              {
+                "id": "642f8c0afa0f4c663f442c90",
+                "key": "errorFields",
+                "name": "错误字段",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+              {
+                "id": "642f8c0afa0f4c663f442c91",
+                "key": "outOfDate ",
+                "name": "过期",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "desc": "数据验证成功后回调事件",
+            "extendPlatform": true,
+            "id": "642b956c9d9bbcb336f978dd",
+            "key": "submit",
+            "name": "数据验证成功",
+            "parameters": [
+              {
+                "id": "642f8b7efa0f4c663f442c8a",
+                "key": "event",
+                "name": "事件数据",
                 "types": [
                   {
                     "rules": {
                       "properties": [
                         {
-                          "id": "6448ce2fff2be83d6464615b",
-                          "key": "dangqianxiang",
-                          "name": "当前项",
+                          "id": "642f8b93fa0f4c663f442c8b",
+                          "key": "target",
+                          "name": "目标",
                           "types": [
                             {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "642f8ba3fa0f4c663f442c8c",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
                               "type": "module",
-                            },
-                          ],
-                        },
-                        {
-                          "id": "6448ce42ff2be83d6464615c",
-                          "key": "dangqianbiaoshi",
-                          "name": "当前标识",
-                          "types": [
-                            {
-                              "type": "text",
-                            },
-                          ],
-                        },
-                        {
-                          "id": "6448ce47ff2be83d6464615d",
-                          "key": "xuanzhongbiaoshishuzu",
-                          "name": "选中标识数组",
-                          "types": [
-                            {
-                              "multiple": true,
-                              "type": "text",
                             },
                           ],
                         },
@@ -1975,93 +2295,72 @@ exports[`translateWords > start 1`] = `
               },
             ],
           },
+          {
+            "desc": "任一表单项被校验后触发",
+            "extendPlatform": true,
+            "id": "642b95829d9bbcb336f978de",
+            "key": "validate",
+            "name": "任一表单项被校验",
+            "parameters": [
+              {
+                "id": "642f8bb5fa0f4c663f442c8d",
+                "key": "name",
+                "name": "名称",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+              {
+                "desc": "",
+                "id": "642f8bb5fa0f4c663f442c8e",
+                "key": "status",
+                "name": "地位",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+              {
+                "id": "642f8bb6fa0f4c663f442c8f",
+                "key": "errorMsgs",
+                "name": "错误信息",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
+          },
         ],
         "props": [
           {
-            "desc": "菜单数据",
-            "extendPlatform": true,
-            "id": "6448cb82319af5b84c5249f6",
-            "key": "data",
-            "name": "data",
-            "required": true,
+            "id": "641a7052cf44f6204642b841",
+            "key": "model",
+            "name": "模块",
             "types": [
               {
-                "multiple": true,
-                "rules": {
-                  "properties": [
-                    {
-                      "desc": "value",
-                      "extendPlatform": true,
-                      "id": "6448cb9c319af5b84c5249f7",
-                      "key": "value",
-                      "name": "value",
-                      "types": [
-                        {
-                          "type": "text",
-                        },
-                      ],
-                    },
-                    {
-                      "desc": "label",
-                      "extendPlatform": true,
-                      "id": "6448cba1319af5b84c5249f8",
-                      "key": "label",
-                      "name": "label",
-                      "types": [
-                        {
-                          "type": "text",
-                        },
-                      ],
-                    },
-                  ],
-                },
                 "type": "module",
               },
             ],
           },
-        ],
-      },
-      "tag": "f-43272b44",
-    },
-    {
-      "classes": [],
-      "id": "613ecb25af722dc29c7fc39d",
-      "name": "Menu 导航菜单",
-      "nodes": [],
-      "productId": "6352061254bb9b1c84ce3570",
-      "spec": {
-        "events": [
           {
-            "desc": "点击 MenuItem 调用此函数",
-            "id": "641a7052cf44f6204642b712",
-            "key": "click",
-            "name": "点击事件",
+            "id": "641a7052cf44f6204642b842",
+            "key": "rules",
+            "name": "规则",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
           },
           {
-            "desc": "取消选中时调用，仅在 multiple 生效",
-            "id": "641a7052cf44f6204642b713",
-            "key": "deselect",
-            "name": "取消选中时调用",
-          },
-          {
-            "desc": "SubMenu 展开/关闭的回调",
-            "id": "641a7052cf44f6204642b714",
-            "key": "openChange",
-            "name": "展开/关闭的回调",
-          },
-          {
-            "desc": "被选中时调用",
-            "id": "641a7052cf44f6204642b715",
-            "key": "select",
-            "name": "选中时调用",
-          },
-        ],
-        "props": [
-          {
-            "default": "false",
-            "id": "641a7052cf44f6204642b708",
-            "key": "forceSubMenuRender",
-            "name": "加速子菜单渲染",
+            "id": "641a7052cf44f6204642b843",
+            "key": "hideRequiredMark",
+            "name": "隐藏必选",
             "types": [
               {
                 "type": "whether",
@@ -2069,42 +2368,42 @@ exports[`translateWords > start 1`] = `
             ],
           },
           {
-            "id": "641a7052cf44f6204642b709",
-            "key": "inlineCollapsed",
-            "name": "收起状态",
-            "types": [
-              {
-                "type": "whether",
-              },
-            ],
-          },
-          {
-            "default": "24",
-            "id": "inlineIndent",
-            "key": "inlineIndent",
-            "name": "缩进宽度",
-            "types": [
-              {
-                "type": "number",
-              },
-            ],
-          },
-          {
-            "default": "vertical",
-            "id": "641a7052cf44f6204642b70a",
-            "key": "mode",
-            "name": "菜单类型",
+            "id": "641a7052cf44f6204642b844",
+            "key": "labelAlign",
+            "name": "文本对齐",
             "types": [
               {
                 "rules": {
                   "items": [
                     {
-                      "label": "垂直",
-                      "value": "vertical",
+                      "label": "左对齐",
+                      "value": "left",
                     },
+                    {
+                      "label": "右对齐",
+                      "value": "right",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "id": "641a7052cf44f6204642b845",
+            "key": "layout",
+            "name": "表单布局",
+            "types": [
+              {
+                "rules": {
+                  "items": [
                     {
                       "label": "水平",
                       "value": "horizontal",
+                    },
+                    {
+                      "label": "垂直",
+                      "value": "vertical",
                     },
                     {
                       "label": "内嵌",
@@ -2117,10 +2416,30 @@ exports[`translateWords > start 1`] = `
             ],
           },
           {
-            "default": "false",
-            "id": "641a7052cf44f6204642b70b",
-            "key": "multiple",
-            "name": "允许多选",
+            "id": "641a7052cf44f6204642b846",
+            "key": "labelCol",
+            "name": "标签宽度",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "id": "641a7052cf44f6204642b847",
+            "key": "wrapperCol",
+            "name": "排版样式",
+            "types": [
+              {
+                "type": "module",
+              },
+            ],
+          },
+          {
+            "default": true,
+            "id": "641a7052cf44f6204642b848",
+            "key": "colon",
+            "name": "冒号",
             "types": [
               {
                 "type": "whether",
@@ -2128,20 +2447,9 @@ exports[`translateWords > start 1`] = `
             ],
           },
           {
-            "id": "641a7052cf44f6204642b70c",
-            "key": "openKeys",
-            "name": "展开菜单项Key数组",
-            "types": [
-              {
-                "type": "text",
-              },
-            ],
-          },
-          {
-            "default": "true",
-            "id": "641a7052cf44f6204642b70d",
-            "key": "selectable",
-            "name": "允许选中",
+            "id": "641a7052cf44f6204642b849",
+            "key": "validateOnRuleChange",
+            "name": "触发验证",
             "types": [
               {
                 "type": "whether",
@@ -2149,9 +2457,19 @@ exports[`translateWords > start 1`] = `
             ],
           },
           {
-            "id": "selectedKeys",
-            "key": "selectedKeys",
-            "name": "选中菜单项Key数组",
+            "id": "641a7052cf44f6204642b84a",
+            "key": "scrollToFirstError",
+            "name": "滚动到错误",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "id": "641a7052cf44f6204642b84b",
+            "key": "name",
+            "name": "名称",
             "types": [
               {
                 "type": "text",
@@ -2159,154 +2477,48 @@ exports[`translateWords > start 1`] = `
             ],
           },
           {
-            "default": "0.1",
-            "id": "641a7052cf44f6204642b70e",
-            "key": "subMenuCloseDelay",
-            "name": "子菜单移出延时",
+            "id": "641a7052cf44f6204642b84c",
+            "key": "validateTrigger",
+            "name": "校验规则",
             "types": [
               {
-                "type": "number",
+                "type": "text",
               },
             ],
           },
           {
-            "default": "0",
-            "id": "641a7052cf44f6204642b70f",
-            "key": "subMenuOpenDelay",
-            "name": "子菜单移入延时",
+            "desc": "label 标签的文本换行方式",
+            "id": "641a7052cf44f6204642b84d",
+            "key": "labelWrap",
+            "name": "标签换行方式",
             "types": [
               {
-                "type": "number",
+                "type": "whether",
               },
             ],
           },
           {
-            "default": "light",
-            "id": "641a7052cf44f6204642b710",
-            "key": "theme",
-            "name": "主题模式",
+            "desc": "为 true 时不带样式，作为纯字段控件使用",
+            "id": "641a7052cf44f6204642b84e",
+            "key": "noStyle",
+            "name": "样式",
             "types": [
               {
-                "rules": {
-                  "items": [
-                    {
-                      "label": "白色",
-                      "value": "light",
-                    },
-                    {
-                      "label": "暗黑",
-                      "value": "dark",
-                    },
-                  ],
-                },
-                "type": "option",
-              },
-            ],
-          },
-          {
-            "default": "hover",
-            "id": "641a7052cf44f6204642b711",
-            "key": "triggerSubMenuAction",
-            "name": "子菜单促发",
-            "types": [
-              {
-                "rules": {
-                  "items": [
-                    {
-                      "label": "点击",
-                      "value": "click",
-                    },
-                    {
-                      "label": "悬停",
-                      "value": "hover",
-                    },
-                  ],
-                },
-                "type": "option",
+                "type": "whether",
               },
             ],
           },
         ],
         "slots": [
           {
-            "id": "641a7052cf44f6204642b716",
-            "isHide": true,
-            "key": "default",
-            "name": "默认",
-            "parameters": [],
-          },
-          {
-            "desc": "用于自定义 Menu 水平空间不足时的省略收缩的图标",
-            "id": "641a7052cf44f6204642b717",
-            "key": "overflowedIndicator",
-            "name": "menu收缩图标",
-            "parameters": [],
-          },
-        ],
-      },
-      "tag": "a-menu",
-      "type": "element",
-    },
-    {
-      "classes": [],
-      "id": "613ecb25af722dc29c7fc39e",
-      "name": "MenuItem 菜单项",
-      "nodes": [],
-      "productId": "6352061254bb9b1c84ce3570",
-      "spec": {
-        "props": [
-          {
-            "default": "false",
-            "id": "641a7052cf44f6204642b718",
-            "key": "disabled",
-            "name": "禁用",
-            "types": [
-              {
-                "type": "whether",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b719",
-            "key": "key",
-            "name": "key标识",
-            "types": [
-              {
-                "type": "text",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b71a",
-            "key": "title",
-            "name": "悬浮标题",
-            "types": [
-              {
-                "type": "text",
-              },
-            ],
-          },
-        ],
-        "slots": [
-          {
-            "id": "641a7052cf44f6204642b71b",
+            "id": "641a7052cf44f6204642b856",
             "isHide": true,
             "key": "default",
             "name": "默认",
           },
-          {
-            "id": "641a7052cf44f6204642b71c",
-            "key": "icon",
-            "name": "菜单图标",
-          },
-          {
-            "id": "641a7052cf44f6204642b71d",
-            "key": "title",
-            "name": "悬浮标题",
-          },
         ],
       },
-      "tag": "a-menu-item",
+      "tag": "a-form",
       "type": "element",
     },
     {
@@ -2321,25 +2533,146 @@ exports[`translateWords > start 1`] = `
             "desc": "提交表单且数据验证成功后回调事件",
             "id": "641a7052cf44f6204642b867",
             "key": "finish",
-            "name": "表单成功回调",
+            "name": "提交表单成功回调",
+            "parameters": [
+              {
+                "id": "642f8d41fa0f4c663f442c93",
+                "key": "value",
+                "name": "值",
+                "types": [
+                  {
+                    "multiple": true,
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
           },
           {
-            "desc": " 	提交表单且数据验证失败后回调事件",
+            "desc": "提交表单且数据验证失败后回调事件",
             "id": "finishFailed",
             "key": "finishFailed",
-            "name": "表单失败回调",
+            "name": "提交表单失败回调",
+            "parameters": [
+              {
+                "id": "642f8d8afa0f4c663f442c94",
+                "key": "value",
+                "name": "值",
+                "types": [
+                  {
+                    "multiple": true,
+                    "type": "text",
+                  },
+                ],
+              },
+              {
+                "id": "642f8d8afa0f4c663f442c95",
+                "key": "errorField",
+                "name": "报错信息",
+                "types": [
+                  {
+                    "multiple": true,
+                    "type": "text",
+                  },
+                ],
+              },
+              {
+                "desc": "",
+                "id": "642f8d8bfa0f4c663f442c96",
+                "key": "outOfDate ",
+                "name": "废弃数据",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
           },
           {
             "desc": "数据验证成功后回调事件",
             "id": "641a7052cf44f6204642b868",
             "key": "submit",
-            "name": "验证成功回调",
+            "name": "数据验证成功回调",
+            "parameters": [
+              {
+                "id": "642f8dcafa0f4c663f442c97",
+                "key": "event",
+                "name": "事件数据",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "642f8de3fa0f4c663f442c98",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "642f8df0fa0f4c663f442c99",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+            ],
           },
           {
             "desc": "任一表单项被校验后触发",
             "id": "641a7052cf44f6204642b869",
             "key": "validate",
-            "name": "表单触发",
+            "name": "任一表单项触发",
+            "parameters": [
+              {
+                "id": "642f8e05fa0f4c663f442c9a",
+                "key": "name",
+                "name": "名称",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+              {
+                "id": "642f8e05fa0f4c663f442c9b",
+                "key": "status",
+                "name": "身份",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+              {
+                "id": "642f8e05fa0f4c663f442c9c",
+                "key": "errorMsg",
+                "name": "错误信息",
+                "types": [
+                  {
+                    "multiple": true,
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
           },
         ],
         "props": [
@@ -2560,12 +2893,102 @@ exports[`translateWords > start 1`] = `
           {
             "id": "641a7052cf44f6204642b87b",
             "key": "change",
-            "name": "改变值",
+            "name": "值改变",
+            "parameters": [
+              {
+                "id": "642b8a819a04dc6fabaa5d55",
+                "key": "event",
+                "name": "事件数据",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "642b8a909a04dc6fabaa5d56",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "642be22b451c381a2ec381f7",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                  {
+                                    "id": "642be234451c381a2ec381f8",
+                                    "key": "focus",
+                                    "name": "focus",
+                                    "types": [
+                                      {
+                                        "type": "action",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+            ],
           },
           {
             "id": "641a7052cf44f6204642b87c",
             "key": "pressEnter",
             "name": "按下回车",
+            "parameters": [
+              {
+                "id": "642f7f986c9551f4750537bd",
+                "key": "event",
+                "name": "事件数据",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "642f7fac6c9551f4750537be",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "642f7fb56c9551f4750537bf",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+            ],
           },
         ],
         "props": [
@@ -2788,6 +3211,369 @@ exports[`translateWords > start 1`] = `
     },
     {
       "classes": [],
+      "id": "613ecb25af722dc29c7fc3b6",
+      "name": "InputNumber 数字输入框",
+      "nodes": [],
+      "productId": "6352061254bb9b1c84ce3570",
+      "spec": {
+        "events": [
+          {
+            "id": "641a7052cf44f6204642b8a1",
+            "key": "change",
+            "name": "值改变",
+            "parameters": [
+              {
+                "id": "642f80086c9551f4750537c0",
+                "key": "value",
+                "name": "值",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                  {
+                    "default": {
+                      "args": {
+                        "type": "number",
+                        "value": 0,
+                      },
+                      "id": "",
+                      "mode": "custom",
+                      "modeId": "",
+                      "type": "data",
+                    },
+                    "type": "number",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "id": "641a7052cf44f6204642b8a2",
+            "key": "pressEnter",
+            "name": "按下回车",
+            "parameters": [
+              {
+                "id": "642f9250fa0f4c663f442cb0",
+                "key": "event",
+                "name": "事件数据",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "642f927efa0f4c663f442cb2",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "642f928afa0f4c663f442cb3",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            "id": "641a7052cf44f6204642b8a3",
+            "key": "step",
+            "name": "点击上下箭头",
+            "parameters": [
+              {
+                "id": "642f929bfa0f4c663f442cb4",
+                "key": "value",
+                "name": "值",
+                "types": [
+                  {
+                    "type": "number",
+                  },
+                ],
+              },
+              {
+                "id": "642f929dfa0f4c663f442cb5",
+                "key": "info",
+                "name": "信息",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "642f92c3fa0f4c663f442cb6",
+                          "key": "offset",
+                          "name": "偏移",
+                          "types": [
+                            {
+                              "type": "number",
+                            },
+                          ],
+                        },
+                        {
+                          "id": "642f92c3fa0f4c663f442cb7",
+                          "key": "type",
+                          "name": "类型",
+                          "types": [
+                            {
+                              "multiple": false,
+                              "rules": {
+                                "items": [
+                                  {
+                                    "label": "上",
+                                    "value": "up",
+                                  },
+                                  {
+                                    "label": "下",
+                                    "value": "down",
+                                  },
+                                ],
+                              },
+                              "type": "option",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        "props": [
+          {
+            "default": "false",
+            "desc": "自动获取焦点",
+            "id": "641a7052cf44f6204642b892",
+            "key": "autofocus",
+            "name": "自动获取焦点",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "初始值",
+            "id": "defaultValue",
+            "key": "defaultValue",
+            "name": "初始值",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "default": "false",
+            "desc": "禁用",
+            "id": "641a7052cf44f6204642b893",
+            "key": "disabled",
+            "name": "禁止变更",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "desc": "展示值的格式",
+            "id": "641a7052cf44f6204642b894",
+            "key": "formatter",
+            "name": "格式",
+            "types": [
+              {
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "default": "Infinity",
+            "desc": "最大值",
+            "id": "641a7052cf44f6204642b895",
+            "key": "max",
+            "name": "最大值",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "default": "Infinity",
+            "desc": "最小值",
+            "id": "641a7052cf44f6204642b896",
+            "key": "min",
+            "name": "最小值",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "desc": "从formatter里转换回数字的方式",
+            "id": "641a7052cf44f6204642b897",
+            "key": "parser",
+            "name": "转换格式",
+            "types": [
+              {
+                "type": "unknown",
+              },
+            ],
+          },
+          {
+            "desc": "数值精度",
+            "id": "641a7052cf44f6204642b898",
+            "key": "precision",
+            "name": "数值精度",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "desc": "小数点",
+            "id": "641a7052cf44f6204642b899",
+            "key": "decimalSeparator",
+            "name": "小数点",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "输入框大小",
+            "id": "641a7052cf44f6204642b89a",
+            "key": "size",
+            "name": "输入框大小",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "default": "1",
+            "desc": "每次改变步数，可以为小数",
+            "id": "641a7052cf44f6204642b89b",
+            "key": "step",
+            "name": "步长",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+          {
+            "desc": "当前值",
+            "id": "641a7052cf44f6204642b89c",
+            "key": "value",
+            "name": "当前值",
+            "types": [
+              {
+                "type": "number",
+              },
+            ],
+          },
+          {
+            "default": true,
+            "desc": "是否有边框",
+            "id": "641a7052cf44f6204642b89d",
+            "key": "bordered",
+            "name": "边框",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "default": true,
+            "id": "641a7052cf44f6204642b89e",
+            "key": "controls",
+            "name": "显示增减按钮",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "id": "641a7052cf44f6204642b89f",
+            "key": "stringMode",
+            "name": "字符值模式",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "default": true,
+            "desc": "是否启用键盘快捷行为",
+            "id": "641a7052cf44f6204642b8a0",
+            "key": "keyboard",
+            "name": "键盘快捷",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "id": "641a7052cf44f6204642b8a4",
+            "isHide": true,
+            "key": "default",
+            "name": "默认",
+            "parameters": [],
+          },
+          {
+            "id": "641a7052cf44f6204642b8a5",
+            "key": "addonAfter",
+            "name": "后置标签",
+            "parameters": [],
+          },
+          {
+            "id": "641a7052cf44f6204642b8a6",
+            "key": "addonBefore",
+            "name": "前置标签",
+            "parameters": [],
+          },
+          {
+            "id": "641a7052cf44f6204642b8a7",
+            "key": "prefix",
+            "name": "带有前缀图标的 input",
+            "parameters": [],
+          },
+        ],
+      },
+      "tag": "a-input-number",
+      "type": "element",
+    },
+    {
+      "classes": [],
       "id": "613ecb25af722dc29c7fc387",
       "name": "Button 按钮",
       "nodes": [],
@@ -2797,15 +3583,43 @@ exports[`translateWords > start 1`] = `
           {
             "id": "641a7052cf44f6204642b665",
             "key": "click",
-            "name": "click",
+            "name": "点击按钮",
             "parameters": [
               {
                 "id": "641a7052cf44f6204642b666",
-                "key": "e",
-                "name": "e",
+                "key": "event",
+                "name": "事件数据",
                 "types": [
                   {
-                    "type": "unknown",
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "64337737142f1aa760d86bd7",
+                          "key": "target",
+                          "name": "目标",
+                          "types": [
+                            {
+                              "rules": {
+                                "properties": [
+                                  {
+                                    "id": "643377e8142f1aa760d86bd8",
+                                    "key": "value",
+                                    "name": "值",
+                                    "types": [
+                                      {
+                                        "type": "text",
+                                      },
+                                    ],
+                                  },
+                                ],
+                              },
+                              "type": "module",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
                   },
                 ],
               },
@@ -2835,15 +3649,15 @@ exports[`translateWords > start 1`] = `
                       "value": "dashed",
                     },
                     {
-                      "label": "链接",
+                      "label": "链接按钮",
                       "value": "link",
                     },
                     {
-                      "label": "文本",
+                      "label": "文本按钮",
                       "value": "text",
                     },
                     {
-                      "label": "默认",
+                      "label": "默认按钮",
                       "value": "default",
                     },
                   ],
@@ -2885,6 +3699,8 @@ exports[`translateWords > start 1`] = `
             "name": "形状",
             "types": [
               {
+                "default": "round",
+                "multiple": false,
                 "rules": {
                   "items": [
                     {
@@ -2892,11 +3708,11 @@ exports[`translateWords > start 1`] = `
                       "value": "default",
                     },
                     {
-                      "label": "圆角",
+                      "label": "圆形",
                       "value": "circle",
                     },
                     {
-                      "label": "圆形",
+                      "label": "圆角",
                       "value": "round",
                     },
                   ],
@@ -3045,308 +3861,6 @@ exports[`translateWords > start 1`] = `
       "type": "element",
     },
     {
-      "id": "62c68d5d27d4bddfa72888fb",
-      "name": "文本",
-      "productId": "6358fb8554bb9b1c84ce47a2",
-      "spec": {
-        "props": [
-          {
-            "id": "641a7052cf44f6204642b61f",
-            "key": "text",
-            "name": "文本内容",
-            "types": [
-              {
-                "type": "text",
-                "ui": {
-                  "props": [
-                    {
-                      "propId": "rows",
-                      "value": 10,
-                    },
-                  ],
-                  "tag": "textarea",
-                },
-              },
-            ],
-          },
-        ],
-      },
-      "tag": "text",
-      "type": "element",
-    },
-    {
-      "decl": [],
-      "events": [],
-      "id": "6447704a0090c3107dad2cbf",
-      "key": "ceshi1",
-      "name": "测试1",
-      "nodes": [],
-      "projectId": "64464a309c229310c169d473",
-      "tag": "f-00d3776a",
-    },
-    {
-      "classes": [],
-      "id": "613ecb25af722dc29c7fc3af",
-      "name": "Form 表单",
-      "nodes": [],
-      "productId": "6352061254bb9b1c84ce3570",
-      "spec": {
-        "events": [
-          {
-            "id": "641a7052cf44f6204642b84f",
-            "key": "submit",
-            "name": "submit",
-            "parameters": [
-              {
-                "id": "641a7052cf44f6204642b850",
-                "key": "e",
-                "name": "e",
-                "types": [
-                  {
-                    "type": "unknown",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b851",
-            "key": "validate",
-            "name": "validate",
-            "parameters": [
-              {
-                "id": "641a7052cf44f6204642b852",
-                "key": "name",
-                "name": "name",
-                "types": [
-                  {
-                    "type": "unknown",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b853",
-            "key": "finish",
-            "name": "finish",
-            "parameters": [
-              {
-                "id": "641a7052cf44f6204642b854",
-                "key": "values",
-                "name": "values",
-                "types": [
-                  {
-                    "type": "unknown",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            "id": "finishFailed",
-            "key": "finishFailed",
-            "name": "finishFailed",
-            "parameters": [
-              {
-                "id": "641a7052cf44f6204642b855",
-                "key": "values, errorFields, outOfDate",
-                "name": "values, errorFields, outOfDate",
-                "types": [
-                  {
-                    "type": "unknown",
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        "props": [
-          {
-            "id": "641a7052cf44f6204642b841",
-            "key": "model",
-            "name": "模块",
-            "types": [
-              {
-                "type": "module",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b842",
-            "key": "rules",
-            "name": "规则",
-            "types": [
-              {
-                "type": "module",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b843",
-            "key": "hideRequiredMark",
-            "name": "隐藏必选",
-            "types": [
-              {
-                "type": "whether",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b844",
-            "key": "labelAlign",
-            "name": "文本对齐",
-            "types": [
-              {
-                "rules": {
-                  "items": [
-                    {
-                      "label": "左对齐",
-                      "value": "left",
-                    },
-                    {
-                      "label": "右对齐",
-                      "value": "right",
-                    },
-                  ],
-                },
-                "type": "option",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b845",
-            "key": "layout",
-            "name": "表单布局",
-            "types": [
-              {
-                "rules": {
-                  "items": [
-                    {
-                      "label": "水平",
-                      "value": "horizontal",
-                    },
-                    {
-                      "label": "垂直",
-                      "value": "vertical",
-                    },
-                    {
-                      "label": "内嵌",
-                      "value": "inline",
-                    },
-                  ],
-                },
-                "type": "option",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b846",
-            "key": "labelCol",
-            "name": "标签宽度",
-            "types": [
-              {
-                "type": "module",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b847",
-            "key": "wrapperCol",
-            "name": "排版样式",
-            "types": [
-              {
-                "type": "module",
-              },
-            ],
-          },
-          {
-            "default": true,
-            "id": "641a7052cf44f6204642b848",
-            "key": "colon",
-            "name": "冒号",
-            "types": [
-              {
-                "type": "whether",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b849",
-            "key": "validateOnRuleChange",
-            "name": "触发验证",
-            "types": [
-              {
-                "type": "whether",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b84a",
-            "key": "scrollToFirstError",
-            "name": "滚动到错误",
-            "types": [
-              {
-                "type": "whether",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b84b",
-            "key": "name",
-            "name": "名称",
-            "types": [
-              {
-                "type": "text",
-              },
-            ],
-          },
-          {
-            "id": "641a7052cf44f6204642b84c",
-            "key": "validateTrigger",
-            "name": "校验规则",
-            "types": [
-              {
-                "type": "text",
-              },
-            ],
-          },
-          {
-            "desc": "label 标签的文本换行方式",
-            "id": "641a7052cf44f6204642b84d",
-            "key": "labelWrap",
-            "name": "标签换行方式",
-            "types": [
-              {
-                "type": "whether",
-              },
-            ],
-          },
-          {
-            "desc": "为 true 时不带样式，作为纯字段控件使用",
-            "id": "641a7052cf44f6204642b84e",
-            "key": "noStyle",
-            "name": "样式",
-            "types": [
-              {
-                "type": "whether",
-              },
-            ],
-          },
-        ],
-        "slots": [
-          {
-            "id": "641a7052cf44f6204642b856",
-            "isHide": true,
-            "key": "default",
-            "name": "默认",
-          },
-        ],
-      },
-      "tag": "a-form",
-      "type": "element",
-    },
-    {
       "classes": [],
       "id": "613ecb25af722dc29c7fc3d1",
       "name": "Table 表格",
@@ -3357,25 +3871,163 @@ exports[`translateWords > start 1`] = `
           {
             "id": "641a7053cf44f6204642ba52",
             "key": "expandedRowsChange",
-            "name": "展开的行变化时触发",
+            "name": "展开的行变化",
+            "parameters": [
+              {
+                "id": "6433c757142f1aa760d86bfd",
+                "key": "expandedRows",
+                "name": "展开行",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
           },
           {
             "desc": "分页、排序、筛选变化时触发",
             "id": "641a7053cf44f6204642ba53",
             "key": "change",
-            "name": "变化时触发",
+            "name": "分页、排序、筛选变化",
+            "parameters": [
+              {
+                "id": "6433c38b142f1aa760d86bf7",
+                "key": "pagination",
+                "name": "分页器配置",
+                "types": [
+                  {
+                    "rules": {
+                      "properties": [
+                        {
+                          "id": "6433c406142f1aa760d86bfa",
+                          "key": "position",
+                          "name": "分页器位置",
+                          "types": [
+                            {
+                              "multiple": true,
+                              "rules": {
+                                "items": [
+                                  {
+                                    "label": "左上",
+                                    "value": "topLeft",
+                                  },
+                                  {
+                                    "label": "中上",
+                                    "value": "topCenter",
+                                  },
+                                  {
+                                    "label": "右上",
+                                    "value": "topRight",
+                                  },
+                                  {
+                                    "label": "左下",
+                                    "value": "bottomLeft",
+                                  },
+                                  {
+                                    "label": "中下",
+                                    "value": "bottomCenter",
+                                  },
+                                  {
+                                    "label": "右下",
+                                    "value": "bottomRight",
+                                  },
+                                ],
+                              },
+                              "type": "option",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    "type": "module",
+                  },
+                ],
+              },
+              {
+                "id": "6433c38c142f1aa760d86bf8",
+                "key": "filters",
+                "name": "表头筛选菜单",
+                "types": [
+                  {
+                    "multiple": true,
+                    "type": "module",
+                  },
+                ],
+              },
+              {
+                "id": "6433c38d142f1aa760d86bf9",
+                "key": "sorter",
+                "name": "排序函数",
+                "types": [
+                  {
+                    "type": "action",
+                  },
+                  {
+                    "type": "whether",
+                  },
+                ],
+              },
+            ],
           },
           {
             "desc": "点击展开图标时触发",
             "id": "641a7053cf44f6204642ba54",
             "key": "expand",
-            "name": "展开图标时触发",
+            "name": "展开图标",
+            "parameters": [
+              {
+                "id": "6433c654142f1aa760d86bfb",
+                "key": "expanded",
+                "name": "展开",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+              {
+                "id": "6433c654142f1aa760d86bfc",
+                "key": "record",
+                "name": "记录",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
           },
           {
             "desc": "拖动列时触发",
             "id": "resizeColumn",
             "key": "resizeColumn",
             "name": "拖动列",
+            "parameters": [
+              {
+                "id": "6433c77c142f1aa760d86bfe",
+                "key": "width",
+                "name": "列宽度",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                  {
+                    "type": "number",
+                  },
+                ],
+              },
+              {
+                "id": "6433c77c142f1aa760d86bff",
+                "key": "column",
+                "name": "列",
+                "types": [
+                  {
+                    "type": "text",
+                  },
+                ],
+              },
+            ],
           },
         ],
         "props": [
@@ -3508,17 +4160,6 @@ exports[`translateWords > start 1`] = `
             "types": [
               {
                 "type": "module",
-              },
-            ],
-          },
-          {
-            "id": "641a7053cf44f6204642ba36",
-            "key": "dataSource",
-            "name": "数据源",
-            "types": [
-              {
-                "multiple": true,
-                "type": "unknown",
               },
             ],
           },
@@ -3895,6 +4536,249 @@ exports[`translateWords > start 1`] = `
       "type": "element",
     },
     {
+      "classes": [],
+      "id": "613ecb25af722dc29c7fc38b",
+      "name": "TypographyTitle 标题排版",
+      "nodes": [],
+      "productId": "6352061254bb9b1c84ce3570",
+      "spec": {
+        "events": [
+          {
+            "desc": "",
+            "extendPlatform": true,
+            "id": "642b88049d9bbcb336f978d8",
+            "key": "click",
+            "name": "点击标题",
+          },
+        ],
+        "props": [
+          {
+            "default": "false",
+            "desc": "添加代码样式",
+            "id": "641a7052cf44f6204642b67f",
+            "key": "code",
+            "name": "代码高亮",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "id": "641a7052cf44f6204642b680",
+            "key": "copyable",
+            "name": "允许复制",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "default": "false",
+            "id": "641a7052cf44f6204642b681",
+            "key": "delete",
+            "name": "删除线",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "default": "false",
+            "id": "641a7052cf44f6204642b682",
+            "key": "disabled",
+            "name": "禁用置灰",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "id": "641a7052cf44f6204642b683",
+            "key": "editable",
+            "name": "可编辑",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "default": "false",
+            "id": "641a7052cf44f6204642b684",
+            "key": "ellipsis",
+            "name": "超出省略",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "default": "1",
+            "id": "641a7052cf44f6204642b685",
+            "key": "level",
+            "name": "标题大小",
+            "types": [
+              {
+                "rules": {
+                  "items": [
+                    {
+                      "label": "H1",
+                      "value": 1,
+                    },
+                    {
+                      "label": "H2",
+                      "value": 2,
+                    },
+                    {
+                      "label": "H3",
+                      "value": 3,
+                    },
+                    {
+                      "label": "H4",
+                      "value": 4,
+                    },
+                    {
+                      "label": "H5",
+                      "value": 5,
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "default": "false",
+            "id": "641a7052cf44f6204642b686",
+            "key": "mark",
+            "name": "底色标记",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "id": "641a7052cf44f6204642b687",
+            "key": "type",
+            "name": "文本类型",
+            "types": [
+              {
+                "rules": {
+                  "items": [
+                    {
+                      "label": "次要",
+                      "value": "secondary",
+                    },
+                    {
+                      "label": "成功",
+                      "value": "success",
+                    },
+                    {
+                      "label": "提示",
+                      "value": "warning",
+                    },
+                    {
+                      "label": "警示",
+                      "value": "danger",
+                    },
+                  ],
+                },
+                "type": "option",
+              },
+            ],
+          },
+          {
+            "default": "false",
+            "id": "641a7052cf44f6204642b688",
+            "key": "underline",
+            "name": "下划线",
+            "types": [
+              {
+                "type": "whether",
+              },
+            ],
+          },
+          {
+            "default": "输入文本内容",
+            "id": "641a7052cf44f6204642b689",
+            "key": "content",
+            "name": "当前内容",
+            "types": [
+              {
+                "type": "text",
+              },
+            ],
+          },
+        ],
+        "slots": [
+          {
+            "id": "641a7052cf44f6204642b68a",
+            "isHide": true,
+            "key": "default",
+            "name": "默认",
+            "parameters": [],
+          },
+          {
+            "id": "editableIcon",
+            "key": "editableIcon",
+            "name": "编辑图标",
+            "parameters": [],
+          },
+          {
+            "id": "641a7052cf44f6204642b68b",
+            "key": "editableTooltip",
+            "name": "提示文本",
+            "parameters": [],
+          },
+          {
+            "id": "copyableIcon",
+            "key": "copyableIcon",
+            "name": "拷贝图标",
+            "parameters": [],
+          },
+          {
+            "id": "641a7052cf44f6204642b68c",
+            "key": "copyableTooltip",
+            "name": "提示文案",
+            "parameters": [],
+          },
+          {
+            "id": "641a7052cf44f6204642b68d",
+            "key": "ellipsisSymbol",
+            "name": "展开描述",
+            "parameters": [],
+          },
+          {
+            "id": "641a7052cf44f6204642b68e",
+            "key": "ellipsisTooltip",
+            "name": "省略时展示提示",
+            "parameters": [],
+          },
+          {
+            "id": "641a7052cf44f6204642b68f",
+            "key": "enterEnterIcon",
+            "name": "自定义“enter”图标",
+            "parameters": [],
+          },
+        ],
+      },
+      "tag": "a-typography-title",
+      "type": "element",
+    },
+    {
+      "id": "62c68d5d27d4bddfa72888e1",
+      "name": "div 块元素",
+      "productId": "6352061a54bb9b1c84ce357d",
+      "tag": "div",
+      "type": "element",
+    },
+    {
       "func": {
         "output": {
           "types": [
@@ -3907,11 +4791,19 @@ exports[`translateWords > start 1`] = `
           {
             "desc": "",
             "extendPlatform": true,
-            "id": "6446507be73896f72bc0c174",
+            "id": "64449e7dc6443a3ec17428da",
             "key": "content",
-            "name": "消息内容",
+            "name": "内容",
             "types": [
               {
+                "default": {
+                  "args": {
+                    "type": "text",
+                    "value": "操作成功",
+                  },
+                  "mode": "custom",
+                  "type": "data",
+                },
                 "type": "text",
               },
             ],
@@ -3919,32 +4811,46 @@ exports[`translateWords > start 1`] = `
           {
             "desc": "",
             "extendPlatform": true,
-            "id": "6446507be73896f72bc0c175",
+            "id": "64449ea0c6443a3ec17428db",
             "key": "duration",
-            "name": "持续时间",
+            "name": "持续事件",
             "types": [
               {
+                "default": {
+                  "args": {
+                    "type": "number",
+                    "value": 1.5,
+                  },
+                  "mode": "custom",
+                  "type": "data",
+                },
+                "rules": {
+                  "maxPrecision": 2,
+                },
                 "type": "number",
               },
             ],
           },
           {
-            "desc": "",
+            "desc": "提示框关闭时的回调",
             "extendPlatform": true,
-            "id": "6446507be73896f72bc0c176",
+            "id": "64449ec2c6443a3ec17428dc",
             "key": "onClose",
             "name": "关闭回调",
             "types": [
               {
+                "rules": {
+                  "parameters": [],
+                },
                 "type": "action",
               },
             ],
           },
         ],
       },
-      "id": "644650559c229310c169d806",
+      "id": "64449e64ad342e0014ed328a",
       "key": "message.success",
-      "name": "成功信息",
+      "name": "成功消息提示",
       "productId": "6352061254bb9b1c84ce3570",
       "tag": "message.success",
       "type": "action",
@@ -7804,6 +8710,11 @@ exports[`translateWords > start 1`] = `
       "projectId": "000000000000000000000010",
     },
     {
+      "name": "HTML",
+      "productId": "6352061a54bb9b1c84ce357d",
+      "projectId": "000000000000000000000000",
+    },
+    {
       "name": "程序元件",
       "productId": "6358fb8554bb9b1c84ce47a2",
       "projectId": "000000000000000000000001",
@@ -7813,17 +8724,9 @@ exports[`translateWords > start 1`] = `
       "productId": "64254754fdc7e85f87137555",
       "projectId": "6405a27e2d9335b17497fd8f",
     },
-    {
-      "name": "ethan组件包",
-      "projectId": "64464a309c229310c169d473",
-    },
-    {
-      "name": "ethan组件包2",
-      "projectId": "6448caed58252f48a6d485e5",
-    },
   ],
   "desc": "项目提交到应用中心描述...",
-  "id": "6459b63b4d895f7313578dad",
+  "id": "645d9aeed6f2ba7e83945986",
   "key": "ethanqianduan",
   "name": "ethan前端",
   "platforms": [],
@@ -7842,26 +8745,48 @@ exports[`translateWords > start 1`] = `
         "type": "page",
       },
       {
-        "cover": "62df689a9124c5a1826f5614/projects/64464a419c229310c169d47e/page/6447315b9c229310c169e36c.png",
         "depth": 1,
+        "id": "645c3f0ce94e7d605e79d538",
+        "key": "renyuan",
+        "name": "人员",
+        "namespace": "page",
+        "parentId": null,
+        "preId": "64464a419c229310c169d486",
+        "type": "directory",
+      },
+      {
+        "cover": "62df689a9124c5a1826f5614/projects/64464a419c229310c169d47e/page/6447315b9c229310c169e36c.png",
+        "depth": 2,
         "id": "6447315b9c229310c169e36c",
         "key": "renyuanliebiao",
         "name": "人员列表",
         "namespace": "page",
-        "parentId": null,
-        "preId": "64464a419c229310c169d486",
+        "parentId": "645c3f0ce94e7d605e79d538",
+        "preId": null,
+        "tag": "page",
+        "type": "page",
+      },
+      {
+        "cover": "62df689a9124c5a1826f5614/projects/64464a419c229310c169d47e/page/645c3f07e94e7d605e79d523.png",
+        "depth": 2,
+        "id": "645c3f07e94e7d605e79d523",
+        "key": "renyuanxiangqingye",
+        "name": "人员详情页",
+        "namespace": "page",
+        "parentId": "645c3f0ce94e7d605e79d538",
+        "preId": "6447315b9c229310c169e36c",
         "tag": "page",
         "type": "page",
       },
       {
         "cover": "62df689a9124c5a1826f5614/projects/64464a419c229310c169d47e/page/644653eb9c229310c169da00.png",
-        "depth": 1,
+        "depth": 2,
         "id": "644653eb9c229310c169da00",
         "key": "renyuanluruye",
         "name": "人员录入页",
         "namespace": "page",
-        "parentId": null,
-        "preId": "6447315b9c229310c169e36c",
+        "parentId": "645c3f0ce94e7d605e79d538",
+        "preId": "645c3f07e94e7d605e79d523",
         "tag": "page",
         "type": "page",
       },
@@ -7873,7 +8798,7 @@ exports[`translateWords > start 1`] = `
         "name": "404",
         "namespace": "page",
         "parentId": null,
-        "preId": "644653eb9c229310c169da00",
+        "preId": "645c3f0ce94e7d605e79d538",
         "type": "page",
       },
       {
@@ -7890,6 +8815,7 @@ exports[`translateWords > start 1`] = `
     ],
   },
   "subType": "client",
+  "terminal": "pc",
   "themes": [
     {
       "colorSets": [

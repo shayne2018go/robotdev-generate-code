@@ -1,5 +1,5 @@
 const codeSchema = {
-  id: '6459b63b4d895f7313578dad',
+  id: '645d9aeed6f2ba7e83945986',
   key: 'ethanqianduan',
   meta: {
     title: 'ethan前端',
@@ -170,9 +170,20 @@ const codeSchema = {
             {
               id: '641a7053cf44f6204642b9c8',
               key: 'tabChange',
-              name: '页签切换的回调',
+              name: '页签切换',
               desc: '页签切换的回调',
-              parameters: [],
+              parameters: [
+                {
+                  name: '标识',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '6433bda0142f1aa760d86bf2',
+                  key: 'key',
+                },
+              ],
             },
           ],
           slots: [
@@ -232,14 +243,38 @@ const codeSchema = {
           nodes: [],
         },
         {
-          id: '613ecb25af722dc29c7fc39d',
-          name: 'Menu 导航菜单',
-          key: 'a-menu',
+          id: '613ecb25af722dc29c7fc3af',
+          name: 'Form 表单',
+          key: 'a-form',
           props: [
             {
-              id: '641a7052cf44f6204642b708',
-              name: '加速子菜单渲染',
-              key: 'forceSubMenuRender',
+              id: '641a7052cf44f6204642b841',
+              name: '模块',
+              key: 'model',
+              desc: undefined,
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b842',
+              name: '规则',
+              key: 'rules',
+              desc: undefined,
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b843',
+              name: '隐藏必选',
+              key: 'hideRequiredMark',
               desc: undefined,
               types: [
                 {
@@ -249,33 +284,9 @@ const codeSchema = {
               extendPlatform: undefined,
             },
             {
-              id: '641a7052cf44f6204642b709',
-              name: '收起状态',
-              key: 'inlineCollapsed',
-              desc: undefined,
-              types: [
-                {
-                  type: 'whether',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: 'inlineIndent',
-              name: '缩进宽度',
-              key: 'inlineIndent',
-              desc: undefined,
-              types: [
-                {
-                  type: 'number',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b70a',
-              name: '菜单类型',
-              key: 'mode',
+              id: '641a7052cf44f6204642b844',
+              name: '文本对齐',
+              key: 'labelAlign',
               desc: undefined,
               types: [
                 {
@@ -283,12 +294,36 @@ const codeSchema = {
                   rules: {
                     items: [
                       {
-                        label: '垂直',
-                        value: 'vertical',
+                        label: '左对齐',
+                        value: 'left',
                       },
+                      {
+                        label: '右对齐',
+                        value: 'right',
+                      },
+                    ],
+                  },
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b845',
+              name: '表单布局',
+              key: 'layout',
+              desc: undefined,
+              types: [
+                {
+                  type: 'option',
+                  rules: {
+                    items: [
                       {
                         label: '水平',
                         value: 'horizontal',
+                      },
+                      {
+                        label: '垂直',
+                        value: 'vertical',
                       },
                       {
                         label: '内嵌',
@@ -301,9 +336,33 @@ const codeSchema = {
               extendPlatform: undefined,
             },
             {
-              id: '641a7052cf44f6204642b70b',
-              name: '允许多选',
-              key: 'multiple',
+              id: '641a7052cf44f6204642b846',
+              name: '标签宽度',
+              key: 'labelCol',
+              desc: undefined,
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b847',
+              name: '排版样式',
+              key: 'wrapperCol',
+              desc: undefined,
+              types: [
+                {
+                  type: 'module',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b848',
+              name: '冒号',
+              key: 'colon',
               desc: undefined,
               types: [
                 {
@@ -313,21 +372,9 @@ const codeSchema = {
               extendPlatform: undefined,
             },
             {
-              id: '641a7052cf44f6204642b70c',
-              name: '展开菜单项Key数组',
-              key: 'openKeys',
-              desc: undefined,
-              types: [
-                {
-                  type: 'text',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b70d',
-              name: '允许选中',
-              key: 'selectable',
+              id: '641a7052cf44f6204642b849',
+              name: '触发验证',
+              key: 'validateOnRuleChange',
               desc: undefined,
               types: [
                 {
@@ -337,9 +384,21 @@ const codeSchema = {
               extendPlatform: undefined,
             },
             {
-              id: 'selectedKeys',
-              name: '选中菜单项Key数组',
-              key: 'selectedKeys',
+              id: '641a7052cf44f6204642b84a',
+              name: '滚动到错误',
+              key: 'scrollToFirstError',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b84b',
+              name: '名称',
+              key: 'name',
               desc: undefined,
               types: [
                 {
@@ -349,73 +408,37 @@ const codeSchema = {
               extendPlatform: undefined,
             },
             {
-              id: '641a7052cf44f6204642b70e',
-              name: '子菜单移出延时',
-              key: 'subMenuCloseDelay',
+              id: '641a7052cf44f6204642b84c',
+              name: '校验规则',
+              key: 'validateTrigger',
               desc: undefined,
               types: [
                 {
-                  type: 'number',
+                  type: 'text',
                 },
               ],
               extendPlatform: undefined,
             },
             {
-              id: '641a7052cf44f6204642b70f',
-              name: '子菜单移入延时',
-              key: 'subMenuOpenDelay',
-              desc: undefined,
+              id: '641a7052cf44f6204642b84d',
+              name: '标签换行方式',
+              key: 'labelWrap',
+              desc: 'label 标签的文本换行方式',
               types: [
                 {
-                  type: 'number',
+                  type: 'whether',
                 },
               ],
               extendPlatform: undefined,
             },
             {
-              id: '641a7052cf44f6204642b710',
-              name: '主题模式',
-              key: 'theme',
-              desc: undefined,
+              id: '641a7052cf44f6204642b84e',
+              name: '样式',
+              key: 'noStyle',
+              desc: '为 true 时不带样式，作为纯字段控件使用',
               types: [
                 {
-                  type: 'option',
-                  rules: {
-                    items: [
-                      {
-                        label: '白色',
-                        value: 'light',
-                      },
-                      {
-                        label: '暗黑',
-                        value: 'dark',
-                      },
-                    ],
-                  },
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b711',
-              name: '子菜单促发',
-              key: 'triggerSubMenuAction',
-              desc: undefined,
-              types: [
-                {
-                  type: 'option',
-                  rules: {
-                    items: [
-                      {
-                        label: '点击',
-                        value: 'click',
-                      },
-                      {
-                        label: '悬停',
-                        value: 'hover',
-                      },
-                    ],
-                  },
+                  type: 'whether',
                 },
               ],
               extendPlatform: undefined,
@@ -423,117 +446,153 @@ const codeSchema = {
           ],
           emits: [
             {
-              id: '641a7052cf44f6204642b712',
-              key: 'click',
-              name: '点击事件',
-              desc: '点击 MenuItem 调用此函数',
-              parameters: [],
+              id: '641a7052cf44f6204642b851',
+              key: 'finish',
+              name: '提交表单且数据验证成功',
+              desc: undefined,
+              parameters: [
+                {
+                  name: '值',
+                  types: [
+                    {
+                      type: 'text',
+                      multiple: true,
+                    },
+                  ],
+                  key: 'value',
+                  id: '641a7052cf44f6204642b852',
+                },
+              ],
             },
             {
-              id: '641a7052cf44f6204642b713',
-              key: 'deselect',
-              name: '取消选中时调用',
-              desc: '取消选中时调用，仅在 multiple 生效',
-              parameters: [],
+              id: '641a7052cf44f6204642b853',
+              key: 'FinishFailed',
+              name: '提交表单且数据验证失败',
+              desc: undefined,
+              parameters: [
+                {
+                  name: '值',
+                  types: [
+                    {
+                      type: 'unknown',
+                    },
+                  ],
+                  key: 'values',
+                  id: '641a7052cf44f6204642b854',
+                },
+                {
+                  name: '错误字段',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642f8c0afa0f4c663f442c90',
+                  key: 'errorFields',
+                },
+                {
+                  name: '过期',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642f8c0afa0f4c663f442c91',
+                  key: 'outOfDate ',
+                },
+              ],
             },
             {
-              id: '641a7052cf44f6204642b714',
-              key: 'openChange',
-              name: '展开/关闭的回调',
-              desc: 'SubMenu 展开/关闭的回调',
-              parameters: [],
+              id: '642b956c9d9bbcb336f978dd',
+              key: 'submit',
+              name: '数据验证成功',
+              desc: '数据验证成功后回调事件',
+              parameters: [
+                {
+                  name: '事件数据',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '目标',
+                            types: [
+                              {
+                                type: 'module',
+                                rules: {
+                                  properties: [
+                                    {
+                                      name: '值',
+                                      types: [
+                                        {
+                                          type: 'text',
+                                        },
+                                      ],
+                                      id: '642f8ba3fa0f4c663f442c8c',
+                                      key: 'value',
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                            id: '642f8b93fa0f4c663f442c8b',
+                            key: 'target',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '642f8b7efa0f4c663f442c8a',
+                  key: 'event',
+                },
+              ],
             },
             {
-              id: '641a7052cf44f6204642b715',
-              key: 'select',
-              name: '选中时调用',
-              desc: '被选中时调用',
-              parameters: [],
+              id: '642b95829d9bbcb336f978de',
+              key: 'validate',
+              name: '任一表单项被校验',
+              desc: '任一表单项被校验后触发',
+              parameters: [
+                {
+                  name: '名称',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642f8bb5fa0f4c663f442c8d',
+                  key: 'name',
+                },
+                {
+                  name: '地位',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642f8bb5fa0f4c663f442c8e',
+                  key: 'status',
+                  desc: '',
+                },
+                {
+                  name: '错误信息',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642f8bb6fa0f4c663f442c8f',
+                  key: 'errorMsgs',
+                },
+              ],
             },
           ],
           slots: [
             {
-              id: '641a7052cf44f6204642b716',
+              id: '641a7052cf44f6204642b856',
               key: 'default',
               name: '默认',
-              desc: undefined,
-              properties: [],
-            },
-            {
-              id: '641a7052cf44f6204642b717',
-              key: 'overflowedIndicator',
-              name: 'menu收缩图标',
-              desc: '用于自定义 Menu 水平空间不足时的省略收缩的图标',
-              properties: [],
-            },
-          ],
-          lifeCycle: [],
-          functions: [],
-          variables: [],
-          nodes: [],
-        },
-        {
-          id: '613ecb25af722dc29c7fc39e',
-          name: 'MenuItem 菜单项',
-          key: 'a-menu-item',
-          props: [
-            {
-              id: '641a7052cf44f6204642b718',
-              name: '禁用',
-              key: 'disabled',
-              desc: undefined,
-              types: [
-                {
-                  type: 'whether',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b719',
-              name: 'key标识',
-              key: 'key',
-              desc: undefined,
-              types: [
-                {
-                  type: 'text',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b71a',
-              name: '悬浮标题',
-              key: 'title',
-              desc: undefined,
-              types: [
-                {
-                  type: 'text',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-          ],
-          emits: [],
-          slots: [
-            {
-              id: '641a7052cf44f6204642b71b',
-              key: 'default',
-              name: '默认',
-              desc: undefined,
-              properties: [],
-            },
-            {
-              id: '641a7052cf44f6204642b71c',
-              key: 'icon',
-              name: '菜单图标',
-              desc: undefined,
-              properties: [],
-            },
-            {
-              id: '641a7052cf44f6204642b71d',
-              key: 'title',
-              name: '悬浮标题',
               desc: undefined,
               properties: [],
             },
@@ -758,30 +817,147 @@ const codeSchema = {
             {
               id: '641a7052cf44f6204642b867',
               key: 'finish',
-              name: '表单成功回调',
+              name: '提交表单成功回调',
               desc: '提交表单且数据验证成功后回调事件',
-              parameters: [],
+              parameters: [
+                {
+                  name: '值',
+                  types: [
+                    {
+                      type: 'text',
+                      multiple: true,
+                    },
+                  ],
+                  id: '642f8d41fa0f4c663f442c93',
+                  key: 'value',
+                },
+              ],
             },
             {
               id: 'finishFailed',
               key: 'finishFailed',
-              name: '表单失败回调',
-              desc: ' \t提交表单且数据验证失败后回调事件',
-              parameters: [],
+              name: '提交表单失败回调',
+              desc: '提交表单且数据验证失败后回调事件',
+              parameters: [
+                {
+                  name: '值',
+                  types: [
+                    {
+                      type: 'text',
+                      multiple: true,
+                    },
+                  ],
+                  id: '642f8d8afa0f4c663f442c94',
+                  key: 'value',
+                },
+                {
+                  name: '报错信息',
+                  types: [
+                    {
+                      type: 'text',
+                      multiple: true,
+                    },
+                  ],
+                  id: '642f8d8afa0f4c663f442c95',
+                  key: 'errorField',
+                },
+                {
+                  name: '废弃数据',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642f8d8bfa0f4c663f442c96',
+                  key: 'outOfDate ',
+                  desc: '',
+                },
+              ],
             },
             {
               id: '641a7052cf44f6204642b868',
               key: 'submit',
-              name: '验证成功回调',
+              name: '数据验证成功回调',
               desc: '数据验证成功后回调事件',
-              parameters: [],
+              parameters: [
+                {
+                  name: '事件数据',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '目标',
+                            types: [
+                              {
+                                type: 'module',
+                                rules: {
+                                  properties: [
+                                    {
+                                      name: '值',
+                                      types: [
+                                        {
+                                          type: 'text',
+                                        },
+                                      ],
+                                      id: '642f8df0fa0f4c663f442c99',
+                                      key: 'value',
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                            id: '642f8de3fa0f4c663f442c98',
+                            key: 'target',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '642f8dcafa0f4c663f442c97',
+                  key: 'event',
+                },
+              ],
             },
             {
               id: '641a7052cf44f6204642b869',
               key: 'validate',
-              name: '表单触发',
+              name: '任一表单项触发',
               desc: '任一表单项被校验后触发',
-              parameters: [],
+              parameters: [
+                {
+                  name: '名称',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642f8e05fa0f4c663f442c9a',
+                  key: 'name',
+                },
+                {
+                  name: '身份',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642f8e05fa0f4c663f442c9b',
+                  key: 'status',
+                },
+                {
+                  name: '错误信息',
+                  types: [
+                    {
+                      type: 'text',
+                      multiple: true,
+                    },
+                  ],
+                  id: '642f8e05fa0f4c663f442c9c',
+                  key: 'errorMsg',
+                },
+              ],
             },
           ],
           slots: [
@@ -1025,16 +1201,104 @@ const codeSchema = {
             {
               id: '641a7052cf44f6204642b87b',
               key: 'change',
-              name: '改变值',
+              name: '值改变',
               desc: undefined,
-              parameters: [],
+              parameters: [
+                {
+                  name: '事件数据',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '目标',
+                            types: [
+                              {
+                                type: 'module',
+                                rules: {
+                                  properties: [
+                                    {
+                                      name: '值',
+                                      types: [
+                                        {
+                                          type: 'text',
+                                        },
+                                      ],
+                                      id: '642be22b451c381a2ec381f7',
+                                      key: 'value',
+                                    },
+                                    {
+                                      name: 'focus',
+                                      types: [
+                                        {
+                                          type: 'action',
+                                        },
+                                      ],
+                                      id: '642be234451c381a2ec381f8',
+                                      key: 'focus',
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                            id: '642b8a909a04dc6fabaa5d56',
+                            key: 'target',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '642b8a819a04dc6fabaa5d55',
+                  key: 'event',
+                },
+              ],
             },
             {
               id: '641a7052cf44f6204642b87c',
               key: 'pressEnter',
               name: '按下回车',
               desc: undefined,
-              parameters: [],
+              parameters: [
+                {
+                  name: '事件数据',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '目标',
+                            types: [
+                              {
+                                type: 'module',
+                                rules: {
+                                  properties: [
+                                    {
+                                      name: '值',
+                                      types: [
+                                        {
+                                          type: 'text',
+                                        },
+                                      ],
+                                      id: '642f7fb56c9551f4750537bf',
+                                      key: 'value',
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                            id: '642f7fac6c9551f4750537be',
+                            key: 'target',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '642f7f986c9551f4750537bd',
+                  key: 'event',
+                },
+              ],
             },
           ],
           slots: [
@@ -1080,6 +1344,383 @@ const codeSchema = {
           nodes: [],
         },
         {
+          id: '613ecb25af722dc29c7fc3b6',
+          name: 'InputNumber 数字输入框',
+          key: 'a-input-number',
+          props: [
+            {
+              id: '641a7052cf44f6204642b892',
+              name: '自动获取焦点',
+              key: 'autofocus',
+              desc: '自动获取焦点',
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'defaultValue',
+              name: '初始值',
+              key: 'defaultValue',
+              desc: '初始值',
+              types: [
+                {
+                  type: 'number',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b893',
+              name: '禁止变更',
+              key: 'disabled',
+              desc: '禁用',
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b894',
+              name: '格式',
+              key: 'formatter',
+              desc: '展示值的格式',
+              types: [
+                {
+                  type: 'unknown',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b895',
+              name: '最大值',
+              key: 'max',
+              desc: '最大值',
+              types: [
+                {
+                  type: 'number',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b896',
+              name: '最小值',
+              key: 'min',
+              desc: '最小值',
+              types: [
+                {
+                  type: 'number',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b897',
+              name: '转换格式',
+              key: 'parser',
+              desc: '从formatter里转换回数字的方式',
+              types: [
+                {
+                  type: 'unknown',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b898',
+              name: '数值精度',
+              key: 'precision',
+              desc: '数值精度',
+              types: [
+                {
+                  type: 'number',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b899',
+              name: '小数点',
+              key: 'decimalSeparator',
+              desc: '小数点',
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b89a',
+              name: '输入框大小',
+              key: 'size',
+              desc: '输入框大小',
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b89b',
+              name: '步长',
+              key: 'step',
+              desc: '每次改变步数，可以为小数',
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b89c',
+              name: '当前值',
+              key: 'value',
+              desc: '当前值',
+              types: [
+                {
+                  type: 'number',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b89d',
+              name: '边框',
+              key: 'bordered',
+              desc: '是否有边框',
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b89e',
+              name: '显示增减按钮',
+              key: 'controls',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b89f',
+              name: '字符值模式',
+              key: 'stringMode',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b8a0',
+              name: '键盘快捷',
+              key: 'keyboard',
+              desc: '是否启用键盘快捷行为',
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          emits: [
+            {
+              id: '641a7052cf44f6204642b8a1',
+              key: 'change',
+              name: '值改变',
+              desc: undefined,
+              parameters: [
+                {
+                  name: '值',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                    {
+                      type: 'number',
+                      default: {
+                        id: '',
+                        type: 'data',
+                        modeId: '',
+                        mode: 'custom',
+                        args: {
+                          type: 'number',
+                          value: 0,
+                        },
+                      },
+                    },
+                  ],
+                  id: '642f80086c9551f4750537c0',
+                  key: 'value',
+                },
+              ],
+            },
+            {
+              id: '641a7052cf44f6204642b8a2',
+              key: 'pressEnter',
+              name: '按下回车',
+              desc: undefined,
+              parameters: [
+                {
+                  name: '事件数据',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '目标',
+                            types: [
+                              {
+                                type: 'module',
+                                rules: {
+                                  properties: [
+                                    {
+                                      name: '值',
+                                      types: [
+                                        {
+                                          type: 'text',
+                                        },
+                                      ],
+                                      id: '642f928afa0f4c663f442cb3',
+                                      key: 'value',
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                            id: '642f927efa0f4c663f442cb2',
+                            key: 'target',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '642f9250fa0f4c663f442cb0',
+                  key: 'event',
+                },
+              ],
+            },
+            {
+              id: '641a7052cf44f6204642b8a3',
+              key: 'step',
+              name: '点击上下箭头',
+              desc: undefined,
+              parameters: [
+                {
+                  name: '值',
+                  types: [
+                    {
+                      type: 'number',
+                    },
+                  ],
+                  id: '642f929bfa0f4c663f442cb4',
+                  key: 'value',
+                },
+                {
+                  name: '信息',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '偏移',
+                            types: [
+                              {
+                                type: 'number',
+                              },
+                            ],
+                            id: '642f92c3fa0f4c663f442cb6',
+                            key: 'offset',
+                          },
+                          {
+                            name: '类型',
+                            types: [
+                              {
+                                type: 'option',
+                                multiple: false,
+                                rules: {
+                                  items: [
+                                    {
+                                      label: '上',
+                                      value: 'up',
+                                    },
+                                    {
+                                      label: '下',
+                                      value: 'down',
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                            id: '642f92c3fa0f4c663f442cb7',
+                            key: 'type',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '642f929dfa0f4c663f442cb5',
+                  key: 'info',
+                },
+              ],
+            },
+          ],
+          slots: [
+            {
+              id: '641a7052cf44f6204642b8a4',
+              key: 'default',
+              name: '默认',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b8a5',
+              key: 'addonAfter',
+              name: '后置标签',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b8a6',
+              key: 'addonBefore',
+              name: '前置标签',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b8a7',
+              key: 'prefix',
+              name: '带有前缀图标的 input',
+              desc: undefined,
+              properties: [],
+            },
+          ],
+          lifeCycle: [],
+          functions: [],
+          variables: [],
+          nodes: [],
+        },
+        {
           id: '613ecb25af722dc29c7fc387',
           name: 'Button 按钮',
           key: 'a-button',
@@ -1107,15 +1748,15 @@ const codeSchema = {
                         value: 'dashed',
                       },
                       {
-                        label: '链接',
+                        label: '链接按钮',
                         value: 'link',
                       },
                       {
-                        label: '文本',
+                        label: '文本按钮',
                         value: 'text',
                       },
                       {
-                        label: '默认',
+                        label: '默认按钮',
                         value: 'default',
                       },
                     ],
@@ -1160,6 +1801,8 @@ const codeSchema = {
               types: [
                 {
                   type: 'option',
+                  multiple: false,
+                  default: 'round',
                   rules: {
                     items: [
                       {
@@ -1167,11 +1810,11 @@ const codeSchema = {
                         value: 'default',
                       },
                       {
-                        label: '圆角',
+                        label: '圆形',
                         value: 'circle',
                       },
                       {
-                        label: '圆形',
+                        label: '圆角',
                         value: 'round',
                       },
                     ],
@@ -1320,18 +1963,46 @@ const codeSchema = {
             {
               id: '641a7052cf44f6204642b665',
               key: 'click',
-              name: 'click',
+              name: '点击按钮',
               desc: undefined,
               parameters: [
                 {
-                  key: 'e',
+                  name: '事件数据',
                   types: [
                     {
-                      type: 'unknown',
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '目标',
+                            types: [
+                              {
+                                type: 'module',
+                                rules: {
+                                  properties: [
+                                    {
+                                      name: '值',
+                                      types: [
+                                        {
+                                          type: 'text',
+                                        },
+                                      ],
+                                      id: '643377e8142f1aa760d86bd8',
+                                      key: 'value',
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                            id: '64337737142f1aa760d86bd7',
+                            key: 'target',
+                          },
+                        ],
+                      },
                     },
                   ],
+                  key: 'event',
                   id: '641a7052cf44f6204642b666',
-                  name: 'e',
                 },
               ],
             },
@@ -1348,296 +2019,6 @@ const codeSchema = {
               id: '641a7052cf44f6204642b668',
               key: 'icon',
               name: '图标',
-              desc: undefined,
-              properties: [],
-            },
-          ],
-          lifeCycle: [],
-          functions: [],
-          variables: [],
-          nodes: [],
-        },
-        {
-          id: '613ecb25af722dc29c7fc3af',
-          name: 'Form 表单',
-          key: 'a-form',
-          props: [
-            {
-              id: '641a7052cf44f6204642b841',
-              name: '模块',
-              key: 'model',
-              desc: undefined,
-              types: [
-                {
-                  type: 'module',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b842',
-              name: '规则',
-              key: 'rules',
-              desc: undefined,
-              types: [
-                {
-                  type: 'module',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b843',
-              name: '隐藏必选',
-              key: 'hideRequiredMark',
-              desc: undefined,
-              types: [
-                {
-                  type: 'whether',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b844',
-              name: '文本对齐',
-              key: 'labelAlign',
-              desc: undefined,
-              types: [
-                {
-                  type: 'option',
-                  rules: {
-                    items: [
-                      {
-                        label: '左对齐',
-                        value: 'left',
-                      },
-                      {
-                        label: '右对齐',
-                        value: 'right',
-                      },
-                    ],
-                  },
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b845',
-              name: '表单布局',
-              key: 'layout',
-              desc: undefined,
-              types: [
-                {
-                  type: 'option',
-                  rules: {
-                    items: [
-                      {
-                        label: '水平',
-                        value: 'horizontal',
-                      },
-                      {
-                        label: '垂直',
-                        value: 'vertical',
-                      },
-                      {
-                        label: '内嵌',
-                        value: 'inline',
-                      },
-                    ],
-                  },
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b846',
-              name: '标签宽度',
-              key: 'labelCol',
-              desc: undefined,
-              types: [
-                {
-                  type: 'module',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b847',
-              name: '排版样式',
-              key: 'wrapperCol',
-              desc: undefined,
-              types: [
-                {
-                  type: 'module',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b848',
-              name: '冒号',
-              key: 'colon',
-              desc: undefined,
-              types: [
-                {
-                  type: 'whether',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b849',
-              name: '触发验证',
-              key: 'validateOnRuleChange',
-              desc: undefined,
-              types: [
-                {
-                  type: 'whether',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b84a',
-              name: '滚动到错误',
-              key: 'scrollToFirstError',
-              desc: undefined,
-              types: [
-                {
-                  type: 'whether',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b84b',
-              name: '名称',
-              key: 'name',
-              desc: undefined,
-              types: [
-                {
-                  type: 'text',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b84c',
-              name: '校验规则',
-              key: 'validateTrigger',
-              desc: undefined,
-              types: [
-                {
-                  type: 'text',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b84d',
-              name: '标签换行方式',
-              key: 'labelWrap',
-              desc: 'label 标签的文本换行方式',
-              types: [
-                {
-                  type: 'whether',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7052cf44f6204642b84e',
-              name: '样式',
-              key: 'noStyle',
-              desc: '为 true 时不带样式，作为纯字段控件使用',
-              types: [
-                {
-                  type: 'whether',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-          ],
-          emits: [
-            {
-              id: '641a7052cf44f6204642b84f',
-              key: 'submit',
-              name: 'submit',
-              desc: undefined,
-              parameters: [
-                {
-                  key: 'e',
-                  types: [
-                    {
-                      type: 'unknown',
-                    },
-                  ],
-                  id: '641a7052cf44f6204642b850',
-                  name: 'e',
-                },
-              ],
-            },
-            {
-              id: '641a7052cf44f6204642b851',
-              key: 'validate',
-              name: 'validate',
-              desc: undefined,
-              parameters: [
-                {
-                  key: 'name',
-                  types: [
-                    {
-                      type: 'unknown',
-                    },
-                  ],
-                  id: '641a7052cf44f6204642b852',
-                  name: 'name',
-                },
-              ],
-            },
-            {
-              id: '641a7052cf44f6204642b853',
-              key: 'finish',
-              name: 'finish',
-              desc: undefined,
-              parameters: [
-                {
-                  key: 'values',
-                  types: [
-                    {
-                      type: 'unknown',
-                    },
-                  ],
-                  id: '641a7052cf44f6204642b854',
-                  name: 'values',
-                },
-              ],
-            },
-            {
-              id: 'finishFailed',
-              key: 'finishFailed',
-              name: 'finishFailed',
-              desc: undefined,
-              parameters: [
-                {
-                  key: 'values, errorFields, outOfDate',
-                  types: [
-                    {
-                      type: 'unknown',
-                    },
-                  ],
-                  id: '641a7052cf44f6204642b855',
-                  name: 'values, errorFields, outOfDate',
-                },
-              ],
-            },
-          ],
-          slots: [
-            {
-              id: '641a7052cf44f6204642b856',
-              key: 'default',
-              name: '默认',
               desc: undefined,
               properties: [],
             },
@@ -1788,19 +2169,6 @@ const codeSchema = {
               types: [
                 {
                   type: 'module',
-                },
-              ],
-              extendPlatform: undefined,
-            },
-            {
-              id: '641a7053cf44f6204642ba36',
-              name: '数据源',
-              key: 'dataSource',
-              desc: undefined,
-              types: [
-                {
-                  type: 'unknown',
-                  multiple: true,
                 },
               ],
               extendPlatform: undefined,
@@ -2175,30 +2543,164 @@ const codeSchema = {
             {
               id: '641a7053cf44f6204642ba52',
               key: 'expandedRowsChange',
-              name: '展开的行变化时触发',
+              name: '展开的行变化',
               desc: undefined,
-              parameters: [],
+              parameters: [
+                {
+                  name: '展开行',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '6433c757142f1aa760d86bfd',
+                  key: 'expandedRows',
+                },
+              ],
             },
             {
               id: '641a7053cf44f6204642ba53',
               key: 'change',
-              name: '变化时触发',
+              name: '分页、排序、筛选变化',
               desc: '分页、排序、筛选变化时触发',
-              parameters: [],
+              parameters: [
+                {
+                  name: '分页器配置',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '分页器位置',
+                            types: [
+                              {
+                                type: 'option',
+                                multiple: true,
+                                rules: {
+                                  items: [
+                                    {
+                                      label: '左上',
+                                      value: 'topLeft',
+                                    },
+                                    {
+                                      label: '中上',
+                                      value: 'topCenter',
+                                    },
+                                    {
+                                      label: '右上',
+                                      value: 'topRight',
+                                    },
+                                    {
+                                      label: '左下',
+                                      value: 'bottomLeft',
+                                    },
+                                    {
+                                      label: '中下',
+                                      value: 'bottomCenter',
+                                    },
+                                    {
+                                      label: '右下',
+                                      value: 'bottomRight',
+                                    },
+                                  ],
+                                },
+                              },
+                            ],
+                            id: '6433c406142f1aa760d86bfa',
+                            key: 'position',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '6433c38b142f1aa760d86bf7',
+                  key: 'pagination',
+                },
+                {
+                  name: '表头筛选菜单',
+                  types: [
+                    {
+                      type: 'module',
+                      multiple: true,
+                    },
+                  ],
+                  id: '6433c38c142f1aa760d86bf8',
+                  key: 'filters',
+                },
+                {
+                  name: '排序函数',
+                  types: [
+                    {
+                      type: 'action',
+                    },
+                    {
+                      type: 'whether',
+                    },
+                  ],
+                  id: '6433c38d142f1aa760d86bf9',
+                  key: 'sorter',
+                },
+              ],
             },
             {
               id: '641a7053cf44f6204642ba54',
               key: 'expand',
-              name: '展开图标时触发',
+              name: '展开图标',
               desc: '点击展开图标时触发',
-              parameters: [],
+              parameters: [
+                {
+                  name: '展开',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '6433c654142f1aa760d86bfb',
+                  key: 'expanded',
+                },
+                {
+                  name: '记录',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '6433c654142f1aa760d86bfc',
+                  key: 'record',
+                },
+              ],
             },
             {
               id: 'resizeColumn',
               key: 'resizeColumn',
               name: '拖动列',
               desc: '拖动列时触发',
-              parameters: [],
+              parameters: [
+                {
+                  name: '列宽度',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                    {
+                      type: 'number',
+                    },
+                  ],
+                  id: '6433c77c142f1aa760d86bfe',
+                  key: 'width',
+                },
+                {
+                  name: '列',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '6433c77c142f1aa760d86bff',
+                  key: 'column',
+                },
+              ],
             },
           ],
           slots: [
@@ -2250,46 +2752,322 @@ const codeSchema = {
           variables: [],
           nodes: [],
         },
-      ],
-      functions: [],
-      actions: [
         {
-          id: '644650559c229310c169d806',
-          name: '成功信息',
-          key: 'message.success',
-          parameters: [
+          id: '613ecb25af722dc29c7fc38b',
+          name: 'TypographyTitle 标题排版',
+          key: 'a-typography-title',
+          props: [
             {
-              id: '6446507be73896f72bc0c174',
-              name: '消息内容',
+              id: '641a7052cf44f6204642b67f',
+              name: '代码高亮',
+              key: 'code',
+              desc: '添加代码样式',
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b680',
+              name: '允许复制',
+              key: 'copyable',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b681',
+              name: '删除线',
+              key: 'delete',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b682',
+              name: '禁用置灰',
+              key: 'disabled',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b683',
+              name: '可编辑',
+              key: 'editable',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b684',
+              name: '超出省略',
+              key: 'ellipsis',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b685',
+              name: '标题大小',
+              key: 'level',
+              desc: undefined,
+              types: [
+                {
+                  type: 'option',
+                  rules: {
+                    items: [
+                      {
+                        label: 'H1',
+                        value: 1,
+                      },
+                      {
+                        label: 'H2',
+                        value: 2,
+                      },
+                      {
+                        label: 'H3',
+                        value: 3,
+                      },
+                      {
+                        label: 'H4',
+                        value: 4,
+                      },
+                      {
+                        label: 'H5',
+                        value: 5,
+                      },
+                    ],
+                  },
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b686',
+              name: '底色标记',
+              key: 'mark',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b687',
+              name: '文本类型',
+              key: 'type',
+              desc: undefined,
+              types: [
+                {
+                  type: 'option',
+                  rules: {
+                    items: [
+                      {
+                        label: '次要',
+                        value: 'secondary',
+                      },
+                      {
+                        label: '成功',
+                        value: 'success',
+                      },
+                      {
+                        label: '提示',
+                        value: 'warning',
+                      },
+                      {
+                        label: '警示',
+                        value: 'danger',
+                      },
+                    ],
+                  },
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b688',
+              name: '下划线',
+              key: 'underline',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b689',
+              name: '当前内容',
               key: 'content',
-              desc: '',
+              desc: undefined,
               types: [
                 {
                   type: 'text',
                 },
               ],
-              extendPlatform: true,
+              extendPlatform: undefined,
+            },
+          ],
+          emits: [
+            {
+              id: '642b88049d9bbcb336f978d8',
+              key: 'click',
+              name: '点击标题',
+              desc: '',
+              parameters: [],
+            },
+          ],
+          slots: [
+            {
+              id: '641a7052cf44f6204642b68a',
+              key: 'default',
+              name: '默认',
+              desc: undefined,
+              properties: [],
             },
             {
-              id: '6446507be73896f72bc0c175',
-              name: '持续时间',
-              key: 'duration',
+              id: 'editableIcon',
+              key: 'editableIcon',
+              name: '编辑图标',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b68b',
+              key: 'editableTooltip',
+              name: '提示文本',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: 'copyableIcon',
+              key: 'copyableIcon',
+              name: '拷贝图标',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b68c',
+              key: 'copyableTooltip',
+              name: '提示文案',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b68d',
+              key: 'ellipsisSymbol',
+              name: '展开描述',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b68e',
+              key: 'ellipsisTooltip',
+              name: '省略时展示提示',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b68f',
+              key: 'enterEnterIcon',
+              name: '自定义“enter”图标',
+              desc: undefined,
+              properties: [],
+            },
+          ],
+          lifeCycle: [],
+          functions: [],
+          variables: [],
+          nodes: [],
+        },
+      ],
+      functions: [],
+      actions: [
+        {
+          id: '64449e64ad342e0014ed328a',
+          name: '成功消息提示',
+          key: 'message.success',
+          parameters: [
+            {
+              id: '64449e7dc6443a3ec17428da',
+              name: '内容',
+              key: 'content',
               desc: '',
               types: [
                 {
-                  type: 'number',
+                  type: 'text',
+                  default: {
+                    type: 'data',
+                    mode: 'custom',
+                    args: {
+                      type: 'text',
+                      value: '操作成功',
+                    },
+                  },
                 },
               ],
               extendPlatform: true,
             },
             {
-              id: '6446507be73896f72bc0c176',
-              name: '关闭回调',
-              key: 'onClose',
+              id: '64449ea0c6443a3ec17428db',
+              name: '持续事件',
+              key: 'duration',
               desc: '',
               types: [
                 {
+                  type: 'number',
+                  default: {
+                    type: 'data',
+                    mode: 'custom',
+                    args: {
+                      type: 'number',
+                      value: 1.5,
+                    },
+                  },
+                  rules: {
+                    maxPrecision: 2,
+                  },
+                },
+              ],
+              extendPlatform: true,
+            },
+            {
+              id: '64449ec2c6443a3ec17428dc',
+              name: '关闭回调',
+              key: 'onClose',
+              desc: '提示框关闭时的回调',
+              types: [
+                {
                   type: 'action',
+                  rules: {
+                    parameters: [],
+                  },
                 },
               ],
               extendPlatform: true,
@@ -2302,6 +3080,34 @@ const codeSchema = {
           ],
         },
       ],
+      events: [],
+      slots: [],
+      props: [],
+      apis: [],
+    },
+    {
+      id: '6352061a54bb9b1c84ce357d',
+      projectId: '000000000000000000000000',
+      name: 'HTML',
+      key: undefined,
+      version: 'latest',
+      components: [],
+      elements: [
+        {
+          id: '62c68d5d27d4bddfa72888e1',
+          name: 'div 块元素',
+          key: 'div',
+          props: [],
+          emits: [],
+          slots: [],
+          lifeCycle: [],
+          functions: [],
+          variables: [],
+          nodes: [],
+        },
+      ],
+      functions: [],
+      actions: [],
       events: [],
       slots: [],
       props: [],
@@ -5454,350 +6260,6 @@ const codeSchema = {
       apis: [],
     },
     {
-      id: '64464a309c229310c169d473',
-      projectId: '64464a309c229310c169d473',
-      name: 'ethan组件包',
-      key: undefined,
-      version: 'latest',
-      components: [
-        {
-          id: '6446531e9c229310c169d995',
-          name: 'e-card',
-          key: 'f-1c87ade2',
-          props: [],
-          emits: [],
-          slots: [
-            {
-              id: '6446535998e11d19b610ef79',
-              key: 'headerchacao',
-              name: 'header插槽',
-              desc: undefined,
-              properties: [
-                {
-                  name: 'title',
-                  types: [
-                    {
-                      type: 'text',
-                    },
-                  ],
-                  id: '6446536798e11d19b610ef7a',
-                  key: 'title',
-                },
-              ],
-            },
-            {
-              id: '6446555398e11d19b610ef7b',
-              key: 'bodychacao',
-              name: 'body插槽',
-              desc: undefined,
-              properties: [],
-            },
-          ],
-          lifeCycle: [],
-          functions: [],
-          variables: [],
-          nodes: [
-            {
-              id: 'V313',
-              preId: null,
-              nextId: null,
-              parentId: null,
-              tagId: '613ecb25af722dc29c7fc3c5',
-              packageId: '6352061254bb9b1c84ce3570',
-              props: undefined,
-              events: undefined,
-            },
-            {
-              id: 'V313#641a7053cf44f6204642b9cc',
-              preId: null,
-              nextId: 'V313#641a7053cf44f6204642b9cd',
-              parentId: 'V313',
-              tagId: '62d65a88e7021e08c65c4634',
-              packageId: '6455c49bc56f0402c3fd3436',
-              props: undefined,
-              events: undefined,
-            },
-            {
-              id: 'V986',
-              preId: null,
-              nextId: null,
-              parentId: 'V313#641a7053cf44f6204642b9cc',
-              tagId: '62d65a88e7021e08c65c4632',
-              packageId: '6455c49bc56f0402c3fd3436',
-              props: undefined,
-              events: undefined,
-            },
-            {
-              id: 'V313#641a7053cf44f6204642b9cd',
-              preId: 'V313#641a7053cf44f6204642b9cc',
-              nextId: 'V313#641a7053cf44f6204642b9c9',
-              parentId: 'V313',
-              tagId: '62d65a88e7021e08c65c4634',
-              packageId: '6455c49bc56f0402c3fd3436',
-              props: undefined,
-              events: undefined,
-            },
-            {
-              id: 'R787',
-              preId: null,
-              nextId: 'L837',
-              parentId: 'V313#641a7053cf44f6204642b9cd',
-              tagId: '62d65a88e7021e08c65c4632',
-              packageId: '6455c49bc56f0402c3fd3436',
-              props: undefined,
-              events: undefined,
-            },
-            {
-              id: 'L837',
-              preId: 'R787',
-              nextId: null,
-              parentId: 'V313#641a7053cf44f6204642b9cd',
-              tagId: '6448cb0258252f48a6d48610',
-              packageId: '6448caed58252f48a6d485e5',
-              props: undefined,
-              events: [
-                {
-                  eventId: '6448cdf4ff2be83d64646158',
-                  actions: [
-                    {
-                      id: '6448d1dc5c080b31ed3129a7',
-                      modeId: '644650559c229310c169d806',
-                      mode: 'message.success',
-                      name: '成功信息',
-                      type: 'action',
-                      args: {
-                        '6446507be73896f72bc0c174': {
-                          type: 'data',
-                          mode: 'custom',
-                          args: {
-                            type: 'text',
-                            value: '选中成功',
-                          },
-                        },
-                        '6446507be73896f72bc0c175': {
-                          type: 'data',
-                          mode: 'custom',
-                          args: {
-                            type: 'number',
-                            value: 1,
-                          },
-                        },
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: '6447704a0090c3107dad2cbf',
-          name: '测试1',
-          key: 'f-00d3776a',
-          props: [],
-          emits: [],
-          slots: [],
-          lifeCycle: [],
-          functions: [],
-          variables: [],
-          nodes: [],
-        },
-      ],
-      elements: [],
-      functions: [],
-      actions: [],
-      events: [],
-      slots: [],
-      props: [],
-      apis: [],
-    },
-    {
-      id: '6448caed58252f48a6d485e5',
-      projectId: '6448caed58252f48a6d485e5',
-      name: 'ethan组件包2',
-      key: undefined,
-      version: 'latest',
-      components: [
-        {
-          id: '6448cb0258252f48a6d48610',
-          name: 'e-menu',
-          key: 'f-43272b44',
-          props: [
-            {
-              id: '6448cb82319af5b84c5249f6',
-              name: 'data',
-              key: 'data',
-              desc: '菜单数据',
-              types: [
-                {
-                  type: 'module',
-                  multiple: true,
-                  rules: {
-                    properties: [
-                      {
-                        name: 'value',
-                        types: [
-                          {
-                            type: 'text',
-                          },
-                        ],
-                        id: '6448cb9c319af5b84c5249f7',
-                        extendPlatform: true,
-                        desc: 'value',
-                        key: 'value',
-                      },
-                      {
-                        name: 'label',
-                        types: [
-                          {
-                            type: 'text',
-                          },
-                        ],
-                        id: '6448cba1319af5b84c5249f8',
-                        extendPlatform: true,
-                        desc: 'label',
-                        key: 'label',
-                      },
-                    ],
-                  },
-                },
-              ],
-              extendPlatform: true,
-            },
-          ],
-          emits: [
-            {
-              id: '6448cdf4ff2be83d64646158',
-              key: 'xuanzhongshijian',
-              name: '选中事件',
-              desc: '',
-              parameters: [
-                {
-                  name: 'data',
-                  types: [
-                    {
-                      type: 'module',
-                      rules: {
-                        properties: [
-                          {
-                            name: '当前项',
-                            types: [
-                              {
-                                type: 'module',
-                              },
-                            ],
-                            id: '6448ce2fff2be83d6464615b',
-                            key: 'dangqianxiang',
-                          },
-                          {
-                            name: '当前标识',
-                            types: [
-                              {
-                                type: 'text',
-                              },
-                            ],
-                            id: '6448ce42ff2be83d6464615c',
-                            key: 'dangqianbiaoshi',
-                          },
-                          {
-                            name: '选中标识数组',
-                            types: [
-                              {
-                                type: 'text',
-                                multiple: true,
-                              },
-                            ],
-                            id: '6448ce47ff2be83d6464615d',
-                            key: 'xuanzhongbiaoshishuzu',
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                  id: '6448ce21ff2be83d6464615a',
-                  key: 'data',
-                },
-              ],
-            },
-          ],
-          slots: [],
-          lifeCycle: [],
-          functions: [],
-          variables: [],
-          nodes: [
-            {
-              id: 'J415',
-              preId: null,
-              nextId: null,
-              parentId: null,
-              tagId: '613ecb25af722dc29c7fc39d',
-              packageId: '6352061254bb9b1c84ce3570',
-              props: undefined,
-              events: undefined,
-            },
-            {
-              id: 'J415#641a7052cf44f6204642b716',
-              preId: null,
-              nextId: 'J415#641a7052cf44f6204642b717',
-              parentId: 'J415',
-              tagId: '62d65a88e7021e08c65c4634',
-              packageId: '6455c49bc56f0402c3fd3436',
-              props: undefined,
-              events: undefined,
-            },
-            {
-              id: 'Q544',
-              preId: null,
-              nextId: null,
-              parentId: 'J415#641a7052cf44f6204642b716',
-              tagId: '62d65a88e7021e08c65c462e',
-              packageId: '6455c49bc56f0402c3fd3436',
-              props: [
-                {
-                  propId: '641a7052cf44f6204642b606',
-                  value: {
-                    type: 'data',
-                    mode: 'getCmptPropData',
-                    args: {
-                      id: '6448cb82319af5b84c5249f6',
-                    },
-                  },
-                },
-              ],
-              events: undefined,
-            },
-            {
-              id: 'Q544#641a7052cf44f6204642b607',
-              preId: null,
-              nextId: null,
-              parentId: 'Q544',
-              tagId: '62d65a88e7021e08c65c4634',
-              packageId: '6455c49bc56f0402c3fd3436',
-              props: undefined,
-              events: undefined,
-            },
-            {
-              id: 'S946',
-              preId: null,
-              nextId: null,
-              parentId: 'Q544#641a7052cf44f6204642b607',
-              tagId: '613ecb25af722dc29c7fc39e',
-              packageId: '6352061254bb9b1c84ce3570',
-              props: undefined,
-              events: undefined,
-            },
-          ],
-        },
-      ],
-      elements: [],
-      functions: [],
-      actions: [],
-      events: [],
-      slots: [],
-      props: [],
-      apis: [],
-    },
-    {
       id: '6455c49bc56f0402c3fd3436',
       projectId: '6455c49bc56f0402c3fd3436',
       name: '系统(pc)',
@@ -6614,320 +7076,7 @@ const codeSchema = {
       apis: [],
     },
   ],
-  components: [
-    {
-      id: '6446531e9c229310c169d995',
-      name: 'e-card',
-      key: 'f-1c87ade2',
-      props: [],
-      emits: [],
-      slots: [
-        {
-          id: '6446535998e11d19b610ef79',
-          key: 'headerchacao',
-          name: 'header插槽',
-          desc: undefined,
-          properties: [
-            {
-              name: 'title',
-              types: [
-                {
-                  type: 'text',
-                },
-              ],
-              id: '6446536798e11d19b610ef7a',
-              key: 'title',
-            },
-          ],
-        },
-        {
-          id: '6446555398e11d19b610ef7b',
-          key: 'bodychacao',
-          name: 'body插槽',
-          desc: undefined,
-          properties: [],
-        },
-      ],
-      lifeCycle: [],
-      functions: [],
-      variables: [],
-      nodes: [
-        {
-          id: 'V313',
-          preId: null,
-          nextId: null,
-          parentId: null,
-          tagId: '613ecb25af722dc29c7fc3c5',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'V313#641a7053cf44f6204642b9cc',
-          preId: null,
-          nextId: 'V313#641a7053cf44f6204642b9cd',
-          parentId: 'V313',
-          tagId: '62d65a88e7021e08c65c4634',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'V986',
-          preId: null,
-          nextId: null,
-          parentId: 'V313#641a7053cf44f6204642b9cc',
-          tagId: '62d65a88e7021e08c65c4632',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'V313#641a7053cf44f6204642b9cd',
-          preId: 'V313#641a7053cf44f6204642b9cc',
-          nextId: 'V313#641a7053cf44f6204642b9c9',
-          parentId: 'V313',
-          tagId: '62d65a88e7021e08c65c4634',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'R787',
-          preId: null,
-          nextId: 'L837',
-          parentId: 'V313#641a7053cf44f6204642b9cd',
-          tagId: '62d65a88e7021e08c65c4632',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'L837',
-          preId: 'R787',
-          nextId: null,
-          parentId: 'V313#641a7053cf44f6204642b9cd',
-          tagId: '6448cb0258252f48a6d48610',
-          packageId: '6448caed58252f48a6d485e5',
-          props: undefined,
-          events: [
-            {
-              eventId: '6448cdf4ff2be83d64646158',
-              actions: [
-                {
-                  id: '6448d1dc5c080b31ed3129a7',
-                  modeId: '644650559c229310c169d806',
-                  mode: 'message.success',
-                  name: '成功信息',
-                  type: 'action',
-                  args: {
-                    '6446507be73896f72bc0c174': {
-                      type: 'data',
-                      mode: 'custom',
-                      args: {
-                        type: 'text',
-                        value: '选中成功',
-                      },
-                    },
-                    '6446507be73896f72bc0c175': {
-                      type: 'data',
-                      mode: 'custom',
-                      args: {
-                        type: 'number',
-                        value: 1,
-                      },
-                    },
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: '6447704a0090c3107dad2cbf',
-      name: '测试1',
-      key: 'f-00d3776a',
-      props: [],
-      emits: [],
-      slots: [],
-      lifeCycle: [],
-      functions: [],
-      variables: [],
-      nodes: [],
-    },
-    {
-      id: '6448cb0258252f48a6d48610',
-      name: 'e-menu',
-      key: 'f-43272b44',
-      props: [
-        {
-          id: '6448cb82319af5b84c5249f6',
-          name: 'data',
-          key: 'data',
-          desc: '菜单数据',
-          types: [
-            {
-              type: 'module',
-              multiple: true,
-              rules: {
-                properties: [
-                  {
-                    name: 'value',
-                    types: [
-                      {
-                        type: 'text',
-                      },
-                    ],
-                    id: '6448cb9c319af5b84c5249f7',
-                    extendPlatform: true,
-                    desc: 'value',
-                    key: 'value',
-                  },
-                  {
-                    name: 'label',
-                    types: [
-                      {
-                        type: 'text',
-                      },
-                    ],
-                    id: '6448cba1319af5b84c5249f8',
-                    extendPlatform: true,
-                    desc: 'label',
-                    key: 'label',
-                  },
-                ],
-              },
-            },
-          ],
-          extendPlatform: true,
-        },
-      ],
-      emits: [
-        {
-          id: '6448cdf4ff2be83d64646158',
-          key: 'xuanzhongshijian',
-          name: '选中事件',
-          desc: '',
-          parameters: [
-            {
-              name: 'data',
-              types: [
-                {
-                  type: 'module',
-                  rules: {
-                    properties: [
-                      {
-                        name: '当前项',
-                        types: [
-                          {
-                            type: 'module',
-                          },
-                        ],
-                        id: '6448ce2fff2be83d6464615b',
-                        key: 'dangqianxiang',
-                      },
-                      {
-                        name: '当前标识',
-                        types: [
-                          {
-                            type: 'text',
-                          },
-                        ],
-                        id: '6448ce42ff2be83d6464615c',
-                        key: 'dangqianbiaoshi',
-                      },
-                      {
-                        name: '选中标识数组',
-                        types: [
-                          {
-                            type: 'text',
-                            multiple: true,
-                          },
-                        ],
-                        id: '6448ce47ff2be83d6464615d',
-                        key: 'xuanzhongbiaoshishuzu',
-                      },
-                    ],
-                  },
-                },
-              ],
-              id: '6448ce21ff2be83d6464615a',
-              key: 'data',
-            },
-          ],
-        },
-      ],
-      slots: [],
-      lifeCycle: [],
-      functions: [],
-      variables: [],
-      nodes: [
-        {
-          id: 'J415',
-          preId: null,
-          nextId: null,
-          parentId: null,
-          tagId: '613ecb25af722dc29c7fc39d',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'J415#641a7052cf44f6204642b716',
-          preId: null,
-          nextId: 'J415#641a7052cf44f6204642b717',
-          parentId: 'J415',
-          tagId: '62d65a88e7021e08c65c4634',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'Q544',
-          preId: null,
-          nextId: null,
-          parentId: 'J415#641a7052cf44f6204642b716',
-          tagId: '62d65a88e7021e08c65c462e',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: [
-            {
-              propId: '641a7052cf44f6204642b606',
-              value: {
-                type: 'data',
-                mode: 'getCmptPropData',
-                args: {
-                  id: '6448cb82319af5b84c5249f6',
-                },
-              },
-            },
-          ],
-          events: undefined,
-        },
-        {
-          id: 'Q544#641a7052cf44f6204642b607',
-          preId: null,
-          nextId: null,
-          parentId: 'Q544',
-          tagId: '62d65a88e7021e08c65c4634',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'S946',
-          preId: null,
-          nextId: null,
-          parentId: 'Q544#641a7052cf44f6204642b607',
-          tagId: '613ecb25af722dc29c7fc39e',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: undefined,
-          events: undefined,
-        },
-      ],
-    },
-  ],
+  components: [],
   pages: [
     {
       id: '64464a419c229310c169d486',
@@ -6958,61 +7107,55 @@ const codeSchema = {
       },
       nodes: [
         {
-          id: 'F441',
+          id: 'D767',
           preId: null,
-          nextId: 'H796',
+          nextId: null,
           parentId: null,
-          tagId: '6446531e9c229310c169d995',
-          packageId: '64464a309c229310c169d473',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'F441#6446555398e11d19b610ef7b',
-          preId: null,
-          nextId: 'F441#6446535998e11d19b610ef79',
-          parentId: 'F441',
-          tagId: '62d65a88e7021e08c65c4634',
+          tagId: '62d65a88e7021e08c65c462e',
           packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'F955',
-          preId: null,
-          nextId: null,
-          parentId: 'F441#6446555398e11d19b610ef7b',
-          tagId: '613ecb25af722dc29c7fc3af',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'F955#641a7052cf44f6204642b856',
-          preId: null,
-          nextId: null,
-          parentId: 'F955',
-          tagId: '62d65a88e7021e08c65c4634',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'C933',
-          preId: null,
-          nextId: 'A225',
-          parentId: 'F955#641a7052cf44f6204642b856',
-          tagId: '613ecb25af722dc29c7fc3b0',
-          packageId: '6352061254bb9b1c84ce3570',
           props: [
             {
-              propId: '641a7052cf44f6204642b85e',
+              propId: '641a7052cf44f6204642b606',
               value: {
                 type: 'data',
                 mode: 'custom',
                 args: {
                   type: 'text',
-                  value: '学生名称',
+                  value: [
+                    {
+                      type: 'data',
+                      mode: 'custom',
+                      args: {
+                        type: 'text',
+                        value: 'a',
+                      },
+                    },
+                    {
+                      type: 'data',
+                      mode: 'custom',
+                      args: {
+                        type: 'text',
+                        value: 'b',
+                      },
+                    },
+                    {
+                      type: 'data',
+                      mode: 'custom',
+                      args: {
+                        type: 'text',
+                        value: 'c',
+                      },
+                    },
+                    {
+                      type: 'data',
+                      mode: 'custom',
+                      args: {
+                        type: 'text',
+                        value: 'd',
+                      },
+                    },
+                  ],
+                  multiple: true,
                 },
               },
             },
@@ -7020,286 +7163,30 @@ const codeSchema = {
           events: undefined,
         },
         {
-          id: 'C933#641a7052cf44f6204642b86c',
+          id: 'D767#641a7052cf44f6204642b607',
           preId: null,
-          nextId: 'C933#641a7052cf44f6204642b86a',
-          parentId: 'C933',
+          nextId: null,
+          parentId: 'D767',
           tagId: '62d65a88e7021e08c65c4634',
           packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
         {
-          id: 'U744',
+          id: 'Y576',
           preId: null,
           nextId: null,
-          parentId: 'C933#641a7052cf44f6204642b86c',
-          tagId: '613ecb25af722dc29c7fc3b1',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'A225',
-          preId: 'C933',
-          nextId: 'J898',
-          parentId: 'F955#641a7052cf44f6204642b856',
-          tagId: '613ecb25af722dc29c7fc3b0',
-          packageId: '6352061254bb9b1c84ce3570',
+          parentId: 'D767#641a7052cf44f6204642b607',
+          tagId: '62d65a88e7021e08c65c462e',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: [
             {
-              propId: '641a7052cf44f6204642b85e',
-              value: {
-                type: 'data',
-                mode: 'custom',
-                args: {
-                  type: 'text',
-                  value: '学生年龄',
-                },
-              },
-            },
-          ],
-          events: undefined,
-        },
-        {
-          id: 'A225#641a7052cf44f6204642b86c',
-          preId: null,
-          nextId: 'A225#641a7052cf44f6204642b86a',
-          parentId: 'A225',
-          tagId: '62d65a88e7021e08c65c4634',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'Z547',
-          preId: null,
-          nextId: null,
-          parentId: 'A225#641a7052cf44f6204642b86c',
-          tagId: '613ecb25af722dc29c7fc3b1',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'J898',
-          preId: 'A225',
-          nextId: null,
-          parentId: 'F955#641a7052cf44f6204642b856',
-          tagId: '613ecb25af722dc29c7fc3b0',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: [
-            {
-              propId: '641a7052cf44f6204642b85e',
-              value: {
-                type: 'data',
-                mode: 'custom',
-                args: {
-                  type: 'text',
-                  value: '学生年龄',
-                },
-              },
-            },
-          ],
-          events: undefined,
-        },
-        {
-          id: 'J898#641a7052cf44f6204642b86c',
-          preId: null,
-          nextId: 'J898#641a7052cf44f6204642b86a',
-          parentId: 'J898',
-          tagId: '62d65a88e7021e08c65c4634',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'X334',
-          preId: null,
-          nextId: null,
-          parentId: 'J898#641a7052cf44f6204642b86c',
-          tagId: '613ecb25af722dc29c7fc387',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: [
-            {
-              propId: '641a7052cf44f6204642b65a',
-              value: {
-                type: 'data',
-                mode: 'custom',
-                args: {
-                  type: 'option',
-                  value: 'primary',
-                },
-              },
-            },
-            {
-              propId: '641a7052cf44f6204642b65b',
-              value: {
-                type: 'data',
-                mode: 'custom',
-                args: {
-                  type: 'option',
-                  value: 'middle',
-                },
-              },
-            },
-            {
-              propId: '641a7052cf44f6204642b65c',
-              value: {
-                type: 'data',
-                mode: 'custom',
-                args: {
-                  type: 'option',
-                  value: 'circle',
-                },
-              },
-            },
-          ],
-          events: undefined,
-        },
-        {
-          id: 'H796',
-          preId: 'F441',
-          nextId: 'U047',
-          parentId: null,
-          tagId: '613ecb25af722dc29c7fc3c5',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'H796#641a7053cf44f6204642b9cd',
-          preId: null,
-          nextId: 'H796#641a7053cf44f6204642b9c9',
-          parentId: 'H796',
-          tagId: '62d65a88e7021e08c65c4634',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'C875',
-          preId: null,
-          nextId: null,
-          parentId: 'H796#641a7053cf44f6204642b9cd',
-          tagId: '613ecb25af722dc29c7fc3af',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'C875#641a7052cf44f6204642b856',
-          preId: null,
-          nextId: null,
-          parentId: 'C875',
-          tagId: '62d65a88e7021e08c65c4634',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'S563',
-          preId: null,
-          nextId: 'H648',
-          parentId: 'C875#641a7052cf44f6204642b856',
-          tagId: '613ecb25af722dc29c7fc3b0',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: [
-            {
-              propId: '641a7052cf44f6204642b85e',
-              value: {
-                type: 'data',
-                mode: 'custom',
-                args: {
-                  type: 'text',
-                  value: '学生名称',
-                },
-              },
-            },
-          ],
-          events: undefined,
-        },
-        {
-          id: 'S563#641a7052cf44f6204642b86c',
-          preId: null,
-          nextId: 'S563#641a7052cf44f6204642b86a',
-          parentId: 'S563',
-          tagId: '62d65a88e7021e08c65c4634',
-          packageId: '6455c49bc56f0402c3fd3436',
-          props: undefined,
-          events: undefined,
-        },
-        {
-          id: 'C343',
-          preId: null,
-          nextId: null,
-          parentId: 'S563#641a7052cf44f6204642b86c',
-          tagId: '613ecb25af722dc29c7fc3b1',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: [
-            {
-              propId: '641a7052cf44f6204642b875',
+              propId: '641a7052cf44f6204642b606',
               value: {
                 type: 'data',
                 mode: 'getVar',
                 args: {
-                  id: '6447262e0b661be9e0b91ac1',
-                },
-              },
-            },
-          ],
-          events: [
-            {
-              eventId: '641a7052cf44f6204642b87b',
-              actions: [
-                {
-                  id: '64472977fafa3e71eb83f6c2',
-                  modeId: '6401884418eda303abe11c41',
-                  mode: 'set',
-                  name: '数据赋值',
-                  type: 'action',
-                  args: {
-                    actions: [
-                      {
-                        id: '64472977fafa3e71eb83f6c2',
-                        type: 'action',
-                        modeId: '6401884418eda303abe11c41',
-                        mode: 'setVar',
-                        args: {
-                          id: '6447262e0b661be9e0b91ac1',
-                          value: {
-                            type: 'data',
-                            mode: 'custom',
-                            args: {
-                              type: 'text',
-                              value: '用户1',
-                            },
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 'H648',
-          preId: 'S563',
-          nextId: 'J780',
-          parentId: 'C875#641a7052cf44f6204642b856',
-          tagId: '613ecb25af722dc29c7fc3b0',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: [
-            {
-              propId: '641a7052cf44f6204642b85e',
-              value: {
-                type: 'data',
-                mode: 'custom',
-                args: {
-                  type: 'text',
-                  value: '学生年龄',
+                  id: '645d99c25b102b96f9fbb4f1',
                 },
               },
             },
@@ -7307,75 +7194,31 @@ const codeSchema = {
           events: undefined,
         },
         {
-          id: 'H648#641a7052cf44f6204642b86c',
+          id: 'Y576#641a7052cf44f6204642b607',
           preId: null,
-          nextId: 'H648#641a7052cf44f6204642b86a',
-          parentId: 'H648',
+          nextId: null,
+          parentId: 'Y576',
           tagId: '62d65a88e7021e08c65c4634',
           packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
         {
-          id: 'H029',
+          id: 'F104',
           preId: null,
           nextId: null,
-          parentId: 'H648#641a7052cf44f6204642b86c',
-          tagId: '613ecb25af722dc29c7fc3b1',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: undefined,
-          events: [
-            {
-              eventId: '641a7052cf44f6204642b87b',
-              actions: [
-                {
-                  id: '64472f16fafa3e71eb83f6c4',
-                  modeId: '6401884418eda303abe11c41',
-                  mode: 'set',
-                  name: '数据赋值',
-                  type: 'action',
-                  args: {
-                    actions: [
-                      {
-                        id: '64472f16fafa3e71eb83f6c4',
-                        type: 'action',
-                        modeId: '6401884418eda303abe11c41',
-                        mode: 'setVar',
-                        args: {
-                          id: '644726370b661be9e0b91ac2',
-                          value: {
-                            type: 'data',
-                            mode: 'custom',
-                            args: {
-                              type: 'number',
-                              value: 21,
-                            },
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 'J780',
-          preId: 'H648',
-          nextId: null,
-          parentId: 'C875#641a7052cf44f6204642b856',
-          tagId: '613ecb25af722dc29c7fc3b0',
-          packageId: '6352061254bb9b1c84ce3570',
+          parentId: 'Y576#641a7052cf44f6204642b607',
+          tagId: '62d65a88e7021e08c65c462e',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: [
             {
-              propId: '641a7052cf44f6204642b85e',
+              propId: '641a7052cf44f6204642b606',
               value: {
                 type: 'data',
-                mode: 'custom',
+                mode: 'getApiData',
                 args: {
-                  type: 'text',
-                  value: '学生年龄',
+                  id: '644731b09c229310c169e3fb',
+                  path: ['data', '64473279425c9a11a9a475af'],
                 },
               },
             },
@@ -7383,144 +7226,241 @@ const codeSchema = {
           events: undefined,
         },
         {
-          id: 'J780#641a7052cf44f6204642b86c',
+          id: 'F104#641a7052cf44f6204642b607',
           preId: null,
-          nextId: 'J780#641a7052cf44f6204642b86a',
-          parentId: 'J780',
+          nextId: null,
+          parentId: 'F104',
           tagId: '62d65a88e7021e08c65c4634',
           packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
         {
-          id: 'R176',
+          id: 'A908',
           preId: null,
           nextId: null,
-          parentId: 'J780#641a7052cf44f6204642b86c',
-          tagId: '613ecb25af722dc29c7fc387',
-          packageId: '6352061254bb9b1c84ce3570',
+          parentId: 'F104#641a7052cf44f6204642b607',
+          tagId: '62d65a88e7021e08c65c4630',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: [
             {
-              propId: '641a7052cf44f6204642b65a',
+              propId: '641a7052cf44f6204642b608',
               value: {
+                id: '',
                 type: 'data',
-                mode: 'custom',
+                modeId: '64099833237f2a94b9bd79ba',
+                mode: 'gt',
                 args: {
-                  type: 'option',
-                  value: 'primary',
-                },
-              },
-            },
-            {
-              propId: '641a7052cf44f6204642b65b',
-              value: {
-                type: 'data',
-                mode: 'custom',
-                args: {
-                  type: 'option',
-                  value: 'middle',
-                },
-              },
-            },
-            {
-              propId: '641a7052cf44f6204642b65c',
-              value: {
-                type: 'data',
-                mode: 'custom',
-                args: {
-                  type: 'option',
-                  value: 'default',
-                },
-              },
-            },
-          ],
-          events: [
-            {
-              eventId: '641a95cecd3c6b0921a79efa',
-              actions: [
-                {
-                  id: '64472f27fafa3e71eb83f6c7',
-                  modeId: '6401884318eda303abe11c40',
-                  mode: 'api',
-                  name: '执行业务',
-                  type: 'action',
-                  args: {
-                    id: '64464dfe9c229310c169d72b',
-                    params: {
-                      type: 'data',
-                      mode: 'custom',
-                      args: {
-                        type: 'module',
-                        value: [
-                          {
-                            propId: '64464e03442d4717949ba939',
-                            value: {
-                              type: 'data',
-                              mode: 'getVar',
-                              args: {
-                                id: '6447262e0b661be9e0b91ac1',
-                              },
-                            },
-                          },
-                          {
-                            propId: '64464e29442d4717949ba93b',
-                            value: {
-                              type: 'data',
-                              mode: 'getVar',
-                              args: {
-                                id: '644726370b661be9e0b91ac2',
-                              },
-                            },
-                          },
-                        ],
-                      },
+                  '641a7054cf44f6204642c2f8': {
+                    id: '',
+                    type: 'data',
+                    modeId: '',
+                    mode: 'getEachData',
+                    args: {
+                      id: 'F104',
+                      path: ['item', '64473291425c9a11a9a475b2'],
                     },
-                    success: [],
-                    fail: [],
+                  },
+                  '641a7054cf44f6204642c2f9': {
+                    type: 'data',
+                    mode: 'custom',
+                    args: {
+                      type: 'number',
+                      value: 10,
+                    },
                   },
                 },
-              ],
+              },
             },
           ],
+          events: undefined,
         },
         {
-          id: 'R176#641a7052cf44f6204642b667',
+          id: 'A908#641a7052cf44f6204642b609',
           preId: null,
-          nextId: 'R176#641a7052cf44f6204642b668',
-          parentId: 'R176',
+          nextId: 'A908#641a7052cf44f6204642b60a',
+          parentId: 'A908',
           tagId: '62d65a88e7021e08c65c4634',
           packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
           events: undefined,
         },
         {
-          id: 'S925',
+          id: 'X741',
           preId: null,
           nextId: null,
-          parentId: 'R176#641a7052cf44f6204642b667',
+          parentId: 'A908#641a7052cf44f6204642b609',
+          tagId: '613ecb25af722dc29c7fc3c5',
+          packageId: '6352061254bb9b1c84ce3570',
+          props: [
+            {
+              propId: '641a7053cf44f6204642b9c7',
+              value: {
+                type: 'data',
+                mode: 'getEachData',
+                args: {
+                  id: 'F104',
+                  path: ['item', '64473284425c9a11a9a475b0'],
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'X741#641a7053cf44f6204642b9cd',
+          preId: null,
+          nextId: 'X741#641a7053cf44f6204642b9c9',
+          parentId: 'X741',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'Y459',
+          preId: null,
+          nextId: 'Q246',
+          parentId: 'X741#641a7053cf44f6204642b9cd',
           tagId: '62c68d5d27d4bddfa72888fb',
           packageId: '6358fb8554bb9b1c84ce47a2',
-          props: undefined,
+          props: [
+            {
+              propId: '641a7052cf44f6204642b61f',
+              value: {
+                type: 'data',
+                mode: 'getEachData',
+                args: {
+                  id: 'F104',
+                  path: ['item', '6447328c425c9a11a9a475b1'],
+                },
+              },
+            },
+          ],
           events: undefined,
         },
         {
-          id: 'U047',
-          preId: 'H796',
-          nextId: 'D472',
-          parentId: null,
-          tagId: '613ecb25af722dc29c7fc387',
-          packageId: '6352061254bb9b1c84ce3570',
-          props: undefined,
+          id: 'Q246',
+          preId: 'Y459',
+          nextId: 'V643',
+          parentId: 'X741#641a7053cf44f6204642b9cd',
+          tagId: '62c68d5d27d4bddfa72888fb',
+          packageId: '6358fb8554bb9b1c84ce47a2',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b61f',
+              value: {
+                id: '',
+                type: 'data',
+                modeId: '640aa8ec237f2a94b9bd85ab',
+                mode: 'concatString',
+                args: {
+                  '641a7054cf44f6204642c32b': {
+                    type: 'data',
+                    mode: 'custom',
+                    args: {
+                      type: 'text',
+                      value: [
+                        {
+                          type: 'data',
+                          mode: 'custom',
+                          args: {
+                            type: 'text',
+                            value: '年龄大于十------',
+                          },
+                        },
+                        {
+                          id: '',
+                          type: 'data',
+                          modeId: '',
+                          mode: 'getEachData',
+                          args: {
+                            id: 'D767',
+                            path: ['index'],
+                          },
+                        },
+                        {
+                          id: '',
+                          type: 'data',
+                          modeId: '',
+                          mode: 'getEachData',
+                          args: {
+                            id: 'Y576',
+                            path: ['item', '645d99f15b102b96f9fbb4f3'],
+                          },
+                        },
+                        {
+                          id: '',
+                          type: 'data',
+                          modeId: '',
+                          mode: 'getEachData',
+                          args: {
+                            id: 'F104',
+                            path: ['item', '64473284425c9a11a9a475b0'],
+                          },
+                        },
+                      ],
+                      multiple: true,
+                    },
+                  },
+                },
+              },
+            },
+          ],
           events: undefined,
         },
         {
-          id: 'D472',
-          preId: 'U047',
+          id: 'V643',
+          preId: 'Q246',
           nextId: null,
-          parentId: null,
-          tagId: '6447704a0090c3107dad2cbf',
-          packageId: '64464a309c229310c169d473',
+          parentId: 'X741#641a7053cf44f6204642b9cd',
+          tagId: '62c68d5d27d4bddfa72888fb',
+          packageId: '6358fb8554bb9b1c84ce47a2',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b61f',
+              value: {
+                type: 'data',
+                mode: 'getEachData',
+                args: {
+                  id: 'F104',
+                  path: ['item', '64473291425c9a11a9a475b2'],
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'A908#641a7052cf44f6204642b60a',
+          preId: 'A908#641a7052cf44f6204642b609',
+          nextId: null,
+          parentId: 'A908',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
           props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'Y355',
+          preId: null,
+          nextId: null,
+          parentId: 'A908#641a7052cf44f6204642b60a',
+          tagId: '62c68d5d27d4bddfa72888fb',
+          packageId: '6358fb8554bb9b1c84ce47a2',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b61f',
+              value: {
+                type: 'data',
+                mode: 'custom',
+                args: {
+                  type: 'text',
+                  value: '年龄小于10----------',
+                },
+              },
+            },
+          ],
           events: undefined,
         },
       ],
@@ -7549,8 +7489,81 @@ const codeSchema = {
           ],
           extendPlatform: undefined,
         },
+        {
+          id: '645d99c25b102b96f9fbb4f1',
+          name: '循环cols',
+          key: 'xunhuancols',
+          desc: undefined,
+          types: [
+            {
+              type: 'module',
+              multiple: true,
+              default: {
+                type: 'data',
+                mode: 'custom',
+                args: {
+                  type: 'text',
+                  value: [
+                    {
+                      id: '',
+                      type: 'data',
+                      modeId: '',
+                      mode: 'custom',
+                      args: {
+                        type: 'text',
+                        value: '',
+                      },
+                    },
+                  ],
+                  multiple: true,
+                },
+              },
+              rules: {
+                properties: [
+                  {
+                    name: 'name',
+                    types: [
+                      {
+                        type: 'text',
+                      },
+                    ],
+                    id: '645d99f15b102b96f9fbb4f3',
+                    key: 'name',
+                  },
+                  {
+                    name: 'game',
+                    types: [
+                      {
+                        type: 'text',
+                      },
+                    ],
+                    id: '645d99f55b102b96f9fbb4f4',
+                    key: 'game',
+                  },
+                ],
+              },
+            },
+          ],
+          extendPlatform: undefined,
+        },
       ],
-      lifeCycle: [],
+      lifeCycle: [
+        {
+          eventId: '641a95e7cd3c6b0921a79f2b',
+          actions: [
+            {
+              id: '645c3e718ffd89314abfd10e',
+              modeId: '6401884318eda303abe11c40',
+              mode: 'api',
+              name: '执行业务',
+              type: 'action',
+              args: {
+                id: '644731b09c229310c169e3fb',
+              },
+            },
+          ],
+        },
+      ],
       functions: [],
     },
     {
@@ -7689,10 +7702,13 @@ const codeSchema = {
             {
               propId: '641a7052cf44f6204642b875',
               value: {
+                id: '',
                 type: 'data',
-                mode: 'getVar',
+                modeId: '',
+                mode: 'custom',
                 args: {
-                  id: '6447262e0b661be9e0b91ac1',
+                  type: 'text',
+                  value: '',
                 },
               },
             },
@@ -7715,13 +7731,13 @@ const codeSchema = {
                         modeId: '6401884418eda303abe11c41',
                         mode: 'setVar',
                         args: {
-                          id: '6447262e0b661be9e0b91ac1',
+                          id: '6454c8d32f633c035f506d50',
                           value: {
                             type: 'data',
-                            mode: 'custom',
+                            mode: 'getEventData',
                             args: {
-                              type: 'text',
-                              value: '用户1',
+                              id: '642b8a819a04dc6fabaa5d55',
+                              path: ['642b8a909a04dc6fabaa5d56', '642be22b451c381a2ec381f7'],
                             },
                           },
                         },
@@ -7766,19 +7782,19 @@ const codeSchema = {
           events: undefined,
         },
         {
-          id: 'N795',
+          id: 'R618',
           preId: null,
           nextId: null,
           parentId: 'W588#641a7052cf44f6204642b86c',
-          tagId: '613ecb25af722dc29c7fc3b1',
+          tagId: '613ecb25af722dc29c7fc3b6',
           packageId: '6352061254bb9b1c84ce3570',
           props: undefined,
           events: [
             {
-              eventId: '641a7052cf44f6204642b87b',
+              eventId: '641a7052cf44f6204642b8a1',
               actions: [
                 {
-                  id: '64472f16fafa3e71eb83f6c4',
+                  id: '645cae275ab8a42ff0a6b9d7',
                   modeId: '6401884418eda303abe11c41',
                   mode: 'set',
                   name: '数据赋值',
@@ -7786,18 +7802,18 @@ const codeSchema = {
                   args: {
                     actions: [
                       {
-                        id: '64472f16fafa3e71eb83f6c4',
+                        id: '645cae275ab8a42ff0a6b9d7',
                         type: 'action',
                         modeId: '6401884418eda303abe11c41',
                         mode: 'setVar',
                         args: {
-                          id: '644726370b661be9e0b91ac2',
+                          id: '645ca561aea28d56b0bdb3f8',
                           value: {
                             type: 'data',
                             mode: 'custom',
                             args: {
                               type: 'number',
-                              value: 21,
+                              value: 121,
                             },
                           },
                         },
@@ -7924,45 +7940,17 @@ const codeSchema = {
                         ],
                       },
                     },
-                    success: [],
-                    fail: [],
-                  },
-                },
-                {
-                  id: '6454c8a12f633c035f506d4d',
-                  modeId: '6401884318eda303abe11c40',
-                  mode: 'api',
-                  name: '执行业务',
-                  type: 'action',
-                  args: {
-                    id: '644731b09c229310c169e3fb',
                     success: [
                       {
-                        id: '6454c8dd2f633c035f506d55',
-                        modeId: '6401884418eda303abe11c41',
-                        mode: 'set',
-                        name: '数据赋值',
+                        id: '645b2f08f191472727337c3c',
+                        modeId: '641a95e6cd3c6b0921a79f29',
+                        mode: 'open',
+                        name: '页面跳转',
                         type: 'action',
                         args: {
-                          actions: [
-                            {
-                              id: '6454c8dd2f633c035f506d55',
-                              type: 'action',
-                              modeId: '6401884418eda303abe11c41',
-                              mode: 'setApiData',
-                              args: {
-                                id: '64464f4e9c229310c169d7da',
-                                path: ['64464f8e442d4717949ba954', '64464f9d442d4717949ba955'],
-                                value: {
-                                  type: 'data',
-                                  mode: 'getVar',
-                                  args: {
-                                    id: '6454c8d32f633c035f506d50',
-                                  },
-                                },
-                              },
-                            },
-                          ],
+                          mode: 'in',
+                          page: '6447315b9c229310c169e36c',
+                          target: 'blank',
                         },
                       },
                     ],
@@ -7990,13 +7978,25 @@ const codeSchema = {
           parentId: 'E423#641a7052cf44f6204642b667',
           tagId: '62c68d5d27d4bddfa72888fb',
           packageId: '6358fb8554bb9b1c84ce47a2',
-          props: undefined,
+          props: [
+            {
+              propId: '641a7052cf44f6204642b61f',
+              value: {
+                type: 'data',
+                mode: 'custom',
+                args: {
+                  type: 'text',
+                  value: '提交表单',
+                },
+              },
+            },
+          ],
           events: undefined,
         },
       ],
       variables: [
         {
-          id: '6447262e0b661be9e0b91ac1',
+          id: '6454c8d32f633c035f506d50',
           name: '学生名称',
           key: 'xueshengmingcheng',
           desc: undefined,
@@ -8008,13 +8008,13 @@ const codeSchema = {
           extendPlatform: undefined,
         },
         {
-          id: '6454c8d32f633c035f506d50',
-          name: 'aaa',
-          key: 'aaa',
+          id: '645ca561aea28d56b0bdb3f8',
+          name: '学生年龄',
+          key: 'xueshengnianling',
           desc: undefined,
           types: [
             {
-              type: 'text',
+              type: 'number',
             },
           ],
           extendPlatform: undefined,
@@ -8124,6 +8124,371 @@ const codeSchema = {
           actions: [
             {
               id: '64473c5323bb5dfddd8bdd31',
+              modeId: '6401884318eda303abe11c40',
+              mode: 'api',
+              name: '执行业务',
+              type: 'action',
+              args: {
+                id: '644731b09c229310c169e3fb',
+              },
+            },
+          ],
+        },
+      ],
+      functions: [],
+    },
+    {
+      id: '645c3f07e94e7d605e79d523',
+      mate: {
+        title: {
+          type: 'data',
+          mode: 'custom',
+          args: {
+            value: '人员详情页',
+          },
+        },
+      },
+      route: {
+        query: [
+          {
+            id: '645c3f3f62f62e7825159a5e',
+            name: '人员id',
+            key: 'renyuanid',
+            desc: undefined,
+            types: [
+              {
+                type: 'text',
+              },
+            ],
+            extendPlatform: undefined,
+          },
+        ],
+      },
+      nodes: [
+        {
+          id: 'R109',
+          preId: null,
+          nextId: 'F643',
+          parentId: null,
+          tagId: '613ecb25af722dc29c7fc38b',
+          packageId: '6352061254bb9b1c84ce3570',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'R109#641a7052cf44f6204642b68a',
+          preId: null,
+          nextId: 'R109#editableIcon',
+          parentId: 'R109',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'G296',
+          preId: null,
+          nextId: null,
+          parentId: 'R109#641a7052cf44f6204642b68a',
+          tagId: '62c68d5d27d4bddfa72888fb',
+          packageId: '6358fb8554bb9b1c84ce47a2',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b61f',
+              value: {
+                type: 'data',
+                mode: 'getApiData',
+                args: {
+                  id: '645c463fe94e7d605e79d693',
+                  path: ['data', '645c4691a257c532a6541865', '645c46aba257c532a6541867'],
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'F643',
+          preId: 'R109',
+          nextId: null,
+          parentId: null,
+          tagId: '62c68d5d27d4bddfa72888e1',
+          packageId: '6352061a54bb9b1c84ce357d',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'F643#641a95e6cd3c6b0921a79f2a',
+          preId: null,
+          nextId: null,
+          parentId: 'F643',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'N730',
+          preId: null,
+          nextId: null,
+          parentId: 'F643#641a95e6cd3c6b0921a79f2a',
+          tagId: '62d65a88e7021e08c65c462e',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b606',
+              value: {
+                type: 'data',
+                mode: 'getApiData',
+                args: {
+                  id: '644731b09c229310c169e3fb',
+                  path: ['data', '64473279425c9a11a9a475af'],
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'N730#641a7052cf44f6204642b607',
+          preId: null,
+          nextId: null,
+          parentId: 'N730',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'F221',
+          preId: null,
+          nextId: null,
+          parentId: 'N730#641a7052cf44f6204642b607',
+          tagId: '62d65a88e7021e08c65c4630',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b608',
+              value: {
+                id: '',
+                type: 'data',
+                modeId: '640998cf237f2a94b9bd79fe',
+                mode: 'lt',
+                args: {
+                  '641a95b29f9c8e74332f9993': {
+                    id: '',
+                    type: 'data',
+                    modeId: '',
+                    mode: 'getEachData',
+                    args: {
+                      id: 'N730',
+                      path: ['item', '64473291425c9a11a9a475b2'],
+                    },
+                  },
+                  '641a95b29f9c8e74332f9994': {
+                    type: 'data',
+                    mode: 'custom',
+                    args: {
+                      type: 'number',
+                      value: 6,
+                    },
+                  },
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'F221#641a7052cf44f6204642b609',
+          preId: null,
+          nextId: 'F221#641a7052cf44f6204642b60a',
+          parentId: 'F221',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'I275',
+          preId: null,
+          nextId: null,
+          parentId: 'F221#641a7052cf44f6204642b609',
+          tagId: '613ecb25af722dc29c7fc3c5',
+          packageId: '6352061254bb9b1c84ce3570',
+          props: [
+            {
+              propId: '641a7053cf44f6204642b9c7',
+              value: {
+                type: 'data',
+                mode: 'getEachData',
+                args: {
+                  id: 'N730',
+                  path: ['item', '6447328c425c9a11a9a475b1'],
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'I275#641a7053cf44f6204642b9cd',
+          preId: null,
+          nextId: 'I275#641a7053cf44f6204642b9c9',
+          parentId: 'I275',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'R299',
+          preId: null,
+          nextId: 'H287',
+          parentId: 'I275#641a7053cf44f6204642b9cd',
+          tagId: '62c68d5d27d4bddfa72888fb',
+          packageId: '6358fb8554bb9b1c84ce47a2',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b61f',
+              value: {
+                type: 'data',
+                mode: 'getEachData',
+                args: {
+                  id: 'N730',
+                  path: ['item', '64473284425c9a11a9a475b0'],
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'H287',
+          preId: 'R299',
+          nextId: null,
+          parentId: 'I275#641a7053cf44f6204642b9cd',
+          tagId: '62c68d5d27d4bddfa72888fb',
+          packageId: '6358fb8554bb9b1c84ce47a2',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b61f',
+              value: {
+                type: 'data',
+                mode: 'custom',
+                args: {
+                  type: 'text',
+                  value: '小于6',
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'F221#641a7052cf44f6204642b60a',
+          preId: 'F221#641a7052cf44f6204642b609',
+          nextId: null,
+          parentId: 'F221',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'U172',
+          preId: null,
+          nextId: null,
+          parentId: 'F221#641a7052cf44f6204642b60a',
+          tagId: '613ecb25af722dc29c7fc3c5',
+          packageId: '6352061254bb9b1c84ce3570',
+          props: [
+            {
+              propId: '641a7053cf44f6204642b9c7',
+              value: {
+                type: 'data',
+                mode: 'getEachData',
+                args: {
+                  id: 'N730',
+                  path: ['item', '6447328c425c9a11a9a475b1'],
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'U172#641a7053cf44f6204642b9cd',
+          preId: null,
+          nextId: 'U172#641a7053cf44f6204642b9c9',
+          parentId: 'U172',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'R154',
+          preId: null,
+          nextId: 'Z865',
+          parentId: 'U172#641a7053cf44f6204642b9cd',
+          tagId: '62c68d5d27d4bddfa72888fb',
+          packageId: '6358fb8554bb9b1c84ce47a2',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b61f',
+              value: {
+                type: 'data',
+                mode: 'getEachData',
+                args: {
+                  id: 'N730',
+                  path: ['item', '64473284425c9a11a9a475b0'],
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'Z865',
+          preId: 'R154',
+          nextId: null,
+          parentId: 'U172#641a7053cf44f6204642b9cd',
+          tagId: '62c68d5d27d4bddfa72888fb',
+          packageId: '6358fb8554bb9b1c84ce47a2',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b61f',
+              value: {
+                type: 'data',
+                mode: 'custom',
+                args: {
+                  type: 'text',
+                  value: '大于等于6',
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+      ],
+      variables: [],
+      lifeCycle: [
+        {
+          eventId: '641a95e7cd3c6b0921a79f2b',
+          actions: [
+            {
+              id: '645c47a262f62e7825159a63',
+              modeId: '6401884318eda303abe11c40',
+              mode: 'api',
+              name: '执行业务',
+              type: 'action',
+              args: {
+                id: '645c463fe94e7d605e79d693',
+              },
+            },
+            {
+              id: '645caf2ff7612041cb29cb60',
               modeId: '6401884318eda303abe11c40',
               mode: 'api',
               name: '执行业务',
@@ -8431,6 +8796,141 @@ const codeSchema = {
         ],
       },
     },
+    {
+      id: '645c463fe94e7d605e79d693',
+      key: 'chaxunyonghu',
+      method: 'post',
+      route: {
+        path: '',
+      },
+      request: {
+        body: [
+          {
+            name: '用户id',
+            types: [
+              {
+                type: 'text',
+              },
+            ],
+            id: '645c4643a257c532a654185f',
+            required: true,
+            key: 'yonghuid',
+          },
+        ],
+      },
+      response: {
+        body: [
+          {
+            name: '用户信息',
+            types: [
+              {
+                type: 'module',
+                rules: {
+                  properties: [
+                    {
+                      name: 'id',
+                      types: [
+                        {
+                          type: 'text',
+                        },
+                      ],
+                      id: '645c46a1a257c532a6541866',
+                      key: 'id',
+                    },
+                    {
+                      name: '用户名',
+                      types: [
+                        {
+                          type: 'text',
+                        },
+                      ],
+                      id: '645c46aba257c532a6541867',
+                      key: 'yonghuming',
+                    },
+                    {
+                      name: '用户年龄',
+                      types: [
+                        {
+                          type: 'number',
+                        },
+                      ],
+                      id: '645c46b4a257c532a6541868',
+                      key: 'yonghunianling',
+                    },
+                    {
+                      name: '地址',
+                      types: [
+                        {
+                          type: 'module',
+                          rules: {
+                            properties: [
+                              {
+                                name: '国家',
+                                types: [
+                                  {
+                                    type: 'text',
+                                  },
+                                ],
+                                id: '645c46c7a257c532a654186a',
+                                key: 'guojia',
+                              },
+                              {
+                                name: '省份',
+                                types: [
+                                  {
+                                    type: 'text',
+                                  },
+                                ],
+                                id: '645c46cda257c532a654186b',
+                                key: 'shengfen',
+                              },
+                              {
+                                name: '市区',
+                                types: [
+                                  {
+                                    type: 'text',
+                                  },
+                                ],
+                                id: '645c46d2a257c532a654186c',
+                                key: 'shiqu',
+                              },
+                              {
+                                name: '详细地址',
+                                types: [
+                                  {
+                                    type: 'text',
+                                  },
+                                ],
+                                id: '645c46d7a257c532a654186d',
+                                key: 'xiangxidizhi',
+                              },
+                              {
+                                name: 'id',
+                                types: [
+                                  {
+                                    type: 'text',
+                                  },
+                                ],
+                                id: '645c472ea257c532a654186f',
+                                key: 'id',
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                      id: '645c46bea257c532a6541869',
+                      key: 'dizhi',
+                    },
+                  ],
+                },
+              },
+            ],
+            id: '645c4691a257c532a6541865',
+            key: 'yonghuxinxi',
+          },
+        ],
+      },
+    },
   ],
   directories: [
     {
@@ -8442,10 +8942,26 @@ const codeSchema = {
       resourceType: 'page',
     },
     {
+      id: '645c3f0ce94e7d605e79d538',
+      key: 'renyuan',
+      name: '人员',
+      parentId: null,
+      isDirectory: true,
+      resourceType: undefined,
+    },
+    {
       id: '6447315b9c229310c169e36c',
       key: 'renyuanliebiao',
       name: '人员列表',
-      parentId: null,
+      parentId: '645c3f0ce94e7d605e79d538',
+      isDirectory: false,
+      resourceType: 'page',
+    },
+    {
+      id: '645c3f07e94e7d605e79d523',
+      key: 'renyuanxiangqingye',
+      name: '人员详情页',
+      parentId: '645c3f0ce94e7d605e79d538',
       isDirectory: false,
       resourceType: 'page',
     },
@@ -8453,7 +8969,7 @@ const codeSchema = {
       id: '644653eb9c229310c169da00',
       key: 'renyuanluruye',
       name: '人员录入页',
-      parentId: null,
+      parentId: '645c3f0ce94e7d605e79d538',
       isDirectory: false,
       resourceType: 'page',
     },
