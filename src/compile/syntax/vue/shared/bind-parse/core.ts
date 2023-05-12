@@ -240,6 +240,7 @@ const toAstMethods = {
   },
   getSlotData: (data: CodeSchema.DataValue_GetSlotData, ctx: BindParseCtx): CallExpression => {
     // TODO: 待定
+  },
   getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: BindParseCtx): CallExpression => {
     // TODO: 待定
     // if (!types) {
@@ -261,7 +262,7 @@ const toAstMethods = {
   open: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
 };
-[{ global }, { node }, { node }, { action }, { action }];
+
 const bindToAst = (data: BindRdData, ctx: BindParseCtx): BindAst | undefined => {
   switch (data.mode) {
     case 'getVar': {

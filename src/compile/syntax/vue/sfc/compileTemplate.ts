@@ -13,21 +13,11 @@ import {
 function compileTemplate(page: CodeSchema.Page, compileCtx: CompilePageCtx): { token: string } {
   // tag props events children
 
-  const ast = createTemplateAst(compileCtx.nodesStore.treeNodes, compileCtx);
+  const ast = createTemplateAst(compileCtx.scope.page.nodesStore.treeNodes, compileCtx);
 
   const token = g.generate([ast]);
 
   return { token };
-}
-
-interface ParsingNodesOptions {
-  getTag: (id: string) => string;
-  getPropKey: (tagId: string, propId: string) => string;
-  getPropValue: (tagId: string, propId: string) => string;
-  getEventKey: (tagId: string, eventId: string) => string;
-  getEventValue: (tagId: string, eventId: string) => string;
-  getEachData: (tagId: string) => string;
-  getValue: (tagId: string) => string;
 }
 
 function createTemplateAst(nodes: TreeNode[], compileCtx: CompilePageCtx) {
@@ -89,6 +79,7 @@ function parsingNodeSlot(node: TreeNode, compileCtx: CompilePageCtx): GenerateVu
 }
 function parsingNodeTpl(node: TreeNode, compileCtx: CompilePageCtx): GenerateVueTemplateTypes.Node {
   const { tagId } = node.data;
+  debugger;
   return g.node(
     'template',
     [],

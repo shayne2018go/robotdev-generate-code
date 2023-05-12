@@ -16,7 +16,12 @@ describe('compileTemplate', () => {
 
   const parsingPageResult = parsingPage(page, vueGlobalCtx);
 
-  const currentPageCompileOptions: CompilePageCtx = Object.assign({}, vueGlobalCtx, parsingPageResult);
+  const currentPageCompileOptions: CompilePageCtx = {
+    global: vueGlobalCtx,
+    scope: {
+      page: parsingPageResult,
+    },
+  };
 
   it('tempalte', () => {
     const { token } = compileTemplate(page, currentPageCompileOptions);

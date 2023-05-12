@@ -16,7 +16,12 @@ describe('compileScript', () => {
 
   const parsingPageResult = parsingPage(page, vueGlobalCtx);
 
-  const currentPageCompileOptions: CompilePageCtx = Object.assign({}, vueGlobalCtx, parsingPageResult);
+  const currentPageCompileOptions: CompilePageCtx = {
+    global: vueGlobalCtx,
+    scope: {
+      page: parsingPageResult,
+    },
+  };
 
   it('script', () => {
     const { token } = compileScript(page, currentPageCompileOptions);
