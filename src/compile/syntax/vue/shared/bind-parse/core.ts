@@ -192,7 +192,7 @@ const toAstMethods = {
     return memberExpr([...paths.reverse(), dataName, varName, rootName]);
   },
   getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): t.MemberExpression | t.Identifier => {
-    // 页面路由参数 ctx.pageStore.route.query
+    // 页面路由参数 router.query.xxx
     const [queryId, ...argPaths] = data.args.path || [];
     if (!queryId) {
       throw new Error('getEventData的data.args.path失败');
@@ -214,7 +214,7 @@ const toAstMethods = {
         return t.memberExpression(t.identifier(varStr), t.identifier(memberPaths[0]));
       }
     };
-    return memberExpr([...paths.reverse(), varName]);
+    return memberExpr([...paths.reverse(), varName, 'query', 'router']);
   },
   getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): t.MemberExpression | t.Identifier => {
     // 事件参数 @click="(evt,prop) => {const temp = `${evt.target}`;const temp1 = `${prop}`}"
