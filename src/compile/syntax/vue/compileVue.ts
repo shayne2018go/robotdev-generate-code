@@ -5,13 +5,22 @@ import compilePages from './compilePages';
 import compileRouter from './compileRouter';
 import { BUILT_IN_PACKAGES, COMPONENT_DIR, PAGE_DIR } from './const/config';
 import { getPathByDirectories } from './shared/directory-helper';
-import { actionsDataStore } from './shared/store/actions';
-import { apisDataStore } from './shared/store/apis';
-import { componentsDataStore } from './shared/store/components';
-import { eventsDataStore } from './shared/store/events';
-import { functionsDataStore } from './shared/store/functions';
-import { pagesDataStore } from './shared/store/pages';
-import { propsDataStore } from './shared/store/props';
+import {
+  actionsDataStore,
+  apisDataStore,
+  componentsDataStore,
+  eventsDataStore,
+  functionsDataStore,
+  pagesDataStore,
+  propsDataStore,
+} from './shared/store';
+// import { apisDataStore } from './shared/store/apis';
+// import { componentsDataStore } from './shared/store/components';
+// import { functionsDataStore } from './shared/store/functions';
+// import { actionsDataStore } from './shared/store/globalActions';
+// import { eventsDataStore } from './shared/store/globalEvents';
+// import { propsDataStore } from './shared/store/globalProps';
+// import { pagesDataStore } from './shared/store/pages';
 
 export interface VueCompileOptions {
   pages: GlobalContext.Page[]; // 路由相关
