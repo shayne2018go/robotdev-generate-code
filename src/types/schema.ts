@@ -268,6 +268,7 @@ declare namespace CodeSchema {
     name: string;
     key: string;
     isHide: boolean;
+    properties: Array<Property_Protocol>;
   }
 }
 
@@ -370,6 +371,7 @@ declare namespace CodeSchema {
       }[];
       parameters?: Property_Protocol[]; // 当type为functionData时，需要设置它的入参
       outTypes?: PropertyType_Protocol[]; // 当type为functionData时，需要设置它的出参类型
+      itemTypes?: PropertyType_Protocol[];
     };
     grammar?: string; // 语法句式
     desc?: string; // 描述
