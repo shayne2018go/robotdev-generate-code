@@ -1,5 +1,90 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`compile vue > compileApis 1`] = `
+[
+  {
+    "path": "src/apis/chuangjianyonghu.ts",
+    "token": "import axios from \\"axios\\";
+export function chuangjianyonghu(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"chuangjianyonghu\\",
+    data: data
+  });
+}",
+  },
+  {
+    "path": "src/apis/chuangjianbanji.ts",
+    "token": "import axios from \\"axios\\";
+export function chuangjianbanji(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"chuangjianbanji\\",
+    data: data
+  });
+}",
+  },
+  {
+    "path": "src/apis/luruxueshengbanji.ts",
+    "token": "import axios from \\"axios\\";
+export function luruxueshengbanji(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"luruxueshengbanji\\",
+    data: data
+  });
+}",
+  },
+  {
+    "path": "src/apis/chaxunxueshengbanji.ts",
+    "token": "import axios from \\"axios\\";
+export function chaxunxueshengbanji(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"chaxunxueshengbanji\\",
+    data: data
+  });
+}",
+  },
+  {
+    "path": "src/apis/chaxunsuoyouyonghu.ts",
+    "token": "import axios from \\"axios\\";
+export function chaxunsuoyouyonghu(data) {
+  return axios({
+    method: \\"post\\",
+    url: \\"chaxunsuoyouyonghu\\",
+    data: data
+  });
+}",
+  },
+]
+`;
+
+exports[`compile vue > compileRequestInstance 1`] = `
+[
+  {
+    "path": "src/utils/axios.ts",
+    "token": "import axios from \\"axios\\";
+const instance = axios.create({
+  timeout: 6000,
+  baseURL: \\"\\",
+  headers: {}
+});
+instance.interceptors.request.use(function (config) {
+  return config;
+}, function (error) {
+  return error.reject(error);
+});
+instance.interceptors.response.use(function (response) {
+  return response.data;
+}, function (error) {
+  return error.reject(error);
+});
+export default instance;",
+  },
+]
+`;
+
 exports[`compile vue > compileRouter 1`] = `
 [
   {
