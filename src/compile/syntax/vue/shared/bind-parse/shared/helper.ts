@@ -1,4 +1,5 @@
 import { tools } from '@/utils/tools';
+import { AccessPath, BindParseCtx, ReturnRef, ActionAst, BindAst, TableProps } from '../types';
 
 type BindRdData =
   | CodeSchema.DataValue_GetVar
@@ -118,16 +119,16 @@ export const genAccessPathItem = (key: string | number, type?: 'object' | 'array
 };
 
 export const isSlot = (tagId: string, ctx: BindParseCtx) => {
-  return ctx.global.componentsStore.getCmpt(tagId).key === 'slot';
+  return ctx.global.componentsStore.getCmpt(tagId)?.key === 'slot';
 };
 
 export const isEach = (tagId: string, ctx: BindParseCtx) => {
-  return ctx.global.componentsStore.getCmpt(tagId).key === 'each';
+  return ctx.global.componentsStore.getCmpt(tagId)?.key === 'each';
 };
 
 export const isEachOrSlot = (tagId: string, ctx: BindParseCtx) => {
   return (
-    ctx.global.componentsStore.getCmpt(tagId).key === 'slot' || ctx.global.componentsStore.getCmpt(tagId).key === 'each'
+    ctx.global.componentsStore.getCmpt(tagId)?.key === 'slot' || ctx.global.componentsStore.getCmpt(tagId)?.key === 'each'
   );
 };
 
