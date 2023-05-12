@@ -62,9 +62,6 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
       if (!cmpt) {
         throw new Error('tagId不存在');
       }
-      if (['tpl'].includes(cmpt.data.key)) {
-        return;
-      }
       const key = tools.string.lineToHump(cmpt.data.key);
       nodesMap[node.id] = {
         data: node,
@@ -133,7 +130,7 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
     return list;
   };
 
-  return {
+  const methods = {
     treeNodes,
     parents,
     nodes() {
@@ -157,8 +154,35 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
     ): CodeSchema.Event | undefined {
       return nodesMap[nodeId]?.eventsStore?.query(eventId);
     },
-    getNodeVarName(nodeId: CodeSchema.ComponentNode['id']): NodeMapItem | undefined {
-      return nodesMap[nodeId];
+    getNodeVarName(nodeId: CodeSchema.ComponentNode['id']) {
+      return nodesMap[nodeId].varName || undefined;
+    },
+    getNodePropDefine(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {
+      let define = nodesMap[nodeId]?.component?.members?.propsStore.findId(propId);
+      if (!define) {
+        define = ctx.propsStore.find(propId);
+        if (!define) {
+          return;
+        }
+      }
+      return define;
+    },
+    getNodeEventDefine(nodeId: CodeSchema.ComponentNode['id'], eventId: CodeSchema.Event['eventId']) {
+      let define = nodesMap[nodeId]?.component?.members?.emitsStore.findId(eventId);
+      if (!define) {
+        define = ctx.eventsStore.find(eventId);
+        if (!define) {
+          return;
+        }
+      }
+      return define;
+    },
+    getNodePropVarName(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {
+      return methods.getNodePropDefine(nodeId, propId)?.varName;
+    },
+    getNodeEventVarName(nodeId: CodeSchema.ComponentNode['id'], eventId: CodeSchema.Event['eventId']) {
+      return methods.getNodeEventDefine(nodeId, eventId)?.varName;
     },
   };
+  return methods;
 };

@@ -27,12 +27,11 @@ export const typesToMap = (types?: CodeSchema.Property_Protocol['types']) => {
   }
   types?.forEach((typeItem) => {
     if (typeItem.multiple) {
-      typeItem = {
-        ...typeItem,
-        type: 'array',
-        rules: {
-          itemTypes: [typeItem],
-        },
+      typeItem = { ...typeItem };
+      delete typeItem.multiple;
+      typeItem.type = 'array';
+      typeItem.rules = {
+        itemTypes: [typeItem],
       };
     }
     if (typeItem.type === 'module') {
@@ -41,7 +40,6 @@ export const typesToMap = (types?: CodeSchema.Property_Protocol['types']) => {
       typesTree.parameters = propertiesDataStore(typeItem.rules?.parameters || []);
       typesTree.outTypes = typesToMap(typeItem.rules?.outTypes);
     } else if (typeItem.type === 'array') {
-      typesTree.parameters = propertiesDataStore(typeItem.rules?.parameters || []);
       typesTree.itemTypes = typesToMap(typeItem.rules?.itemTypes);
     }
   });
@@ -89,6 +87,9 @@ export const propertiesDataStore = (
         members: typesToMap(item.types),
       };
       propertiesKeyMap[item.key] = propertiesMap[item.id];
+    },
+    getProp(propId: GlobalContext.Property['id']) {
+      return propertiesMap[propId]?.data;
     },
   };
 };

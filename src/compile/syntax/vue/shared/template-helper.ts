@@ -1,23 +1,30 @@
 import { CompilePageCtx } from '../compilePages';
 
 export const getNodeTag = (tagId: string, ctx: CompilePageCtx) => {
-  return ctx.global.componentsStore.getCmpt(tagId).key;
+  return ctx.global.componentsStore.getCmpt(tagId)?.key;
 };
 
 export const getNodePropKeyById = (nodeId: string, propId: string, ctx: CompilePageCtx) => {
-  const tagId = ctx.scope.page.nodesStore.getNode(nodeId).tagId;
-  return ctx.global.componentsStore.getProp(tagId, propId).key || ctx.global.propsStore.getProp(propId).key;
+  const tagId = ctx.scope.page.nodesStore.getNode(nodeId)?.tagId;
+  if (!tagId) {
+    return tagId;
+  }
+  return ctx.global.componentsStore.getProp(tagId, propId)?.varName || ctx.global.propsStore.find(propId)?.varName;
 };
 
 export const getNodePropKeyByTagId = (tagId: string, propId: string, ctx: CompilePageCtx) => {
-  return ctx.global.componentsStore.getProp(tagId, propId)?.key || ctx.global.propsStore.getProp(propId).key;
+  return ctx.global.componentsStore.getProp(tagId, propId)?.varName || ctx.global.propsStore.find(propId)?.varName;
 };
 
 export const getNodePropValueVariable = (nodeId: string, propId: string, ctx: CompilePageCtx) => {
   // TODO: 三种情况 （1， 节点局部变量；2， 全局变量； 3，函数调用）
-  const nodeVarname = ctx.scope.page.nodesVarNames[nodeId]?.varName;
-  const propVarname = ctx.scope.page.nodesVarNames[nodeId].propMembers[propId]?.varName;
-  return `${ctx.global.nodesVarRootName}.${nodeVarname}.${propVarname}`;
+  const node = ctx.scope.page.nodesStore.find(nodeId);
+  if (!node) {
+    return;
+  }
+  const nodeVarName = ctx.scope.page.nodesStore.getNodeVarName(nodeId);
+  const propVarName = ctx.scope.page.nodesStore.getNodePropVarName(nodeId, propId);
+  return `${ctx.global.nodesVarRootName}.${nodeVarName}.${propVarName}`;
 };
 
 export const getNodeEventKeyByTagId = (tagId: string, eventId: string, ctx: CompilePageCtx) => {
@@ -25,7 +32,11 @@ export const getNodeEventKeyByTagId = (tagId: string, eventId: string, ctx: Comp
 };
 
 export const getNodeEventValueVariable = (nodeId: string, eventId: string, ctx: CompilePageCtx) => {
-  const nodeVarname = ctx.scope.page.nodesVarNames[nodeId]?.varName;
-  const eventVarname = ctx.scope.page.nodesVarNames[nodeId].eventMembers[eventId]?.varName;
-  return `${ctx.global.nodesVarRootName}.${nodeVarname}.${eventVarname}`;
+  const nodeVarName = ctx.scope.page.nodesStore.getNodeVarName(nodeId); // 节点变量名
+  const eventDefine = ctx.scope.page.nodesStore.getNodeEventDefine(nodeId, eventId); // 事件定义
+  const eventVarName = eventDefine?.varName; // 事件名
+  const parameters = eventDefine?.data.parameters; // 形参
+  const parametersStore = eventDefine?.members.parameters; // 形参状态管理，取变量名：parametersStore?.find('aasd')?.varName
+
+  return `${ctx.global.nodesVarRootName}.${nodeVarName}.${eventVarName}`;
 };

@@ -1,4 +1,3 @@
-import { localSqlStore } from '../local-map';
 import { componentEmitsDataStore } from './componentEmits';
 import { componentSlotsDataStore } from './componentSlots';
 import { propertiesDataStore } from './properties';

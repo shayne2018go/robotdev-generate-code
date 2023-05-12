@@ -1,4 +1,5 @@
 import { tools } from '@/utils/tools';
+import { AccessPath, ActionAst, BindAst, BindParseCtx, ReturnRef, TableProps } from '../types';
 
 type BindRdData =
   | CodeSchema.DataValue_GetVar
@@ -7,9 +8,9 @@ type BindRdData =
   | CodeSchema.DataValue_GetEventData
   | CodeSchema.DataValue_GetSlotData
   | CodeSchema.DataValue_GetEachData
+  | CodeSchema.DataValue_GetArguments
   // | CodeSchema.DataValue_GetModelData
-  | CodeSchema.DataValue_GetCmptPropData
-  | CodeSchema.DataValue_TableData;
+  | CodeSchema.DataValue_GetCmptPropData;
 
 type SysAction =
   | CodeSchema.Action_SetVar
@@ -44,7 +45,6 @@ export const rdDataIsBind = (data: CodeSchema.DataValue): data is BindRdData => 
     'getArguments',
     // 'getModelData',
     'getCmptPropData',
-    'tableData',
   ].includes(data.mode);
 };
 export const rdActionIsSys = (data: any): data is SysAction => {
@@ -118,16 +118,17 @@ export const genAccessPathItem = (key: string | number, type?: 'object' | 'array
 };
 
 export const isSlot = (tagId: string, ctx: BindParseCtx) => {
-  return ctx.global.componentsStore.getCmpt(tagId).key === 'slot';
+  return ctx.global.componentsStore.getCmpt(tagId)?.key === 'slot';
 };
 
 export const isEach = (tagId: string, ctx: BindParseCtx) => {
-  return ctx.global.componentsStore.getCmpt(tagId).key === 'each';
+  return ctx.global.componentsStore.getCmpt(tagId)?.key === 'each';
 };
 
 export const isEachOrSlot = (tagId: string, ctx: BindParseCtx) => {
   return (
-    ctx.global.componentsStore.getCmpt(tagId).key === 'slot' || ctx.global.componentsStore.getCmpt(tagId).key === 'each'
+    ctx.global.componentsStore.getCmpt(tagId)?.key === 'slot' ||
+    ctx.global.componentsStore.getCmpt(tagId)?.key === 'each'
   );
 };
 
@@ -152,4 +153,13 @@ export const getEventArgVarName = (argName: string) => `event_${argName}`;
 export const nodeCtx = (nodeId: string, ctx: BindParseCtx) => {
   const parents = ctx.scope.page.nodesStore.parents(nodeId, (node) => isEachOrSlot(node.data.tagId, ctx));
   return parents.map((item) => ctx.scope.page.nodesVarNames[item.id]);
+};
+
+// 判断当前属性值，是否应该写在template里，如果不是，则写在script中
+export const inTemplate = (data: BindRdData) => {
+  if (rdDataIsBind(data)) {
+    return true;
+  }
+  // TODO: 后续可以判断是否为字面量，判断里面的文本是否包含双引号，不包含则可以写在template里
+  return false;
 };

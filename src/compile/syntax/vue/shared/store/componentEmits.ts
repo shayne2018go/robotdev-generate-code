@@ -60,5 +60,8 @@ export const componentEmitsDataStore = (emits: CodeSchema.ComponentEmit[]) => {
     ) {
       return emitsMap[eventId]?.members?.parameters?.find(propId);
     },
+    getEvent(eventId: CodeSchema.ComponentEmit['id']) {
+      return emitsMap[eventId].data;
+    },
   };
 };

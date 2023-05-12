@@ -20,6 +20,9 @@ export const apisDataStore = (apis: GlobalContext.Api[]) => {
       return apis;
     },
     getApi(apiId: GlobalContext.Api['id']) {
+      if (!cache[apiId]) {
+        return;
+      }
       return {
         data: store.query(apiId),
         members: cache[apiId],
