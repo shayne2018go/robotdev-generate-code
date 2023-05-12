@@ -109,3 +109,47 @@ export const literalToRdData_Custom = (data: any): CodeSchema.DataValue_Custom =
   }
   throw new Error('数据类型有误');
 };
+
+export const genAccessPathItem = (key: string | number, type?: 'object' | 'array'): AccessPath[number] => {
+  return {
+    type: type || 'object',
+    key,
+  };
+};
+
+export const isSlot = (tagId: string, ctx: BindParseCtx) => {
+  return ctx.global.componentsStore.getCmpt(tagId).key === 'slot';
+};
+
+export const isEach = (tagId: string, ctx: BindParseCtx) => {
+  return ctx.global.componentsStore.getCmpt(tagId).key === 'each';
+};
+
+export const isEachOrSlot = (tagId: string, ctx: BindParseCtx) => {
+  return (
+    ctx.global.componentsStore.getCmpt(tagId).key === 'slot' || ctx.global.componentsStore.getCmpt(tagId).key === 'each'
+  );
+};
+
+export const isAstType = (ref: ReturnRef): ref is { type: 'ast'; value: ActionAst | BindAst | undefined } => {
+  return ref.type === 'ast';
+};
+
+export const isTableType = (ref: ReturnRef): ref is { type: 'table'; value: TableProps | undefined } => {
+  return ref.type === 'table';
+};
+
+// 拼接循环节点的item变量名
+export const getEachItemVarName = (eachVarName: string) => `${eachVarName}_item`;
+// 拼接循环节点的index变量名
+export const getEachIndexVarName = (eachVarName: string) => `${eachVarName}_index`;
+// 拼接插槽节点的作用域插槽变量
+export const getSlotVarName = (slotVarName: string) => `${slotVarName}_slot`;
+// 拼接事件入参变量
+export const getEventArgVarName = (argName: string) => `event_${argName}`;
+
+// 得到节点的上下文节点
+export const nodeCtx = (nodeId: string, ctx: BindParseCtx) => {
+  const parents = ctx.scope.page.nodesStore.parents(nodeId, (node) => isEachOrSlot(node.data.tagId, ctx));
+  return parents.map((item) => ctx.scope.page.nodesVarNames[item.id]);
+};

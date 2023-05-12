@@ -1,17 +1,17 @@
 import { localSqlStore } from '../local-map';
+import { propertiesDataStore } from './properties';
 
 export const apisDataStore = (apis: GlobalContext.Api[]) => {
   const store = localSqlStore<GlobalContext.Api, 'id', []>({ primaryKey: 'id' });
-  const bodys = localSqlStore<CodeSchema.Property_Protocol, 'id', []>;
   const cache: {
     [apiId: string]: {
-      bodysStore: ReturnType<typeof bodys>;
+      bodysStore: ReturnType<typeof propertiesDataStore>;
     };
   } = {};
   if (apis) {
     store.created(apis, (item) => {
       cache[item.id] = {
-        bodysStore: bodys({ primaryKey: 'id' }).created(item.protocol.response?.body || []),
+        bodysStore: propertiesDataStore(item.protocol.response?.body || []),
       };
     });
   }
@@ -20,10 +20,13 @@ export const apisDataStore = (apis: GlobalContext.Api[]) => {
       return apis;
     },
     getApi(apiId: GlobalContext.Api['id']) {
-      return store.query(apiId);
+      return {
+        data: store.query(apiId),
+        members: cache[apiId],
+      };
     },
     getApiBody(apiId: GlobalContext.Action['id'], bodyId: CodeSchema.Property_Protocol['id']) {
-      return cache[apiId]?.bodysStore.query(bodyId);
+      return cache[apiId]?.bodysStore.findId(bodyId);
     },
   };
 };

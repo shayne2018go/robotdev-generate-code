@@ -1,3 +1,6 @@
+import { tools } from '@/utils/tools';
+import { VueGlobalCtx } from '../../compileVue';
+import { genVarName } from '../helper';
 import { localSqlStore } from '../local-map';
 
 export interface ViewNode {
@@ -20,27 +23,27 @@ export interface ViewNodeSlot {
   nodes?: Array<ViewNode>;
 }
 
-export type TreeNode = {
-  id: CodeSchema.ComponentNode['id'];
-  parentId: string | null;
-  data: CodeSchema.ComponentNode;
-  children: TreeNode[];
-  isUndefined?: true;
-};
+//ctx.getNodePropDefine(nodeId,propId
 
-export const nodesDataStore = (
-  nodes: CodeSchema.ComponentNode[],
-  itemCallback: (item: CodeSchema.ComponentNode, index: number) => void
-) => {
-  const store = localSqlStore<CodeSchema.ComponentNode, 'id', []>({ primaryKey: 'id' });
-  const propsStore = localSqlStore<CodeSchema.Property, 'propId', []>;
-  const eventsStore = localSqlStore<CodeSchema.Event, 'eventId', []>;
-  const cache: {
-    [nodeId: string]: {
-      propsStore: ReturnType<typeof propsStore>;
-      eventsStore: ReturnType<typeof eventsStore>;
-    };
-  } = {};
+const propsStore = localSqlStore<CodeSchema.Property, 'propId', []>;
+const eventsStore = localSqlStore<CodeSchema.Event, 'eventId', []>;
+
+interface NodeMapItem {
+  data: CodeSchema.ComponentNode;
+  component: ReturnType<VueGlobalCtx['componentsStore']['find']>;
+  varName: string;
+  propsStore: ReturnType<typeof propsStore>;
+  eventsStore: ReturnType<typeof eventsStore>;
+}
+
+export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobalCtx) => {
+  type TreeNode = {
+    id: CodeSchema.ComponentNode['id'];
+    parentId: string | null;
+    data: CodeSchema.ComponentNode;
+    children: TreeNode[];
+    isUndefined?: true;
+  };
 
   const tree: {
     [nodeId: string]: TreeNode;
@@ -48,10 +51,25 @@ export const nodesDataStore = (
 
   const treeNodes: TreeNode[] = [];
 
+  const nodesMap: {
+    [nodeId: string]: NodeMapItem;
+  } = {};
+  const genVarNameHanlder = genVarName();
+
   if (nodes) {
-    store.created(nodes, (node, index) => {
-      itemCallback(node, index);
-      cache[node.id] = {
+    nodes.forEach((node) => {
+      const cmpt = ctx.componentsStore.find(node.tagId);
+      if (!cmpt) {
+        throw new Error('tagId不存在');
+      }
+      if (['tpl'].includes(cmpt.data.key)) {
+        return;
+      }
+      const key = tools.string.lineToHump(cmpt.data.key);
+      nodesMap[node.id] = {
+        data: node,
+        component: cmpt,
+        varName: genVarNameHanlder(key),
         propsStore: propsStore({ primaryKey: 'propId' }).created(node.props || []),
         eventsStore: eventsStore({ primaryKey: 'eventId' }).created(node.events || []),
       };
@@ -121,14 +139,26 @@ export const nodesDataStore = (
     nodes() {
       return nodes;
     },
-    getNode(nodeId: CodeSchema.ComponentNode['id']) {
-      return store.query(nodeId);
+    find(nodeId: CodeSchema.ComponentNode['id']): NodeMapItem | undefined {
+      return nodesMap[nodeId];
     },
-    getNodeProp(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {
-      return cache[nodeId]?.propsStore.query(propId);
+    getNode(nodeId: CodeSchema.ComponentNode['id']): CodeSchema.ComponentNode | undefined {
+      return nodesMap[nodeId]?.data;
     },
-    getNodeEvent(nodeId: CodeSchema.ComponentNode['id'], eventId: CodeSchema.Event['eventId']) {
-      return cache[nodeId]?.eventsStore.query(eventId);
+    getNodeProp(
+      nodeId: CodeSchema.ComponentNode['id'],
+      propId: CodeSchema.Property['propId']
+    ): CodeSchema.Property | undefined {
+      return nodesMap[nodeId]?.propsStore?.query(propId);
+    },
+    getNodeEvent(
+      nodeId: CodeSchema.ComponentNode['id'],
+      eventId: CodeSchema.Event['eventId']
+    ): CodeSchema.Event | undefined {
+      return nodesMap[nodeId]?.eventsStore?.query(eventId);
+    },
+    getNodeVarName(nodeId: CodeSchema.ComponentNode['id']): NodeMapItem | undefined {
+      return nodesMap[nodeId];
     },
   };
 };

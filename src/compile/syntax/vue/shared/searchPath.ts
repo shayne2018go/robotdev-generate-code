@@ -1,18 +1,16 @@
-import { Identifier } from '@/types/code-schema/Identifier';
-
 const seach = <T extends boolean>(
-  types: Identifier['types'],
+  types: CodeSchema.Property_Protocol['types'],
   path: string[],
   typeKey: 'module' | 'action' | 'function',
   ruleKey: 'properties' | 'parameters',
   key: T
-): T extends true ? string[] : Identifier[] => {
+): T extends true ? string[] : CodeSchema.Property_Protocol[] => {
   if (!Array.isArray(path)) {
     return [];
   }
   key = key || (false as T);
   const _path: any[] = [];
-  let type: Identifier['types'][number] | undefined;
+  let type: CodeSchema.Property_Protocol['types'][number] | undefined;
   path.forEach((pathId) => {
     type = types.find((item) => item.type === typeKey);
     if (!type) {
@@ -31,26 +29,26 @@ const seach = <T extends boolean>(
   return _path;
 };
 
-export const searchModulePath = (types: Identifier['types'], path: string[]) => {
+export const searchModulePath = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
   return seach(types, path, 'module', 'properties', false);
 };
 
-export const searchActionPath = (types: Identifier['types'], path: string[]) => {
+export const searchActionPath = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
   return seach(types, path, 'action', 'parameters', false);
 };
 
-export const searchFunctionPath = (types: Identifier['types'], path: string[]) => {
+export const searchFunctionPath = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
   return seach(types, path, 'function', 'parameters', false);
 };
 
-export const searchModulePathKeys = (types: Identifier['types'], path: string[]) => {
+export const searchModulePathKeys = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
   return seach(types, path, 'module', 'properties', true);
 };
 
-export const searchActionPathKeys = (types: Identifier['types'], path: string[]) => {
+export const searchActionPathKeys = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
   return seach(types, path, 'action', 'parameters', true);
 };
 
-export const searchFunctionPathKeys = (types: Identifier['types'], path: string[]) => {
+export const searchFunctionPathKeys = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
   return seach(types, path, 'function', 'parameters', true);
 };

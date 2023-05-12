@@ -1,4 +1,9 @@
+import { tools } from '@/utils/tools';
+import * as t from '@babel/types';
+import { ArrowFunctionExpression, CallExpression, Expression, ExpressionStatement, ObjectProperty } from '@babel/types';
+import { searchModulePathKeys } from '../searchPath';
 import {
+  getEventArgVarName,
   isRdData,
   literalToRdData_Custom,
   rdActionIsSys,
@@ -6,117 +11,13 @@ import {
   rdDataisCustom,
   rdDataIsTable,
 } from './shared/helper';
-import * as t from '@babel/types';
-import {
-  ArrayExpression,
-  ArrowFunctionExpression,
-  BinaryExpression,
-  BooleanLiteral,
-  CallExpression,
-  DecimalLiteral,
-  Expression,
-  ExpressionStatement,
-  MemberExpression,
-  NullLiteral,
-  NumericLiteral,
-  ObjectExpression,
-  ObjectProperty,
-  StringLiteral,
-  Identifier,
-} from '@babel/types';
-import { CompilePageCtx } from '../../compilePages';
-import { searchModulePathKeys } from '../searchPath';
-import { tools } from '@/utils/tools';
-
-type ActionAst = CallExpression | BinaryExpression;
-type BindAst =
-  | MemberExpression
-  | ArrayExpression
-  | StringLiteral
-  | NumericLiteral
-  | BooleanLiteral
-  | ObjectExpression
-  | DecimalLiteral
-  | CallExpression
-  | NullLiteral
-  | Identifier;
-
-type BindRdData =
-  | CodeSchema.DataValue_GetVar
-  | CodeSchema.DataValue_GetApiData
-  | CodeSchema.DataValue_GetParam
-  | CodeSchema.DataValue_GetEventData
-  | CodeSchema.DataValue_GetSlotData
-  | CodeSchema.DataValue_GetEachData
-  | CodeSchema.DataValue_GetArguments
-  // | CodeSchema.DataValue_GetModelData
-  | CodeSchema.DataValue_GetCmptPropData
-  | CodeSchema.DataValue_TableData;
-
-type LiteralAst =
-  | ArrayExpression
-  | StringLiteral
-  | NumericLiteral
-  | BooleanLiteral
-  | ObjectExpression
-  | DecimalLiteral
-  | CallExpression;
-
-type BindParseCtx = {
-  global: CompilePageCtx['global'];
-  scope: CompilePageCtx['scope'] & {
-    node: CodeSchema.ComponentNode;
-    prop?: CodeSchema.Property;
-    event?: CodeSchema.Event;
-    actions?: {
-      [id: CodeSchema.Action['id']]: {
-        data: CodeSchema.Action;
-        protocol: CodeSchema.Action_Protocol;
-      };
-    };
-  };
-};
+import { ActionAst, BindAst, BindParseCtx, BindRdData, LiteralAst, ReturnRef, TableProps } from './types';
 
 /** helper  start*/
 
+// ev.target.focus()
+
 // TODO:helper范围内的代码后面要抽出去
-
-export const isSlot = (tagId: string, ctx: BindParseCtx) => {
-  return ctx.global.componentsStore.getCmpt(tagId).key === 'slot';
-};
-
-export const isEach = (tagId: string, ctx: BindParseCtx) => {
-  return ctx.global.componentsStore.getCmpt(tagId).key === 'each';
-};
-
-export const isEachOrSlot = (tagId: string, ctx: BindParseCtx) => {
-  return (
-    ctx.global.componentsStore.getCmpt(tagId).key === 'slot' || ctx.global.componentsStore.getCmpt(tagId).key === 'each'
-  );
-};
-
-export const isAstType = (ref: ReturnRef): ref is { type: 'ast'; value: ActionAst | BindAst | undefined } => {
-  return ref.type === 'ast';
-};
-
-export const isTableType = (ref: ReturnRef): ref is { type: 'table'; value: TableProps | undefined } => {
-  return ref.type === 'table';
-};
-
-// 拼接循环节点的item变量名
-export const getEachItemVarName = (eachVarName: string) => `${eachVarName}_item`;
-// 拼接循环节点的index变量名
-export const getEachIndexVarName = (eachVarName: string) => `${eachVarName}_index`;
-// 拼接插槽节点的作用域插槽变量
-export const getSlotVarName = (slotVarName: string) => `${slotVarName}_slot`;
-// 拼接事件入参变量
-export const getEventArgVarName = (argName: string) => `event_${argName}`;
-
-// 得到节点的上下文节点
-export const nodeCtx = (nodeId: string, ctx: BindParseCtx) => {
-  const parents = ctx.scope.page.nodesStore.parents(nodeId, (node) => isEachOrSlot(node.data.tagId, ctx));
-  return parents.map((item) => ctx.scope.page.nodesVarNames[item.id]);
-};
 
 /** helper end*/
 
@@ -158,7 +59,7 @@ const defaultAst = (ctx: BindParseCtx, types?: CodeSchema.PropertyType_Protocol[
 
 const toAstMethods = {
   getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): t.MemberExpression => {
-    const types = ctx.scope.page.variablesStore.get(data.args.id).types;
+    const types = ctx.scope.page.variablesStore.findId(data.args.id)?.data?.types;
     if (!types) {
       throw new Error('getVar的id的types获取失败');
     }
@@ -175,12 +76,23 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), rootName, varName]);
   },
-  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): t.MemberExpression => {
+  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): t.MemberExpression | undefined => {
     const [dataName, bodyId, ...argPaths] = data.args.path || [];
+    if (bodyId) {
+      /**
+        const types = bodyId ? ctx.global.apisStore.getApiBody(data.args.id, bodyId) : [];
+        const paths = searchModulePathKeys(types, argPaths); // 路径中的每个属性名
+        注意：类似bodyId找不到这种问题，要么返回undefined，要么抛异常，不能继续往下走，不能容错，容错了后面怎么编呢？
+       */
+      return;
+    }
+    const body = ctx.global.apisStore.getApiBody(data.args.id, bodyId);
+    if (!body) {
+      return;
+    }
     const rootName = ctx.global.apiVarRootName; // 变量外层的变量名
     const varName = ctx.global.apiNames[data.args.id].varName; // 变量名 这里去api映射的varName
-    const types = bodyId ? ctx.global.apisStore.getApiBody(data.args.id, bodyId) : [];
-    const paths = searchModulePathKeys(types, argPaths); // 路径中的每个属性名
+    const paths = searchModulePathKeys(body.data.types, argPaths); // 路径中的每个属性名
     const memberExpr = (paths: string[]): t.MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
@@ -201,8 +113,8 @@ const toAstMethods = {
     if (!query) {
       throw new Error('getEventData的query失败');
     }
-    const varName = query.key; // 变量外层的变量名
-    const paths = searchModulePathKeys(query.types, argPaths); // 路径中的每个属性名
+    const varName = query.data.key; // 变量外层的变量名
+    const paths = searchModulePathKeys(query.data.types, argPaths); // 路径中的每个属性名
     if (paths.length === 0) {
       return t.identifier(varName);
     }
@@ -240,6 +152,7 @@ const toAstMethods = {
   },
   getSlotData: (data: CodeSchema.DataValue_GetSlotData, ctx: BindParseCtx): CallExpression => {
     // TODO: 待定
+  },
   getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: BindParseCtx): CallExpression => {
     // TODO: 待定
     // if (!types) {
@@ -261,7 +174,7 @@ const toAstMethods = {
   open: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
 };
-[{ global }, { node }, { node }, { action }, { action }];
+
 const bindToAst = (data: BindRdData, ctx: BindParseCtx): BindAst | undefined => {
   switch (data.mode) {
     case 'getVar': {
@@ -405,18 +318,6 @@ const literalToAst = (
   throw new Error('rdData_custom中的类型"' + data.args.type + '"不支持编译');
 };
 
-type TableProps = {
-  _table_: true;
-  columns: {
-    key: string;
-    value: ArrayExpression;
-  };
-  dataSource: {
-    key: string;
-    value: ArrayExpression;
-  };
-};
-
 export const isTableAst = (data: any): data is TableProps => {
   return (
     tools.dataType.isObject(data) &&
@@ -443,11 +344,6 @@ const tableDataToAst = (
     },
   };
   return res;
-};
-
-type ReturnRef = {
-  type: 'table' | 'ast';
-  value?: ActionAst | BindAst | TableProps | undefined;
 };
 
 const valueToAst = (
@@ -479,17 +375,26 @@ const valueToAst = (
   return res;
 };
 
-export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseCtx): ReturnRef => {
+export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseCtx): ReturnRef | undefined => {
   const node = ctx.scope.page.nodesStore.getNode(nodeId);
+  if (!node) {
+    return;
+  }
   let prop = ctx.scope.page.nodesStore.getNodeProp(nodeId, propId);
+  if (!prop) {
+    return;
+  }
   const define = ctx.global.componentsStore.getProp(node.tagId, propId);
+  if (!define) {
+    return;
+  }
   if (!prop.value) {
     return {
       type: 'ast',
-      value: defaultAst(ctx, define.types),
+      value: defaultAst(ctx, define.data.types),
     };
   }
-  const res = valueToAst(prop.value, ctx, define.types);
+  const res = valueToAst(prop.value, ctx, define.data.types);
   return res;
 };
 
@@ -501,13 +406,19 @@ export const nodeEventValueAst = (
   ctx: BindParseCtx
 ): ArrowFunctionExpression | undefined => {
   const node = ctx.scope.page.nodesStore.getNode(nodeId);
+  if (!node) {
+    return;
+  }
   const event = ctx.scope.page.nodesStore.getNodeEvent(nodeId, eventId);
+  if (!event?.actions) {
+    return;
+  }
   const define = ctx.global.componentsStore.getEmit(node.tagId, eventId);
-  if (!event.actions) {
+  if (!define) {
     return;
   }
   const parems =
-    define.parameters?.map((item) => {
+    define.data.parameters?.map((item) => {
       return t.identifier(getEventArgVarName(item.key));
     }) || [];
   parems.push(t.identifier(getEventArgVarName('ctx')));
