@@ -27,11 +27,12 @@ export const typesToMap = (types?: CodeSchema.Property_Protocol['types']) => {
   }
   types?.forEach((typeItem) => {
     if (typeItem.multiple) {
+      const _typeItem = { ...typeItem }
+      delete _typeItem.multiple;
       typeItem = { ...typeItem };
-      delete typeItem.multiple;
       typeItem.type = 'array';
       typeItem.rules = {
-        itemTypes: [typeItem],
+        itemTypes: [_typeItem],
       };
     }
     if (typeItem.type === 'module') {
