@@ -442,7 +442,10 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
         if (isAstType(res)) {
           const ast = res.value;
           if (ast) {
-            propProps.push(t.objectProperty(t.identifier(getNodePropKeyByNodeId(node.id, prop.propId, ctx)), ast));
+            const varName = getNodePropKeyByNodeId(node.id, prop.propId, ctx);
+            if (varName) {
+              propProps.push(t.objectProperty(t.identifier(varName), ast));
+            }
           }
         } else if (isTableType(res)) {
           const tableProp = res.value;
@@ -466,7 +469,10 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
     node.events.forEach((event) => {
       const ast = nodeEventValueAst(node.id, event.eventId, bindParseCtx);
       if (ast) {
-        propProps.push(t.objectProperty(t.identifier(getNodeEventKeyByNodeId(node.id, event.eventId, ctx)), ast));
+        const varName = getNodeEventKeyByNodeId(node.id, event.eventId, ctx);
+        if (varName) {
+          propProps.push(t.objectProperty(t.identifier(varName), ast));
+        }
       }
     });
   }
