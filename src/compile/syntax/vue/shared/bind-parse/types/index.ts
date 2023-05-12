@@ -12,6 +12,7 @@ import {
   StringLiteral,
 } from '@babel/types';
 import { CompilePageCtx } from '../../../compilePages';
+import { genVarName } from '../../helper';
 
 export type ActionAst = CallExpression | BinaryExpression;
 export type BindAst =
@@ -53,10 +54,26 @@ export type BindParseCtx = {
     node: CodeSchema.ComponentNode;
     prop?: CodeSchema.Property;
     event?: CodeSchema.Event;
-    actions?: {
-      [id: CodeSchema.Action['id']]: {
-        data: CodeSchema.Action;
-        protocol: CodeSchema.Action_Protocol;
+    actions: {
+      genVarName: ReturnType<typeof genVarName>;
+      map: {
+        [id: CodeSchema.Action['id']]: {
+          data: CodeSchema.Action;
+          protocol: CodeSchema.Action_Protocol;
+          varName: string;
+          parametersVarNames: {
+            [id: CodeSchema.Action_Protocol['parameters'][number]['id']]: {
+              protocol: CodeSchema.Action_Protocol['parameters'][number];
+              varName: string;
+              memberVarNames: {
+                [id: CodeSchema.Property_Protocol['id']]: {
+                  protocol: CodeSchema.Property_Protocol;
+                  varName: string;
+                };
+              };
+            };
+          };
+        };
       };
     };
   };
