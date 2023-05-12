@@ -10,6 +10,7 @@ import {
   getNodeTag,
 } from '../shared/template-helper';
 import { genVarName } from '../shared/helper';
+import { GenerateVueTemplateTypes } from '@/compile/tokens/markup/vue-template/types';
 
 interface CompileTemplateCtx extends CompilePageCtx {
   helper: {
@@ -84,6 +85,9 @@ function parsingNodeEach(node: TreeNode, compileCtx: CompileTemplateCtx): Parsin
   }
 
   const eachVariable = getNodePropValueVariable(nodeId, eachData.propId, compileCtx);
+  if (!eachVariable) {
+    throw new Error(`can not find variable "${eachData.propId}"`);
+  }
   const eachPrefix = compileCtx.helper.uniqueVarname(key || 'each');
 
   return g.node(
@@ -142,6 +146,9 @@ function parsingNodeText(node: TreeNode, compileCtx: CompileTemplateCtx): Genera
   }
 
   const eachVariable = getNodePropValueVariable(nodeId, textData.propId, compileCtx);
+  if (!eachVariable) {
+    throw new Error(`can not find variable "${textData.propId}"`);
+  }
   // return g.node('template', [], parsingChildren(node.children || [], compileCtx));
   return g.insertText(eachVariable);
 }

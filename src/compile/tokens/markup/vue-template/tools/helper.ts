@@ -1,3 +1,5 @@
+import { VueTemplateTypes } from '../types';
+
 function is<T extends object>(v: any, k: string): v is T {
   return k in v;
 }

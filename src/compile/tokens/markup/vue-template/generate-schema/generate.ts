@@ -1,4 +1,5 @@
 import { generateVueTemplate } from '../core';
+import { GenerateVueTemplateTypes, VueTemplateTypes } from '../types';
 
 const helper = {
   isProp(schema: GenerateVueTemplateTypes.PropElement): schema is GenerateVueTemplateTypes.Prop {
@@ -72,7 +73,11 @@ function convert(nodeArr: Array<GenerateVueTemplateTypes.NodeElement>): VueTempl
 /**
  * 属性
  */
-export function prop(key: string, value?: string | number, isDynamic?: boolean): GenerateVueTemplateTypes.Prop {
+export function prop(
+  key: string,
+  value?: VueTemplateTypes.PropItem,
+  isDynamic?: boolean
+): GenerateVueTemplateTypes.Prop {
   return {
     _prop_: 'prop',
     key,
@@ -84,7 +89,11 @@ export function prop(key: string, value?: string | number, isDynamic?: boolean):
 /**
  * 事件
  */
-export function evt(key: string, value?: string, modifiers?: Array<string>): GenerateVueTemplateTypes.Event {
+export function evt(
+  key: string,
+  value?: VueTemplateTypes.EventItem,
+  modifiers?: Array<string>
+): GenerateVueTemplateTypes.Event {
   return {
     _prop_: 'event',
     key,
@@ -98,7 +107,7 @@ export function evt(key: string, value?: string, modifiers?: Array<string>): Gen
  */
 export function directive(
   key: string,
-  value?: string,
+  value?: VueTemplateTypes.DirectiveItem,
   arg?: string,
   modifiers?: Array<string>
 ): GenerateVueTemplateTypes.Directive {

@@ -1,10 +1,8 @@
 import createToken from '@/compile/config/createToken';
 import { Compile } from '@/types/compile/token';
-import { tools } from '@/utils/tools';
 import { VueCompileOptions, VueGlobalCtx } from './compileVue';
 import { PAGE_DIR } from './const/config';
 import { compileScript, compileStyle, compileTemplate } from './sfc';
-import { genVarName, outerNode } from './shared/helper';
 import { nodesDataStore } from './shared/store/nodes';
 import { propertiesDataStore } from './shared/store/properties';
 
@@ -18,28 +16,8 @@ export type CompilePageCtx = {
 
 interface ParsingPageResult {
   page: CodeSchema.Page;
-  nodesVarNames: {
-    [nodeId: string]: {
-      varName: string;
-      propMembers: {
-        [propId: string]: {
-          varName: string;
-        };
-      };
-      eventMembers: {
-        [eventId: string]: {
-          varName: string;
-        };
-      };
-    };
-  };
   nodesStore: ReturnType<typeof nodesDataStore>;
   variablesStore: ReturnType<typeof propertiesDataStore>;
-  variablesNames: {
-    [id: string]: {
-      varName: string;
-    };
-  };
   importComponents: GlobalContext.Component[];
   importFunctions: GlobalContext.Function[];
 }
@@ -92,55 +70,13 @@ export function parsingPage(page: CodeSchema.Page, ctx: VueGlobalCtx): ParsingPa
 
   const importComponents: GlobalContext.Component[] = [];
   const importFunctions: GlobalContext.Function[] = [];
-  const nodesVarNames: ParsingPageResult['nodesVarNames'] = {};
-  const genNodeVarNameHandler = genVarName();
-  const nodesStore = nodesDataStore(page.nodes, (node) => {
-    const cmpt = ctx.componentsStore.getCmpt(node.tagId);
-    if (['slot', 'tpl'].includes(cmpt.key)) {
-      return;
-    }
-    const key = tools.string.lineToHump(cmpt.key);
-    nodesVarNames[node.id] = {
-      varName: genNodeVarNameHandler(key),
-      propMembers: {},
-      eventMembers: {},
-    };
+  const nodesStore = nodesDataStore(page.nodes, ctx);
 
-    const genPropVarNameHandler = genVarName();
-
-    cmpt.protocol.props.forEach((item) => {
-      const propOption = ctx.componentsStore.getProp(node.tagId, item.id);
-      nodesVarNames[node.id].propMembers[item.id] = {
-        varName: genPropVarNameHandler(propOption.key),
-      };
-    });
-
-    const genEmitVarNameHandler = genVarName();
-    cmpt.protocol.emits.forEach((item) => {
-      const emitOption = ctx.componentsStore.getEmit(node.tagId, item.id);
-      nodesVarNames[node.id].eventMembers[item.id] = {
-        varName: genEmitVarNameHandler(emitOption.key),
-      };
-    });
-
-    if (outerNode(node)) {
-      importComponents.push(cmpt);
-    }
-  });
-
-  const genVariablesNameHandler = genVarName();
-  const variablesNames: ParsingPageResult['variablesNames'] = {};
-  const variablesStore = propertiesDataStore(page.variables || [], (item) => {
-    variablesNames[item.id] = {
-      varName: genVariablesNameHandler(item.key),
-    };
-  });
+  const variablesStore = propertiesDataStore(page.variables || []);
 
   return {
     page,
     nodesStore,
-    nodesVarNames,
-    variablesNames,
     variablesStore,
     importComponents,
     importFunctions,

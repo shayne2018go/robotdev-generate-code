@@ -36,15 +36,15 @@ interface NodeMapItem {
   eventsStore: ReturnType<typeof eventsStore>;
 }
 
-export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobalCtx) => {
-  type TreeNode = {
-    id: CodeSchema.ComponentNode['id'];
-    parentId: string | null;
-    data: CodeSchema.ComponentNode;
-    children: TreeNode[];
-    isUndefined?: true;
-  };
+export type TreeNode = {
+  id: CodeSchema.ComponentNode['id'];
+  parentId: string | null;
+  data: CodeSchema.ComponentNode;
+  children: TreeNode[];
+  isUndefined?: true;
+};
 
+export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobalCtx) => {
   const tree: {
     [nodeId: string]: TreeNode;
   } = {};

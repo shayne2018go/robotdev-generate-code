@@ -1,9 +1,27 @@
 import { check } from '../tools/helper';
+import { VueTemplateTypes } from '../types';
+import * as t from '@babel/types';
+import generate from '@babel/generator';
+
+const generatePropItem = (propItem: VueTemplateTypes.PropItem) => {
+  if (['string', 'number'].includes(typeof propItem)) {
+    return propItem;
+  } else if (typeof propItem === 'object') {
+    if (t.isCallExpression(propItem) || t.isMemberExpression(propItem)) {
+      const { code } = generate(propItem);
+      return code;
+    } else {
+      return propItem;
+    }
+  } else {
+    return propItem;
+  }
+};
 
 const generateTemplateProp = (schema: VueTemplateTypes.Prop): string => {
   let code = '';
   if (schema.value) {
-    code += `${schema.isDynamic ? ':' : ''}${schema.key}="${schema.value}"`;
+    code += `${schema.isDynamic ? ':' : ''}${schema.key}="${generatePropItem(schema.value)}"`;
   } else {
     code += `${schema.key}`;
   }
@@ -30,7 +48,7 @@ const generateTemplateEvent = (schema: VueTemplateTypes.Event): string => {
     code += schema.modifiers.reduce((start, ele) => `${start}.${ele}`, '');
   }
   if (schema.value) {
-    code += `="${schema.value}"`;
+    code += `="${generatePropItem(schema.value)}"`;
   }
   return code;
 };
@@ -59,7 +77,7 @@ const generateTemplateDirective = (schema: VueTemplateTypes.Directive): string =
     code += schema.modifiers.reduce((start, ele) => `${start}.${ele}`, '');
   }
   if (schema.value) {
-    code += `="${schema.value}"`;
+    code += `="${generatePropItem(schema.value)}"`;
   }
   return code;
 };

@@ -1,19 +1,33 @@
 import { CompilePageCtx } from '../compilePages';
 
 export const getNodeTag = (tagId: string, ctx: CompilePageCtx) => {
-  return ctx.global.componentsStore.getCmpt(tagId)?.key;
+  const node_protocol = ctx.global.componentsStore.getCmpt(tagId);
+  if (!node_protocol) {
+    throw new Error(`Cannot find tagId: ${tagId}`);
+  }
+  return node_protocol.key;
 };
 
 export const getNodePropKeyById = (nodeId: string, propId: string, ctx: CompilePageCtx) => {
-  const tagId = ctx.scope.page.nodesStore.getNode(nodeId)?.tagId;
-  if (!tagId) {
-    return tagId;
+  const node_protocol = ctx.scope.page.nodesStore.getNode(nodeId);
+  if (!node_protocol) {
+    throw new Error(`Cannot find nodeId: ${nodeId}`);
   }
-  return ctx.global.componentsStore.getProp(tagId, propId)?.varName || ctx.global.propsStore.find(propId)?.varName;
+  const tagId = node_protocol.tagId;
+  const prop_protocol = ctx.global.componentsStore.getProp(tagId, propId);
+  if (!prop_protocol) {
+    throw new Error(`Cannot find tagId: ${tagId}`);
+  }
+  return prop_protocol.data.key || ctx.global.propsStore.getProp(propId).key;
 };
 
 export const getNodePropKeyByTagId = (tagId: string, propId: string, ctx: CompilePageCtx) => {
-  return ctx.global.componentsStore.getProp(tagId, propId)?.varName || ctx.global.propsStore.find(propId)?.varName;
+  const prop_protocol = ctx.global.componentsStore.getProp(tagId, propId);
+  if (!prop_protocol) {
+    throw new Error(`Cannot find tagId: ${tagId}`);
+  }
+
+  return prop_protocol.data.key || ctx.global.propsStore.getProp(propId).key;
 };
 
 export const getNodePropValueVariable = (nodeId: string, propId: string, ctx: CompilePageCtx) => {
@@ -28,7 +42,12 @@ export const getNodePropValueVariable = (nodeId: string, propId: string, ctx: Co
 };
 
 export const getNodeEventKeyByTagId = (tagId: string, eventId: string, ctx: CompilePageCtx) => {
-  return ctx.global.componentsStore.getEmit(tagId, eventId)?.key || ctx.global.eventsStore.getEvent(eventId).key;
+  const event_protocol = ctx.global.componentsStore.getEmit(tagId, eventId);
+  if (!event_protocol) {
+    throw new Error(`Cannot find event by tagId: ${tagId}`);
+  }
+
+  return event_protocol.data.key || ctx.global.eventsStore.getEvent(eventId).key;
 };
 
 export const getNodeEventValueVariable = (nodeId: string, eventId: string, ctx: CompilePageCtx) => {

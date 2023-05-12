@@ -1,5 +1,10 @@
+import { CallExpression, MemberExpression } from '@babel/types';
 declare namespace VueTemplateTypes {
-  export type PropItem = string | number;
+  export type PropItem = string | number | CallExpression | MemberExpression;
+
+  export type EventItem = string | CallExpression | MemberExpression;
+
+  export type DirectiveItem = string | CallExpression | MemberExpression;
 
   export interface Prop {
     key: string;
@@ -9,13 +14,13 @@ declare namespace VueTemplateTypes {
 
   export interface Event {
     key: string;
-    value?: string;
+    value?: EventItem;
     modifiers?: Array<string>;
   }
 
   export interface Directive {
     key: string;
-    value?: string;
+    value?: DirectiveItem;
     arg?: string | number;
     modifiers?: Array<string>;
   }

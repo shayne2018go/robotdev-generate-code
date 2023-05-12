@@ -35,8 +35,13 @@ function getApiType(key: string, api: CodeSchema.Api_Protocol): GlobalContext.Ap
 
 function compileApis(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx): { tokens: Compile.Token[] } {
   const tokens = codeSchema.apis.map((ele) => {
-    const api = vueGlobalCtx.apisStore.getApi(ele.id).data;
-    return createToken(api.source.filePath!, generateApiToken(api));
+    // const api = vueGlobalCtx.apisStore.getApi(ele.id).data;
+    // return createToken(api.source.filePath!, generateApiToken(api));
+    const api = vueGlobalCtx.apisStore.getApi(ele.id);
+    if (!api) {
+      throw new Error(`Could not find api ${ele.id}`);
+    }
+    return createToken(api.data.source.filePath!, generateApiToken(api.data));
   });
   return { tokens };
 }
