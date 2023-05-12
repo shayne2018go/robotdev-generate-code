@@ -28,14 +28,11 @@ describe('compile vue', () => {
   });
 
   it('compileApis', () => {
-    const { tokens } = compileApis(codeSchema, vueGlobalCtx);
-    expect(tokens).toMatchSnapshot();
-    expect(tokens).toMatchObject(apiTokens);
-  });
-
-  it('compileRequestInstance', () => {
-    const tokens = compileRequestInstance({});
-    expect(tokens).toMatchSnapshot();
-    expect(tokens).toMatchObject(axiosTokens);
+    const { tokens: api } = compileApis(codeSchema, vueGlobalCtx);
+    const { tokens: axios } = compileRequestInstance({});
+    expect(api).toMatchSnapshot();
+    expect(axios).toMatchSnapshot();
+    expect(api).toMatchObject(apiTokens);
+    expect(axios).toMatchObject(axiosTokens);
   });
 });

@@ -27,6 +27,8 @@ import {
 import { CompilePageCtx } from '../../compilePages';
 import { searchModulePathKeys } from '../searchPath';
 import { tools } from '@/utils/tools';
+import { getNodeEventKeyByNodeId, getNodePropKeyByNodeId } from '../script-helper';
+import { genVarName } from '../helper';
 
 type ActionAst = CallExpression | BinaryExpression;
 type BindAst =
@@ -68,12 +70,28 @@ type BindParseCtx = {
     node: CodeSchema.ComponentNode;
     prop?: CodeSchema.Property;
     event?: CodeSchema.Event;
-    actions?: {
-      [id: CodeSchema.Action['id']]: {
-        data: CodeSchema.Action;
-        protocol: CodeSchema.Action_Protocol;
+    actions: {
+      genVarName: ReturnType<typeof genVarName>
+      map: {
+        [id: CodeSchema.Action['id']]: {
+          data: CodeSchema.Action;
+          protocol: CodeSchema.Action_Protocol;
+          varName: string
+          parametersVarNames:{
+            [id: CodeSchema.Action_Protocol['parameters'][number]['id']]: {
+              protocol: CodeSchema.Action_Protocol['parameters'][number];
+              varName: string
+              memberVarNames: {
+                [id: CodeSchema.Property_Protocol['id']]: {
+                  protocol: CodeSchema.Property_Protocol;
+                  varName: string
+                }
+              }
+            }
+          },
+        };
       };
-    };
+    },
   };
 };
 
@@ -157,7 +175,7 @@ const defaultAst = (ctx: BindParseCtx, types?: CodeSchema.PropertyType_Protocol[
 };
 
 const toAstMethods = {
-  getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): t.MemberExpression => {
+  getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): MemberExpression => {
     const types = ctx.scope.page.variablesStore.get(data.args.id).types;
     if (!types) {
       throw new Error('getVar的id的types获取失败');
@@ -165,7 +183,7 @@ const toAstMethods = {
     const rootName = ctx.global.variablesRootName; // 变量外层的变量名
     const varName = ctx.scope.page.variablesNames[data.args.id].varName; // 变量名
     const paths = searchModulePathKeys(types, data.args.path || []); // 路径中的每个属性名
-    const memberExpr = (paths: string[]): t.MemberExpression => {
+    const memberExpr = (paths: string[]): MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
         return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
@@ -175,13 +193,13 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), rootName, varName]);
   },
-  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): t.MemberExpression => {
+  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): MemberExpression => {
     const [dataName, bodyId, ...argPaths] = data.args.path || [];
     const rootName = ctx.global.apiVarRootName; // 变量外层的变量名
-    const varName = ctx.global.apiNames[data.args.id].varName; // 变量名 这里去api映射的varName
+    const varName = ctx.global.apisStore.getApi(data.args.id).key; // 变量名 这里去api映射的varName
     const types = bodyId ? ctx.global.apisStore.getApiBody(data.args.id, bodyId) : [];
     const paths = searchModulePathKeys(types, argPaths); // 路径中的每个属性名
-    const memberExpr = (paths: string[]): t.MemberExpression => {
+    const memberExpr = (paths: string[]): MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
         return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
@@ -191,22 +209,18 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), dataName, varName, rootName]);
   },
-  getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): t.MemberExpression | t.Identifier => {
+  getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): MemberExpression => {
     // 页面路由参数 router.query.xxx
-    const [queryId, ...argPaths] = data.args.path || [];
-    if (!queryId) {
-      throw new Error('getEventData的data.args.path失败');
+    if (!data.args.id) {
+      throw new Error('getParam的data.args.id失败');
     }
-    let query = ctx.global.pagesStore.getQuery(data.args.id, queryId);
+    let query = ctx.global.pagesStore.getQuery(ctx.scope.page.page.id, data.args.id);
     if (!query) {
       throw new Error('getEventData的query失败');
     }
     const varName = query.key; // 变量外层的变量名
-    const paths = searchModulePathKeys(query.types, argPaths); // 路径中的每个属性名
-    if (paths.length === 0) {
-      return t.identifier(varName);
-    }
-    const memberExpr = (paths: string[]): t.MemberExpression => {
+    const paths = searchModulePathKeys(query.types, data.args.path || []); // 路径中的每个属性名
+    const memberExpr = (paths: string[]): MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
         return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
@@ -216,19 +230,20 @@ const toAstMethods = {
     };
     return memberExpr([...paths.reverse(), varName, 'query', 'router']);
   },
-  getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): t.MemberExpression | t.Identifier => {
+  getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): MemberExpression | Identifier => {
     // 事件参数 @click="(evt,prop) => {const temp = `${evt.target}`;const temp1 = `${prop}`}"
-    const [paramId, ...argPaths] = data.args.path || [];
-    if (!paramId) {
-      throw new Error('getEventData的data.args.path失败');
+    if (!data.args.id) {
+      throw new Error('getEventData的data.args.id失败');
     }
-    let param = ctx.global.eventsStore.getParameters(data.args.id, paramId);
+    // 通过参数id拿到key和types
+    let param = getParam(data.args.id);
     const varName = param.key; // 变量外层的变量名
-    const paths = searchModulePathKeys(param.types, argPaths); // 路径中的每个属性名
+    const types = param.types || []; // 变量外层的变量名
+    const paths = searchModulePathKeys(types, data.args.path || []); // 路径中的每个属性名
     if (paths.length === 0) {
       return t.identifier(varName);
     }
-    const memberExpr = (paths: string[]): t.MemberExpression => {
+    const memberExpr = (paths: string[]): MemberExpression => {
       const [varStr, ...memberPaths] = paths;
       if (memberPaths.length !== 1) {
         return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
@@ -317,7 +332,10 @@ export const actionToAst = (data: CodeSchema.Action, ctx: BindParseCtx): ActionA
       return toAstMethods.callAction(data, ctx);
     }
   }
-  return;
+};
+
+export const actionsToAst = (eventId: string, ctx: CompilePageCtx): ExpressionStatement[] => {
+  return []
 };
 
 const literalToAst = (
@@ -480,6 +498,61 @@ const valueToAst = (
   return res;
 };
 
+export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectProperty[] => {
+  const propProps: ObjectProperty[] = [];
+  const eventProps: ObjectProperty[] = [];
+  const node = ctx.scope.page.nodesStore.getNode(nodeId);
+  const bindParseCtx: BindParseCtx = Object.assign({}, ctx, {
+    scope: {
+      node: node,
+      actions: {
+        genVarName: genVarName(),
+        map: {}
+      }
+    }
+  })
+  if (!node.props?.length && !node.events?.length) {
+    return [];
+  }
+  if (node.props?.length) {
+    node.props.forEach((prop) => {
+      const res = nodePropValueAst(node.id, prop.propId, bindParseCtx);
+      if (res) {
+        if (isAstType(res)) {
+          const ast = res.value;
+          if (ast) {
+            propProps.push(t.objectProperty(t.identifier(getNodePropKeyByNodeId(node.id, prop.propId, ctx)), ast));
+          }
+        } else if (isTableType(res)) {
+          const tableProp = res.value;
+          if (tableProp) {
+            propProps.push(
+              t.objectProperty(
+                t.identifier(getNodePropKeyByNodeId(node.id, prop.propId, ctx)),
+                t.objectExpression([
+                  t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
+                  t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
+                ])
+              )
+            );
+          }
+        } else {
+        }
+      }
+    });
+  }
+  if (node.events?.length) {
+    node.events.forEach((event) => {
+      const ast = nodeEventValueAst(node.id, event.eventId, bindParseCtx);
+      if (ast) {
+        propProps.push(t.objectProperty(t.identifier(getNodeEventKeyByNodeId(node.id, event.eventId, ctx)), ast));
+      }
+    });
+  }
+
+  return propProps.concat(eventProps);
+};
+
 export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseCtx): ReturnRef => {
   const node = ctx.scope.page.nodesStore.getNode(nodeId);
   let prop = ctx.scope.page.nodesStore.getNodeProp(nodeId, propId);
@@ -490,11 +563,10 @@ export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseC
       value: defaultAst(ctx, define.types),
     };
   }
+  ctx.scope.prop = prop;
   const res = valueToAst(prop.value, ctx, define.types);
   return res;
 };
-
-export const nodePropsAst = (nodeId: string, ctx: BindParseCtx): ObjectProperty[] => {};
 
 export const nodeEventValueAst = (
   nodeId: string,
@@ -504,6 +576,7 @@ export const nodeEventValueAst = (
   const node = ctx.scope.page.nodesStore.getNode(nodeId);
   const event = ctx.scope.page.nodesStore.getNodeEvent(nodeId, eventId);
   const define = ctx.global.componentsStore.getEmit(node.tagId, eventId);
+  ctx.scope.event = event;
   if (!event.actions) {
     return;
   }

@@ -4,83 +4,36 @@ exports[`compile vue > compileApis 1`] = `
 [
   {
     "path": "src/apis/chuangjianyonghu.ts",
-    "token": "import axios from \\"axios\\";
-export function chuangjianyonghu(data) {
-  return axios({
-    method: \\"post\\",
-    url: \\"chuangjianyonghu\\",
-    data: data
-  });
-}",
+    "token": "import axios from\\"axios\\";export function chuangjianyonghu(data){return axios({method:\\"post\\",url:\\"chuangjianyonghu\\",data:data})}",
   },
   {
     "path": "src/apis/chuangjianbanji.ts",
-    "token": "import axios from \\"axios\\";
-export function chuangjianbanji(data) {
-  return axios({
-    method: \\"post\\",
-    url: \\"chuangjianbanji\\",
-    data: data
-  });
-}",
+    "token": "import axios from\\"axios\\";export function chuangjianbanji(data){return axios({method:\\"post\\",url:\\"chuangjianbanji\\",data:data})}",
   },
   {
     "path": "src/apis/luruxueshengbanji.ts",
-    "token": "import axios from \\"axios\\";
-export function luruxueshengbanji(data) {
-  return axios({
-    method: \\"post\\",
-    url: \\"luruxueshengbanji\\",
-    data: data
-  });
-}",
+    "token": "import axios from\\"axios\\";export function luruxueshengbanji(data){return axios({method:\\"post\\",url:\\"luruxueshengbanji\\",data:data})}",
   },
   {
     "path": "src/apis/chaxunxueshengbanji.ts",
-    "token": "import axios from \\"axios\\";
-export function chaxunxueshengbanji(data) {
-  return axios({
-    method: \\"post\\",
-    url: \\"chaxunxueshengbanji\\",
-    data: data
-  });
-}",
+    "token": "import axios from\\"axios\\";export function chaxunxueshengbanji(data){return axios({method:\\"post\\",url:\\"chaxunxueshengbanji\\",data:data})}",
   },
   {
     "path": "src/apis/chaxunsuoyouyonghu.ts",
-    "token": "import axios from \\"axios\\";
-export function chaxunsuoyouyonghu(data) {
-  return axios({
-    method: \\"post\\",
-    url: \\"chaxunsuoyouyonghu\\",
-    data: data
-  });
-}",
+    "token": "import axios from\\"axios\\";export function chaxunsuoyouyonghu(data){return axios({method:\\"post\\",url:\\"chaxunsuoyouyonghu\\",data:data})}",
+  },
+  {
+    "path": "src/apis/chaxunyonghu.ts",
+    "token": "import axios from\\"axios\\";export function chaxunyonghu(data){return axios({method:\\"post\\",url:\\"chaxunyonghu\\",data:data})}",
   },
 ]
 `;
 
-exports[`compile vue > compileRequestInstance 1`] = `
+exports[`compile vue > compileApis 2`] = `
 [
   {
     "path": "src/utils/axios.ts",
-    "token": "import axios from \\"axios\\";
-const instance = axios.create({
-  timeout: 6000,
-  baseURL: \\"\\",
-  headers: {}
-});
-instance.interceptors.request.use(function (config) {
-  return config;
-}, function (error) {
-  return error.reject(error);
-});
-instance.interceptors.response.use(function (response) {
-  return response.data;
-}, function (error) {
-  return error.reject(error);
-});
-export default instance;",
+    "token": "import axios from\\"axios\\";const instance=axios.create({timeout:6000,baseURL:\\"\\",headers:{}});instance.interceptors.request.use(function(config){return config},function(error){return error.reject(error)});instance.interceptors.response.use(function(response){return response.data},function(error){return error.reject(error)});export default instance;",
   },
 ]
 `;
@@ -103,13 +56,17 @@ const routes = [{
   name: \\"502\\",
   component: () => import(\\"../pages/502.vue\\")
 }, {
-  path: \\"/renyuanluruye\\",
+  path: \\"/renyuan/renyuanluruye\\",
   name: \\"renyuanluruye\\",
-  component: () => import(\\"../pages/renyuanluruye.vue\\")
+  component: () => import(\\"../pages/renyuan/renyuanluruye.vue\\")
 }, {
-  path: \\"/renyuanliebiao\\",
+  path: \\"/renyuan/renyuanliebiao\\",
   name: \\"renyuanliebiao\\",
-  component: () => import(\\"../pages/renyuanliebiao.vue\\")
+  component: () => import(\\"../pages/renyuan/renyuanliebiao.vue\\")
+}, {
+  path: \\"/renyuan/renyuanxiangqingye\\",
+  name: \\"renyuanxiangqingye\\",
+  component: () => import(\\"../pages/renyuan/renyuanxiangqingye.vue\\")
 }];
 export { routes };",
   },

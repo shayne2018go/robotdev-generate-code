@@ -6,45 +6,44 @@ import { AxiosRequestConfig } from 'axios';
 import { relative } from '@/utils/node';
 import { API_DIR, UTIL_DIR } from './const/config';
 import { VueGlobalCtx } from './compileVue';
+import { genVarName } from './shared/helper';
 
 function parsingApis(codeSchema: CodeSchema.Project): { apis: GlobalContext.Api[] } {
   const apis = [] as GlobalContext.Api[];
+  const getApiNameHandler = genVarName();
 
   codeSchema.apis.forEach((api) => {
-    const apiFile = `${api.key}.ts`;
-    const path = `${API_DIR}/${apiFile}`;
-    apis.push(getApiType(path, api));
+    const key = getApiNameHandler(api.key);
+    apis.push(getApiType(key, api));
   });
 
   return { apis };
 }
 
-function getApiType(path: string, api: CodeSchema.Api_Protocol): GlobalContext.Api {
+function getApiType(key: string, api: CodeSchema.Api_Protocol): GlobalContext.Api {
   const apiType: GlobalContext.Api = {
     id: api.id,
-    key: api.key,
+    key: key,
     source: {
-      filePath: path,
-      exportName: api.key,
+      filePath: `${API_DIR}/${key}.ts`,
+      exportName: key,
     },
     protocol: api,
   };
   return apiType;
 }
 
-function compileApis(_codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx): { tokens: Compile.Token[] } {
-  const tokens = vueGlobalCtx.apisStore.apis().map((api) => {
-    if (!api.source.filePath) {
-      throw new Error(`${api}`);
-    }
-    return createToken(api.source.filePath, generateApiToken(api.protocol));
+function compileApis(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx): { tokens: Compile.Token[] } {
+  const tokens = codeSchema.apis.map((ele) => {
+    const api = vueGlobalCtx.apisStore.getApi(ele.id);
+    return createToken(api.source.filePath!, generateApiToken(api));
   });
   return { tokens };
 }
 
-function generateApiToken(api: CodeSchema.Api_Protocol): string {
+function generateApiToken(api: GlobalContext.Api): string {
   const statement = t.program([getAxiosImport(), getExportRequests(api)]);
-  const { code } = generate(statement);
+  const { code } = generate(statement, {minified: true});
   return code;
 }
 
@@ -61,7 +60,7 @@ function getAxiosUtilImport(): t.ImportDeclaration {
   );
 }
 
-function getExportRequests(api: CodeSchema.Api_Protocol): t.ExportNamedDeclaration {
+function getExportRequests(api: GlobalContext.Api): t.ExportNamedDeclaration {
   return t.exportNamedDeclaration(
     t.functionDeclaration(
       t.identifier(api.key),
@@ -70,7 +69,7 @@ function getExportRequests(api: CodeSchema.Api_Protocol): t.ExportNamedDeclarati
         t.returnStatement(
           t.callExpression(t.identifier('axios'), [
             t.objectExpression([
-              t.objectProperty(t.identifier('method'), t.stringLiteral(api.method)),
+              t.objectProperty(t.identifier('method'), t.stringLiteral(api.protocol.method)),
               t.objectProperty(t.identifier('url'), t.stringLiteral(api.key)),
               t.objectProperty(t.identifier('data'), t.identifier('data')),
             ]),
@@ -81,7 +80,7 @@ function getExportRequests(api: CodeSchema.Api_Protocol): t.ExportNamedDeclarati
   );
 }
 
-function compileRequestInstance({ timeout, baseURL, headers }: AxiosRequestConfig): Compile.Token[] {
+function compileRequestInstance({ timeout, baseURL, headers }: AxiosRequestConfig): {tokens: Compile.Token[]} {
   const utilFile = 'axios.ts';
   const headersExpr: t.ObjectProperty[] = [];
   if (headers) {
@@ -151,8 +150,8 @@ function compileRequestInstance({ timeout, baseURL, headers }: AxiosRequestConfi
     ),
     t.exportDefaultDeclaration(t.identifier('instance')),
   ]);
-  const { code } = generate(program);
-  return [createToken(`${UTIL_DIR}/${utilFile}`, code)];
+  const { code } = generate(program, {minified: true});
+  return {tokens: [createToken(`${UTIL_DIR}/${utilFile}`, code)]};
 }
 
 export { parsingApis, compileRequestInstance };
