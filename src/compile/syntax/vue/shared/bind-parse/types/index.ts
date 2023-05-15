@@ -51,7 +51,7 @@ export type LiteralAst =
 export type BindParseCtx = {
   global: CompilePageCtx['global'];
   scope: CompilePageCtx['scope'] & {
-    node: CodeSchema.ComponentNode;
+    node?: CodeSchema.ComponentNode;
     prop?: CodeSchema.Property;
     event?: CodeSchema.Event;
     actions: {

@@ -227,9 +227,9 @@ declare namespace CodeSchema {
     mode: 'api';
     args: {
       id: string;
-      params: any[];
-      success: any[];
-      fail: any[];
+      params: DataValue_Custom;
+      success: Action[];
+      fail: Action[];
     };
   }
 
