@@ -1,6 +1,7 @@
 import * as t from '@babel/types';
 import { tools } from '@/utils/tools';
 import { AccessPath, ActionAst, BindAst, BindParseCtx, ReturnRef, TableProps } from '../types';
+import { NodeMapItem } from '../../store/nodes';
 
 type BindRdData =
   | CodeSchema.DataValue_GetVar
@@ -170,9 +171,9 @@ export const getSlotVarName = (slotVarName: string) => `${slotVarName}_slot`;
 export const getEventArgVarName = (argName: string) => `event_${argName}`;
 
 // 得到节点的上下文节点
-export const nodeCtx = (nodeId: string, ctx: BindParseCtx) => {
+export const nodeCtx = (nodeId: string, ctx: BindParseCtx): NodeMapItem[] => {
   const parents = ctx.scope.page.nodesStore.parents(nodeId, (node) => isEach_Or_TplSlot(node.data.tagId, ctx));
-  return parents.map((item) => ctx.scope.page.nodesVarNames[item.id]);
+  return parents.map((item) => ctx.scope.page.nodesStore.find(item.id)).filter((n) => n !== undefined) as NodeMapItem[];
 };
 
 // 判断当前属性值，是否应该写在template里，如果不是，则写在script中

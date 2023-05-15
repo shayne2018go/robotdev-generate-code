@@ -3,6 +3,7 @@ import { Compile } from '@/types/compile/token';
 import { VueCompileOptions, VueGlobalCtx } from './compileVue';
 import { PAGE_DIR } from './const/config';
 import { compileScript, compileStyle, compileTemplate } from './sfc';
+import { genVarName } from './shared/helper';
 import { nodesDataStore } from './shared/store/nodes';
 import { propertiesDataStore } from './shared/store/properties';
 

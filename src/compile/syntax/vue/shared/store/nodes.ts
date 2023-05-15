@@ -28,7 +28,7 @@ export interface ViewNodeSlot {
 const propsStore = localSqlStore<CodeSchema.Property, 'propId', []>;
 const eventsStore = localSqlStore<CodeSchema.Event, 'eventId', []>;
 
-interface NodeMapItem {
+export interface NodeMapItem {
   data: CodeSchema.ComponentNode;
   component: ReturnType<VueGlobalCtx['componentsStore']['find']>;
   varName: string;
@@ -120,12 +120,12 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
         } else {
           list.unshift(parent);
         }
-        const parentId = parent.parentId;
-        if (!parentId) {
-          break;
-        }
-        parent = tree[parentId];
       }
+      const parentId = parent.parentId;
+      if (!parentId) {
+        break;
+      }
+      parent = tree[parentId];
     }
     return list;
   };

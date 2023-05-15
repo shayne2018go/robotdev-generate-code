@@ -1,10 +1,21 @@
-import { CallExpression, MemberExpression } from '@babel/types';
+import {
+  CallExpression,
+  BinaryExpression,
+  MemberExpression,
+  NumericLiteral,
+  StringLiteral,
+  ArrowFunctionExpression,
+} from '@babel/types';
 declare namespace VueTemplateTypes {
-  export type PropItem = string | number | CallExpression | MemberExpression;
+  export type PropItem = string | number | CallExpression | MemberExpression | BinaryExpression;
 
-  export type EventItem = string | CallExpression | MemberExpression;
+  export type EventItem = string | CallExpression | MemberExpression | ArrowFunctionExpression;
 
-  export type DirectiveItem = string | CallExpression | MemberExpression;
+  export type DirectiveItem = string | CallExpression | MemberExpression | BinaryExpression;
+
+  export type TextExpression = string | CallExpression | MemberExpression;
+
+  export type TextLiteral = NumericLiteral | StringLiteral | string | number;
 
   export interface Prop {
     key: string;
@@ -26,11 +37,11 @@ declare namespace VueTemplateTypes {
   }
 
   export interface Text {
-    text: string | number;
+    text: TextLiteral;
   }
 
   export interface InsertText {
-    expression: string;
+    expression: TextExpression;
   }
 
   export interface Node {

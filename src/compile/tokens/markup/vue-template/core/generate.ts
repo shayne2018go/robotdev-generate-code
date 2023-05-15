@@ -7,7 +7,7 @@ const generatePropItem = (propItem: VueTemplateTypes.PropItem) => {
   if (['string', 'number'].includes(typeof propItem)) {
     return propItem;
   } else if (typeof propItem === 'object') {
-    if (t.isCallExpression(propItem) || t.isMemberExpression(propItem)) {
+    if (t.isCallExpression(propItem) || t.isMemberExpression(propItem) || t.isBinaryExpression(propItem)) {
       const { code } = generate(propItem);
       return code;
     } else {
@@ -15,6 +15,21 @@ const generatePropItem = (propItem: VueTemplateTypes.PropItem) => {
     }
   } else {
     return propItem;
+  }
+};
+
+const generateEventItem = (eventItem: VueTemplateTypes.EventItem) => {
+  if (['string', 'number'].includes(typeof eventItem)) {
+    return eventItem;
+  } else if (typeof eventItem === 'object') {
+    if (t.isCallExpression(eventItem) || t.isMemberExpression(eventItem) || t.isArrowFunctionExpression(eventItem)) {
+      const { code } = generate(eventItem);
+      return code;
+    } else {
+      return eventItem;
+    }
+  } else {
+    return eventItem;
   }
 };
 
@@ -48,7 +63,7 @@ const generateTemplateEvent = (schema: VueTemplateTypes.Event): string => {
     code += schema.modifiers.reduce((start, ele) => `${start}.${ele}`, '');
   }
   if (schema.value) {
-    code += `="${generatePropItem(schema.value)}"`;
+    code += `="${generateEventItem(schema.value)}"`;
   }
   return code;
 };
@@ -120,6 +135,14 @@ const generateTemplateNode = (schema: VueTemplateTypes.Node): string => {
 const generateTemplateText = (schema: VueTemplateTypes.Text): string => {
   if (!schema) {
     return '';
+  } else if (['string', 'number'].includes(typeof schema.text)) {
+    return `${schema.text}`;
+  } else if (typeof schema.text === 'object') {
+    if (t.isNumericLiteral(schema.text) || t.isStringLiteral(schema.text)) {
+      const { code } = generate(schema.text);
+      return code;
+    }
+    return `${schema.text}`;
   }
   return `${schema.text}`;
 };
@@ -127,6 +150,14 @@ const generateTemplateText = (schema: VueTemplateTypes.Text): string => {
 const generateTemplateInsertText = (schema: VueTemplateTypes.InsertText): string => {
   if (!schema) {
     return '';
+  } else if (['string', 'number'].includes(typeof schema.expression)) {
+    return `{{${schema.expression}}}`;
+  } else if (typeof schema.expression === 'object') {
+    if (t.isCallExpression(schema.expression) || t.isMemberExpression(schema.expression)) {
+      const { code } = generate(schema.expression);
+      return `{{${code}}}`;
+    }
+    return `{{${schema.expression}}}`;
   }
   return `{{${schema.expression}}}`;
 };
