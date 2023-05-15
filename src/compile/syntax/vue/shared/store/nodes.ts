@@ -28,7 +28,7 @@ export interface ViewNodeSlot {
 const propsStore = localSqlStore<CodeSchema.Property, 'propId', []>;
 const eventsStore = localSqlStore<CodeSchema.Event, 'eventId', []>;
 
-interface NodeMapItem {
+export interface NodeMapItem {
   data: CodeSchema.ComponentNode;
   component: ReturnType<VueGlobalCtx['componentsStore']['find']>;
   varName: string;

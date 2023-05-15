@@ -123,7 +123,7 @@ export function directive(
 /**
  * 文本
  */
-export function text(text: string): GenerateVueTemplateTypes.Text {
+export function text(text: VueTemplateTypes.TextLiteral): GenerateVueTemplateTypes.Text {
   return {
     _node_: 'text',
     text,
@@ -133,7 +133,7 @@ export function text(text: string): GenerateVueTemplateTypes.Text {
 /**
  * 文本插值
  */
-export function insertText(expression: string): GenerateVueTemplateTypes.InsertText {
+export function insertText(expression: VueTemplateTypes.TextExpression): GenerateVueTemplateTypes.InsertText {
   return {
     _node_: 'insertText',
     expression,

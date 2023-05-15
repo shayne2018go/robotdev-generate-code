@@ -4,6 +4,7 @@ import { parsingVueCompileOptions, buildGlobalCtx } from '../../compileVue';
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
 import { CompilePageCtx, parsingPage } from '../../compilePages';
 import templateToken from './__fixture__/template-tokens.json';
+import templateEachIfoken from './__fixture__/template-each-if-tokens.json';
 
 describe('compileTemplate', () => {
   // 解析相关依赖协议
@@ -47,6 +48,6 @@ describe('compileTemplate', () => {
     debugger;
 
     expect(token).toMatchSnapshot();
-    expect(token).toEqual(templateToken);
+    expect(token).toEqual(templateEachIfoken);
   });
 });

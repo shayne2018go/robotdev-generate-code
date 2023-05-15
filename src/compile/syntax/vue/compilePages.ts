@@ -4,6 +4,7 @@ import { VueCompileOptions, VueGlobalCtx } from './compileVue';
 import { PAGE_DIR } from './const/config';
 import { compileScript, compileStyle, compileTemplate } from './sfc';
 import { componentEmitsDataStore, componentSlotsDataStore } from './shared/store';
+import { genVarName } from './shared/helper';
 import { nodesDataStore } from './shared/store/nodes';
 import { propertiesDataStore } from './shared/store/properties';
 
@@ -62,7 +63,7 @@ function compilePage(page: CodeSchema.Page, ctx: VueGlobalCtx) {
     global: ctx,
     scope: {
       page: parsingPageResult,
-      current: parsingPageResult,
+      current: parsingComponentResult,
     },
   };
 

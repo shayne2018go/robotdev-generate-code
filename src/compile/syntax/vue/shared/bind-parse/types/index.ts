@@ -51,10 +51,10 @@ export type LiteralAst =
 export type BindParseCtx = {
   global: CompilePageCtx['global'];
   scope: CompilePageCtx['scope'] & {
-    node: CodeSchema.ComponentNode;
+    node?: CodeSchema.ComponentNode;
     prop?: CodeSchema.Property;
     event?: CodeSchema.Event;
-    actions: {
+    actions?: {
       genVarName: ReturnType<typeof genVarName>;
       map: {
         [id: CodeSchema.Action['id']]: {
@@ -76,6 +76,9 @@ export type BindParseCtx = {
         };
       };
     };
+  };
+  helper: {
+    uniqueVarname: (varname: string) => string; // 去重名
   };
 };
 

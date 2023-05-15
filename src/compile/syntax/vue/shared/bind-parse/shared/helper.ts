@@ -1,5 +1,7 @@
+import * as t from '@babel/types';
 import { tools } from '@/utils/tools';
 import { AccessPath, ActionAst, BindAst, BindParseCtx, ReturnRef, TableProps } from '../types';
+import { NodeMapItem } from '../../store/nodes';
 
 type BindRdData =
   | CodeSchema.DataValue_GetVar
@@ -31,6 +33,25 @@ export const isAction = (data: any): data is CodeSchema.DataValue => {
   }
   return false;
 };
+
+export const actionCheck = {
+  isSetVar: (data: CodeSchema.Action): data is CodeSchema.Action_SetVar => {
+    return data.mode === 'setVar';
+  },
+  isSetApiData: (data: CodeSchema.Action): data is CodeSchema.Action_SetApiData => {
+    return data.mode === 'setApiData';
+  },
+  isOpen: (data: CodeSchema.Action): data is CodeSchema.Action_Open => {
+    return data.mode === 'open';
+  },
+  isSet: (data: CodeSchema.Action): data is CodeSchema.Action_Set => {
+    return data.mode === 'set';
+  },
+  isApi: (data: CodeSchema.Action): data is CodeSchema.Action_Api => {
+    return data.mode === 'api';
+  },
+};
+
 export const rdDataisCustom = (data: CodeSchema.DataValue): data is CodeSchema.DataValue_Custom => {
   return data.mode === 'custom';
 };
@@ -150,9 +171,9 @@ export const getSlotVarName = (slotVarName: string) => `${slotVarName}_slot`;
 export const getEventArgVarName = (argName: string) => `event_${argName}`;
 
 // 得到节点的上下文节点
-export const nodeCtx = (nodeId: string, ctx: BindParseCtx) => {
+export const nodeCtx = (nodeId: string, ctx: BindParseCtx): NodeMapItem[] => {
   const parents = ctx.scope.page.nodesStore.parents(nodeId, (node) => isEach_Or_TplSlot(node.data.tagId, ctx));
-  return parents.map((item) => ctx.scope.page.nodesStore.find(item.id));
+  return parents.map((item) => item.store) as NodeMapItem[];
 };
 
 // 判断当前属性值，是否应该写在template里，如果不是，则写在script中
@@ -162,4 +183,17 @@ export const inTemplate = (data: BindRdData) => {
   }
   // TODO: 后续可以判断是否为字面量，判断里面的文本是否包含双引号，不包含则可以写在template里
   return false;
+};
+
+export const getMemberExpr = (paths: string[]): t.MemberExpression => {
+  if (paths.length < 2) {
+    throw new Error('getMemberExpr的paths元素个数少于2');
+  }
+  const varStr = paths.pop() as string;
+  const memberPaths = paths;
+  if (memberPaths.length !== 1) {
+    return t.memberExpression(getMemberExpr(memberPaths), t.identifier(varStr));
+  } else {
+    return t.memberExpression(t.identifier(memberPaths[0]), t.identifier(varStr));
+  }
 };
