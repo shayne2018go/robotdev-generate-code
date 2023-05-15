@@ -5,6 +5,7 @@ import {
   CallExpression,
   Expression,
   ExpressionStatement,
+  Identifier,
   MemberExpression,
   ObjectProperty,
 } from '@babel/types';
@@ -13,6 +14,7 @@ import { genVarName } from '../helper';
 import { getNodeEventKeyByNodeId, getNodePropKeyByNodeId } from '../script-helper';
 import { searchModulePathKeys } from '../searchPath';
 import {
+  actionCheck,
   getEventArgVarName,
   getMemberExpr,
   isAstType,
@@ -73,6 +75,10 @@ const defaultAst = (ctx: BindParseCtx, types?: CodeSchema.PropertyType_Protocol[
 
 const toAstMethods = {
   getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): MemberExpression => {
+    // 变量 variables.变量名?.变量属性
+    if (!data.args.id) {
+      throw new Error('getVar的data.args.id失败');
+    }
     const variable = ctx.scope.page.variablesStore.findId(data.args.id);
     if (!variable) {
       throw new Error('getVar的variable获取失败');
@@ -88,7 +94,10 @@ const toAstMethods = {
     return getMemberExpr(paths);
   },
   getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): MemberExpression => {
-    // api响应数据 apiState.api函数名.data.响应body.响应body属性
+    // api响应数据 apiState.api函数名.data?.响应body?.响应body属性
+    if (!data.args.id) {
+      throw new Error('getApiData的data.args.id失败');
+    }
     const [dataName, bodyId, ...argPaths] = data.args.path || [];
     let paths: string[] = [];
     let bodyVarName;
@@ -118,6 +127,9 @@ const toAstMethods = {
   },
   getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): MemberExpression => {
     // 页面路由参数 router.query.xxx
+    if (!data.args.id) {
+      throw new Error('getParam的data.args.id失败');
+    }
     let paths: string[] = [];
     let query = ctx.global.pagesStore.getQuery(ctx.scope.page.page.id, data.args.id);
     if (!query) {
@@ -174,8 +186,47 @@ const toAstMethods = {
   set: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
   setVar: (data: CodeSchema.Action_SetVar, ctx: BindParseCtx): CallExpression => {},
   setApiData: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
-  api: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
-  open: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
+  api: (data: CodeSchema.Action_Api, ctx: BindParseCtx): CallExpression => {
+    // 执行api
+    if (!data.args.id) {
+      throw new Error('api函数的data.args.id失败');
+    }
+    const api = ctx.global.apisStore.getApi(data.args.id as string)?.data;
+    if (!api) {
+      throw new Error('api函数的api失败');
+    }
+    let paramsExprs: Expression[] = [];
+    let successExprStatements: ExpressionStatement[] = [];
+    let failExprStatements: ExpressionStatement[] = [];
+    if (data.args.params) {
+      const ast = literalToAst(data.args.params, ctx);
+      if (ast) {
+        paramsExprs.push(ast);
+      }
+    }
+    if (data.args.success) {
+      const asts = actionsToAst(data.args.success, ctx);
+      successExprStatements = asts;
+    }
+    if (data.args.fail) {
+      const asts = actionsToAst(data.args.fail, ctx);
+      failExprStatements = asts;
+    }
+    return t.callExpression(
+      t.memberExpression(
+        t.callExpression(
+          t.memberExpression(t.callExpression(t.identifier(api.key), paramsExprs), t.identifier('then')),
+          [t.arrowFunctionExpression([t.identifier('res')], t.blockStatement([
+            t.expressionStatement(t.assignmentExpression('=',getMemberExpr([ctx.global.apiVarRootName, api.key]), t.identifier('res'))),
+            ...successExprStatements
+          ]))]
+        ),
+        t.identifier('catch')
+      ),
+      [t.arrowFunctionExpression([t.identifier('error')], t.blockStatement(failExprStatements))]
+    );
+  },
+  open: (data: CodeSchema.Action_Open, ctx: BindParseCtx): CallExpression => {},
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
 };
 
@@ -213,31 +264,48 @@ const bindToAst = (data: BindRdData, ctx: BindParseCtx): BindAst | undefined => 
 };
 
 export const actionToAst = (data: CodeSchema.Action, ctx: BindParseCtx): ActionAst | undefined => {
-  switch (data.mode) {
-    case 'setVar':
-      return toAstMethods.setVar(data as CodeSchema.Action_SetVar, ctx);
-
-    case 'setApiData': {
-      return toAstMethods.setApiData(data, ctx);
-    }
-    case 'open': {
-      return toAstMethods.open(data, ctx);
-    }
-    case 'set': {
-      return toAstMethods.set(data, ctx);
-    }
-    case 'api': {
-      return toAstMethods.api(data, ctx);
-    }
-    default: {
-      return toAstMethods.callAction(data, ctx);
-    }
+  /**
+   * 这里操作ctx.scope.actions
+   */
+  if (actionCheck.isSetVar(data)) {
+    return toAstMethods.setVar(data, ctx);
+  } else if (actionCheck.isSetApiData(data)) {
+    return toAstMethods.setApiData(data, ctx);
+  } else if (actionCheck.isOpen(data)) {
+    return toAstMethods.open(data, ctx);
+  } else if (actionCheck.isSet(data)) {
+    return toAstMethods.set(data, ctx);
+  } else if (actionCheck.isApi(data)) {
+    return toAstMethods.api(data, ctx);
+  } else {
+    return toAstMethods.callAction(data, ctx);
   }
-  return;
 };
 
-export const actionsToAst = (eventId: string, ctx: CompilePageCtx): ExpressionStatement[] => {
-  return [];
+export const actionsToAst = (actions: CodeSchema.Action[], ctx: CompilePageCtx): ExpressionStatement[] => {
+  const statements: ExpressionStatement[] = [];
+  const bindParseCtx: BindParseCtx = Object.assign(ctx, {
+    scope: {
+      ...ctx.scope,
+      ...{
+        actions: {
+          genVarName: genVarName(),
+          map: {},
+        },
+      },
+    },
+  });
+  if (actions && actions.length) {
+    actions.forEach((action) => {
+      if (action) {
+        const ast = actionToAst(action, bindParseCtx);
+        if (ast) {
+          statements.push(t.expressionStatement(ast));
+        }
+      }
+    });
+  }
+  return statements;
 };
 
 const literalToAst = (

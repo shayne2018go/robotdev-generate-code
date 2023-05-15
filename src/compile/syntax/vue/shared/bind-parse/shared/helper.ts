@@ -32,6 +32,25 @@ export const isAction = (data: any): data is CodeSchema.DataValue => {
   }
   return false;
 };
+
+export const actionCheck = {
+  isSetVar: (data: CodeSchema.Action): data is CodeSchema.Action_SetVar => {
+    return data.mode === 'setVar';
+  },
+  isSetApiData: (data: CodeSchema.Action): data is CodeSchema.Action_SetApiData => {
+    return data.mode === 'setApiData';
+  },
+  isOpen: (data: CodeSchema.Action): data is CodeSchema.Action_Open => {
+    return data.mode === 'open';
+  },
+  isSet: (data: CodeSchema.Action): data is CodeSchema.Action_Set => {
+    return data.mode === 'set';
+  },
+  isApi: (data: CodeSchema.Action): data is CodeSchema.Action_Api => {
+    return data.mode === 'api';
+  },
+};
+
 export const rdDataisCustom = (data: CodeSchema.DataValue): data is CodeSchema.DataValue_Custom => {
   return data.mode === 'custom';
 };

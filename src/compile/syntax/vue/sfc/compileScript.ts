@@ -5,7 +5,7 @@ import { relative } from '@/utils/node';
 import { tools } from '@/utils/tools';
 import { actionsToAst, nodePropsAst } from '../shared/bind-parse/core';
 import { getNodeTagVarName, getVariableVarName } from '../shared/script-helper';
-import { COMPONENT_DIR } from '../const/config';
+import { PAGE_DIR } from '../const/config';
 
 export enum LifeCycle {
   loading = 'onMounted',
@@ -20,35 +20,19 @@ function compileScript(page: CodeSchema.Page, ctx: CompilePageCtx): { token: str
 }
 
 function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string {
-  const { variables, lifeCycle, functions } = page;
-  const statements: Array<t.Statement> = [];
-  const nodes = ctx.scope.page.nodesStore.nodes();
+  let statements: Array<t.Statement> = [];
   let code = '';
-  let tag = getTagStrs();
-  code += tag[0];
-  statements.push(...getVueImports());
-  if (ctx.scope.page.importComponents.length) {
-    statements.push(...getComponentImports(ctx));
-  }
-  if (ctx.scope.page.importFunctions.length) {
-    statements.push(...getFunctionImports(ctx));
-  }
-  statements.push(getVueVariables());
-  if (variables && variables.length) {
-    statements.push(getVariables(variables, ctx));
-  }
-  if (nodes && nodes.length) {
-    statements.push(getNodesVariables(nodes, ctx));
-  }
-  if (functions && functions.length) {
-    statements.push(...getFunctions(functions, ctx));
-  }
-  if (lifeCycle && lifeCycle.length) {
-    statements.push(...getLifeCycles(lifeCycle, ctx));
-  }
-  const statement = t.program(statements);
-  code += generate(statement, { minified: true }).code;
-  code += tag[1];
+  // 导入模块
+  statements = statements.concat(getAllImports(ctx));
+  // 声明变量与赋值
+  statements = statements.concat(getAllVariables(page, ctx));
+  // 执行方法和方法执行
+  statements = statements.concat(getFunctionMethod(page, ctx));
+  const program = t.program(statements);
+  const tag = getTagStrs();
+  code += tag[0]; // <script>
+  code += generate(program, { minified: true }).code; // code代码
+  code += tag[1]; // </script>
   return code;
 }
 
@@ -63,6 +47,54 @@ function getTagStrs(): string[] {
   );
   const { code } = generate(statement);
   return code.split('split');
+}
+
+function getAllImports(ctx: CompilePageCtx): t.Statement[] {
+  let imports: t.Statement[] = [];
+  const apis = ctx.global.apisStore.apis();
+  const importComponents = ctx.scope.page.importComponents;
+  const importFunctions = ctx.scope.page.importFunctions;
+  imports = imports.concat(getVueImports());
+  if (importComponents && importComponents.length) {
+    imports = imports.concat(getComponentImports(importComponents, ctx));
+  }
+  if (importFunctions && importFunctions.length) {
+    imports = imports.concat(getFunctionImports(importFunctions, ctx));
+  }
+  if (apis && apis.length) {
+    imports = imports.concat(getApiImports(apis, ctx));
+  }
+  return imports;
+}
+
+function getAllVariables(page: CodeSchema.Page, ctx: CompilePageCtx): t.Statement[] {
+  let variables: t.Statement[] = [];
+  const { variables: pageVariables } = page;
+  const apis = ctx.global.apisStore.apis();
+  const nodes = ctx.scope.page.nodesStore.nodes();
+  variables.push(getVueVariables());
+  if (pageVariables && pageVariables.length) {
+    variables = variables.concat(getVariables(pageVariables, ctx));
+  }
+  if (apis && apis.length) {
+    variables = variables.concat(getApiVariables(apis, ctx));
+  }
+  if (nodes && nodes.length) {
+    variables = variables.concat(getNodesVariables(nodes, ctx));
+  }
+  return variables;
+}
+
+function getFunctionMethod(page: CodeSchema.Page, ctx: CompilePageCtx): t.Statement[] {
+  let fnMethods: t.Statement[] = [];
+  const { lifeCycle, functions } = page;
+  if (functions && functions.length) {
+    fnMethods = fnMethods.concat(getFunctions(functions, ctx));
+  }
+  if (lifeCycle && lifeCycle.length) {
+    fnMethods = fnMethods.concat(getLifeCycles(lifeCycle, ctx));
+  }
+  return fnMethods;
 }
 
 function getVueImports(): t.ImportDeclaration[] {
@@ -83,15 +115,15 @@ function getVueImports(): t.ImportDeclaration[] {
   ];
 }
 
-function getComponentImports(ctx: CompilePageCtx): t.ImportDeclaration[] {
+function getComponentImports(importComponents: GlobalContext.Component[], ctx: CompilePageCtx): t.ImportDeclaration[] {
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
-  ctx.scope.page.importComponents.forEach((ele) => {
+  importComponents.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
       const { filePath, packageName, exportName, alias } = source;
-      const sourceStr = packageName || relative(COMPONENT_DIR, filePath as string);
+      const sourceStr = packageName || relative(PAGE_DIR, filePath as string);
       if (packageObj[sourceStr] === undefined) {
         let specifier = getImportSpecifier(exportName, key, alias);
         let source = t.stringLiteral(sourceStr);
@@ -108,15 +140,15 @@ function getComponentImports(ctx: CompilePageCtx): t.ImportDeclaration[] {
   });
 }
 
-function getFunctionImports(ctx: CompilePageCtx): t.ImportDeclaration[] {
+function getFunctionImports(importComponents: GlobalContext.Function[], ctx: CompilePageCtx): t.ImportDeclaration[] {
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
-  ctx.scope.page.importComponents.forEach((ele) => {
+  importComponents.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
       const { filePath, packageName, exportName, alias } = source;
-      const sourceStr = packageName || relative('src/folder', filePath as string);
+      const sourceStr = packageName || relative(PAGE_DIR, filePath as string);
       if (packageObj[sourceStr] === undefined) {
         let specifier = getImportSpecifier(exportName, key, alias);
         let source = t.stringLiteral(sourceStr);
@@ -126,6 +158,23 @@ function getFunctionImports(ctx: CompilePageCtx): t.ImportDeclaration[] {
       }
       packageObj[sourceStr] = count;
       count++;
+    }
+  });
+  return importArray.map((ele) => {
+    return t.importDeclaration(ele[0], ele[1]);
+  });
+}
+
+function getApiImports(apis: GlobalContext.Api[], _ctx: CompilePageCtx) {
+  const importArray: any[] = [];
+  apis.forEach((ele) => {
+    let { key, source } = ele;
+    if (key && source) {
+      const { filePath, exportName } = source;
+      const sourcePath = relative(PAGE_DIR, filePath as string);
+      let specifier = getImportSpecifier(exportName, key);
+      let sourceStr = t.stringLiteral(sourcePath);
+      importArray.push([[specifier], sourceStr]);
     }
   });
   return importArray.map((ele) => {
@@ -153,7 +202,7 @@ function getImportSpecifier(
 
 function getVueVariables() {
   return t.variableDeclaration('const', [
-    t.variableDeclarator(t.identifier(VueVariable.router), t.callExpression(t.identifier('useRoute'), [])),
+    t.variableDeclarator(t.identifier(VueVariable.router), t.callExpression(t.identifier('useRouter'), [])),
   ]);
 }
 
@@ -190,6 +239,22 @@ function getNodesVariables(nodes: CodeSchema.ComponentNode[], ctx: CompilePageCt
   ]);
 }
 
+function getApiVariables(apis: GlobalContext.Api[], ctx: CompilePageCtx): t.VariableDeclaration {
+  const apiProps: t.ObjectProperty[] = [];
+  apis.forEach((api) => {
+    const varName = api.key;
+    if (varName) {
+      apiProps.push(t.objectProperty(t.identifier(varName), t.nullLiteral()));
+    }
+  });
+  return t.variableDeclaration('const', [
+    t.variableDeclarator(
+      t.identifier(ctx.global.apiVarRootName),
+      t.callExpression(t.identifier('reactive'), [t.objectExpression(apiProps)])
+    ),
+  ]);
+}
+
 function getFunctions(functions: Array<CodeSchema.Function_Protocol>, _ctx: CompilePageCtx): t.FunctionDeclaration[] {
   return functions.map((func) => {
     return t.functionDeclaration(
@@ -205,7 +270,7 @@ function getFunctions(functions: Array<CodeSchema.Function_Protocol>, _ctx: Comp
 function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: CompilePageCtx): t.ExpressionStatement[] {
   const lifeCycleExprs: t.CallExpression[] = [];
   lifeCycles.forEach((lifeCycle) => {
-    const actionStatements: t.ExpressionStatement[] = actionsToAst(lifeCycle.eventId, ctx);
+    const actionStatements: t.ExpressionStatement[] = actionsToAst(lifeCycle.actions, ctx);
     lifeCycleExprs.push(
       t.callExpression(
         t.identifier(LifeCycle[ctx.global.eventsStore.getEvent(lifeCycle.eventId).key as keyof typeof LifeCycle]),

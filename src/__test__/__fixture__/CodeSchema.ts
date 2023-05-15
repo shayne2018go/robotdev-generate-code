@@ -7559,6 +7559,16 @@ const codeSchema = {
               type: 'action',
               args: {
                 id: '644731b09c229310c169e3fb',
+                params: {
+                  type: 'data',
+                  mode: 'custom',
+                  args: {
+                    type: 'text',
+                    value: 'hxy',
+                  },
+                },
+                success: [],
+                fail: [],
               },
             },
           ],
