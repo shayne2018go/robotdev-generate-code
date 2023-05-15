@@ -216,17 +216,52 @@ const toAstMethods = {
       t.memberExpression(
         t.callExpression(
           t.memberExpression(t.callExpression(t.identifier(api.key), paramsExprs), t.identifier('then')),
-          [t.arrowFunctionExpression([t.identifier('res')], t.blockStatement([
-            t.expressionStatement(t.assignmentExpression('=',getMemberExpr([ctx.global.apiVarRootName, api.key]), t.identifier('res'))),
-            ...successExprStatements
-          ]))]
+          [
+            t.arrowFunctionExpression(
+              [t.identifier('res')],
+              t.blockStatement([
+                t.expressionStatement(
+                  t.assignmentExpression('=', getMemberExpr([ctx.global.apiVarRootName, api.key]), t.identifier('res'))
+                ),
+                ...successExprStatements,
+              ])
+            ),
+          ]
         ),
         t.identifier('catch')
       ),
       [t.arrowFunctionExpression([t.identifier('error')], t.blockStatement(failExprStatements))]
     );
   },
-  open: (data: CodeSchema.Action_Open, ctx: BindParseCtx): CallExpression => {},
+  open: (data: CodeSchema.Action_Open, ctx: BindParseCtx): CallExpression => {
+    // 跳转
+    const mode = data.args.mode;
+    if (mode === 'in') {
+      if (!data.args.pageId) {
+        throw new Error('open函数的data.args.pageId失败');
+      }
+      const page = ctx.global.pagesStore.getPage(data.args.pageId);
+      if (!page) {
+        throw new Error('open函数的page失败');
+      }
+      return t.callExpression(t.identifier('open'), [
+        t.stringLiteral(data.args.mode),
+        t.stringLiteral(data.args.target),
+        t.stringLiteral(page.routerName!),
+      ]);
+    } else if (mode === 'out') {
+      if (!data.args.url) {
+        throw new Error('open函数的data.args.url失败');
+      }
+      return t.callExpression(t.identifier('open'), [
+        t.stringLiteral(data.args.mode),
+        t.stringLiteral(data.args.target),
+        t.stringLiteral(data.args.url),
+      ]);
+    } else {
+      throw new Error ('open函数的mode类型错误')
+    }
+  },
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
 };
 

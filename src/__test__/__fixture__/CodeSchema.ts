@@ -7567,7 +7567,20 @@ const codeSchema = {
                     value: 'hxy',
                   },
                 },
-                success: [],
+                success: [
+                  {
+                    id: '645b2f08f191472727337c3d',
+                    modeId: '641a95e6cd3c6b0921a79f29',
+                    mode: 'open',
+                    name: '页面跳转',
+                    type: 'action',
+                    args: {
+                      mode: 'in',
+                      pageId: '64464a419c229310c169d487',
+                      target: 'blank',
+                    },
+                  },
+                ],
                 fail: [],
               },
             },
@@ -7959,7 +7972,7 @@ const codeSchema = {
                         type: 'action',
                         args: {
                           mode: 'in',
-                          page: '6447315b9c229310c169e36c',
+                          pageId: '6447315b9c229310c169e36c',
                           target: 'blank',
                         },
                       },
