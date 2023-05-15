@@ -1,3 +1,4 @@
+import * as t from '@babel/types';
 import { tools } from '@/utils/tools';
 import { AccessPath, ActionAst, BindAst, BindParseCtx, ReturnRef, TableProps } from '../types';
 
@@ -162,4 +163,17 @@ export const inTemplate = (data: BindRdData) => {
   }
   // TODO: 后续可以判断是否为字面量，判断里面的文本是否包含双引号，不包含则可以写在template里
   return false;
+};
+
+export const getMemberExpr = (paths: string[]): t.MemberExpression => {
+  if (paths.length < 2) {
+    throw new Error('getMemberExpr的paths元素个数少于2');
+  }
+  const varStr = paths.pop() as string;
+  const memberPaths = paths;
+  if (memberPaths.length !== 1) {
+    return t.memberExpression(getMemberExpr(memberPaths), t.identifier(varStr));
+  } else {
+    return t.memberExpression(t.identifier(memberPaths[0]), t.identifier(varStr));
+  }
 };

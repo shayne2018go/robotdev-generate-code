@@ -14,6 +14,7 @@ import { getNodeEventKeyByNodeId, getNodePropKeyByNodeId } from '../script-helpe
 import { searchModulePathKeys } from '../searchPath';
 import {
   getEventArgVarName,
+  getMemberExpr,
   isAstType,
   isRdData,
   isTableType,
@@ -24,6 +25,7 @@ import {
   rdDataIsTable,
 } from './shared/helper';
 import { ActionAst, BindAst, BindParseCtx, BindRdData, LiteralAst, ReturnRef, TableProps } from './types';
+import { VueVariable } from '../../sfc/compileScript';
 
 /** helper  start*/
 
@@ -75,81 +77,66 @@ const toAstMethods = {
     if (!variable) {
       throw new Error('getVar的variable获取失败');
     }
+    let paths = [];
     const rootName = ctx.global.variablesRootName; // 变量外层的变量名
     const varName = variable.varName; // 变量名
     if (!varName) {
-      throw new Error('getVar的varName获取失败');
+      throw new Error('getVar的variable.varName获取失败');
     }
-    const paths = searchModulePathKeys(variable.data.types, data.args.path || []); // 路径中的每个属性名
-    const memberExpr = (paths: string[]): MemberExpression => {
-      const [varStr, ...memberPaths] = paths;
-      if (memberPaths.length !== 1) {
-        return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
-      } else {
-        return t.memberExpression(t.identifier(varStr), t.identifier(memberPaths[0]));
-      }
-    };
-    return memberExpr([...paths.reverse(), varName, rootName]);
+    paths.push(rootName, varName);
+    paths = searchModulePathKeys(variable.data.types, data.args.path || []).concat(paths); // 路径中的每个属性名
+    return getMemberExpr(paths);
   },
-  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): MemberExpression | undefined => {
+  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): MemberExpression => {
+    // api响应数据 apiState.api函数名.data.响应body.响应body属性
     const [dataName, bodyId, ...argPaths] = data.args.path || [];
     let paths: string[] = [];
-    if (bodyId) {
-      /**
-        const types = bodyId ? ctx.global.apisStore.getApiBody(data.args.id, bodyId) : [];
-        const paths = searchModulePathKeys(types, argPaths); // 路径中的每个属性名
-        注意：类似bodyId找不到这种问题，要么返回undefined，要么抛异常，不能继续往下走，不能容错，容错了后面怎么编呢？
-       */
-      const body = ctx.global.apisStore.getApiBody(data.args.id, bodyId);
-      if (body) {
-        paths = searchModulePathKeys(body.data.types, argPaths); // 路径中的每个属性名
-      }
+    let bodyVarName;
+    const api = ctx.global.apisStore.getApi(data.args.id)?.data; // 变量名
+    if (!api) {
+      throw new Error('getApiData的api获取失败');
+    }
+    if (!api.key) {
+      throw new Error('getApiData的api.key获取失败');
     }
     const rootName = ctx.global.apiVarRootName; // 变量外层的变量名
-    const varName = ctx.global.apisStore.getApi(data.args.id)?.data.key; // 变量名
-    if (!varName) {
-      throw new Error('getApiData的varName获取失败');
-    }
-    const memberExpr = (paths: string[]): MemberExpression => {
-      const [varStr, ...memberPaths] = paths;
-      if (memberPaths.length !== 1) {
-        return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
-      } else {
-        return t.memberExpression(t.identifier(varStr), t.identifier(memberPaths[0]));
+    const varName = api.key;
+    paths.push(rootName, varName, dataName);
+    if (bodyId) {
+      const body = ctx.global.apisStore.getApiBody(data.args.id, bodyId);
+      if (!body) {
+        throw new Error(`获取body失败 ${bodyId}`);
       }
-    };
-    return memberExpr([...paths.reverse(), dataName, varName, rootName]);
+      if (!body.varName) {
+        throw new Error('getApiData的body.varName获取失败');
+      }
+      bodyVarName = body.varName;
+      paths.push(bodyVarName);
+      paths = searchModulePathKeys(body.data.types, argPaths).concat(paths); // 路径中的每个属性名
+    }
+    return getMemberExpr(paths);
   },
   getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): MemberExpression => {
     // 页面路由参数 router.query.xxx
-    if (!data.args.id) {
-      throw new Error('getParam的data.args.id失败');
-    }
+    let paths: string[] = [];
     let query = ctx.global.pagesStore.getQuery(ctx.scope.page.page.id, data.args.id);
     if (!query) {
       throw new Error('getParam的query失败');
     }
-    const varName = query.varName; // 变量外层的变量名
-    if (!varName) {
+    if (!query.varName) {
       throw new Error('getParam的varName失败');
     }
-    const paths = searchModulePathKeys(query.data.types, data.args.path || []); // 路径中的每个属性名
-
-    const memberExpr = (paths: string[]): MemberExpression => {
-      const [varStr, ...memberPaths] = paths;
-      if (memberPaths.length !== 1) {
-        return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
-      } else {
-        return t.memberExpression(t.identifier(varStr), t.identifier(memberPaths[0]));
-      }
-    };
-    return memberExpr([...paths.reverse(), varName, 'query', 'router']);
+    const varName = query.varName; // 变量外层的变量名
+    paths.push(VueVariable.router, 'query', varName);
+    paths = searchModulePathKeys(query.data.types, data.args.path || []).concat(paths); // 路径中的每个属性名
+    return getMemberExpr(paths);
   },
   getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): MemberExpression | Identifier => {
     // 事件参数 @click="(evt,prop) => {const temp = `${evt.target}`;const temp1 = `${prop}`}"
     if (!data.args.id) {
       throw new Error('getEventData的data.args.id失败');
     }
+    let paths: string[] = [];
     // 通过参数id拿到varName和types
     let eventParam = getEventParam(data.args.id);
     if (!eventParam) {
@@ -159,19 +146,12 @@ const toAstMethods = {
     if (!varName) {
       throw new Error('getEventData的varName失败');
     }
-    const paths = searchModulePathKeys(eventParam.data.types, data.args.path || []); // 路径中的每个属性名
-    if (paths.length === 0) {
+    const pathArr = searchModulePathKeys(eventParam.data.types, data.args.path || []); // 路径中的每个属性名
+    if (pathArr.length === 0) {
       return t.identifier(varName);
     }
-    const memberExpr = (paths: string[]): MemberExpression => {
-      const [varStr, ...memberPaths] = paths;
-      if (memberPaths.length !== 1) {
-        return t.memberExpression(memberExpr(memberPaths), t.identifier(varStr));
-      } else {
-        return t.memberExpression(t.identifier(varStr), t.identifier(memberPaths[0]));
-      }
-    };
-    return memberExpr([...paths.reverse(), varName]);
+    paths.push(varName, ...pathArr);
+    return getMemberExpr(paths);
   },
   getSlotData: (data: CodeSchema.DataValue_GetSlotData, ctx: BindParseCtx): CallExpression => {
     // TODO: 待定
@@ -450,15 +430,18 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
         } else if (isTableType(res)) {
           const tableProp = res.value;
           if (tableProp) {
-            propProps.push(
-              t.objectProperty(
-                t.identifier(getNodePropKeyByNodeId(node.id, prop.propId, ctx)),
-                t.objectExpression([
-                  t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
-                  t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
-                ])
-              )
-            );
+            const varName = getNodePropKeyByNodeId(node.id, prop.propId, ctx);
+            if (varName) {
+              propProps.push(
+                t.objectProperty(
+                  t.identifier(varName),
+                  t.objectExpression([
+                    t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
+                    t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
+                  ])
+                )
+              );
+            }
           }
         } else {
         }
