@@ -7,9 +7,13 @@ import { actionsToAst, nodePropsAst } from '../shared/bind-parse/core';
 import { getNodeTagVarName, getVariableVarName } from '../shared/script-helper';
 import { COMPONENT_DIR } from '../const/config';
 
-const lifeCycleMap: { [propname: string]: string } = {
-  loading: 'onMounted',
-};
+export enum LifeCycle {
+  loading = 'onMounted',
+}
+
+export enum VueVariable {
+  router = 'router',
+}
 
 function compileScript(page: CodeSchema.Page, ctx: CompilePageCtx): { token: string } {
   return { token: gernateScriptToken(page, ctx) };
@@ -18,31 +22,32 @@ function compileScript(page: CodeSchema.Page, ctx: CompilePageCtx): { token: str
 function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string {
   const { variables, lifeCycle, functions } = page;
   const statements: Array<t.Statement> = [];
+  const nodes = ctx.scope.page.nodesStore.nodes();
   let code = '';
   let tag = getTagStrs();
   code += tag[0];
   statements.push(...getVueImports());
-  if (ctx.scope.page.importComponents.length > 0) {
+  if (ctx.scope.page.importComponents.length) {
     statements.push(...getComponentImports(ctx));
   }
-  if (ctx.scope.page.importFunctions.length > 0) {
+  if (ctx.scope.page.importFunctions.length) {
     statements.push(...getFunctionImports(ctx));
   }
   statements.push(getVueVariables());
-  if (variables && variables.length > 0) {
+  if (variables && variables.length) {
     statements.push(getVariables(variables, ctx));
   }
-  if (ctx.scope.page.nodesStore.nodes()) {
-    statements.push(getNodesVariables(ctx));
+  if (nodes && nodes.length) {
+    statements.push(getNodesVariables(nodes, ctx));
   }
-  if (functions && functions.length > 0) {
+  if (functions && functions.length) {
     statements.push(...getFunctions(functions, ctx));
   }
-  if (lifeCycle && lifeCycle.length > 0) {
+  if (lifeCycle && lifeCycle.length) {
     statements.push(...getLifeCycles(lifeCycle, ctx));
   }
   const statement = t.program(statements);
-  code += generate(statement,{minified: true}).code;
+  code += generate(statement, { minified: true }).code;
   code += tag[1];
   return code;
 }
@@ -148,7 +153,7 @@ function getImportSpecifier(
 
 function getVueVariables() {
   return t.variableDeclaration('const', [
-    t.variableDeclarator(t.identifier('route'), t.callExpression(t.identifier('useRoute'), [])),
+    t.variableDeclarator(t.identifier(VueVariable.router), t.callExpression(t.identifier('useRoute'), [])),
   ]);
 }
 
@@ -168,8 +173,7 @@ function getVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: Compi
   ]);
 }
 
-function getNodesVariables(ctx: CompilePageCtx): t.VariableDeclaration {
-  const nodes = ctx.scope.page.nodesStore.nodes();
+function getNodesVariables(nodes: CodeSchema.ComponentNode[], ctx: CompilePageCtx): t.VariableDeclaration {
   const nodeProps: t.ObjectProperty[] = [];
   nodes.forEach((node) => {
     const props = nodePropsAst(node.id, ctx);
@@ -203,9 +207,10 @@ function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: Co
   lifeCycles.forEach((lifeCycle) => {
     const actionStatements: t.ExpressionStatement[] = actionsToAst(lifeCycle.eventId, ctx);
     lifeCycleExprs.push(
-      t.callExpression(t.identifier(lifeCycleMap[ctx.global.eventsStore.getEvent(lifeCycle.eventId).key]), [
-        t.arrowFunctionExpression([], t.blockStatement(actionStatements)),
-      ])
+      t.callExpression(
+        t.identifier(LifeCycle[ctx.global.eventsStore.getEvent(lifeCycle.eventId).key as keyof typeof LifeCycle]),
+        [t.arrowFunctionExpression([], t.blockStatement(actionStatements))]
+      )
     );
   });
   return lifeCycleExprs.map((ele) => t.expressionStatement(ele));
