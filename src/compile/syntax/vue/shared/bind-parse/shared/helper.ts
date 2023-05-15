@@ -197,3 +197,7 @@ export const getMemberExpr = (paths: string[]): t.MemberExpression => {
     return t.memberExpression(t.identifier(memberPaths[0]), t.identifier(varStr));
   }
 };
+
+export const getDataAstByAny = (value: any): t.Literal | t.ObjectExpression | t.ArrayExpression => {
+  
+}
