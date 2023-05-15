@@ -89,6 +89,18 @@ declare namespace GlobalContext {
     protocol: CodeSchema.Event_Protocol; // 协议
   }
 
+  export interface Slot {
+    id: string; // 插槽id
+    key: string; // 插槽名称
+    source?: {
+      filePath?: string; // 本地路径
+      packageName?: string; // 包路径
+      exportName: string; // 导出名 (不能为空 默认default )
+      alias?: string; // 别名
+    };
+    protocol: CodeSchema.Slot_Protocol; // 协议
+  }
+
   export interface Property {
     id: string; // 属性id
     key: string; // 属性名称

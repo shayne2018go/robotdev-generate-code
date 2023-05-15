@@ -3,7 +3,8 @@ const seach = <T extends boolean>(
   path: string[],
   typeKey: 'module' | 'action' | 'function',
   ruleKey: 'properties' | 'parameters',
-  key: T
+  key: T,
+  lastMultiple = false,
 ): T extends true ? string[] : CodeSchema.Property_Protocol[] => {
   if (!Array.isArray(path)) {
     return [];
@@ -13,7 +14,7 @@ const seach = <T extends boolean>(
   let type: CodeSchema.Property_Protocol['types'][number] | undefined;
   path.forEach((pathId) => {
     type = types.find((item) => item.type === typeKey);
-    if (!type) {
+    if (!type || type.multiple !== lastMultiple) {
       throw new Error('找不到module类型配置');
     }
     const prop = type.rules?.[ruleKey]?.find((item) => item.id === pathId);
@@ -29,26 +30,30 @@ const seach = <T extends boolean>(
   return _path;
 };
 
-export const searchModulePath = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
-  return seach(types, path, 'module', 'properties', false);
+export const searchModulePath = (types: CodeSchema.Property_Protocol['types'], path: string[], lastMultiple = false) => {
+  return seach(types, path, 'module', 'properties', false, lastMultiple);
 };
 
-export const searchActionPath = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
-  return seach(types, path, 'action', 'parameters', false);
+export const searchArrayItemModulePath = (types: CodeSchema.Property_Protocol['types'], path: string[], lastMultiple = false) => {
+  return seach(types, path, 'module', 'properties', false, true);
 };
 
-export const searchFunctionPath = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
-  return seach(types, path, 'function', 'parameters', false);
+export const searchActionPath = (types: CodeSchema.Property_Protocol['types'], path: string[], lastMultiple = false) => {
+  return seach(types, path, 'action', 'parameters', false, lastMultiple);
 };
 
-export const searchModulePathKeys = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
-  return seach(types, path, 'module', 'properties', true);
+export const searchFunctionPath = (types: CodeSchema.Property_Protocol['types'], path: string[], lastMultiple = false) => {
+  return seach(types, path, 'function', 'parameters', false, lastMultiple);
 };
 
-export const searchActionPathKeys = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
-  return seach(types, path, 'action', 'parameters', true);
+export const searchModulePathKeys = (types: CodeSchema.Property_Protocol['types'], path: string[], lastMultiple = false) => {
+  return seach(types, path, 'module', 'properties', true, lastMultiple);
 };
 
-export const searchFunctionPathKeys = (types: CodeSchema.Property_Protocol['types'], path: string[]) => {
-  return seach(types, path, 'function', 'parameters', true);
+export const searchActionPathKeys = (types: CodeSchema.Property_Protocol['types'], path: string[], lastMultiple = false) => {
+  return seach(types, path, 'action', 'parameters', true, lastMultiple);
+};
+
+export const searchFunctionPathKeys = (types: CodeSchema.Property_Protocol['types'], path: string[], lastMultiple = false) => {
+  return seach(types, path, 'function', 'parameters', true, lastMultiple);
 };

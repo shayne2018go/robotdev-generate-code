@@ -3,6 +3,7 @@ import { Compile } from '@/types/compile/token';
 import { VueCompileOptions, VueGlobalCtx } from './compileVue';
 import { PAGE_DIR } from './const/config';
 import { compileScript, compileStyle, compileTemplate } from './sfc';
+import { componentEmitsDataStore, componentSlotsDataStore } from './shared/store';
 import { nodesDataStore } from './shared/store/nodes';
 import { propertiesDataStore } from './shared/store/properties';
 
@@ -11,8 +12,20 @@ export type CompilePageCtx = {
   global: VueGlobalCtx;
   scope: {
     page: ParsingPageResult;
+    current: ParsingCurrentResult
   };
 };
+
+interface ParsingCurrentResult {
+  data: CodeSchema.Component;
+  nodesStore: ReturnType<typeof nodesDataStore>;
+  slotsStore: ReturnType<typeof componentSlotsDataStore>;
+  emitsStore: ReturnType<typeof componentEmitsDataStore>;
+  propsStore: ReturnType<typeof propertiesDataStore>;
+  variablesStore: ReturnType<typeof propertiesDataStore>;
+  importComponents: GlobalContext.Component[];
+  importFunctions: GlobalContext.Function[];
+}
 
 interface ParsingPageResult {
   page: CodeSchema.Page;
@@ -43,11 +56,13 @@ function compilePages(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx
 
 function compilePage(page: CodeSchema.Page, ctx: VueGlobalCtx) {
   const parsingPageResult = parsingPage(page, ctx);
+  const parsingComponentResult = parsingComponent(page, ctx);
 
   const currentPageCompileOptions: CompilePageCtx = {
     global: ctx,
     scope: {
       page: parsingPageResult,
+      current: parsingPageResult,
     },
   };
 
@@ -76,6 +91,27 @@ export function parsingPage(page: CodeSchema.Page, ctx: VueGlobalCtx): ParsingPa
 
   return {
     page,
+    nodesStore,
+    variablesStore,
+    importComponents,
+    importFunctions,
+  };
+}
+
+export function parsingComponent(data: CodeSchema.Component, ctx: VueGlobalCtx): ParsingCurrentResult {
+  const importComponents: GlobalContext.Component[] = [];
+  const importFunctions: GlobalContext.Function[] = [];
+  const nodesStore = nodesDataStore(data.nodes, ctx);
+  const variablesStore = propertiesDataStore(data.variables || []);
+  const propsStore = propertiesDataStore(data.variables || []);
+  const emitsStore = componentEmitsDataStore(data.emits || []);
+  const slotsStore = componentSlotsDataStore(data.slots || []);
+
+  return {
+    data,
+    propsStore,
+    emitsStore,
+    slotsStore,
     nodesStore,
     variablesStore,
     importComponents,

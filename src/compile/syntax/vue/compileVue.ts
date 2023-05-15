@@ -8,11 +8,8 @@ import { getPathByDirectories } from './shared/directory-helper';
 import {
   actionsDataStore,
   apisDataStore,
-  componentsDataStore,
-  eventsDataStore,
-  functionsDataStore,
-  pagesDataStore,
-  propsDataStore,
+  componentsDataStore, functionsDataStore,
+  pagesDataStore
 } from './shared/store';
 // import { apisDataStore } from './shared/store/apis';
 // import { componentsDataStore } from './shared/store/components';
@@ -30,6 +27,7 @@ export interface VueCompileOptions {
   actions: GlobalContext.Action[]; // 行为相关
   events: GlobalContext.Event[]; // 事件相关
   props: GlobalContext.Property[]; // 属性相关
+  slots: GlobalContext.Slot[]; // 属性相关
 }
 
 export interface VueGlobalCtx {
@@ -38,11 +36,12 @@ export interface VueGlobalCtx {
   functionsStore: ReturnType<typeof functionsDataStore>;
   actionsStore: ReturnType<typeof actionsDataStore>;
   apisStore: ReturnType<typeof apisDataStore>;
-  eventsStore: ReturnType<typeof eventsDataStore>;
-  propsStore: ReturnType<typeof propsDataStore>;
+  // eventsStore: ReturnType<typeof eventsDataStore>;
+  // propsStore: ReturnType<typeof propsDataStore>;
   variablesRootName: string;
   apiVarRootName: string;
   nodesVarRootName: string;
+  nodePropFunctionCtxParamName: string
 }
 function compileVue(codeSchema: CodeSchema.Project) {
   // 解析相关依赖协议
@@ -82,13 +81,14 @@ export function parsingVueCompileOptions(codeSchema: CodeSchema.Project): VueCom
 
   const { apis } = parsingApis(codeSchema);
 
-  const { components, actions, functions, events, props } = codeSchema.dependencies.reduce(
+  const { components, actions, functions, events, props, slots } = codeSchema.dependencies.reduce(
     (pre, cur) => {
       pre.components = pre.components.concat(parsingDependenciesComponents(cur));
       pre.actions = pre.actions.concat(parsingDependenciesActions(cur));
       pre.functions = pre.functions.concat(parsingDependenciesFunctions(cur));
       pre.events = pre.events.concat(parsingDependenciesEvents(cur));
       pre.props = pre.props.concat(parsingDependenciesProps(cur));
+      pre.slots = pre.slots.concat(parsingDependenciesSlots(cur));
 
       return pre;
     },
@@ -98,10 +98,11 @@ export function parsingVueCompileOptions(codeSchema: CodeSchema.Project): VueCom
       functions: [] as GlobalContext.Function[],
       events: [] as GlobalContext.Event[],
       props: [] as GlobalContext.Property[],
+      slots: [] as GlobalContext.Slot[],
     }
   );
 
-  return { pages, functions, apis, components, actions, events, props };
+  return { pages, functions, apis, components, actions, events, props, slots };
 }
 
 /**
@@ -110,25 +111,26 @@ export function parsingVueCompileOptions(codeSchema: CodeSchema.Project): VueCom
  * @returns
  */
 export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalCtx {
-  const pagesStore = pagesDataStore(VueCompileOptions.pages);
-  const componentsStore = componentsDataStore(VueCompileOptions.components);
   const functionsStore = functionsDataStore(VueCompileOptions.functions);
   const actionsStore = actionsDataStore(VueCompileOptions.actions);
   const apisStore = apisDataStore(VueCompileOptions.apis);
-  const eventsStore = eventsDataStore(VueCompileOptions.events);
-  const propsStore = propsDataStore(VueCompileOptions.props);
+  const componentsStore = componentsDataStore(VueCompileOptions.components, {
+    events: VueCompileOptions.events,
+    props: VueCompileOptions.props,
+    slots: VueCompileOptions.slots,
+  });
+  const pagesStore = pagesDataStore(VueCompileOptions.pages);
 
   return {
     componentsStore,
     functionsStore,
     actionsStore,
     apisStore,
-    eventsStore,
-    propsStore,
     pagesStore,
     apiVarRootName: 'apiState',
     variablesRootName: 'variables',
     nodesVarRootName: 'nodesState',
+    nodePropFunctionCtxParamName: 'ctx',
   };
 }
 
@@ -279,6 +281,29 @@ function parsingDependenciesProps(cur: CodeSchema.Dependency): GlobalContext.Pro
       };
     }) || [];
   return props;
+}
+
+
+function parsingDependenciesSlots(cur: CodeSchema.Dependency): GlobalContext.Slot[] {
+  const slots =
+    cur.slots?.map((pro) => {
+      const exportName = pro.key.split('.')[0];
+
+      const source = cur.key
+        ? {
+            packageName: cur.key, // 包路径
+            exportName,
+          }
+        : undefined;
+
+      return {
+        id: pro.id, // 行为id
+        key: pro.key, // 行为名称
+        source,
+        protocol: pro, // 协议
+      };
+    }) || [];
+  return slots;
 }
 
 export default compileVue;

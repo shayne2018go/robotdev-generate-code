@@ -42,6 +42,7 @@ export type TreeNode = {
   data: CodeSchema.ComponentNode;
   children: TreeNode[];
   isUndefined?: true;
+  store?: NodeMapItem
 };
 
 export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobalCtx) => {
@@ -76,6 +77,7 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
           parentId: node.parentId || null,
           data: node,
           children: [],
+          store: nodesMap[node.id]
         };
         tree[node.id] = treeNode;
       } else {
@@ -103,35 +105,61 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
     });
   }
 
-  const parents = (nodeId: CodeSchema.ComponentNode['id'], filter: (item: TreeNode) => boolean, push?: boolean) => {
-    const parentId = tree[nodeId].parentId;
+  const parents = (nodeId: CodeSchema.ComponentNode['id'], filter?: (item: TreeNode) => boolean, push?: boolean) => {
+    const parentId = nodesMap[nodeId].data.parentId;
     if (!parentId) {
       return [];
     }
     const list: TreeNode[] = [];
-    let parent = tree[parentId];
+    let parent = nodesMap[parentId];
     while (parent) {
-      if (parent.isUndefined) {
+      const treeNode = tree[parent.data.id]
+      if (treeNode.isUndefined) {
         break;
       }
-      if (filter(parent)) {
+      if (filter?.(treeNode)) {
         if (push) {
-          list.push(parent);
+          list.push(treeNode);
         } else {
-          list.unshift(parent);
+          list.unshift(treeNode);
         }
-        const parentId = parent.parentId;
-        if (!parentId) {
-          break;
-        }
-        parent = tree[parentId];
       }
+      const parentId = treeNode.parentId;
+      if (!parentId) {
+        break;
+      }
+      parent = nodesMap[parentId];
     }
     return list;
+  };
+  
+
+  const parentOne = (nodeId: CodeSchema.ComponentNode['id'], filter: (item: TreeNode) => boolean) => {
+    const parentId = nodesMap[nodeId].data.parentId;
+    if (!parentId) {
+      return;
+    }
+    let parent = nodesMap[parentId];
+    while (parent) {
+      const treeNode = tree[parent.data.id]
+      if (treeNode.isUndefined) {
+        break;
+      }
+      if (filter(treeNode)) {
+        return parent
+      }
+      const parentId = treeNode.parentId;
+      if (!parentId) {
+        break;
+      }
+      parent = nodesMap[parentId];
+    }
+    return;
   };
 
   const methods = {
     treeNodes,
+    parentOne,
     parents,
     nodes() {
       return nodes;
@@ -159,22 +187,10 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
     },
     getNodePropDefine(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {
       let define = nodesMap[nodeId]?.component?.members?.propsStore.findId(propId);
-      if (!define) {
-        define = ctx.propsStore.find(propId);
-        if (!define) {
-          return;
-        }
-      }
       return define;
     },
     getNodeEventDefine(nodeId: CodeSchema.ComponentNode['id'], eventId: CodeSchema.Event['eventId']) {
       let define = nodesMap[nodeId]?.component?.members?.emitsStore.findId(eventId);
-      if (!define) {
-        define = ctx.eventsStore.find(eventId);
-        if (!define) {
-          return;
-        }
-      }
       return define;
     },
     getNodePropVarName(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {

@@ -12,7 +12,10 @@ import { CompilePageCtx } from '../../compilePages';
 import { genVarName } from '../helper';
 import { getNodeEventKeyByNodeId, getNodePropKeyByNodeId } from '../script-helper';
 import { searchModulePathKeys } from '../searchPath';
+import { getPathProperties } from './shared/getPathProperties';
 import {
+  getEachIndexVarName,
+  getEachItemVarName,
   getEventArgVarName,
   isAstType,
   isRdData,
@@ -176,16 +179,30 @@ const toAstMethods = {
   getSlotData: (data: CodeSchema.DataValue_GetSlotData, ctx: BindParseCtx): CallExpression => {
     // TODO: 待定
   },
-  getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: BindParseCtx): CallExpression => {
-    // TODO: 待定
-    // const types = ctx.scope.page.nodesStore;
-    // if (!types) {
-    //   throw new Error('getVar的id的types获取失败');
-    // }
-    // const varName = ctx.scope.page.nodesVarNames[data.args.id]; // 变量名
-    // const key = data.args.path[0]
-    // const path = data.args.path?.slice(1) || []
-    // return t.memberExpression(id);
+  getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: BindParseCtx): MemberExpression | undefined => {
+    const slotNodeId = data.args.id;
+    const eachPropData = ctx.global.componentsStore.getProp('each', 'data', true);
+    const eachPropDataId = eachPropData?.data.id
+    if (!eachPropDataId) {
+      throw new Error('数据异常，循环节点的data属性的id没找到！');
+    }
+    if (slotNodeId) {
+      return
+    }
+    const path = (data.args?.path || []) as string[];
+    const key = path[0];
+    if (!key) {
+      throw new Error('数据异常，绑定的循环节点没有配置item、index节点！');
+    }
+    const nodeVarName = ctx.scope.page.nodesStore.getNodeVarName(slotNodeId);
+    if (!nodeVarName) {
+      throw new Error('数据异常，循环节点变量名没取到！');
+    }
+    const varName = key === 'item' ? getEachItemVarName(nodeVarName) : getEachIndexVarName(nodeVarName)
+    const pathProperties = getPathProperties(ctx, data)?.map(item => item.key)
+    if (!pathProperties) {
+      return
+    }
   },
   getCmptPropData: (data: CodeSchema.DataValue_GetCmptPropData, ctx: BindParseCtx): CallExpression => {},
   getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): CallExpression => {},

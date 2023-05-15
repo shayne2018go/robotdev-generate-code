@@ -152,7 +152,7 @@ export const getEventArgVarName = (argName: string) => `event_${argName}`;
 // 得到节点的上下文节点
 export const nodeCtx = (nodeId: string, ctx: BindParseCtx) => {
   const parents = ctx.scope.page.nodesStore.parents(nodeId, (node) => isEach_Or_TplSlot(node.data.tagId, ctx));
-  return parents.map((item) => ctx.scope.page.nodesVarNames[item.id]);
+  return parents.map((item) => ctx.scope.page.nodesStore.find(item.id));
 };
 
 // 判断当前属性值，是否应该写在template里，如果不是，则写在script中

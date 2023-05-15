@@ -1,5 +1,8 @@
 import { componentEmitsDataStore } from './componentEmits';
 import { componentSlotsDataStore } from './componentSlots';
+import { eventsDataStore } from './globalEvents';
+import { propsDataStore } from './globalProps';
+import { slotsDataStore } from './globalSlots';
 import { propertiesDataStore } from './properties';
 
 interface Members {
@@ -17,8 +20,17 @@ interface ComponentMap {
   [id: string]: ComponentMapItem;
 }
 
-export const componentsDataStore = (components?: GlobalContext.Component[]) => {
+export const componentsDataStore = (components: GlobalContext.Component[], ctx: {
+  events: GlobalContext.Event[];
+  props: GlobalContext.Property[];
+  slots: GlobalContext.Slot[];
+}) => {
   const componentMap: ComponentMap = {};
+
+  const eventsStore = eventsDataStore(ctx.events);
+  const propsStore = propsDataStore(ctx.props);
+  const slotsStore = slotsDataStore(ctx.slots);
+
 
   components?.forEach((item) => {
     componentMap[item.id] = {
@@ -49,9 +61,9 @@ export const componentsDataStore = (components?: GlobalContext.Component[]) => {
         return;
       }
       if (findKey) {
-        return componentMap[tagId].members.propsStore.findKey(propId);
+        return componentMap[tagId].members.propsStore.findKey(propId) || propsStore.findKey(propId);
       }
-      return componentMap[tagId].members.propsStore.findId(propId);
+      return componentMap[tagId].members.propsStore.findId(propId) || propsStore.findId(propId);
     },
     getEmit(
       tagId: GlobalContext.Component['id'],
@@ -62,9 +74,9 @@ export const componentsDataStore = (components?: GlobalContext.Component[]) => {
         return;
       }
       if (findKey) {
-        return componentMap[tagId].members.emitsStore.findKey(emitId);
+        return componentMap[tagId].members.emitsStore.findKey(emitId) || eventsStore.findKey(emitId);
       }
-      return componentMap[tagId].members.emitsStore.findId(emitId);
+      return componentMap[tagId].members.emitsStore.findId(emitId) || eventsStore.findId(emitId);
     },
     getSlot(
       tagId: GlobalContext.Component['id'],
@@ -75,9 +87,9 @@ export const componentsDataStore = (components?: GlobalContext.Component[]) => {
         return;
       }
       if (findKey) {
-        return componentMap[tagId].members.slotsStore.findKey(slotId);
+        return componentMap[tagId].members.slotsStore.findKey(slotId) || slotsStore.findId(slotId);
       }
-      return componentMap[tagId].members.slotsStore.findId(slotId);
+      return componentMap[tagId].members.slotsStore.findId(slotId) || slotsStore.findId(slotId);
     },
   };
 };
