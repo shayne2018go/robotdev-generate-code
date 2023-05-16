@@ -8,6 +8,7 @@ import {
   ExpressionStatement,
   Identifier,
   MemberExpression,
+  OptionalMemberExpression,
   ObjectProperty,
 } from '@babel/types';
 import { CompilePageCtx } from '../../compilePages';
@@ -18,9 +19,9 @@ import { searchModulePathKeys } from '../searchPath';
 import { getPathPropertieKeys } from './shared/getPathProperties';
 import {
   actionCheck,
-  getDataAstByAny,
   getEventArgVarName,
   getMemberExpr,
+  getOptMemberExpr,
   isAstType,
   isRdData,
   isTableType,
@@ -77,7 +78,7 @@ const defaultAst = (ctx: BindParseCtx, types?: CodeSchema.PropertyType_Protocol[
 };
 
 const toAstMethods = {
-  getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): MemberExpression | undefined => {
+  getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): OptionalMemberExpression | undefined => {
     // api响应数据 apiState.api函数名.data?.响应body?.响应body属性
     if (!data.args.id) {
       throw new Error('getApiData的data.args.id失败');
@@ -87,9 +88,9 @@ const toAstMethods = {
       return;
     }
     const rootName = ctx.global.variablesRootName; // 变量外层的变量名
-    return getMemberExpr([rootName, ...pathPropertieKeys]);
+    return getOptMemberExpr([rootName, ...pathPropertieKeys]);
   },
-  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): MemberExpression | undefined => {
+  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): OptionalMemberExpression | undefined => {
     // api响应数据 apiState.api函数名.data?.响应body?.响应body属性
     if (!data.args.id) {
       throw new Error('getApiData的data.args.id失败');
@@ -99,9 +100,9 @@ const toAstMethods = {
       return;
     }
     const rootName = ctx.global.apiVarRootName; // 变量外层的变量名
-    return getMemberExpr([rootName, ...pathPropertieKeys]);
+    return getOptMemberExpr([rootName, ...pathPropertieKeys]);
   },
-  getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): MemberExpression | undefined => {
+  getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): OptionalMemberExpression | undefined => {
     // 页面路由参数 router.query.xxx
     if (!data.args.id) {
       throw new Error('getApiData的data.args.id失败');
@@ -110,9 +111,9 @@ const toAstMethods = {
     if (!pathPropertieKeys?.length) {
       return;
     }
-    return getMemberExpr([VueVariable.router, 'query', ...pathPropertieKeys]);
+    return getOptMemberExpr([VueVariable.router, 'query', ...pathPropertieKeys]);
   },
-  getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): MemberExpression | Identifier => {
+  getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): OptionalMemberExpression | Identifier => {
     // 事件参数 @click="(evt,prop) => {const temp = `${evt.target}`;const temp1 = `${prop}`}"
     if (!ctx.scope.node?.id) {
       throw new Error('getEventData的ctx.scope.node?.id获取失败');
@@ -123,7 +124,6 @@ const toAstMethods = {
     if (!data.args.id) {
       throw new Error('getEventData的data.args.id失败');
     }
-    let paths: string[] = [];
     // 通过参数id拿到varName和types
     const eventDefine = ctx.scope.current.nodesStore.getNodeEventDefine(ctx.scope.node?.id, ctx.scope.event?.eventId);
     let eventParam = eventDefine?.members.parameters?.findId(data.args.id);
@@ -139,10 +139,9 @@ const toAstMethods = {
     if (pathArr.length === 0) {
       return t.identifier(varName);
     }
-    paths.push(varName, ...pathArr);
-    return getMemberExpr(paths);
+    return getOptMemberExpr([varName, ...pathArr]);
   },
-  getSlotData: (data: CodeSchema.DataValue_GetSlotData, ctx: BindParseCtx): MemberExpression | undefined => {
+  getSlotData: (data: CodeSchema.DataValue_GetSlotData, ctx: BindParseCtx): OptionalMemberExpression | undefined => {
     if (!data.args.id) {
       return;
     }
@@ -150,9 +149,9 @@ const toAstMethods = {
     if (!pathPropertieKeys?.length) {
       return;
     }
-    return getMemberExpr(pathPropertieKeys);
+    return getOptMemberExpr(pathPropertieKeys);
   },
-  getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: BindParseCtx): MemberExpression | undefined => {
+  getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: BindParseCtx): OptionalMemberExpression | undefined => {
     if (!data.args.id) {
       return;
     }
@@ -160,7 +159,7 @@ const toAstMethods = {
     if (!pathPropertieKeys?.length) {
       return;
     }
-    return getMemberExpr(pathPropertieKeys);
+    return getOptMemberExpr(pathPropertieKeys);
   },
   getCmptPropData: (data: CodeSchema.DataValue_GetCmptPropData, ctx: BindParseCtx): CallExpression => {},
   getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): CallExpression => {},

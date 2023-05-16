@@ -9,6 +9,7 @@ import {
   NullLiteral,
   NumericLiteral,
   ObjectExpression,
+  OptionalMemberExpression,
   StringLiteral,
 } from '@babel/types';
 import { CompilePageCtx } from '../../../compilePages';
@@ -17,6 +18,7 @@ import { genVarName } from '../../helper';
 export type ActionAst = CallExpression | AssignmentExpression;
 export type ActionsAst = CallExpression[] | AssignmentExpression[];
 export type BindAst =
+  | OptionalMemberExpression
   | MemberExpression
   | ArrayExpression
   | StringLiteral

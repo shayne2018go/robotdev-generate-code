@@ -185,16 +185,29 @@ export const inTemplate = (data: BindRdData) => {
   return false;
 };
 
-export const getMemberExpr = (paths: string[]): t.MemberExpression => {
-  if (paths.length < 2) {
+export const getMemberExpr = (paths: string[], optional = false): t.MemberExpression => {
+  if (!paths.length) {
     throw new Error('getMemberExpr的paths元素个数少于2');
   }
   const varStr = paths.pop() as string;
   const memberPaths = paths;
   if (memberPaths.length !== 1) {
-    return t.memberExpression(getMemberExpr(memberPaths), t.identifier(varStr));
+    return t.memberExpression(getMemberExpr(memberPaths, optional), t.identifier(varStr), undefined, optional);
   } else {
-    return t.memberExpression(t.identifier(memberPaths[0]), t.identifier(varStr));
+    return t.memberExpression(t.identifier(memberPaths[0]), t.identifier(varStr), undefined, optional);
+  }
+};
+
+export const getOptMemberExpr = (paths: string[], optional = true): t.OptionalMemberExpression => {
+  if (!paths.length) {
+    throw new Error('getMemberExpr的paths元素个数少于2');
+  }
+  const varStr = paths.pop() as string;
+  const memberPaths = paths;
+  if (memberPaths.length !== 1) {
+    return t.optionalMemberExpression(getOptMemberExpr(memberPaths, optional), t.identifier(varStr), undefined, optional);
+  } else {
+    return t.optionalMemberExpression(t.identifier(memberPaths[0]), t.identifier(varStr), undefined, optional);
   }
 };
 
