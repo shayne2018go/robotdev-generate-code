@@ -5,7 +5,6 @@ import { relative } from '@/utils/node';
 import { tools } from '@/utils/tools';
 import { actionsToAst, nodePropsAst } from '../shared/bind-parse/core';
 import { getNodeTagVarName, getVariableVarName } from '../shared/script-helper';
-import { PAGE_DIR } from '../const/config';
 
 export enum LifeCycle {
   loading = 'onMounted',
@@ -120,11 +119,14 @@ function getComponentImports(importComponents: GlobalContext.Component[], ctx: C
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
+  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath
+  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1]
   importComponents.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
       const { filePath, packageName, exportName, alias } = source;
-      const sourceStr = packageName || relative(PAGE_DIR, filePath as string);
+
+      const sourceStr = packageName || relative(pageDir!, filePath as string);
       if (packageObj[sourceStr] === undefined) {
         let specifier = getImportSpecifier(exportName, key, alias);
         let source = t.stringLiteral(sourceStr);
@@ -145,11 +147,13 @@ function getFunctionImports(importComponents: GlobalContext.Function[], ctx: Com
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
+  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath
+  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1]
   importComponents.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
       const { filePath, packageName, exportName, alias } = source;
-      const sourceStr = packageName || relative(PAGE_DIR, filePath as string);
+      const sourceStr = packageName || relative(pageDir!, filePath as string);
       if (packageObj[sourceStr] === undefined) {
         let specifier = getImportSpecifier(exportName, key, alias);
         let source = t.stringLiteral(sourceStr);
@@ -166,13 +170,15 @@ function getFunctionImports(importComponents: GlobalContext.Function[], ctx: Com
   });
 }
 
-function getApiImports(apis: GlobalContext.Api[], _ctx: CompilePageCtx) {
+function getApiImports(apis: GlobalContext.Api[], ctx: CompilePageCtx) {
   const importArray: any[] = [];
+  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath
+  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1]
   apis.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
       const { filePath, exportName } = source;
-      const sourcePath = relative(PAGE_DIR, filePath as string);
+      const sourcePath = relative(pageDir!, filePath as string);
       let specifier = getImportSpecifier(exportName, key);
       let sourceStr = t.stringLiteral(sourcePath);
       importArray.push([[specifier], sourceStr]);
