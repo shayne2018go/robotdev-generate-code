@@ -6929,6 +6929,34 @@ const codeSchema = {
               types: [
                 {
                   type: 'module',
+                  rules: {
+                    properties: [
+                      {
+                        name: '目标',
+                        types: [
+                          {
+                            type: 'module',
+                            rules: {
+                              properties: [
+                                {
+                                  name: '值',
+                                  types: [
+                                    {
+                                      type: 'text',
+                                    },
+                                  ],
+                                  id: '642be22b451c381a2ec381f6',
+                                  key: 'value',
+                                },
+                              ],
+                            },
+                          },
+                        ],
+                        id: '642b8a909a04dc6fabaa5d57',
+                        key: 'target',
+                      },
+                    ],
+                  },
                 },
               ],
             },
@@ -7222,8 +7250,52 @@ const codeSchema = {
                 },
               },
             },
+            {
+              propId: '641a7052cf44f6204642b608',
+              value: {
+                type: 'data',
+                mode: 'getParam',
+                args: {
+                  id: '6448e22cc48ddbf7e5f02da6',
+                },
+              },
+            },
           ],
-          events: undefined,
+          events: [
+            {
+              eventId: '641a95decd3c6b0921a79f04',
+              actions: [
+                {
+                  id: '64472977fafa3e71eb83f6c2',
+                  modeId: '6401884418eda303abe11c41',
+                  mode: 'set',
+                  name: '数据赋值',
+                  type: 'action',
+                  args: {
+                    actions: [
+                      {
+                        id: '64472977fafa3e71eb83f6c2',
+                        type: 'action',
+                        modeId: '6401884418eda303abe11c41',
+                        mode: 'setVar',
+                        args: {
+                          id: '6454c8d32f633c035f506d50',
+                          value: {
+                            type: 'data',
+                            mode: 'getEventData',
+                            args: {
+                              id: '641a95e2cd3c6b0921a79f15',
+                              path: ['642b8a909a04dc6fabaa5d57', '642be22b451c381a2ec381f6'],
+                            },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           id: 'F104#641a7052cf44f6204642b607',
