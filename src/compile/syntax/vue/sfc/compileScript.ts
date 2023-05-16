@@ -52,8 +52,8 @@ function getTagStrs(): string[] {
 function getAllImports(ctx: CompilePageCtx): t.Statement[] {
   let imports: t.Statement[] = [];
   const apis = ctx.global.apisStore.apis();
-  const importComponents = ctx.scope.page.importComponents;
-  const importFunctions = ctx.scope.page.importFunctions;
+  const importComponents = ctx.scope.current.importComponents;
+  const importFunctions = ctx.scope.current.importFunctions;
   imports = imports.concat(getVueImports());
   if (importComponents && importComponents.length) {
     imports = imports.concat(getComponentImports(importComponents, ctx));
@@ -71,7 +71,7 @@ function getAllVariables(page: CodeSchema.Page, ctx: CompilePageCtx): t.Statemen
   let variables: t.Statement[] = [];
   const { variables: pageVariables } = page;
   const apis = ctx.global.apisStore.apis();
-  const nodes = ctx.scope.page.nodesStore.nodes();
+  const nodes = ctx.scope.current.nodesStore.nodes();
   variables.push(getVueVariables());
   if (pageVariables && pageVariables.length) {
     variables = variables.concat(getVariables(pageVariables, ctx));
@@ -274,7 +274,9 @@ function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: Co
     const actionStatements: t.ExpressionStatement[] = actionsToAst(lifeCycle.actions, ctx);
     lifeCycleExprs.push(
       t.callExpression(
-        t.identifier(LifeCycle[ctx.global.eventsStore.getEvent(lifeCycle.eventId).key as keyof typeof LifeCycle]),
+        t.identifier(
+          LifeCycle[ctx.global.componentsStore.getLifeCycleEmit(lifeCycle.eventId)?.data.key as keyof typeof LifeCycle]
+        ),
         [t.arrowFunctionExpression([], t.blockStatement(actionStatements))]
       )
     );
