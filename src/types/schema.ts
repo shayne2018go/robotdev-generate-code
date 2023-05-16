@@ -127,6 +127,7 @@ declare namespace CodeSchema {
 
     props?: Array<Property> | null;
     events?: Array<Event> | null;
+    slotId?: string;
   }
   export interface ComponentLifeCycle extends Event {}
 

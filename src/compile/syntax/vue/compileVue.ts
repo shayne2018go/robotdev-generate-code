@@ -8,9 +8,13 @@ import { getPathByDirectories } from './shared/directory-helper';
 import {
   actionsDataStore,
   apisDataStore,
-  componentsDataStore, functionsDataStore,
-  pagesDataStore
+  componentsDataStore,
+  eventsDataStore,
+  functionsDataStore,
+  pagesDataStore,
+  propsDataStore,
 } from './shared/store';
+import { slotsDataStore } from './shared/store/globalSlots';
 // import { apisDataStore } from './shared/store/apis';
 // import { componentsDataStore } from './shared/store/components';
 // import { functionsDataStore } from './shared/store/functions';
@@ -36,12 +40,13 @@ export interface VueGlobalCtx {
   functionsStore: ReturnType<typeof functionsDataStore>;
   actionsStore: ReturnType<typeof actionsDataStore>;
   apisStore: ReturnType<typeof apisDataStore>;
-  // eventsStore: ReturnType<typeof eventsDataStore>;
-  // propsStore: ReturnType<typeof propsDataStore>;
+  eventsStore: ReturnType<typeof eventsDataStore>;
+  propsStore: ReturnType<typeof propsDataStore>;
+  slotsStore: ReturnType<typeof slotsDataStore>;
   variablesRootName: string;
   apiVarRootName: string;
   nodesVarRootName: string;
-  nodePropFunctionCtxParamName: string
+  nodePropFunctionCtxParamName: string;
 }
 function compileVue(codeSchema: CodeSchema.Project) {
   // 解析相关依赖协议
@@ -114,14 +119,16 @@ export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalC
   const functionsStore = functionsDataStore(VueCompileOptions.functions);
   const actionsStore = actionsDataStore(VueCompileOptions.actions);
   const apisStore = apisDataStore(VueCompileOptions.apis);
-  const componentsStore = componentsDataStore(VueCompileOptions.components, {
-    events: VueCompileOptions.events,
-    props: VueCompileOptions.props,
-    slots: VueCompileOptions.slots,
-  });
+  const componentsStore = componentsDataStore(VueCompileOptions.components);
   const pagesStore = pagesDataStore(VueCompileOptions.pages);
+  const eventsStore = eventsDataStore(VueCompileOptions.events);
+  const propsStore = propsDataStore(VueCompileOptions.props);
+  const slotsStore = slotsDataStore(VueCompileOptions.slots);
 
   return {
+    eventsStore,
+    propsStore,
+    slotsStore,
     componentsStore,
     functionsStore,
     actionsStore,
@@ -282,7 +289,6 @@ function parsingDependenciesProps(cur: CodeSchema.Dependency): GlobalContext.Pro
     }) || [];
   return props;
 }
-
 
 function parsingDependenciesSlots(cur: CodeSchema.Dependency): GlobalContext.Slot[] {
   const slots =

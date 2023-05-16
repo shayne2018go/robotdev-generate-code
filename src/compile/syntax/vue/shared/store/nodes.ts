@@ -42,7 +42,7 @@ export type TreeNode = {
   data: CodeSchema.ComponentNode;
   children: TreeNode[];
   isUndefined?: true;
-  store?: NodeMapItem
+  store?: NodeMapItem;
 };
 
 export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobalCtx) => {
@@ -77,7 +77,7 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
           parentId: node.parentId || null,
           data: node,
           children: [],
-          store: nodesMap[node.id]
+          store: nodesMap[node.id],
         };
         tree[node.id] = treeNode;
       } else {
@@ -113,7 +113,7 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
     const list: TreeNode[] = [];
     let parent = nodesMap[parentId];
     while (parent) {
-      const treeNode = tree[parent.data.id]
+      const treeNode = tree[parent.data.id];
       if (treeNode.isUndefined) {
         break;
       }
@@ -132,7 +132,6 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
     }
     return list;
   };
-  
 
   const parentOne = (nodeId: CodeSchema.ComponentNode['id'], filter: (item: TreeNode) => boolean) => {
     const parentId = nodesMap[nodeId].data.parentId;
@@ -141,12 +140,12 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
     }
     let parent = nodesMap[parentId];
     while (parent) {
-      const treeNode = tree[parent.data.id]
+      const treeNode = tree[parent.data.id];
       if (treeNode.isUndefined) {
         break;
       }
       if (filter(treeNode)) {
-        return parent
+        return parent;
       }
       const parentId = treeNode.parentId;
       if (!parentId) {
@@ -186,11 +185,15 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
       return nodesMap[nodeId].varName || undefined;
     },
     getNodePropDefine(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {
-      let define = nodesMap[nodeId]?.component?.members?.propsStore.findId(propId);
+      let define = nodesMap[nodeId]?.component?.members?.propsStore.findId(propId) || ctx.propsStore?.findId(nodeId);
       return define;
     },
     getNodeEventDefine(nodeId: CodeSchema.ComponentNode['id'], eventId: CodeSchema.Event['eventId']) {
-      let define = nodesMap[nodeId]?.component?.members?.emitsStore.findId(eventId);
+      let define = nodesMap[nodeId]?.component?.members?.emitsStore.findId(eventId) || ctx.eventsStore?.findId(nodeId);
+      return define;
+    },
+    getNodeSlotDefine(nodeId: CodeSchema.ComponentNode['id'], slotId: Required<CodeSchema.ComponentNode>['slotId']) {
+      let define = nodesMap[nodeId]?.component?.members?.slotsStore.findId(slotId) || ctx.slotsStore?.findId(nodeId);
       return define;
     },
     getNodePropVarName(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {
