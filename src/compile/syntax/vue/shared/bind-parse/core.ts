@@ -95,7 +95,7 @@ const toAstMethods = {
       throw new Error('getVar的variable.varName获取失败');
     }
     paths.push(rootName, varName);
-    paths = searchModulePathKeys(variable.data.types, data.args.path || []).concat(paths); // 路径中的每个属性名
+    paths.push(...searchModulePathKeys(variable.data.types, data.args.path || [])); // 路径中的每个属性名
     return getMemberExpr(paths);
   },
   getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): MemberExpression => {
@@ -126,7 +126,7 @@ const toAstMethods = {
       }
       bodyVarName = body.varName;
       paths.push(bodyVarName);
-      paths = searchModulePathKeys(body.data.types, argPaths).concat(paths); // 路径中的每个属性名
+      paths.push(...searchModulePathKeys(body.data.types, argPaths).concat(paths)); // 路径中的每个属性名
     }
     return getMemberExpr(paths);
   },
@@ -145,7 +145,7 @@ const toAstMethods = {
     }
     const varName = query.varName; // 变量外层的变量名
     paths.push(VueVariable.router, 'query', varName);
-    paths = searchModulePathKeys(query.data.types, data.args.path || []).concat(paths); // 路径中的每个属性名
+    paths.push(...searchModulePathKeys(query.data.types, data.args.path || []).concat(paths)); // 路径中的每个属性名
     return getMemberExpr(paths);
   },
   getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): MemberExpression | Identifier => {
@@ -166,10 +166,11 @@ const toAstMethods = {
     if (!eventParam) {
       throw new Error('getEventData的eventParam失败');
     }
-    const varName = eventParam.varName; // 变量外层的变量名
+    let varName = eventParam.varName; // 变量外层的变量名
     if (!varName) {
       throw new Error('getEventData的varName失败');
     }
+    varName = getEventArgVarName(varName);
     const pathArr = searchModulePathKeys(eventParam.data.types, data.args.path || []); // 路径中的每个属性名
     if (pathArr.length === 0) {
       return t.identifier(varName);
@@ -232,8 +233,13 @@ const toAstMethods = {
       throw new Error('setVar的variable.varName获取失败');
     }
     paths.push(rootName, varName);
-    paths = searchModulePathKeys(variable.data.types, data.args.path || []).concat(paths); // 路径中的每个属性名
-    return t.assignmentExpression('=', getMemberExpr(paths), getDataAstByAny(data.args.value));
+    paths.push(...searchModulePathKeys(variable.data.types, data.args.path || [])); // 路径中的每个属性名
+    const ast = valueToAst(data.args.value as CodeSchema.DataValueArgument, ctx);
+    return t.assignmentExpression(
+      '=',
+      getMemberExpr(paths),
+      ast.value as Expression
+    );
   },
   setApiData: (data: CodeSchema.Action_SetApiData, ctx: BindParseCtx): AssignmentExpression => {
     // api数据赋值
@@ -260,14 +266,16 @@ const toAstMethods = {
           throw new Error('getApiData的body.varName获取失败');
         }
         paths.push(body.varName);
-        paths = searchModulePathKeys(body.data.types, argPaths).concat(paths); // 路径中的每个属性名
+        paths.push(...searchModulePathKeys(body.data.types, argPaths)); // 路径中的每个属性名
       }
-      return t.assignmentExpression('=', getMemberExpr(paths), getDataAstByAny(data.args.value));
+      const ast = valueToAst(data.args.value as CodeSchema.DataValueArgument, ctx);
+      return t.assignmentExpression('=', getMemberExpr(paths), ast.value as Expression);
     } else {
+      const ast = valueToAst(data.args.value as CodeSchema.DataValueArgument, ctx);
       return t.assignmentExpression(
         '=',
         getMemberExpr([ctx.global.apiVarRootName, api.key]),
-        getDataAstByAny(data.args.value)
+        ast.value as Expression
       );
     }
   },
