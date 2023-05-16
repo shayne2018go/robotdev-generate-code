@@ -22,9 +22,7 @@ import {
   getEventArgVarName,
   getMemberExpr,
   getOptMemberExpr,
-  isAstType,
   isRdData,
-  isTableType,
   literalToRdData_Custom,
   rdActionIsSys,
   rdDataIsBind,
@@ -601,41 +599,39 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
     node.props.forEach((prop) => {
       const res = nodePropValueAst(node.id, prop.propId, bindParseCtx);
       if (res) {
-        if (isAstType(res)) {
-          const ast = res.value;
-          if (ast) {
-            const varName = getNodePropKeyByNodeId(node.id, prop.propId, ctx);
-            if (varName) {
-              if (!isRdData(prop.value) || rdDataisCustom(prop.value)) {
-                propProps.push(t.objectProperty(t.identifier(varName), ast));
-              } else {
-                propProps.push(
-                  t.objectProperty(
-                    t.identifier(varName),
-                    t.callExpression(t.identifier('computed'), [t.arrowFunctionExpression([], ast)])
-                  )
-                );
-              }
+        const varName = getNodePropKeyByNodeId(node.id, prop.propId, ctx);
+        if (varName && res.value) {
+          const ast = res.value as ActionAst | BindAst;
+          if (!isRdData(prop.value) || rdDataisCustom(prop.value)) {
+            propProps.push(t.objectProperty(t.identifier(varName), ast));
+          } else if (rdDataIsBind(prop.value)) {
+            if (['getSlotData', 'getEachData'].includes(prop.value.mode)) {
+              return;
             }
+            propProps.push(
+              t.objectProperty(
+                t.identifier(varName),
+                t.callExpression(t.identifier('computed'), [t.arrowFunctionExpression([], ast)])
+              )
+            );
+          } else if (rdDataIsTable(prop.value)) {
+            const tableProp = res.value as TableProps;
+            propProps.push(
+              t.objectProperty(
+                t.identifier(varName),
+                t.objectExpression([
+                  t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
+                  t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
+                ])
+              )
+            );
+          } else if (rdActionIsSys(prop.value)) {
+            return;
+          } else {
+            propProps.push(
+              t.objectProperty(t.identifier(varName), t.arrowFunctionExpression([t.identifier('ctx')], ast))
+            );
           }
-        } else if (isTableType(res)) {
-          const tableProp = res.value;
-          if (tableProp) {
-            const varName = getNodePropKeyByNodeId(node.id, prop.propId, ctx);
-            if (varName) {
-              propProps.push(
-                t.objectProperty(
-                  t.identifier(varName),
-                  t.objectExpression([
-                    t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
-                    t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
-                  ])
-                )
-              );
-            }
-          }
-        } else {
-          throw new Error('未知propValueAst类型');
         }
       }
     });
