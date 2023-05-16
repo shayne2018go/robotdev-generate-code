@@ -350,7 +350,7 @@ const toAstMethods = {
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
 };
 
-const bindToAst = (data: BindRdData, ctx: BindParseCtx): BindAst | undefined => {
+export const bindToAst = (data: BindRdData, ctx: BindParseCtx): BindAst | undefined => {
   switch (data.mode) {
     case 'getVar': {
       return toAstMethods.getVar(data, ctx);

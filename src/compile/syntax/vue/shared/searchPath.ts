@@ -17,7 +17,7 @@ const seach = <T extends boolean>(
   let type: CodeSchema.Property_Protocol['types'][number] | undefined;
   path.forEach((pathId, index) => {
     type = types.find((item) => item.type === typeKey);
-    if (!type || (path.length === index + 1 && type.multiple !== lastMultiple)) {
+    if (!type || (path.length === index + 1 && (type.multiple === true) !== lastMultiple)) {
       throw new Error('找不到module类型配置');
     }
     const prop = type.rules?.[ruleKey]?.find((item) => item.id === pathId);
