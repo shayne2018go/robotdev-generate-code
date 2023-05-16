@@ -1,5 +1,7 @@
 import { CompilePageCtx } from '../compilePages';
 import { VirtualTag } from '../const/config';
+import { valueToAst } from './bind-parse/core';
+import { getPathPropertieKeys } from './bind-parse/shared/getPathProperties';
 import {
   getEachIndexVarName,
   getEachItemVarName,
@@ -42,6 +44,17 @@ export const getNodePropValueVariable = (nodeId: string, value: CodeSchema.Prope
   if (!node) {
     return;
   }
+
+  // const paths = getPathPropertieKeys(ctx,value.value) // nodeState.A001.propVar.b
+
+  if (isRdData(value.value) && rdDataIsBind(value.value)) {
+    if (['getEachData', 'getSlotData'].includes(value.value.mode)) {
+      const ast = valueToAst(value.value, ctx);
+
+      return ast.value as t.MemberExpression;
+    }
+  }
+
   const { propId } = value;
   const nodeVarName = ctx.scope.current.nodesStore.getNodeVarName(nodeId);
   const propVarName = ctx.scope.current.nodesStore.getNodePropVarName(nodeId, propId);

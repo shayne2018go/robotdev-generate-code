@@ -1,0 +1,100 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`compile syntax > compileVue 1`] = `
+[
+  {
+    "path": "src/router/routes.ts",
+    "token": "import { RouteRecordRaw } from \\"vue-router\\";
+const routes = [{
+  path: \\"/shouye\\",
+  name: \\"shouye\\",
+  component: () => import(\\"../pages/shouye.vue\\")
+}, {
+  path: \\"/404\\",
+  name: \\"404\\",
+  component: () => import(\\"../pages/404.vue\\")
+}, {
+  path: \\"/502\\",
+  name: \\"502\\",
+  component: () => import(\\"../pages/502.vue\\")
+}, {
+  path: \\"/renyuan/renyuanluruye\\",
+  name: \\"renyuanluruye\\",
+  component: () => import(\\"../pages/renyuan/renyuanluruye.vue\\")
+}, {
+  path: \\"/renyuan/renyuanliebiao\\",
+  name: \\"renyuanliebiao\\",
+  component: () => import(\\"../pages/renyuan/renyuanliebiao.vue\\")
+}, {
+  path: \\"/renyuan/renyuanxiangqingye\\",
+  name: \\"renyuanxiangqingye\\",
+  component: () => import(\\"../pages/renyuan/renyuanxiangqingye.vue\\")
+}];
+export { routes };",
+  },
+  {
+    "path": "src/apis/chuangjianyonghu.ts",
+    "token": "import axios from\\"axios\\";export function chuangjianyonghu(data){return axios({method:\\"post\\",url:\\"chuangjianyonghu\\",data:data})}",
+  },
+  {
+    "path": "src/apis/chuangjianbanji.ts",
+    "token": "import axios from\\"axios\\";export function chuangjianbanji(data){return axios({method:\\"post\\",url:\\"chuangjianbanji\\",data:data})}",
+  },
+  {
+    "path": "src/apis/luruxueshengbanji.ts",
+    "token": "import axios from\\"axios\\";export function luruxueshengbanji(data){return axios({method:\\"post\\",url:\\"luruxueshengbanji\\",data:data})}",
+  },
+  {
+    "path": "src/apis/chaxunxueshengbanji.ts",
+    "token": "import axios from\\"axios\\";export function chaxunxueshengbanji(data){return axios({method:\\"post\\",url:\\"chaxunxueshengbanji\\",data:data})}",
+  },
+  {
+    "path": "src/apis/chaxunsuoyouyonghu.ts",
+    "token": "import axios from\\"axios\\";export function chaxunsuoyouyonghu(data){return axios({method:\\"post\\",url:\\"chaxunsuoyouyonghu\\",data:data})}",
+  },
+  {
+    "path": "src/apis/chaxunyonghu.ts",
+    "token": "import axios from\\"axios\\";export function chaxunyonghu(data){return axios({method:\\"post\\",url:\\"chaxunyonghu\\",data:data})}",
+  },
+  {
+    "path": "src/pages/shouye.vue",
+    "token": "<template><template v-for=\\"(each_item, each_index) in nodesState.each.data\\"><template v-for=\\"(each_2_item, each_2_index) in nodesState.each_2.data\\"><template v-for=\\"(each_3_item, each_3_index) in nodesState.each_3.data\\"><template v-if=\\"nodesState.cond.value({
+  each_item: each_item,
+  each_2_item: each_2_item,
+  each_3_item: each_3_item
+})\\"><a-card :title=\\"each_3_item.ID\\">{{each_3_item.yonghuming}}{{nodesState.text_2.text({
+  each_item: each_item,
+  each_2_item: each_2_item,
+  each_3_item: each_3_item
+})}}{{each_3_item.yonghunianling}}</a-card>{{nodesState.text_4.text}}</template></template></template></template></template><script setup lang=\\"ts\\">import{onBeforeUnmount,onMounted,reactive,ref,computed}from\\"vue\\";import{useRouter}from\\"vue-router\\";import{chuangjianyonghu}from\\"../apis/chuangjianyonghu.ts\\";import{chuangjianbanji}from\\"../apis/chuangjianbanji.ts\\";import{luruxueshengbanji}from\\"../apis/luruxueshengbanji.ts\\";import{chaxunxueshengbanji}from\\"../apis/chaxunxueshengbanji.ts\\";import{chaxunsuoyouyonghu}from\\"../apis/chaxunsuoyouyonghu.ts\\";import{chaxunyonghu}from\\"../apis/chaxunyonghu.ts\\";const router=useRouter();const variables=reactive({xueshengmingcheng:null,xueshengnianling:null,xunhuancols:null});const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});const nodesState=reactive({each:{data:[\\"a\\",\\"b\\",\\"c\\",\\"d\\"]},tpl:{},each_2:{data:computed(()=>variables.xunhuancols)},tpl_2:{},each_3:{data:computed(()=>apiState.chaxunsuoyouyonghu.data.yonghushuzu)},tpl_3:{},cond:{},tpl_4:{},aCard:{title:computed(()=>each_3_item.ID)},tpl_5:{},text:{text:computed(()=>each_3_item.yonghuming)},text_2:{},text_3:{text:computed(()=>each_3_item.yonghunianling)},tpl_6:{},text_4:{text:\\"\\\\u5E74\\\\u9F84\\\\u5C0F\\\\u4E8E10----------\\"}});onMounted(()=>{chaxunsuoyouyonghu(\\"hxy\\").then(res=>{apiState.chaxunsuoyouyonghu=res;open(\\"in\\",\\"blank\\",\\"404\\")}).catch(error=>{})});</script>",
+  },
+  {
+    "path": "src/pages/404.vue",
+    "token": "<template></template><script setup lang=\\"ts\\">import{onBeforeUnmount,onMounted,reactive,ref,computed}from\\"vue\\";import{useRouter}from\\"vue-router\\";import{chuangjianyonghu}from\\"../apis/chuangjianyonghu.ts\\";import{chuangjianbanji}from\\"../apis/chuangjianbanji.ts\\";import{luruxueshengbanji}from\\"../apis/luruxueshengbanji.ts\\";import{chaxunxueshengbanji}from\\"../apis/chaxunxueshengbanji.ts\\";import{chaxunsuoyouyonghu}from\\"../apis/chaxunsuoyouyonghu.ts\\";import{chaxunyonghu}from\\"../apis/chaxunyonghu.ts\\";const router=useRouter();const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});</script>",
+  },
+  {
+    "path": "src/pages/502.vue",
+    "token": "<template></template><script setup lang=\\"ts\\">import{onBeforeUnmount,onMounted,reactive,ref,computed}from\\"vue\\";import{useRouter}from\\"vue-router\\";import{chuangjianyonghu}from\\"../apis/chuangjianyonghu.ts\\";import{chuangjianbanji}from\\"../apis/chuangjianbanji.ts\\";import{luruxueshengbanji}from\\"../apis/luruxueshengbanji.ts\\";import{chaxunxueshengbanji}from\\"../apis/chaxunxueshengbanji.ts\\";import{chaxunsuoyouyonghu}from\\"../apis/chaxunsuoyouyonghu.ts\\";import{chaxunyonghu}from\\"../apis/chaxunyonghu.ts\\";const router=useRouter();const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});</script>",
+  },
+  {
+    "path": "src/pages/renyuan/renyuanluruye.vue",
+    "token": "<template><a-card><a-form><a-form-item :label=\\"nodesState.aFormItem.label\\"><a-input :value=\\"nodesState.aInput.value\\" @change=\\"(...args) => {
+  nodesState.aInput.change(...args);
+}\\"></a-input></a-form-item><a-form-item :label=\\"nodesState.aFormItem_2.label\\"><a-input-number @change=\\"(...args) => {
+  nodesState.aInputNumber.change(...args);
+}\\"></a-input-number></a-form-item><a-form-item :label=\\"nodesState.aFormItem_3.label\\"><a-button :type=\\"nodesState.aButton.type\\" :size=\\"nodesState.aButton.size\\" :shape=\\"nodesState.aButton.shape\\" @click=\\"(...args) => {
+  nodesState.aButton.click(...args);
+}\\">{{nodesState.text.text}}</a-button></a-form-item></a-form></a-card></template><script setup lang=\\"ts\\">import{onBeforeUnmount,onMounted,reactive,ref,computed}from\\"vue\\";import{useRouter}from\\"vue-router\\";import{chuangjianyonghu}from\\"../apis/chuangjianyonghu.ts\\";import{chuangjianbanji}from\\"../apis/chuangjianbanji.ts\\";import{luruxueshengbanji}from\\"../apis/luruxueshengbanji.ts\\";import{chaxunxueshengbanji}from\\"../apis/chaxunxueshengbanji.ts\\";import{chaxunsuoyouyonghu}from\\"../apis/chaxunsuoyouyonghu.ts\\";import{chaxunyonghu}from\\"../apis/chaxunyonghu.ts\\";const router=useRouter();const variables=reactive({xueshengmingcheng:null,xueshengnianling:null});const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});const nodesState=reactive({aCard:{},tpl:{},aForm:{},tpl_2:{},aFormItem:{label:\\"\\\\u5B66\\\\u751F\\\\u540D\\\\u79F0\\"},tpl_3:{},aInput:{value:\\"\\",change:(event_event,event_ctx)=>{variables.xueshengmingcheng=event_event.target.value}},aFormItem_2:{label:\\"\\\\u5B66\\\\u751F\\\\u5E74\\\\u9F84\\"},tpl_4:{},aInputNumber:{change:(event_value,event_ctx)=>{variables.xueshengnianling=121}},aFormItem_3:{label:\\"\\\\u5B66\\\\u751F\\\\u5E74\\\\u9F84\\"},tpl_5:{},aButton:{type:\\"primary\\",size:\\"middle\\",shape:\\"round\\"},tpl_6:{},text:{text:\\"\\\\u63D0\\\\u4EA4\\\\u8868\\\\u5355\\"}});</script>",
+  },
+  {
+    "path": "src/pages/renyuan/renyuanliebiao.vue",
+    "token": "<template><a-table :columns=\\"nodesState.aTable.columns\\"></a-table><a-button></a-button></template><script setup lang=\\"ts\\">import{onBeforeUnmount,onMounted,reactive,ref,computed}from\\"vue\\";import{useRouter}from\\"vue-router\\";import{chuangjianyonghu}from\\"../apis/chuangjianyonghu.ts\\";import{chuangjianbanji}from\\"../apis/chuangjianbanji.ts\\";import{luruxueshengbanji}from\\"../apis/luruxueshengbanji.ts\\";import{chaxunxueshengbanji}from\\"../apis/chaxunxueshengbanji.ts\\";import{chaxunsuoyouyonghu}from\\"../apis/chaxunsuoyouyonghu.ts\\";import{chaxunyonghu}from\\"../apis/chaxunyonghu.ts\\";const router=useRouter();const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});const nodesState=reactive({aTable:{columns:{:[],:[]}},text:{},text_2:{},aButton:{}});onMounted(()=>{chaxunsuoyouyonghu().then(res=>{apiState.chaxunsuoyouyonghu=res}).catch(error=>{})});</script>",
+  },
+  {
+    "path": "src/pages/renyuan/renyuanxiangqingye.vue",
+    "token": "<template><a-typography-title>{{nodesState.text.text}}</a-typography-title><div><template v-for=\\"(each_item, each_index) in nodesState.each.data\\"><template v-if=\\"nodesState.cond.value({
+  each_item: each_item
+})\\"><a-card :title=\\"each_item.yonghuming\\">{{each_item.ID}}{{nodesState.text_3.text}}</a-card><a-card :title=\\"each_item.yonghuming\\">{{each_item.ID}}{{nodesState.text_5.text}}</a-card></template></template></div></template><script setup lang=\\"ts\\">import{onBeforeUnmount,onMounted,reactive,ref,computed}from\\"vue\\";import{useRouter}from\\"vue-router\\";import{chuangjianyonghu}from\\"../apis/chuangjianyonghu.ts\\";import{chuangjianbanji}from\\"../apis/chuangjianbanji.ts\\";import{luruxueshengbanji}from\\"../apis/luruxueshengbanji.ts\\";import{chaxunxueshengbanji}from\\"../apis/chaxunxueshengbanji.ts\\";import{chaxunsuoyouyonghu}from\\"../apis/chaxunsuoyouyonghu.ts\\";import{chaxunyonghu}from\\"../apis/chaxunyonghu.ts\\";const router=useRouter();const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});const nodesState=reactive({aTypographyTitle:{},tpl:{},text:{text:computed(()=>apiState.chaxunyonghu.data.yonghuxinxi.yonghuming)},div:{},tpl_2:{},each:{data:computed(()=>apiState.chaxunsuoyouyonghu.data.yonghushuzu)},tpl_3:{},cond:{},tpl_4:{},aCard:{title:computed(()=>each_item.yonghuming)},tpl_5:{},text_2:{text:computed(()=>each_item.ID)},text_3:{text:\\"\\\\u5C0F\\\\u4E8E6\\"},tpl_6:{},aCard_2:{title:computed(()=>each_item.yonghuming)},tpl_7:{},text_4:{text:computed(()=>each_item.ID)},text_5:{text:\\"\\\\u5927\\\\u4E8E\\\\u7B49\\\\u4E8E6\\"}});onMounted(()=>{chaxunyonghu().then(res=>{apiState.chaxunyonghu=res}).catch(error=>{});chaxunsuoyouyonghu().then(res=>{apiState.chaxunsuoyouyonghu=res}).catch(error=>{})});</script>",
+  },
+]
+`;

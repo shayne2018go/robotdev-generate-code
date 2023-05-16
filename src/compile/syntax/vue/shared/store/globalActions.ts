@@ -16,14 +16,14 @@ export const actionsDataStore = (actions: GlobalContext.Action[]) => {
       };
     });
   return {
-    getAction(tagId: GlobalContext.Action['id']) {
-      return store.query(tagId);
+    getAction(actionId: GlobalContext.Action['id']) {
+      return store.query(actionId);
     },
     getParameters(
-      tagId: GlobalContext.Action['id'],
-      propId: GlobalContext.Action['protocol']['parameters'][number]['id']
+      actionId: GlobalContext.Action['id'],
+      parameterId: GlobalContext.Action['protocol']['parameters'][number]['id']
     ) {
-      return cache[tagId]?.parameters.query(propId);
+      return cache[actionId]?.parameters.query(parameterId);
     },
   };
 };

@@ -546,7 +546,7 @@ declare namespace CodeSchema {
     mode: 'getArguments';
     args: {
       id: string;
-      argId: string;
+      path?: string[];
     };
   }
 

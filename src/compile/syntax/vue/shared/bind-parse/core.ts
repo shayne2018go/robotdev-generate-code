@@ -161,8 +161,21 @@ const toAstMethods = {
     }
     return getOptMemberExpr(pathPropertieKeys);
   },
-  getCmptPropData: (data: CodeSchema.DataValue_GetCmptPropData, ctx: BindParseCtx): CallExpression => {},
-  getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): CallExpression => {},
+  getCmptPropData: (data: CodeSchema.DataValue_GetCmptPropData, ctx: BindParseCtx): CallExpression => {
+    const pathProperties = getPathProperties(ctx, data);
+    if (!pathProperties?.length) {
+      throw new Error(`Cannot find getCmptPropData path ${data}`);
+    }
+    // TODO: 通过path返回对应的ast (a.b.c)
+  },
+  getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): CallExpression => {
+    // const { id, path } = data.args;
+    // const argVarname = ctx.scope.actions?.map[id].parametersVarNames[argId].varName;
+    const pathProperties = getPathProperties(ctx, data);
+    if (!pathProperties?.length) {
+      throw new Error(`Cannot find getCmptPropData path ${data}`);
+    }
+  },
   tableData: (data: CodeSchema.DataValue_TableData, ctx: BindParseCtx): CallExpression => {},
   fx: (data: CodeSchema.DataValue, ctx: BindParseCtx): CallExpression => {},
   set: (data: CodeSchema.Action_Set, ctx: BindParseCtx): AssignmentExpression[] => {
@@ -307,7 +320,14 @@ const toAstMethods = {
       throw new Error('open函数的mode类型错误');
     }
   },
-  callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
+  callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {
+    const { modeId, args } = data;
+    if (!modeId) {
+      throw new Error(`cannot find modeId ${data.id}`);
+    }
+    const action_protocol = ctx.global.actionsStore.getAction(modeId);
+    debugger;
+  },
 };
 
 export const bindToAst = (data: BindRdData, ctx: BindParseCtx): BindAst | undefined => {
@@ -523,7 +543,7 @@ const tableDataToAst = (
   return res;
 };
 
-const valueToAst = (
+export const valueToAst = (
   data: CodeSchema.DataValueArgument | CodeSchema.Action,
   ctx: BindParseCtx,
   types?: CodeSchema.PropertyType_Protocol[]

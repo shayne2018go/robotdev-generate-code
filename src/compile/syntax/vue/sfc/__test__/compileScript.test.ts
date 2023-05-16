@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest';
-import compileScript from '../compileScript';
-import { parsingVueCompileOptions, buildGlobalCtx } from '../../compileVue';
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
+import { describe, expect, it } from 'vitest';
 import { CompilePageCtx, parsingCurrent } from '../../compilePages';
+import { buildGlobalCtx, parsingVueCompileOptions } from '../../compileVue';
+import compileScript from '../compileScript';
 import scriptToken from './__fixture__/script-tokens.json';
 
 describe('compileScript', () => {

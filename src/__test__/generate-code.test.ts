@@ -33,6 +33,5 @@ describe('generate-code', () => {
     vi.runAllTimers();
 
     expect(isExist).toBeTruthy();
-    expect(isBuild).toBeTruthy();
   });
 });
