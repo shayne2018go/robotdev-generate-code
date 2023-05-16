@@ -1,15 +1,15 @@
 import { CompilePageCtx } from '../compilePages';
 
 export const getVariableVarName = (variableId: string, ctx: CompilePageCtx): string | undefined => {
-  return ctx.scope.page.variablesStore.findId(variableId)?.varName;
+  return ctx.scope.current.variablesStore.findId(variableId)?.varName;
 };
 
 export const getNodeTagVarName = (nodeId: string, ctx: CompilePageCtx): string | undefined => {
-  return ctx.scope.page.nodesStore.find(nodeId)?.varName;
+  return ctx.scope.current.nodesStore.find(nodeId)?.varName;
 };
 
 export const getNodePropKeyByNodeId = (nodeId: string, propId: string, ctx: CompilePageCtx): string | undefined => {
-  const node_protocol = ctx.scope.page.nodesStore.getNode(nodeId);
+  const node_protocol = ctx.scope.current.nodesStore.getNode(nodeId);
   if (!node_protocol) {
     throw new Error(`Cannot find nodeId: ${nodeId}`);
   }
@@ -18,7 +18,7 @@ export const getNodePropKeyByNodeId = (nodeId: string, propId: string, ctx: Comp
 };
 
 export const getNodeEventKeyByNodeId = (nodeId: string, eventId: string, ctx: CompilePageCtx): string | undefined => {
-  const node_protocol = ctx.scope.page.nodesStore.getNode(nodeId);
+  const node_protocol = ctx.scope.current.nodesStore.getNode(nodeId);
   if (!node_protocol) {
     throw new Error(`Cannot find nodeId: ${nodeId}`);
   }

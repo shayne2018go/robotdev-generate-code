@@ -189,7 +189,7 @@ const toAstMethods = {
     if (!key) {
       throw new Error('数据异常，绑定的循环节点没有配置item、index节点！');
     }
-    const nodeVarName = ctx.scope.page.nodesStore.getNodeVarName(data.args.id);
+    const nodeVarName = ctx.scope.current.nodesStore.getNodeVarName(data.args.id);
     if (!nodeVarName) {
       throw new Error('数据异常，循环节点变量名没取到！');
     }
@@ -216,7 +216,25 @@ const toAstMethods = {
       }
     });
   },
-  setVar: (data: CodeSchema.Action_SetVar, ctx: BindParseCtx): AssignmentExpression => {},
+  setVar: (data: CodeSchema.Action_SetVar, ctx: BindParseCtx): AssignmentExpression => {
+    // 变量赋值 variables.变量名?.变量属性 = value
+    if (!data.args.id) {
+      throw new Error('setVar函数的data.args.id失败');
+    }
+    const variable = ctx.scope.current.variablesStore.findId(data.args.id as string);
+    if (!variable) {
+      throw new Error('setVar的variable获取失败');
+    }
+    let paths = [];
+    const rootName = ctx.global.variablesRootName; // 变量外层的变量名
+    const varName = variable.varName; // 变量名
+    if (!varName) {
+      throw new Error('setVar的variable.varName获取失败');
+    }
+    paths.push(rootName, varName);
+    paths = searchModulePathKeys(variable.data.types, data.args.path || []).concat(paths); // 路径中的每个属性名
+    return t.assignmentExpression('=', getMemberExpr(paths), getDataAstByAny(data.args.value));
+  },
   setApiData: (data: CodeSchema.Action_SetApiData, ctx: BindParseCtx): AssignmentExpression => {
     // api数据赋值
     if (!data.args.id) {
@@ -396,6 +414,9 @@ export const actionsToAst = (actions: CodeSchema.Action[], ctx: CompilePageCtx):
         },
       },
     },
+    helper: {
+      uniqueVarname: genVarName()
+    }
   });
   if (actions && actions.length) {
     actions.forEach((action) => {
@@ -589,6 +610,9 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
         },
       },
     },
+    helper: {
+      uniqueVarname: genVarName()
+    }
   });
   if (!node.props?.length && !node.events?.length) {
     return [];
