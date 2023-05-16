@@ -1,5 +1,5 @@
 import * as t from '@babel/types';
-import { tools } from '@/utils/tools';
+import { dataType, tools } from '@/utils/tools';
 import { AccessPath, ActionAst, BindAst, BindParseCtx, ReturnRef, TableProps } from '../types';
 import { NodeMapItem } from '../../store/nodes';
 
@@ -199,5 +199,38 @@ export const getMemberExpr = (paths: string[]): t.MemberExpression => {
 };
 
 export const getDataAstByAny = (value: any): t.Literal | t.ObjectExpression | t.ArrayExpression => {
-  
-}
+  const type = dataType.getType(value);
+  switch (type) {
+    case 'string': {
+      return t.stringLiteral(value);
+    }
+    case 'number': {
+      return t.numericLiteral(value);
+    }
+    case 'boolean': {
+      return t.booleanLiteral(value);
+    }
+    case 'null': {
+      return t.nullLiteral();
+    }
+    case 'undefined': {
+      return t.nullLiteral();
+    }
+    case 'object': {
+      const properties: t.ObjectProperty[] = [];
+      for (const key in value) {
+        if (Object.prototype.hasOwnProperty.call(value, key)) {
+          const element = value[key];
+          properties.push(t.objectProperty(t.identifier(key), getDataAstByAny(element)));
+        }
+      }
+      return t.objectExpression(properties);
+    }
+    case 'array': {
+      return t.arrayExpression(value.map((ele: any) => getDataAstByAny(ele)));
+    }
+
+    default:
+      throw new Error('getDataAstByAny的未知类型type');
+  }
+};
