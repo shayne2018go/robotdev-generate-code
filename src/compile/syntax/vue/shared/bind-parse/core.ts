@@ -11,13 +11,12 @@ import {
   ObjectProperty,
 } from '@babel/types';
 import { CompilePageCtx } from '../../compilePages';
+import { VueVariable } from '../../sfc/compileScript';
 import { genVarName } from '../helper';
 import { getNodeEventKeyByNodeId, getNodePropKeyByNodeId } from '../script-helper';
 import { searchModulePathKeys } from '../searchPath';
-import { getPathProperties } from './shared/getPathProperties';
+import { getPathPropertieKeys } from './shared/getPathProperties';
 import {
-  getEachIndexVarName,
-  getEachItemVarName,
   actionCheck,
   getDataAstByAny,
   getEventArgVarName,
@@ -32,7 +31,6 @@ import {
   rdDataIsTable,
 } from './shared/helper';
 import { ActionAst, ActionsAst, BindAst, BindParseCtx, BindRdData, LiteralAst, ReturnRef, TableProps } from './types';
-import { VueVariable } from '../../sfc/compileScript';
 
 /** helper  start*/
 
@@ -79,74 +77,40 @@ const defaultAst = (ctx: BindParseCtx, types?: CodeSchema.PropertyType_Protocol[
 };
 
 const toAstMethods = {
-  getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): MemberExpression => {
-    // 变量 variables.变量名?.变量属性
-    if (!data.args.id) {
-      throw new Error('getVar的data.args.id失败');
-    }
-    const variable = ctx.scope.current.variablesStore.findId(data.args.id);
-    if (!variable) {
-      throw new Error('getVar的variable获取失败');
-    }
-    let paths = [];
-    const rootName = ctx.global.variablesRootName; // 变量外层的变量名
-    const varName = variable.varName; // 变量名
-    if (!varName) {
-      throw new Error('getVar的variable.varName获取失败');
-    }
-    paths.push(rootName, varName);
-    paths = searchModulePathKeys(variable.data.types, data.args.path || []).concat(paths); // 路径中的每个属性名
-    return getMemberExpr(paths);
-  },
-  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): MemberExpression => {
+  getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): MemberExpression | undefined => {
     // api响应数据 apiState.api函数名.data?.响应body?.响应body属性
     if (!data.args.id) {
       throw new Error('getApiData的data.args.id失败');
     }
-    const [dataName, bodyId, ...argPaths] = data.args.path || [];
-    let paths: string[] = [];
-    let bodyVarName;
-    const api = ctx.global.apisStore.getApi(data.args.id)?.data; // 变量名
-    if (!api) {
-      throw new Error('getApiData的api获取失败');
+    const pathPropertieKeys = getPathPropertieKeys(ctx, data);
+    if (!pathPropertieKeys?.length) {
+      return;
     }
-    if (!api.key) {
-      throw new Error('getApiData的api.key获取失败');
+    const rootName = ctx.global.variablesRootName; // 变量外层的变量名
+    return getMemberExpr([rootName, ...pathPropertieKeys]);
+  },
+  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): MemberExpression | undefined => {
+    // api响应数据 apiState.api函数名.data?.响应body?.响应body属性
+    if (!data.args.id) {
+      throw new Error('getApiData的data.args.id失败');
+    }
+    const pathPropertieKeys = getPathPropertieKeys(ctx, data);
+    if (!pathPropertieKeys?.length) {
+      return;
     }
     const rootName = ctx.global.apiVarRootName; // 变量外层的变量名
-    const varName = api.key;
-    paths.push(rootName, varName, dataName);
-    if (bodyId) {
-      const body = ctx.global.apisStore.getApiBody(data.args.id, bodyId);
-      if (!body) {
-        throw new Error(`获取body失败 ${bodyId}`);
-      }
-      if (!body.varName) {
-        throw new Error('getApiData的body.varName获取失败');
-      }
-      bodyVarName = body.varName;
-      paths.push(bodyVarName);
-      paths = searchModulePathKeys(body.data.types, argPaths).concat(paths); // 路径中的每个属性名
-    }
-    return getMemberExpr(paths);
+    return getMemberExpr([rootName, ...pathPropertieKeys]);
   },
-  getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): MemberExpression => {
+  getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): MemberExpression | undefined => {
     // 页面路由参数 router.query.xxx
     if (!data.args.id) {
-      throw new Error('getParam的data.args.id失败');
+      throw new Error('getApiData的data.args.id失败');
     }
-    let paths: string[] = [];
-    let query = ctx.global.pagesStore.getQuery(ctx.scope.current.data.id, data.args.id);
-    if (!query) {
-      throw new Error('getParam的query失败');
+    const pathPropertieKeys = getPathPropertieKeys(ctx, data);
+    if (!pathPropertieKeys?.length) {
+      return;
     }
-    if (!query.varName) {
-      throw new Error('getParam的varName失败');
-    }
-    const varName = query.varName; // 变量外层的变量名
-    paths.push(VueVariable.router, 'query', varName);
-    paths = searchModulePathKeys(query.data.types, data.args.path || []).concat(paths); // 路径中的每个属性名
-    return getMemberExpr(paths);
+    return getMemberExpr([VueVariable.router, 'query', ...pathPropertieKeys]);
   },
   getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): MemberExpression | Identifier => {
     // 事件参数 @click="(evt,prop) => {const temp = `${evt.target}`;const temp1 = `${prop}`}"
@@ -177,28 +141,25 @@ const toAstMethods = {
     paths.push(varName, ...pathArr);
     return getMemberExpr(paths);
   },
-  getSlotData: (data: CodeSchema.DataValue_GetSlotData, ctx: BindParseCtx): CallExpression => {
-    // TODO: 待定
+  getSlotData: (data: CodeSchema.DataValue_GetSlotData, ctx: BindParseCtx): MemberExpression | undefined => {
+    if (!data.args.id) {
+      return;
+    }
+    const pathPropertieKeys = getPathPropertieKeys(ctx, data);
+    if (!pathPropertieKeys?.length) {
+      return;
+    }
+    return getMemberExpr(pathPropertieKeys);
   },
   getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: BindParseCtx): MemberExpression | undefined => {
     if (!data.args.id) {
       return;
     }
-    const path = (data.args?.path || []) as string[];
-    const key = path[0];
-    if (!key) {
-      throw new Error('数据异常，绑定的循环节点没有配置item、index节点！');
-    }
-    const nodeVarName = ctx.scope.current.nodesStore.getNodeVarName(data.args.id);
-    if (!nodeVarName) {
-      throw new Error('数据异常，循环节点变量名没取到！');
-    }
-    const varName = key === 'item' ? getEachItemVarName(nodeVarName) : getEachIndexVarName(nodeVarName);
-    const pathProperties = getPathProperties(ctx, data);
-    const pathPropertieKeys = pathProperties?.map((item) => item.key);
-    if (!pathPropertieKeys) {
+    const pathPropertieKeys = getPathPropertieKeys(ctx, data);
+    if (!pathPropertieKeys?.length) {
       return;
     }
+    return getMemberExpr(pathPropertieKeys);
   },
   getCmptPropData: (data: CodeSchema.DataValue_GetCmptPropData, ctx: BindParseCtx): CallExpression => {},
   getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): CallExpression => {},

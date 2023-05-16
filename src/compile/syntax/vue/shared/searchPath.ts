@@ -4,7 +4,7 @@ const seach = <T extends boolean>(
   typeKey: 'module' | 'action' | 'function',
   ruleKey: 'properties' | 'parameters',
   key: T,
-  lastMultiple = false
+  lastMultiple?: boolean
 ): T extends true ? string[] : CodeSchema.Property_Protocol[] => {
   if (!Array.isArray(path)) {
     return [];
@@ -17,7 +17,11 @@ const seach = <T extends boolean>(
   let type: CodeSchema.Property_Protocol['types'][number] | undefined;
   path.forEach((pathId, index) => {
     type = types.find((item) => item.type === typeKey);
-    if (!type || (path.length === index + 1 && type.multiple !== lastMultiple)) {
+    if (
+      !type ||
+      (path.length === index + 1 &&
+        (typeof lastMultiple === 'boolean' ? (type.multiple === true) !== lastMultiple : false))
+    ) {
       throw new Error('找不到module类型配置');
     }
     const prop = type.rules?.[ruleKey]?.find((item) => item.id === pathId);
@@ -37,7 +41,7 @@ const seach = <T extends boolean>(
 export const searchModulePath = (
   types: CodeSchema.Property_Protocol['types'],
   path: string[],
-  lastMultiple = false
+  lastMultiple?: boolean
 ) => {
   return seach(types, path, 'module', 'properties', false, lastMultiple);
 };
@@ -45,7 +49,7 @@ export const searchModulePath = (
 export const searchArrayItemModulePath = (
   types: CodeSchema.Property_Protocol['types'],
   path: string[],
-  lastMultiple = false
+  lastMultiple?: boolean
 ) => {
   return seach(types, path, 'module', 'properties', false, true);
 };
@@ -53,7 +57,7 @@ export const searchArrayItemModulePath = (
 export const searchActionPath = (
   types: CodeSchema.Property_Protocol['types'],
   path: string[],
-  lastMultiple = false
+  lastMultiple?: boolean
 ) => {
   return seach(types, path, 'action', 'parameters', false, lastMultiple);
 };
@@ -61,7 +65,7 @@ export const searchActionPath = (
 export const searchFunctionPath = (
   types: CodeSchema.Property_Protocol['types'],
   path: string[],
-  lastMultiple = false
+  lastMultiple?: boolean
 ) => {
   return seach(types, path, 'function', 'parameters', false, lastMultiple);
 };
@@ -69,7 +73,7 @@ export const searchFunctionPath = (
 export const searchModulePathKeys = (
   types: CodeSchema.Property_Protocol['types'],
   path: string[],
-  lastMultiple = false
+  lastMultiple?: boolean
 ) => {
   return seach(types, path, 'module', 'properties', true, lastMultiple);
 };
@@ -77,7 +81,7 @@ export const searchModulePathKeys = (
 export const searchActionPathKeys = (
   types: CodeSchema.Property_Protocol['types'],
   path: string[],
-  lastMultiple = false
+  lastMultiple?: boolean
 ) => {
   return seach(types, path, 'action', 'parameters', true, lastMultiple);
 };
@@ -85,7 +89,7 @@ export const searchActionPathKeys = (
 export const searchFunctionPathKeys = (
   types: CodeSchema.Property_Protocol['types'],
   path: string[],
-  lastMultiple = false
+  lastMultiple?: boolean
 ) => {
   return seach(types, path, 'function', 'parameters', true, lastMultiple);
 };

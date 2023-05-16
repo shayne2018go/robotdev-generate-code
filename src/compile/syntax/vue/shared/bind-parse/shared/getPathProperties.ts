@@ -1,29 +1,58 @@
 import { searchModulePath } from '../../searchPath';
 import { BindParseCtx } from '../types';
-import { isRdData, rdDataIsBind } from './helper';
+import { getEachIndexVarName, getEachItemVarName, isRdData, rdDataIsBind } from './helper';
 
-const genApiModuleType = (properties: CodeSchema.Property_Protocol[]) => {
+const genApiResProp = (api: CodeSchema.Api_Protocol) => {
+  return {
+    id: api.id,
+    key: api.key,
+    types: [
+      {
+        type: 'module',
+        rules: {
+          properties: [
+            {
+              id: 'status',
+              key: 'status',
+              types: [{ type: 'whether' }],
+              // name: '请求是否成功',
+            },
+            {
+              id: 'data',
+              key: 'data',
+              types: [{ type: 'module', multiple: true, rules: { properties: api.response.body } }],
+              // name: '得到的数据',
+            },
+            {
+              id: 'message',
+              key: 'message',
+              types: [{ type: 'text' }],
+              // name: '提示语',
+            },
+          ],
+        },
+      },
+    ],
+    // name: '请求是否成功',
+  } as CodeSchema.Property_Protocol;
+};
+
+const genEachModuleType = (varName: string, types: CodeSchema.PropertyType_Protocol[]) => {
   return {
     type: 'module',
     rules: {
       properties: [
         {
-          id: 'status',
-          key: 'status',
-          types: [{ type: 'whether' }],
-          // name: '请求是否成功',
+          id: 'item',
+          key: getEachItemVarName(varName),
+          types,
+          // name: '每次循环得到的数据',
         },
         {
-          id: 'data',
-          key: 'data',
-          types: [{ type: 'module', multiple: true, rules: { properties } }],
-          // name: '得到的数据',
-        },
-        {
-          id: 'message',
-          key: 'message',
-          types: [{ type: 'text' }],
-          // name: '提示语',
+          id: 'index',
+          key: getEachIndexVarName(varName),
+          types: [{ type: 'index' }],
+          // name: '索引',
         },
       ],
     },
@@ -31,7 +60,7 @@ const genApiModuleType = (properties: CodeSchema.Property_Protocol[]) => {
 };
 
 const getBindPathProperties = {
-  getVar(ctx: BindParseCtx, data: CodeSchema.DataValue_GetVar, pathLastIsModuleMultiple = false) {
+  getVar(ctx: BindParseCtx, data: CodeSchema.DataValue_GetVar, isRoot = false, pathLastIsModuleMultiple?: boolean) {
     if (!data.args.id) {
       return;
     }
@@ -40,9 +69,17 @@ const getBindPathProperties = {
       throw new Error('getVar的定义获取失败');
     }
     const accessPath = searchModulePath(define.data.types, data.args.path || [], pathLastIsModuleMultiple); // 路径中的每个属性名
+    if (isRoot) {
+      return [define.data, ...accessPath];
+    }
     return accessPath;
   },
-  getApiData(ctx: BindParseCtx, data: CodeSchema.DataValue_GetApiData, pathLastIsModuleMultiple = false) {
+  getApiData(
+    ctx: BindParseCtx,
+    data: CodeSchema.DataValue_GetApiData,
+    isRoot = false,
+    pathLastIsModuleMultiple?: boolean
+  ) {
     if (!data.args.id) {
       return;
     }
@@ -54,11 +91,14 @@ const getBindPathProperties = {
     if (!keyId) {
       return;
     }
-    const types = [genApiModuleType(define?.data.protocol.response.body || [])];
-    const accessPath = searchModulePath(types || [], data.args.path || [], pathLastIsModuleMultiple); // 路径中的每个属性名
+    const apiResProp = genApiResProp(define?.data.protocol || []);
+    const accessPath = searchModulePath(apiResProp.types, data.args.path || [], pathLastIsModuleMultiple); // 路径中的每个属性名
+    if (isRoot) {
+      return [apiResProp, ...accessPath];
+    }
     return accessPath;
   },
-  getParam(ctx: BindParseCtx, data: CodeSchema.DataValue_GetParam, pathLastIsModuleMultiple = false) {
+  getParam(ctx: BindParseCtx, data: CodeSchema.DataValue_GetParam, isRoot = false, pathLastIsModuleMultiple?: boolean) {
     if (!data.args.id) {
       return;
     }
@@ -66,10 +106,18 @@ const getBindPathProperties = {
     if (!define) {
       throw new Error('getParam的定义获取失败');
     }
-    const accessPath = searchModulePath(define?.data.types || [], data.args.path || [], pathLastIsModuleMultiple); // 路径中的每个属性名
+    const accessPath = searchModulePath(define.data.types || [], data.args.path || [], pathLastIsModuleMultiple); // 路径中的每个属性名
+    if (isRoot) {
+      return [define.data, ...accessPath];
+    }
     return accessPath;
   },
-  getCmptPropData(ctx: BindParseCtx, data: CodeSchema.DataValue_GetCmptPropData, pathLastIsModuleMultiple = false) {
+  getCmptPropData(
+    ctx: BindParseCtx,
+    data: CodeSchema.DataValue_GetCmptPropData,
+    isRoot = false,
+    pathLastIsModuleMultiple?: boolean
+  ) {
     if (!data.args.id) {
       return;
     }
@@ -78,9 +126,17 @@ const getBindPathProperties = {
       throw new Error('getCmptPropData的定义获取失败');
     }
     const accessPath = searchModulePath(define?.data.types || [], data.args.path || [], pathLastIsModuleMultiple); // 路径中的每个属性名
+    if (isRoot) {
+      return [define.data, ...accessPath];
+    }
     return accessPath;
   },
-  getSlotData(ctx: BindParseCtx, data: CodeSchema.DataValue_GetSlotData, pathLastIsModuleMultiple = false) {
+  getSlotData(
+    ctx: BindParseCtx,
+    data: CodeSchema.DataValue_GetSlotData,
+    isRoot = false,
+    pathLastIsModuleMultiple?: boolean
+  ) {
     if (!data.args.id) {
       return;
     }
@@ -101,12 +157,18 @@ const getBindPathProperties = {
       throw new Error('数据异常，插槽节点的属性的id没找到！');
     }
     const slotProp = slotAffiliationCmpt?.members.slotsStore.getParameters(slot.data.id, propId);
+    if (!slotProp) {
+      throw new Error('数据异常，插槽节点的属性的下的参数没有没找到相应属性！');
+    }
 
     const accessPath = searchModulePath(
-      slotProp?.data.types || [],
+      slotProp.data.types || [],
       data.args.path?.slice(1) || [],
       pathLastIsModuleMultiple
     ); // 路径中的每个属性名
+    if (isRoot) {
+      return [slotProp.data, ...accessPath];
+    }
     return accessPath;
   },
   getEachData(ctx: BindParseCtx, data: CodeSchema.DataValue_GetEachData, isRoot = false) {
@@ -128,14 +190,16 @@ const getBindPathProperties = {
 
     if (isRdData(bindData) && rdDataIsBind(bindData)) {
       const bindPathProperties = getBindPathProperties.getAnyData(ctx, bindData, true);
-      if (!bindPathProperties) {
+      if (!bindPathProperties?.length) {
         return;
       }
       if (!isRoot) {
         return bindPathProperties;
       }
       const last = bindPathProperties[bindPathProperties?.length - 1];
-      const accessPath = searchModulePath(last?.types || [], data.args.path?.slice(1) || [], true); // 路径中的每个属性名
+
+      const types = [genEachModuleType(node.varName, last.types)];
+      const accessPath = searchModulePath(types || [], data.args?.path || [], true); // 路径中的每个属性名
       return accessPath;
     }
     return;
@@ -143,28 +207,40 @@ const getBindPathProperties = {
   getAnyData(
     ctx: BindParseCtx,
     data: CodeSchema.DataValueArgument,
-    pathLastIsModuleMultiple = false
+    isRoot = false,
+    pathLastIsModuleMultiple?: boolean
   ): CodeSchema.Property_Protocol[] | undefined {
     if (!isRdData(data)) {
       return [];
     }
     switch (data.mode) {
       case 'getEachData': {
-        return getBindPathProperties.getEachData(ctx, data as CodeSchema.DataValue_GetEachData, true);
+        return getBindPathProperties.getEachData(ctx, data as CodeSchema.DataValue_GetEachData, isRoot);
       }
       case 'getApiData': {
-        return getBindPathProperties.getApiData(ctx, data as CodeSchema.DataValue_GetApiData, pathLastIsModuleMultiple);
+        return getBindPathProperties.getApiData(
+          ctx,
+          data as CodeSchema.DataValue_GetApiData,
+          isRoot,
+          pathLastIsModuleMultiple
+        );
       }
       case 'getVar': {
-        return getBindPathProperties.getVar(ctx, data as CodeSchema.DataValue_GetVar, pathLastIsModuleMultiple);
+        return getBindPathProperties.getVar(ctx, data as CodeSchema.DataValue_GetVar, isRoot, pathLastIsModuleMultiple);
       }
       case 'getParam': {
-        return getBindPathProperties.getParam(ctx, data as CodeSchema.DataValue_GetParam, pathLastIsModuleMultiple);
+        return getBindPathProperties.getParam(
+          ctx,
+          data as CodeSchema.DataValue_GetParam,
+          isRoot,
+          pathLastIsModuleMultiple
+        );
       }
       case 'getCmptPropData': {
         return getBindPathProperties.getCmptPropData(
           ctx,
           data as CodeSchema.DataValue_GetCmptPropData,
+          isRoot,
           pathLastIsModuleMultiple
         );
       }
@@ -172,6 +248,7 @@ const getBindPathProperties = {
         return getBindPathProperties.getSlotData(
           ctx,
           data as CodeSchema.DataValue_GetSlotData,
+          isRoot,
           pathLastIsModuleMultiple
         );
       }
@@ -180,6 +257,18 @@ const getBindPathProperties = {
   },
 };
 
-export const getPathProperties = (ctx: BindParseCtx, data: CodeSchema.DataValue, pathLastIsModuleMultiple = false) => {
-  return getBindPathProperties.getAnyData(ctx, data, pathLastIsModuleMultiple);
+export const getPathProperties = (
+  ctx: BindParseCtx,
+  data: CodeSchema.DataValue,
+  pathLastIsModuleMultiple?: boolean
+) => {
+  return getBindPathProperties.getAnyData(ctx, data, true, pathLastIsModuleMultiple);
+};
+
+export const getPathPropertieKeys = (
+  ctx: BindParseCtx,
+  data: CodeSchema.DataValue,
+  pathLastIsModuleMultiple?: boolean
+) => {
+  return getBindPathProperties.getAnyData(ctx, data, true, pathLastIsModuleMultiple)?.map((item) => item.key);
 };

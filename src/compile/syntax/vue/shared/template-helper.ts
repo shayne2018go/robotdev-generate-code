@@ -99,9 +99,6 @@ export const getNodePropValueExpression = (nodeId: string, value: CodeSchema.Pro
 };
 
 export const getNodeEventKeyByTagId = (nodeId: string, eventId: string, ctx: BindParseCtx) => {
-  if (nodeId === 'E423') {
-    debugger;
-  }
   const event_protocol = ctx.scope.current.nodesStore.getNodeEventDefine(nodeId, eventId);
   if (!event_protocol) {
     throw new Error(`Cannot find event_protocol nodeId: ${nodeId}`);
