@@ -20,17 +20,19 @@ interface ComponentMap {
   [id: string]: ComponentMapItem;
 }
 
-export const componentsDataStore = (components: GlobalContext.Component[], ctx: {
-  events: GlobalContext.Event[];
-  props: GlobalContext.Property[];
-  slots: GlobalContext.Slot[];
-}) => {
+export const componentsDataStore = (
+  components: GlobalContext.Component[],
+  ctx: {
+    events: GlobalContext.Event[];
+    props: GlobalContext.Property[];
+    slots: GlobalContext.Slot[];
+  }
+) => {
   const componentMap: ComponentMap = {};
 
   const eventsStore = eventsDataStore(ctx.events);
   const propsStore = propsDataStore(ctx.props);
   const slotsStore = slotsDataStore(ctx.slots);
-
 
   components?.forEach((item) => {
     componentMap[item.id] = {
@@ -90,6 +92,12 @@ export const componentsDataStore = (components: GlobalContext.Component[], ctx: 
         return componentMap[tagId].members.slotsStore.findKey(slotId) || slotsStore.findId(slotId);
       }
       return componentMap[tagId].members.slotsStore.findId(slotId) || slotsStore.findId(slotId);
+    },
+    getLifeCycleEmit(emitId: GlobalContext.Component['protocol']['emits'][number]['id'], findKey?: boolean) {
+      if (findKey) {
+        return eventsStore.findKey(emitId);
+      }
+      return eventsStore.findId(emitId);
     },
   };
 };

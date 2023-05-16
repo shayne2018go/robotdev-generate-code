@@ -274,7 +274,9 @@ function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: Co
     const actionStatements: t.ExpressionStatement[] = actionsToAst(lifeCycle.actions, ctx);
     lifeCycleExprs.push(
       t.callExpression(
-        t.identifier(LifeCycle[ctx.global.eventsStore.getEvent(lifeCycle.eventId).key as keyof typeof LifeCycle]),
+        t.identifier(
+          LifeCycle[ctx.global.componentsStore.getLifeCycleEmit(lifeCycle.eventId)?.data.key as keyof typeof LifeCycle]
+        ),
         [t.arrowFunctionExpression([], t.blockStatement(actionStatements))]
       )
     );

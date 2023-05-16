@@ -84,7 +84,7 @@ const toAstMethods = {
     if (!data.args.id) {
       throw new Error('getVar的data.args.id失败');
     }
-    const variable = ctx.scope.page.variablesStore.findId(data.args.id);
+    const variable = ctx.scope.current.variablesStore.findId(data.args.id);
     if (!variable) {
       throw new Error('getVar的variable获取失败');
     }
@@ -161,7 +161,7 @@ const toAstMethods = {
     }
     let paths: string[] = [];
     // 通过参数id拿到varName和types
-    const eventDefine = ctx.scope.page.nodesStore.getNodeEventDefine(ctx.scope.node?.id, ctx.scope.event?.eventId);
+    const eventDefine = ctx.scope.current.nodesStore.getNodeEventDefine(ctx.scope.node?.id, ctx.scope.event?.eventId);
     let eventParam = eventDefine?.members.parameters?.findId(data.args.id);
     if (!eventParam) {
       throw new Error('getEventData的eventParam失败');
@@ -574,7 +574,7 @@ const valueToAst = (
 export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectProperty[] => {
   const propProps: ObjectProperty[] = [];
   const eventProps: ObjectProperty[] = [];
-  const node = ctx.scope.page.nodesStore.getNode(nodeId);
+  const node = ctx.scope.current.nodesStore.getNode(nodeId);
   if (!node) {
     throw new Error('节点不存在');
   }
@@ -652,11 +652,11 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
 };
 
 export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseCtx): ReturnRef | undefined => {
-  const node = ctx.scope.page.nodesStore.getNode(nodeId);
+  const node = ctx.scope.current.nodesStore.getNode(nodeId);
   if (!node) {
     return;
   }
-  let prop = ctx.scope.page.nodesStore.getNodeProp(nodeId, propId);
+  let prop = ctx.scope.current.nodesStore.getNodeProp(nodeId, propId);
   if (!prop) {
     return;
   }
@@ -679,11 +679,11 @@ export const nodeEventValueAst = (
   eventId: string,
   ctx: BindParseCtx
 ): ArrowFunctionExpression | undefined => {
-  const node = ctx.scope.page.nodesStore.getNode(nodeId);
+  const node = ctx.scope.current.nodesStore.getNode(nodeId);
   if (!node) {
     return;
   }
-  const event = ctx.scope.page.nodesStore.getNodeEvent(nodeId, eventId);
+  const event = ctx.scope.current.nodesStore.getNodeEvent(nodeId, eventId);
   if (!event?.actions) {
     return;
   }

@@ -9,11 +9,19 @@ export const getNodeTagVarName = (nodeId: string, ctx: CompilePageCtx): string |
 };
 
 export const getNodePropKeyByNodeId = (nodeId: string, propId: string, ctx: CompilePageCtx): string | undefined => {
-  return ctx.scope.page.nodesStore.getNodePropVarName(nodeId, propId) || ctx.global.propsStore.getProp(propId)?.key;
+  const node_protocol = ctx.scope.page.nodesStore.getNode(nodeId);
+  if (!node_protocol) {
+    throw new Error(`Cannot find nodeId: ${nodeId}`);
+  }
+  const tagId = node_protocol.tagId;
+  return ctx.global.componentsStore.getProp(tagId, propId)?.varName;
 };
 
 export const getNodeEventKeyByNodeId = (nodeId: string, eventId: string, ctx: CompilePageCtx): string | undefined => {
-  return (
-    ctx.scope.page.nodesStore.getNodeEventVarName(nodeId, eventId) || ctx.global.eventsStore.getEvent(eventId)?.key
-  );
+  const node_protocol = ctx.scope.page.nodesStore.getNode(nodeId);
+  if (!node_protocol) {
+    throw new Error(`Cannot find nodeId: ${nodeId}`);
+  }
+  const tagId = node_protocol.tagId;
+  return ctx.global.componentsStore.getEmit(tagId, eventId)?.varName;
 };
