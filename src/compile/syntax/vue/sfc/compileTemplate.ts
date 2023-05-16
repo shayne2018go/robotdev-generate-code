@@ -6,6 +6,7 @@ import {
   getNodeEachExpression,
   getNodeEventKeyByTagId,
   getNodeEventValue,
+  getNodePropKeyById,
   getNodePropKeyByTagId,
   getNodePropValueExpression,
   getNodePropValueVariable,
@@ -17,8 +18,8 @@ import { BindParseCtx } from '../shared/bind-parse/types';
 import { getEachIndexVarName, getEachItemVarName } from '../shared/bind-parse/shared/helper';
 
 interface CompileTemplateCtx extends CompilePageCtx {
-  helper: {
-    uniqueVarname: (varname: string) => string; // 去重名
+  helper?: {
+    uniqueVarname?: (varname: string) => string; // 去重名
   };
 }
 
@@ -28,7 +29,7 @@ function compileTemplate(page: CodeSchema.Page, compileCtx: CompilePageCtx): { t
 
   const compileTemplateCtx = Object.assign({}, compileCtx, { helper: { uniqueVarname } }) as CompileTemplateCtx;
 
-  const ast = createTemplateAst(compileCtx.scope.page.nodesStore.treeNodes, compileTemplateCtx);
+  const ast = createTemplateAst(compileCtx.scope.current.nodesStore.treeNodes, compileTemplateCtx);
 
   const token = g.generate([ast]);
 
@@ -45,17 +46,7 @@ function parsingChildren(nodes: TreeNode[], compileCtx: CompileTemplateCtx): Gen
   let children = [] as Array<GenerateVueTemplateTypes.NodeElement>;
 
   nodes.forEach((node) => {
-    const bindParseCtx: BindParseCtx = {
-      global: compileCtx.global,
-      scope: {
-        page: compileCtx.scope.page,
-        node: compileCtx.scope.page.nodesStore.getNode(node.id)!,
-      },
-      helper: {
-        uniqueVarname: compileCtx.helper.uniqueVarname,
-      },
-    };
-    const nodeAst = parsingNode(node, bindParseCtx);
+    const nodeAst = parsingNode(node, compileCtx);
     if (Array.isArray(nodeAst)) {
       children = children.concat(nodeAst);
     } else if (nodeAst === null) {
@@ -69,22 +60,33 @@ function parsingChildren(nodes: TreeNode[], compileCtx: CompileTemplateCtx): Gen
 
 type ParsingNodeReturn = GenerateVueTemplateTypes.NodeElement | GenerateVueTemplateTypes.NodeElement[] | null;
 
-function parsingNode(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeReturn {
+function parsingNode(node: TreeNode, compileCtx: CompileTemplateCtx): ParsingNodeReturn {
   const tag = getNodeTag(node.data.tagId, compileCtx);
+
+  const bindParseCtx: BindParseCtx = {
+    global: compileCtx.global,
+    scope: {
+      current: compileCtx.scope.current,
+      node: compileCtx.scope.current.nodesStore.getNode(node.id)!,
+    },
+    helper: {
+      uniqueVarname: compileCtx.helper?.uniqueVarname,
+    },
+  };
 
   switch (tag) {
     case VirtualTag.EACH:
-      return parsingNodeEach(node, compileCtx);
+      return parsingNodeEach(node, bindParseCtx);
     case VirtualTag.COND:
-      return parsingNodeCond(node, compileCtx);
+      return parsingNodeCond(node, bindParseCtx);
     case VirtualTag.SLOT:
-      return parsingNodeSlot(node, compileCtx);
+      return parsingNodeSlot(node, bindParseCtx);
     case VirtualTag.TPL:
-      return parsingNodeTpl(node, compileCtx);
+      return parsingNodeTpl(node, bindParseCtx);
     case VirtualTag.TEXT:
-      return parsingNodeText(node, compileCtx);
+      return parsingNodeText(node, bindParseCtx);
     default:
-      return parsingNodeNormal(node, compileCtx);
+      return parsingNodeNormal(node, bindParseCtx);
   }
 }
 
@@ -92,7 +94,7 @@ function parsingNode(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeRetur
 function parsingNodeEach(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeReturn {
   const { id: nodeId, tagId, props, key } = node.data;
 
-  const eachData = props?.find((p) => getNodePropKeyByTagId(tagId, p.propId, compileCtx) === 'data');
+  const eachData = props?.find((p) => getNodePropKeyById(nodeId, p.propId, compileCtx) === 'data');
 
   if (!eachData) {
     // 过滤掉无属性的template标签
@@ -108,7 +110,7 @@ function parsingNodeEach(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeR
 function parsingNodeCond(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeReturn {
   const { id: nodeId, tagId, props, key } = node.data;
 
-  const ifData = props?.find((p) => getNodePropKeyByTagId(tagId, p.propId, compileCtx) === 'value');
+  const ifData = props?.find((p) => getNodePropKeyById(nodeId, p.propId, compileCtx) === 'value');
 
   if (!ifData) {
     // 过滤掉无属性的template标签
@@ -140,7 +142,7 @@ function parsingNodeTpl(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeRe
 function parsingNodeText(node: TreeNode, compileCtx: BindParseCtx): GenerateVueTemplateTypes.InsertText | null {
   const { id: nodeId, tagId, props } = node.data;
 
-  const textData = props?.find((p) => getNodePropKeyByTagId(tagId, p.propId, compileCtx) === 'text');
+  const textData = props?.find((p) => getNodePropKeyById(nodeId, p.propId, compileCtx) === 'text');
 
   if (!textData) {
     // 过滤掉没有值的text标签
@@ -160,14 +162,10 @@ function parsingNodeNormal(node: TreeNode, compileCtx: BindParseCtx): ParsingNod
 
   const props = [
     ...(node.data.props || []).map((p) =>
-      g.prop(
-        getNodePropKeyByTagId(tagId, p.propId, compileCtx),
-        getNodePropValueExpression(nodeId, p, compileCtx),
-        true
-      )
+      g.prop(getNodePropKeyById(nodeId, p.propId, compileCtx), getNodePropValueExpression(nodeId, p, compileCtx), true)
     ),
     ...(node.data.events || []).map((p) =>
-      g.evt(getNodeEventKeyByTagId(tagId, p.eventId, compileCtx), getNodeEventValue(nodeId, p.eventId, compileCtx))
+      g.evt(getNodeEventKeyByTagId(nodeId, p.eventId, compileCtx), getNodeEventValue(nodeId, p.eventId, compileCtx))
     ),
   ];
 

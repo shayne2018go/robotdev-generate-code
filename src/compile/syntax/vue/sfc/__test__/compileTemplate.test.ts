@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import compileTemplate from '../compileTemplate';
 import { parsingVueCompileOptions, buildGlobalCtx } from '../../compileVue';
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
-import { CompilePageCtx, parsingPage } from '../../compilePages';
+import { CompilePageCtx, parsingCurrent } from '../../compilePages';
 import templateToken from './__fixture__/template-tokens.json';
 import templateEachIfoken from './__fixture__/template-each-if-tokens.json';
 
@@ -16,12 +16,12 @@ describe('compileTemplate', () => {
   it('tempalte 变量 事件', () => {
     const page = codeSchema.pages[3];
 
-    const parsingPageResult = parsingPage(page, vueGlobalCtx);
+    const parsingPageResult = parsingCurrent(page, vueGlobalCtx);
 
     const currentPageCompileOptions: CompilePageCtx = {
       global: vueGlobalCtx,
       scope: {
-        page: parsingPageResult,
+        current: parsingPageResult,
       },
     };
 
@@ -35,12 +35,12 @@ describe('compileTemplate', () => {
   it('tempalte 循环 判断', () => {
     const page = codeSchema.pages[0];
 
-    const parsingPageResult = parsingPage(page, vueGlobalCtx);
+    const parsingPageResult = parsingCurrent(page, vueGlobalCtx);
 
     const currentPageCompileOptions: CompilePageCtx = {
       global: vueGlobalCtx,
       scope: {
-        page: parsingPageResult,
+        current: parsingPageResult,
       },
     };
 

@@ -1,29 +1,38 @@
-import { localSqlStore } from '../local-map';
 import { propertiesDataStore } from './properties';
 
-export const pagesDataStore = (pages?: GlobalContext.Page[]) => {
-  const store = localSqlStore<GlobalContext.Page, 'id', []>({ primaryKey: 'id' });
-  const cache: {
-    [pageId: string]: {
-      querysStore?: ReturnType<typeof propertiesDataStore>;
+interface Members {
+  querysStore: ReturnType<typeof propertiesDataStore>;
+}
+
+interface PageMapItem {
+  data: GlobalContext.Page;
+  members: Members;
+}
+interface ComponentMap {
+  [id: string]: PageMapItem;
+}
+
+export const pagesDataStore = (pages: GlobalContext.Page[]) => {
+  const pageMap: ComponentMap = {};
+
+  pages.forEach((item) => {
+    pageMap[item.id] = {
+      data: item,
+      members: {
+        querysStore: propertiesDataStore(item.protocol.route?.query || []),
+      },
     };
-  } = {};
-  if (pages)
-    store.created(pages, (item) => {
-      cache[item.id] = {};
-      if (item.protocol.route?.query) {
-        cache[item.id].querysStore = propertiesDataStore(item.protocol.route.query);
-      }
-    });
+  });
+
   return {
     pages() {
       return pages;
     },
-    getPage(id: GlobalContext.Page['id']): GlobalContext.Page | undefined {
-      return store.query(id);
+    getPage(pageId: GlobalContext.Page['id']): GlobalContext.Page | undefined {
+      return pageMap[pageId].data;
     },
     getQuery(pageId: GlobalContext.Page['id'], queryId: CodeSchema.Property_Protocol['id']) {
-      return cache[pageId].querysStore?.findId(queryId);
+      return pageMap[pageId].members.querysStore.findId(queryId);
     },
   };
 };

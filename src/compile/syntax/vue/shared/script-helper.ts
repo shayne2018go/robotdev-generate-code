@@ -2,9 +2,11 @@ import { CompilePageCtx } from '../compilePages';
 
 export const getVariableVarName = (variableId: string, ctx: CompilePageCtx): string | undefined => {
   return ctx.scope.current.variablesStore.findId(variableId)?.varName;
+  return ctx.scope.current.variablesStore.findId(variableId)?.varName;
 };
 
 export const getNodeTagVarName = (nodeId: string, ctx: CompilePageCtx): string | undefined => {
+  return ctx.scope.current.nodesStore.find(nodeId)?.varName;
   return ctx.scope.current.nodesStore.find(nodeId)?.varName;
 };
 

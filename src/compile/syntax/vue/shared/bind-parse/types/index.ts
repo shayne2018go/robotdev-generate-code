@@ -78,8 +78,8 @@ export type BindParseCtx = {
       };
     };
   };
-  helper: {
-    uniqueVarname: (varname: string) => string; // 去重名
+  helper?: {
+    uniqueVarname?: (varname: string) => string; // 去重名
   };
 };
 

@@ -1,40 +1,38 @@
 import createToken from '@/compile/config/createToken';
 import { Compile } from '@/types/compile/token';
-import { VueCompileOptions, VueGlobalCtx } from './compileVue';
+import { VueGlobalCtx } from './compileVue';
 import { PAGE_DIR } from './const/config';
 import { compileScript, compileStyle, compileTemplate } from './sfc';
 import { componentEmitsDataStore, componentSlotsDataStore } from './shared/store';
-import { genVarName } from './shared/helper';
 import { nodesDataStore } from './shared/store/nodes';
 import { propertiesDataStore } from './shared/store/properties';
 
-export type CompilePageOptions = Required<VueCompileOptions> & ParsingPageResult;
 export type CompilePageCtx = {
   global: VueGlobalCtx;
   scope: {
-    page: ParsingPageResult;
-    current: ParsingCurrentResult
+    current: ParsingCurrentResult<CodeSchema.Page>;
   };
 };
 
-interface ParsingCurrentResult {
-  data: CodeSchema.Component;
+interface ParsingCurrentResult<T extends CodeSchema.Component | CodeSchema.Page> {
+  data: T;
   nodesStore: ReturnType<typeof nodesDataStore>;
+  variablesStore: ReturnType<typeof propertiesDataStore>;
+  lifeCyclesStore: ReturnType<typeof componentEmitsDataStore>;
   slotsStore: ReturnType<typeof componentSlotsDataStore>;
   emitsStore: ReturnType<typeof componentEmitsDataStore>;
   propsStore: ReturnType<typeof propertiesDataStore>;
-  variablesStore: ReturnType<typeof propertiesDataStore>;
   importComponents: GlobalContext.Component[];
   importFunctions: GlobalContext.Function[];
 }
 
-interface ParsingPageResult {
-  page: CodeSchema.Page;
-  nodesStore: ReturnType<typeof nodesDataStore>;
-  variablesStore: ReturnType<typeof propertiesDataStore>;
-  importComponents: GlobalContext.Component[];
-  importFunctions: GlobalContext.Function[];
-}
+// interface ParsingPageResult {
+//   page: CodeSchema.Page;
+//   nodesStore: ReturnType<typeof nodesDataStore>;
+//   variablesStore: ReturnType<typeof propertiesDataStore>;
+//   importComponents: GlobalContext.Component[];
+//   importFunctions: GlobalContext.Function[];
+// }
 
 // var
 
@@ -56,13 +54,11 @@ function compilePages(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx
 }
 
 function compilePage(page: CodeSchema.Page, ctx: VueGlobalCtx) {
-  const parsingPageResult = parsingPage(page, ctx);
-  const parsingComponentResult = parsingComponent(page, ctx);
+  const parsingComponentResult = parsingCurrent(page, ctx);
 
   const currentPageCompileOptions: CompilePageCtx = {
     global: ctx,
     scope: {
-      page: parsingPageResult,
       current: parsingComponentResult,
     },
   };
@@ -76,48 +72,42 @@ function compilePage(page: CodeSchema.Page, ctx: VueGlobalCtx) {
   return { token };
 }
 
-export function parsingPage(page: CodeSchema.Page, ctx: VueGlobalCtx): ParsingPageResult {
-  // 1，当前页面的依赖 （组件、行为）
-  // 组件依赖
-
-  // const actionMap = getNodesActionDependencies()
-
-  // 2，当前页面节点的依赖（属性，事件）
-
-  const importComponents: GlobalContext.Component[] = [];
-  const importFunctions: GlobalContext.Function[] = [];
-  const nodesStore = nodesDataStore(page.nodes, ctx);
-
-  const variablesStore = propertiesDataStore(page.variables || []);
-
-  return {
-    page,
-    nodesStore,
-    variablesStore,
-    importComponents,
-    importFunctions,
-  };
-}
-
-export function parsingComponent(data: CodeSchema.Component, ctx: VueGlobalCtx): ParsingCurrentResult {
+export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>(
+  data: T,
+  ctx: VueGlobalCtx
+): ParsingCurrentResult<T> {
   const importComponents: GlobalContext.Component[] = [];
   const importFunctions: GlobalContext.Function[] = [];
   const nodesStore = nodesDataStore(data.nodes, ctx);
   const variablesStore = propertiesDataStore(data.variables || []);
-  const propsStore = propertiesDataStore(data.variables || []);
-  const emitsStore = componentEmitsDataStore(data.emits || []);
-  const slotsStore = componentSlotsDataStore(data.slots || []);
-
-  return {
+  const lifeCyclesStore = ctx.eventsStore;
+  const result = {
     data,
-    propsStore,
-    emitsStore,
-    slotsStore,
     nodesStore,
     variablesStore,
+    lifeCyclesStore,
     importComponents,
     importFunctions,
-  };
+  } as ParsingCurrentResult<T>;
+
+  if (isComponent(data)) {
+    const emitsStore = componentEmitsDataStore(data.emits || []);
+    const slotsStore = componentSlotsDataStore(data.slots || []);
+    const propsStore = propertiesDataStore(data.props || []);
+    result['emitsStore'] = emitsStore;
+    result['slotsStore'] = slotsStore;
+    result['propsStore'] = propsStore;
+  }
+
+  return result;
+}
+
+function isPage(data: Record<string, any>): data is CodeSchema.Page {
+  return data.meta || data.route;
+}
+
+function isComponent(data: Record<string, any>): data is CodeSchema.Component {
+  return !data.meta && data.route;
 }
 
 function getPageFilePath(page: CodeSchema.Page, directories: CodeSchema.Directory[]): string {

@@ -275,7 +275,7 @@ function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: Co
     lifeCycleExprs.push(
       t.callExpression(
         t.identifier(
-          LifeCycle[ctx.global.componentsStore.getLifeCycleEmit(lifeCycle.eventId)?.data.key as keyof typeof LifeCycle]
+          LifeCycle[ctx.scope.current.lifeCyclesStore.findId(lifeCycle.eventId)?.data.key as keyof typeof LifeCycle]
         ),
         [t.arrowFunctionExpression([], t.blockStatement(actionStatements))]
       )

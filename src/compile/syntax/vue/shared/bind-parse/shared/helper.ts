@@ -172,7 +172,7 @@ export const getEventArgVarName = (argName: string) => `event_${argName}`;
 
 // 得到节点的上下文节点
 export const nodeCtx = (nodeId: string, ctx: BindParseCtx): NodeMapItem[] => {
-  const parents = ctx.scope.page.nodesStore.parents(nodeId, (node) => isEach_Or_TplSlot(node.data.tagId, ctx));
+  const parents = ctx.scope.current.nodesStore.parents(nodeId, (node) => isEach_Or_TplSlot(node.data.tagId, ctx));
   return parents.map((item) => item.store) as NodeMapItem[];
 };
 

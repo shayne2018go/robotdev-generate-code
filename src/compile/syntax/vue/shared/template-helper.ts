@@ -24,32 +24,27 @@ export const getNodeTag = (tagId: string, ctx: CompilePageCtx) => {
 };
 
 export const getNodePropKeyById = (nodeId: string, propId: string, ctx: CompilePageCtx) => {
-  const node_protocol = ctx.scope.page.nodesStore.getNode(nodeId);
-  if (!node_protocol) {
-    throw new Error(`Cannot find nodeId: ${nodeId}`);
-  }
-  const tagId = node_protocol.tagId;
-  const prop_protocol = ctx.global.componentsStore.getProp(tagId, propId);
+  const prop_protocol = ctx.scope.current.nodesStore.getNodePropDefine(nodeId, propId);
   if (!prop_protocol) {
-    throw new Error(`Cannot find tagId: ${tagId}`);
+    throw new Error(`Cannot find tagId: ${nodeId}`);
   }
-  return prop_protocol.data.key || ctx.global.propsStore.getProp(propId).key;
+  return prop_protocol.data.key;
 };
 
 export const getNodePropKeyByTagId = (tagId: string, propId: string, ctx: CompilePageCtx) => {
   const prop_protocol = ctx.global.componentsStore.getProp(tagId, propId);
 
-  return prop_protocol?.data.key || ctx.global.propsStore.getProp(propId).key;
+  return prop_protocol?.data.key;
 };
 
 export const getNodePropValueVariable = (nodeId: string, value: CodeSchema.Property, ctx: BindParseCtx) => {
-  const node = ctx.scope.page.nodesStore.find(nodeId);
+  const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
     return;
   }
   const { propId } = value;
-  const nodeVarName = ctx.scope.page.nodesStore.getNodeVarName(nodeId);
-  const propVarName = ctx.scope.page.nodesStore.getNodePropVarName(nodeId, propId);
+  const nodeVarName = ctx.scope.current.nodesStore.getNodeVarName(nodeId);
+  const propVarName = ctx.scope.current.nodesStore.getNodePropVarName(nodeId, propId);
   if (!nodeVarName || !propVarName) {
     return;
   }
@@ -60,13 +55,13 @@ export const getNodePropValueVariable = (nodeId: string, value: CodeSchema.Prope
 };
 
 export const getNodePropValueVariableCall = (nodeId: string, value: CodeSchema.Property, ctx: BindParseCtx) => {
-  const node = ctx.scope.page.nodesStore.find(nodeId);
+  const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
     return;
   }
   const { propId } = value;
-  const nodeVarName = ctx.scope.page.nodesStore.getNodeVarName(nodeId);
-  const propVarName = ctx.scope.page.nodesStore.getNodePropVarName(nodeId, propId);
+  const nodeVarName = ctx.scope.current.nodesStore.getNodeVarName(nodeId);
+  const propVarName = ctx.scope.current.nodesStore.getNodePropVarName(nodeId, propId);
   if (!nodeVarName || !propVarName) {
     return;
   }
@@ -88,7 +83,7 @@ export const getNodePropValueVariableCall = (nodeId: string, value: CodeSchema.P
 
 export const getNodePropValueExpression = (nodeId: string, value: CodeSchema.Property, ctx: BindParseCtx) => {
   // 变量 或 函数调用
-  const node = ctx.scope.page.nodesStore.find(nodeId);
+  const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
     return;
   }
@@ -103,20 +98,25 @@ export const getNodePropValueExpression = (nodeId: string, value: CodeSchema.Pro
   }
 };
 
-export const getNodeEventKeyByTagId = (tagId: string, eventId: string, ctx: BindParseCtx) => {
-  const event_protocol = ctx.global.componentsStore.getEmit(tagId, eventId);
-
-  return event_protocol?.data.key || ctx.global.eventsStore.getEvent(eventId).key;
+export const getNodeEventKeyByTagId = (nodeId: string, eventId: string, ctx: BindParseCtx) => {
+  if (nodeId === 'E423') {
+    debugger;
+  }
+  const event_protocol = ctx.scope.current.nodesStore.getNodeEventDefine(nodeId, eventId);
+  if (!event_protocol) {
+    throw new Error(`Cannot find event_protocol nodeId: ${nodeId}`);
+  }
+  return event_protocol?.data.key;
 };
 
 export const getNodeEventValue = (nodeId: string, eventId: string, ctx: BindParseCtx) => {
-  const node = ctx.scope.page.nodesStore.find(nodeId);
+  const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
     return;
   }
 
-  const nodeVarName = ctx.scope.page.nodesStore.getNodeVarName(nodeId); // 节点变量名
-  const eventDefine = ctx.scope.page.nodesStore.getNodeEventDefine(nodeId, eventId); // 事件定义
+  const nodeVarName = ctx.scope.current.nodesStore.getNodeVarName(nodeId); // 节点变量名
+  const eventDefine = ctx.scope.current.nodesStore.getNodeEventDefine(nodeId, eventId); // 事件定义
   const eventVarName = eventDefine?.varName; // 事件名
   const parameters = eventDefine?.data.parameters || []; // 形参
   const parametersStore = eventDefine?.members.parameters; // 形参状态管理，取变量名：parametersStore?.find('aasd')?.varName
@@ -185,7 +185,7 @@ export function getNodeEachExpression(
   value: CodeSchema.Property,
   ctx: BindParseCtx
 ): t.BinaryExpression {
-  const nodeMapItem = ctx.scope.page.nodesStore.find(nodeId);
+  const nodeMapItem = ctx.scope.current.nodesStore.find(nodeId);
   if (!nodeMapItem) {
     throw new Error(`nodeMapItem ${nodeMapItem} is not parsing`);
   }

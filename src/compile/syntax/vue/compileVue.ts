@@ -15,13 +15,6 @@ import {
   propsDataStore,
 } from './shared/store';
 import { slotsDataStore } from './shared/store/globalSlots';
-// import { apisDataStore } from './shared/store/apis';
-// import { componentsDataStore } from './shared/store/components';
-// import { functionsDataStore } from './shared/store/functions';
-// import { actionsDataStore } from './shared/store/globalActions';
-// import { eventsDataStore } from './shared/store/globalEvents';
-// import { propsDataStore } from './shared/store/globalProps';
-// import { pagesDataStore } from './shared/store/pages';
 
 export interface VueCompileOptions {
   pages: GlobalContext.Page[]; // 路由相关
@@ -126,14 +119,14 @@ export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalC
   const slotsStore = slotsDataStore(VueCompileOptions.slots);
 
   return {
-    eventsStore,
-    propsStore,
-    slotsStore,
     componentsStore,
     functionsStore,
     actionsStore,
     apisStore,
     pagesStore,
+    eventsStore,
+    propsStore,
+    slotsStore,
     apiVarRootName: 'apiState',
     variablesRootName: 'variables',
     nodesVarRootName: 'nodesState',

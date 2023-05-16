@@ -185,15 +185,15 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
       return nodesMap[nodeId].varName || undefined;
     },
     getNodePropDefine(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {
-      let define = nodesMap[nodeId]?.component?.members?.propsStore.findId(propId) || ctx.propsStore?.findId(nodeId);
+      let define = nodesMap[nodeId]?.component?.members?.propsStore.findId(propId) || ctx.propsStore?.findId(propId);
       return define;
     },
     getNodeEventDefine(nodeId: CodeSchema.ComponentNode['id'], eventId: CodeSchema.Event['eventId']) {
-      let define = nodesMap[nodeId]?.component?.members?.emitsStore.findId(eventId) || ctx.eventsStore?.findId(nodeId);
+      let define = nodesMap[nodeId]?.component?.members?.emitsStore.findId(eventId) || ctx.eventsStore?.findId(eventId);
       return define;
     },
     getNodeSlotDefine(nodeId: CodeSchema.ComponentNode['id'], slotId: Required<CodeSchema.ComponentNode>['slotId']) {
-      let define = nodesMap[nodeId]?.component?.members?.slotsStore.findId(slotId) || ctx.slotsStore?.findId(nodeId);
+      let define = nodesMap[nodeId]?.component?.members?.slotsStore.findId(slotId) || ctx.slotsStore?.findId(slotId);
       return define;
     },
     getNodePropVarName(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {

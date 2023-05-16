@@ -136,7 +136,7 @@ const toAstMethods = {
       throw new Error('getParam的data.args.id失败');
     }
     let paths: string[] = [];
-    let query = ctx.global.pagesStore.getQuery(ctx.scope.page.page.id, data.args.id);
+    let query = ctx.global.pagesStore.getQuery(ctx.scope.current.data.id, data.args.id);
     if (!query) {
       throw new Error('getParam的query失败');
     }
@@ -415,8 +415,8 @@ export const actionsToAst = (actions: CodeSchema.Action[], ctx: CompilePageCtx):
       },
     },
     helper: {
-      uniqueVarname: genVarName()
-    }
+      uniqueVarname: genVarName(),
+    },
   });
   if (actions && actions.length) {
     actions.forEach((action) => {
@@ -430,7 +430,7 @@ export const actionsToAst = (actions: CodeSchema.Action[], ctx: CompilePageCtx):
               if (ele) {
                 statements.push(t.expressionStatement(ele));
               }
-            })
+            });
           }
         }
       }
@@ -611,8 +611,8 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
       },
     },
     helper: {
-      uniqueVarname: genVarName()
-    }
+      uniqueVarname: genVarName(),
+    },
   });
   if (!node.props?.length && !node.events?.length) {
     return [];
@@ -738,7 +738,7 @@ export const nodeEventValueAst = (
         if (ele) {
           body.push(t.expressionStatement(ele));
         }
-      })
+      });
     }
   });
 

@@ -35,7 +35,7 @@ const getBindPathProperties = {
     if (!data.args.id) {
       return;
     }
-    const define = ctx.scope.page.variablesStore.findId(data.args.id);
+    const define = ctx.scope.current.variablesStore.findId(data.args.id);
     if (!define) {
       throw new Error('getVar的定义获取失败');
     }
@@ -54,7 +54,6 @@ const getBindPathProperties = {
     if (!keyId) {
       return;
     }
-
     const types = [genApiModuleType(define?.data.protocol.response.body || [])];
     const accessPath = searchModulePath(types || [], data.args.path || [], pathLastIsModuleMultiple); // 路径中的每个属性名
     return accessPath;
@@ -63,7 +62,7 @@ const getBindPathProperties = {
     if (!data.args.id) {
       return;
     }
-    const define = ctx.global.pagesStore.getQuery(ctx.scope.page.page.id, data.args.id);
+    const define = ctx.global.pagesStore.getQuery(ctx.scope.current.data.id, data.args.id);
     if (!define) {
       throw new Error('getParam的定义获取失败');
     }
@@ -85,11 +84,11 @@ const getBindPathProperties = {
     if (!data.args.id) {
       return;
     }
-    const node = ctx.scope.page.nodesStore.find(data.args.id);
+    const node = ctx.scope.current.nodesStore.find(data.args.id);
     if (!node) {
       return;
     }
-    const slotAffiliationCmpt = ctx.scope.page.nodesStore.parentOne(
+    const slotAffiliationCmpt = ctx.scope.current.nodesStore.parentOne(
       data.args.id,
       (item) => item.store?.component?.data.protocol.key !== 'tpl'
     )?.component;
@@ -114,7 +113,7 @@ const getBindPathProperties = {
     if (!data.args.id) {
       return;
     }
-    const node = ctx.scope.page.nodesStore.find(data.args.id);
+    const node = ctx.scope.current.nodesStore.find(data.args.id);
     if (!node) {
       return;
     }
