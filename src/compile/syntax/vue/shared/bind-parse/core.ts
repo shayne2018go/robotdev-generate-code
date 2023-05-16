@@ -148,12 +148,19 @@ const toAstMethods = {
   },
   getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): MemberExpression | Identifier => {
     // 事件参数 @click="(evt,prop) => {const temp = `${evt.target}`;const temp1 = `${prop}`}"
+    if (!ctx.scope.node?.id) {
+      throw new Error('getEventData的ctx.scope.node?.id获取失败');
+    }
+    if (!ctx.scope.event?.eventId) {
+      throw new Error('getEventData的ctx.scope.event?.eventId获取失败');
+    }
     if (!data.args.id) {
       throw new Error('getEventData的data.args.id失败');
     }
     let paths: string[] = [];
     // 通过参数id拿到varName和types
-    let eventParam = getEventParam(data.args.id);
+    const eventDefine = ctx.scope.page.nodesStore.getNodeEventDefine(ctx.scope.node?.id, ctx.scope.event?.eventId);
+    let eventParam = eventDefine?.members.parameters?.findId(data.args.id);
     if (!eventParam) {
       throw new Error('getEventData的eventParam失败');
     }
@@ -172,28 +179,23 @@ const toAstMethods = {
     // TODO: 待定
   },
   getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: BindParseCtx): MemberExpression | undefined => {
-    const slotNodeId = data.args.id;
-    const eachPropData = ctx.global.componentsStore.getProp('each', 'data', true);
-    const eachPropDataId = eachPropData?.data.id
-    if (!eachPropDataId) {
-      throw new Error('数据异常，循环节点的data属性的id没找到！');
-    }
-    if (slotNodeId) {
-      return
+    if (!data.args.id) {
+      return;
     }
     const path = (data.args?.path || []) as string[];
     const key = path[0];
     if (!key) {
       throw new Error('数据异常，绑定的循环节点没有配置item、index节点！');
     }
-    const nodeVarName = ctx.scope.page.nodesStore.getNodeVarName(slotNodeId);
+    const nodeVarName = ctx.scope.page.nodesStore.getNodeVarName(data.args.id);
     if (!nodeVarName) {
       throw new Error('数据异常，循环节点变量名没取到！');
     }
-    const varName = key === 'item' ? getEachItemVarName(nodeVarName) : getEachIndexVarName(nodeVarName)
-    const pathProperties = getPathProperties(ctx, data)?.map(item => item.key)
-    if (!pathProperties) {
-      return
+    const varName = key === 'item' ? getEachItemVarName(nodeVarName) : getEachIndexVarName(nodeVarName);
+    const pathProperties = getPathProperties(ctx, data);
+    const pathPropertieKeys = pathProperties?.map((item) => item.key);
+    if (!pathPropertieKeys) {
+      return;
     }
   },
   getCmptPropData: (data: CodeSchema.DataValue_GetCmptPropData, ctx: BindParseCtx): CallExpression => {},
@@ -276,7 +278,7 @@ const toAstMethods = {
         t.stringLiteral(data.args.url),
       ]);
     } else {
-      throw new Error ('open函数的mode类型错误')
+      throw new Error('open函数的mode类型错误');
     }
   },
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
