@@ -105,6 +105,7 @@ function getVueImports(): t.ImportDeclaration[] {
         t.importSpecifier(t.identifier('onMounted'), t.identifier('onMounted')),
         t.importSpecifier(t.identifier('reactive'), t.identifier('reactive')),
         t.importSpecifier(t.identifier('ref'), t.identifier('ref')),
+        t.importSpecifier(t.identifier('computed'), t.identifier('computed')),
       ],
       t.stringLiteral('vue')
     ),

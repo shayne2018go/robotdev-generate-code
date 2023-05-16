@@ -1,6 +1,6 @@
 import {
   ArrayExpression,
-  BinaryExpression,
+  AssignmentExpression,
   BooleanLiteral,
   CallExpression,
   DecimalLiteral,
@@ -14,7 +14,8 @@ import {
 import { CompilePageCtx } from '../../../compilePages';
 import { genVarName } from '../../helper';
 
-export type ActionAst = CallExpression | BinaryExpression;
+export type ActionAst = CallExpression | AssignmentExpression;
+export type ActionsAst = CallExpression[] | AssignmentExpression[];
 export type BindAst =
   | MemberExpression
   | ArrayExpression
@@ -101,5 +102,5 @@ export type TableProps = {
 
 export type ReturnRef = {
   type: 'table' | 'ast';
-  value?: ActionAst | BindAst | TableProps | undefined;
+  value?: ActionAst | ActionsAst | BindAst | TableProps | undefined;
 };

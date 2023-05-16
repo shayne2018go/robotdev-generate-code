@@ -2,6 +2,7 @@ import { tools } from '@/utils/tools';
 import * as t from '@babel/types';
 import {
   ArrowFunctionExpression,
+  AssignmentExpression,
   CallExpression,
   Expression,
   ExpressionStatement,
@@ -18,6 +19,7 @@ import {
   getEachIndexVarName,
   getEachItemVarName,
   actionCheck,
+  getDataAstByAny,
   getEventArgVarName,
   getMemberExpr,
   isAstType,
@@ -29,7 +31,7 @@ import {
   rdDataisCustom,
   rdDataIsTable,
 } from './shared/helper';
-import { ActionAst, BindAst, BindParseCtx, BindRdData, LiteralAst, ReturnRef, TableProps } from './types';
+import { ActionAst, ActionsAst, BindAst, BindParseCtx, BindRdData, LiteralAst, ReturnRef, TableProps } from './types';
 import { VueVariable } from '../../sfc/compileScript';
 
 /** helper  start*/
@@ -202,9 +204,55 @@ const toAstMethods = {
   getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): CallExpression => {},
   tableData: (data: CodeSchema.DataValue_TableData, ctx: BindParseCtx): CallExpression => {},
   fx: (data: CodeSchema.DataValue, ctx: BindParseCtx): CallExpression => {},
-  set: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
-  setVar: (data: CodeSchema.Action_SetVar, ctx: BindParseCtx): CallExpression => {},
-  setApiData: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {},
+  set: (data: CodeSchema.Action_Set, ctx: BindParseCtx): AssignmentExpression[] => {
+    const { actions = [] } = data.args;
+    return actions.map((act) => {
+      if (act.mode === 'setVar') {
+        return toAstMethods.setVar(act, ctx);
+      } else if (act.mode === 'setApiData') {
+        return toAstMethods.setApiData(act, ctx);
+      } else {
+        throw new Error(`Invalid action`);
+      }
+    });
+  },
+  setVar: (data: CodeSchema.Action_SetVar, ctx: BindParseCtx): AssignmentExpression => {},
+  setApiData: (data: CodeSchema.Action_SetApiData, ctx: BindParseCtx): AssignmentExpression => {
+    // api数据赋值
+    if (!data.args.id) {
+      throw new Error('setApiData函数的data.args.id失败');
+    }
+    const api = ctx.global.apisStore.getApi(data.args.id as string)?.data;
+    if (!api) {
+      throw new Error('setApiData函数的api失败');
+    }
+    if (data.args.path && data.args.path.length) {
+      let paths: string[] = [];
+      paths.push(ctx.global.apiVarRootName, api.key);
+      const [dataName, bodyId, ...argPaths] = data.args.path || [];
+      if (dataName) {
+        paths.push(dataName);
+      }
+      if (bodyId) {
+        const body = ctx.global.apisStore.getApiBody(data.args.id, bodyId);
+        if (!body) {
+          throw new Error(`获取body失败 ${bodyId}`);
+        }
+        if (!body.varName) {
+          throw new Error('getApiData的body.varName获取失败');
+        }
+        paths.push(body.varName);
+        paths = searchModulePathKeys(body.data.types, argPaths).concat(paths); // 路径中的每个属性名
+      }
+      return t.assignmentExpression('=', getMemberExpr(paths), getDataAstByAny(data.args.value));
+    } else {
+      return t.assignmentExpression(
+        '=',
+        getMemberExpr([ctx.global.apiVarRootName, api.key]),
+        getDataAstByAny(data.args.value)
+      );
+    }
+  },
   api: (data: CodeSchema.Action_Api, ctx: BindParseCtx): CallExpression => {
     // 执行api
     if (!data.args.id) {
@@ -317,7 +365,7 @@ const bindToAst = (data: BindRdData, ctx: BindParseCtx): BindAst | undefined => 
   return;
 };
 
-export const actionToAst = (data: CodeSchema.Action, ctx: BindParseCtx): ActionAst | undefined => {
+export const actionToAst = (data: CodeSchema.Action, ctx: BindParseCtx): ActionAst | ActionsAst | undefined => {
   /**
    * 这里操作ctx.scope.actions
    */
@@ -354,7 +402,15 @@ export const actionsToAst = (actions: CodeSchema.Action[], ctx: CompilePageCtx):
       if (action) {
         const ast = actionToAst(action, bindParseCtx);
         if (ast) {
-          statements.push(t.expressionStatement(ast));
+          if (!Array.isArray(ast)) {
+            statements.push(t.expressionStatement(ast));
+          } else {
+            ast.forEach((ele) => {
+              if (ele) {
+                statements.push(t.expressionStatement(ele));
+              }
+            })
+          }
         }
       }
     });
@@ -493,7 +549,7 @@ const valueToAst = (
 ): ReturnRef => {
   const res: {
     type: 'table' | 'ast';
-    value?: ActionAst | BindAst | TableProps | undefined;
+    value?: ActionAst | ActionsAst | BindAst | TableProps | undefined;
   } = {
     type: 'ast',
   };
@@ -546,7 +602,16 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
           if (ast) {
             const varName = getNodePropKeyByNodeId(node.id, prop.propId, ctx);
             if (varName) {
-              propProps.push(t.objectProperty(t.identifier(varName), ast));
+              if (!isRdData(prop.value) || rdDataisCustom(prop.value)) {
+                propProps.push(t.objectProperty(t.identifier(varName), ast));
+              } else {
+                propProps.push(
+                  t.objectProperty(
+                    t.identifier(varName),
+                    t.callExpression(t.identifier('computed'), [t.arrowFunctionExpression([], ast)])
+                  )
+                );
+              }
             }
           }
         } else if (isTableType(res)) {
@@ -566,6 +631,7 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
             }
           }
         } else {
+          throw new Error('未知propValueAst类型');
         }
       }
     });
@@ -604,9 +670,8 @@ export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseC
       value: defaultAst(ctx, define.data.types),
     };
   }
-  const res = valueToAst(prop.value, ctx, define.data.types);
   ctx.scope.prop = prop;
-  return res;
+  return valueToAst(prop.value, ctx, define.data.types);
 };
 
 export const nodeEventValueAst = (
@@ -638,11 +703,19 @@ export const nodeEventValueAst = (
 
   const body: ExpressionStatement[] = [];
   event.actions.forEach((item) => {
-    const action = actionToAst(item, ctx);
-    if (!action) {
+    const ast = actionToAst(item, ctx);
+    if (!ast) {
       return;
     }
-    body.push(t.expressionStatement(action));
+    if (!Array.isArray(ast)) {
+      body.push(t.expressionStatement(ast));
+    } else {
+      ast.forEach((ele) => {
+        if (ele) {
+          body.push(t.expressionStatement(ele));
+        }
+      })
+    }
   });
 
   return t.arrowFunctionExpression(parems, t.blockStatement(body));
