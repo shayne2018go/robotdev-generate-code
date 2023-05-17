@@ -1,9 +1,10 @@
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
 import { describe, expect, it } from 'vitest';
-import { CompilePageCtx, parsingCurrent } from '../../compilePages';
+import { CompileCurrentCtx, parsingCurrent } from '../../compilePages';
 import { buildGlobalCtx, parsingVueCompileOptions } from '../../compileVue';
 import compileScript from '../compileScript';
 import scriptToken from './__fixture__/script-tokens.json';
+import scriptToken2 from './__fixture__/script-tokens-2.json';
 
 describe('compileScript', () => {
   // 解析相关依赖协议
@@ -16,7 +17,7 @@ describe('compileScript', () => {
 
   const parsingPageResult = parsingCurrent(page, vueGlobalCtx);
 
-  const currentPageCompileOptions: CompilePageCtx = {
+  const currentPageCompileOptions: CompileCurrentCtx = {
     global: vueGlobalCtx,
     scope: {
       current: parsingPageResult,
@@ -30,12 +31,12 @@ describe('compileScript', () => {
     expect(token).toEqual(scriptToken);
   });
 
-  it('script 循环 判断', () => {
+  it('script 循环 判断 组件', () => {
     const page = codeSchema.pages[0];
 
     const parsingPageResult = parsingCurrent(page, vueGlobalCtx);
 
-    const currentPageCompileOptions: CompilePageCtx = {
+    const currentPageCompileOptions: CompileCurrentCtx = {
       global: vueGlobalCtx,
       scope: {
         current: parsingPageResult,
@@ -43,8 +44,8 @@ describe('compileScript', () => {
     };
 
     const { token } = compileScript(page, currentPageCompileOptions);
-    debugger;
 
     expect(token).toMatchSnapshot();
+    expect(token).toEqual(scriptToken2);
   });
 });

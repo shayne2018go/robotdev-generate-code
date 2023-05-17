@@ -11,7 +11,7 @@ import {
   OptionalMemberExpression,
   ObjectProperty,
 } from '@babel/types';
-import { CompilePageCtx } from '../../compilePages';
+import { CompileCurrentCtx } from '../../compilePages';
 import { VueVariable } from '../../sfc/compileScript';
 import { genVarName } from '../helper';
 import { getNodeEventKeyByNodeId, getNodePropKeyByNodeId } from '../script-helper';
@@ -39,7 +39,10 @@ import { ActionAst, ActionsAst, BindAst, BindParseCtx, BindRdData, LiteralAst, R
 
 /** helper end*/
 
-const defaultAst = (ctx: BindParseCtx, types?: CodeSchema.PropertyType_Protocol[]) => {
+const defaultAst = <T extends CodeSchema.Page | CodeSchema.Component>(
+  ctx: BindParseCtx,
+  types?: CodeSchema.PropertyType_Protocol[]
+) => {
   if (!types?.[0]) {
     return t.nullLiteral();
   }
@@ -393,7 +396,10 @@ export const actionToAst = (data: CodeSchema.Action, ctx: BindParseCtx): ActionA
   }
 };
 
-export const actionsToAst = (actions: CodeSchema.Action[], ctx: CompilePageCtx): ExpressionStatement[] => {
+export const actionsToAst = <T extends CodeSchema.Page | CodeSchema.Component>(
+  actions: CodeSchema.Action[],
+  ctx: CompileCurrentCtx<T>
+): ExpressionStatement[] => {
   const statements: ExpressionStatement[] = [];
   const bindParseCtx: BindParseCtx = Object.assign(ctx, {
     scope: {
@@ -583,7 +589,10 @@ export const valueToAst = (
   return res;
 };
 
-export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectProperty[] => {
+export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
+  nodeId: string,
+  ctx: CompileCurrentCtx<T>
+): ObjectProperty[] => {
   const propProps: ObjectProperty[] = [];
   const node = ctx.scope.current.nodesStore.getNode(nodeId);
   if (!node) {

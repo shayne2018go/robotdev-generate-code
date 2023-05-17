@@ -7,14 +7,14 @@ import { componentEmitsDataStore, componentSlotsDataStore } from './shared/store
 import { nodesDataStore } from './shared/store/nodes';
 import { propertiesDataStore } from './shared/store/properties';
 
-export type CompilePageCtx = {
+export type CompileCurrentCtx<T extends CodeSchema.Page | CodeSchema.Component = CodeSchema.Page> = {
   global: VueGlobalCtx;
   scope: {
-    current: ParsingCurrentResult<CodeSchema.Page>;
+    current: ParsingCurrentResult<T>;
   };
 };
 
-interface ParsingCurrentResult<T extends CodeSchema.Component | CodeSchema.Page> {
+export interface ParsingCurrentResult<T extends CodeSchema.Component | CodeSchema.Page = CodeSchema.Page> {
   data: T;
   nodesStore: ReturnType<typeof nodesDataStore>;
   variablesStore: ReturnType<typeof propertiesDataStore>;
@@ -45,7 +45,7 @@ function compilePages(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx
     // 1 编译页面代码字符串（token）
     const { token } = compilePage(page, vueGlobalCtx);
     // 2 编译页面地址 ps： 根据directories
-    const filePath = getPageFilePath(page, directories);
+    const filePath = getPageFilePath(page, vueGlobalCtx);
 
     tokens.push(createToken(filePath, token));
   });
@@ -56,7 +56,7 @@ function compilePages(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx
 function compilePage(page: CodeSchema.Page, ctx: VueGlobalCtx) {
   const parsingComponentResult = parsingCurrent(page, ctx);
 
-  const currentPageCompileOptions: CompilePageCtx = {
+  const currentPageCompileOptions: CompileCurrentCtx<CodeSchema.Page> = {
     global: ctx,
     scope: {
       current: parsingComponentResult,
@@ -76,7 +76,7 @@ export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>
   data: T,
   ctx: VueGlobalCtx
 ): ParsingCurrentResult<T> {
-  const importComponents: GlobalContext.Component[] = [];
+  const importComponents: GlobalContext.Component[] = parsingCurrentImportedComponents(data, ctx);
   const importFunctions: Omit<GlobalContext.Function, 'protocol'>[] = [
     {
       id: 'open', // 函数id
@@ -88,8 +88,12 @@ export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>
     },
   ];
   const nodesStore = nodesDataStore(data.nodes, ctx);
+  const emitsStore = componentEmitsDataStore(isComponent(data) ? data.emits : []);
+  const slotsStore = componentSlotsDataStore(isComponent(data) ? data.slots : []);
+  const propsStore = propertiesDataStore(isComponent(data) ? data.props : []);
   const variablesStore = propertiesDataStore(data.variables || []);
   const lifeCyclesStore = ctx.eventsStore;
+
   const result = {
     data,
     nodesStore,
@@ -97,16 +101,10 @@ export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>
     lifeCyclesStore,
     importComponents,
     importFunctions,
+    emitsStore,
+    slotsStore,
+    propsStore,
   } as ParsingCurrentResult<T>;
-
-  if (isComponent(data)) {
-    const emitsStore = componentEmitsDataStore(data.emits || []);
-    const slotsStore = componentSlotsDataStore(data.slots || []);
-    const propsStore = propertiesDataStore(data.props || []);
-    result['emitsStore'] = emitsStore;
-    result['slotsStore'] = slotsStore;
-    result['propsStore'] = propsStore;
-  }
 
   return result;
 }
@@ -116,31 +114,52 @@ function isPage(data: Record<string, any>): data is CodeSchema.Page {
 }
 
 function isComponent(data: Record<string, any>): data is CodeSchema.Component {
-  return !data.meta && data.route;
+  return !data.meta && !data.route;
 }
 
-function getPageFilePath(page: CodeSchema.Page, directories: CodeSchema.Directory[]): string {
-  const dirPath: CodeSchema.Directory[] = [];
+function getPageFilePath(page: CodeSchema.Page, vueGlobalCtx: VueGlobalCtx): string {
+  // const dirPath: CodeSchema.Directory[] = [];
 
-  let curId: string | null = page.id;
+  // let curId: string | null = page.id;
 
-  while (curId) {
-    const current = directories.find((d) => d.id === curId);
-    if (current) {
-      dirPath.unshift(current);
-      curId = current.parentId;
-    } else {
-      break;
-    }
+  // while (curId) {
+  //   const current = directories.find((d) => d.id === curId);
+  //   if (current) {
+  //     dirPath.unshift(current);
+  //     curId = current.parentId;
+  //   } else {
+  //     break;
+  //   }
+  // }
+
+  // // vue-router 的path
+  // const path = `/${dirPath.map((p) => p.key).join('/')}`;
+
+  // // 文件的绝对路径
+  // const filePath = `${PAGE_DIR}${path}.vue`;
+  const page_protocol = vueGlobalCtx.pagesStore.getPage(page.id);
+  if (!page_protocol) {
+    throw new Error(`Page ${page.id} is not found`);
   }
-
-  // vue-router 的path
-  const path = `/${dirPath.map((p) => p.key).join('/')}`;
-
-  // 文件的绝对路径
-  const filePath = `${PAGE_DIR}${path}.vue`;
+  const filePath = page_protocol.source?.filePath || `${PAGE_DIR}/${page_protocol.key}.vue`;
 
   return filePath;
+}
+
+function parsingCurrentImportedComponents<T extends CodeSchema.Component | CodeSchema.Page>(
+  data: T,
+  ctx: VueGlobalCtx
+): GlobalContext.Component[] {
+  const importedComponents = [] as GlobalContext.Component[];
+
+  data.nodes.forEach((node) => {
+    const isExist = ctx.componentsStore.getCmpt(node.tagId);
+
+    if (isExist && isExist.source?.filePath) {
+      importedComponents.push(isExist);
+    }
+  });
+  return importedComponents;
 }
 
 export default compilePages;

@@ -1,5 +1,5 @@
 const codeSchema = {
-  id: '64643a6acff50e223777d5b1',
+  id: '646482d2cff50e223777de0c',
   key: 'ethanqianduan',
   meta: {
     title: 'ethan前端',
@@ -146,7 +146,7 @@ const codeSchema = {
               id: '641a7053cf44f6204642b9c6',
               name: '卡片类型',
               key: 'type',
-              desc: '卡片类型，可设置为 inner 或不设置',
+              desc: '卡片类型，可设置为 inner 或不设置',
               types: [
                 {
                   type: 'text',
@@ -235,6 +235,528 @@ const codeSchema = {
               key: 'extra',
               name: '卡片右上角操作区域',
               desc: '卡片右上角的操作区域',
+              properties: [],
+            },
+          ],
+          lifeCycle: [],
+          functions: [],
+          variables: [],
+          nodes: [],
+        },
+        {
+          id: '613ecb25af722dc29c7fc39d',
+          name: 'Menu 导航菜单',
+          key: 'a-menu',
+          props: [
+            {
+              id: '641a7052cf44f6204642b708',
+              name: '加速渲染',
+              key: 'forceSubMenuRender',
+              desc: '在子菜单展示之前就渲染进 DOM',
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b709',
+              name: '收起状态',
+              key: 'inlineCollapsed',
+              desc: 'inline 时菜单是否收起状态',
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'inlineIndent',
+              name: '缩进宽度',
+              key: 'inlineIndent',
+              desc: 'inline 模式的菜单缩进宽度',
+              types: [
+                {
+                  type: 'number',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b70a',
+              name: '菜单类型',
+              key: 'mode',
+              desc: undefined,
+              types: [
+                {
+                  type: 'option',
+                  rules: {
+                    items: [
+                      {
+                        label: '垂直',
+                        value: 'vertical',
+                      },
+                      {
+                        label: '水平',
+                        value: 'horizontal',
+                      },
+                      {
+                        label: '内嵌',
+                        value: 'inline',
+                      },
+                    ],
+                  },
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b70b',
+              name: '允许多选',
+              key: 'multiple',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b70c',
+              name: '展开菜单项Key',
+              key: 'openKeys',
+              desc: '当前展开的 SubMenu 菜单项 key 数组',
+              types: [
+                {
+                  type: 'text',
+                  multiple: true,
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b70d',
+              name: '允许选中',
+              key: 'selectable',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: 'selectedKeys',
+              name: '选中菜单项Key',
+              key: 'selectedKeys',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                  multiple: true,
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b70e',
+              name: '子菜单移出延时',
+              key: 'subMenuCloseDelay',
+              desc: undefined,
+              types: [
+                {
+                  type: 'number',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b70f',
+              name: '子菜单移入延时',
+              key: 'subMenuOpenDelay',
+              desc: undefined,
+              types: [
+                {
+                  type: 'number',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b710',
+              name: '主题颜色',
+              key: 'theme',
+              desc: undefined,
+              types: [
+                {
+                  type: 'option',
+                  rules: {
+                    items: [
+                      {
+                        label: '白色',
+                        value: 'light',
+                      },
+                      {
+                        label: '暗黑',
+                        value: 'dark',
+                      },
+                    ],
+                  },
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b711',
+              name: '子菜单触发',
+              key: 'triggerSubMenuAction',
+              desc: undefined,
+              types: [
+                {
+                  type: 'option',
+                  rules: {
+                    items: [
+                      {
+                        label: '点击',
+                        value: 'click',
+                      },
+                      {
+                        label: '悬停',
+                        value: 'hover',
+                      },
+                    ],
+                  },
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          emits: [
+            {
+              id: '641a7052cf44f6204642b712',
+              key: 'click',
+              name: '点击菜单',
+              desc: '点击 MenuItem 调用此函数',
+              parameters: [
+                {
+                  name: '条目',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '是否禁用',
+                            types: [
+                              {
+                                type: 'whether',
+                              },
+                            ],
+                            id: '642fdeafce2cf586328bcc15',
+                            key: 'disabled',
+                          },
+                          {
+                            name: 'item标识',
+                            types: [
+                              {
+                                type: 'text',
+                              },
+                            ],
+                            id: '642fdeafce2cf586328bcc17',
+                            key: 'key',
+                            desc: 'item 的唯一标志',
+                          },
+                          {
+                            name: '缩起时标题',
+                            types: [
+                              {
+                                type: 'text',
+                              },
+                            ],
+                            id: '642fdeb0ce2cf586328bcc18',
+                            key: 'title',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '642fdd79ce2cf586328bcc12',
+                  key: 'item',
+                },
+                {
+                  name: '标识',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642fdd79ce2cf586328bcc13',
+                  key: 'key',
+                },
+                {
+                  name: '标识路径',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642fdd80ce2cf586328bcc14',
+                  key: 'keyPath',
+                },
+              ],
+            },
+            {
+              id: '641a7052cf44f6204642b713',
+              key: 'deselect',
+              name: '取消选中',
+              desc: '取消选中时调用，仅在 multiple 生效',
+              parameters: [
+                {
+                  name: '条目',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '是否禁用',
+                            types: [
+                              {
+                                type: 'whether',
+                              },
+                            ],
+                            id: '642fdf4fce2cf586328bcc1c',
+                            key: 'disabled',
+                          },
+                          {
+                            name: 'item标识',
+                            types: [
+                              {
+                                type: 'text',
+                              },
+                            ],
+                            id: '642fdf4fce2cf586328bcc1d',
+                            key: 'key',
+                          },
+                          {
+                            name: '缩起时标题',
+                            types: [
+                              {
+                                type: 'text',
+                              },
+                            ],
+                            id: '642fdf4fce2cf586328bcc1e',
+                            key: 'title',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '642fdf0bce2cf586328bcc19',
+                  key: 'item',
+                },
+                {
+                  name: '标识',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642fdf0cce2cf586328bcc1a',
+                  key: 'key',
+                },
+                {
+                  name: '选项标识',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642fdf0cce2cf586328bcc1b',
+                  key: 'selectedKeys ',
+                },
+              ],
+            },
+            {
+              id: '641a7052cf44f6204642b714',
+              key: 'openChange',
+              name: '子菜单展开/关闭',
+              desc: 'SubMenu 展开/关闭的回调',
+              parameters: [
+                {
+                  name: '开启标识',
+                  types: [
+                    {
+                      type: 'text',
+                      multiple: true,
+                    },
+                  ],
+                  id: '642fdf7cce2cf586328bcc1f',
+                  key: 'openKeys',
+                },
+              ],
+            },
+            {
+              id: '641a7052cf44f6204642b715',
+              key: 'select',
+              name: '被选中',
+              desc: '被选中时调用',
+              parameters: [
+                {
+                  name: '条目',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '禁用',
+                            types: [
+                              {
+                                type: 'whether',
+                              },
+                            ],
+                            id: '64337db4142f1aa760d86bde',
+                            key: 'disabled',
+                          },
+                          {
+                            name: '标识',
+                            types: [
+                              {
+                                type: 'text',
+                              },
+                            ],
+                            id: '64337db4142f1aa760d86bdf',
+                            key: 'key',
+                          },
+                          {
+                            name: '收缩时标题',
+                            types: [
+                              {
+                                type: 'text',
+                              },
+                            ],
+                            id: '64337db5142f1aa760d86be0',
+                            key: 'title',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '642fe0ecce2cf586328bcc20',
+                  key: 'item',
+                },
+                {
+                  name: '值',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642fe0edce2cf586328bcc21',
+                  key: 'key',
+                },
+                {
+                  name: '选中项标识',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '642fe0edce2cf586328bcc22',
+                  key: 'selectedKeys ',
+                },
+              ],
+            },
+          ],
+          slots: [
+            {
+              id: '641a7052cf44f6204642b716',
+              key: 'default',
+              name: '默认',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b717',
+              key: 'overflowedIndicator',
+              name: 'menu收缩图标',
+              desc: '用于自定义 Menu 水平空间不足时的省略收缩的图标',
+              properties: [],
+            },
+          ],
+          lifeCycle: [],
+          functions: [],
+          variables: [],
+          nodes: [],
+        },
+        {
+          id: '613ecb25af722dc29c7fc39e',
+          name: 'MenuItem 菜单项',
+          key: 'a-menu-item',
+          props: [
+            {
+              id: '641a7052cf44f6204642b718',
+              name: '禁用',
+              key: 'disabled',
+              desc: undefined,
+              types: [
+                {
+                  type: 'whether',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b719',
+              name: 'key标识',
+              key: 'key',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+            {
+              id: '641a7052cf44f6204642b71a',
+              name: '悬浮标题',
+              key: 'title',
+              desc: undefined,
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              extendPlatform: undefined,
+            },
+          ],
+          emits: [],
+          slots: [
+            {
+              id: '641a7052cf44f6204642b71b',
+              key: 'default',
+              name: '默认',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b71c',
+              key: 'icon',
+              name: '菜单图标',
+              desc: undefined,
+              properties: [],
+            },
+            {
+              id: '641a7052cf44f6204642b71d',
+              key: 'title',
+              name: '悬浮标题',
+              desc: undefined,
               properties: [],
             },
           ],
@@ -2503,7 +3025,7 @@ const codeSchema = {
               id: '641a7053cf44f6204642ba4c',
               name: '固定展开图标',
               key: 'expandFixed',
-              desc: '控制展开图标是否固定，可选 true left right',
+              desc: '控制展开图标是否固定，可选 true left right',
               types: [
                 {
                   type: 'whether',
@@ -2551,7 +3073,7 @@ const codeSchema = {
               id: '641a7053cf44f6204642ba50',
               name: '排序方式',
               key: 'sortDirections',
-              desc: '支持的排序方式，取值为 ascend descend',
+              desc: '支持的排序方式，取值为 ascend descend',
               types: [
                 {
                   type: 'unknown',
@@ -2749,7 +3271,7 @@ const codeSchema = {
               id: '641a7053cf44f6204642ba56',
               key: 'customFilterDropdown',
               name: '自定义筛选菜单',
-              desc: '自定义筛选菜单，需要配合 column.customFilterDropdown 使用',
+              desc: '自定义筛选菜单，需要配合 column.customFilterDropdown 使用',
               properties: [],
             },
             {
@@ -6628,6 +7150,212 @@ const codeSchema = {
       apis: [],
     },
     {
+      id: '6448caed58252f48a6d485e5',
+      projectId: '6448caed58252f48a6d485e5',
+      name: 'ethan组件包2',
+      key: undefined,
+      version: 'latest',
+      subType: 'component',
+      components: [
+        {
+          id: '6448cb0258252f48a6d48610',
+          name: 'e-menu',
+          key: 'f-43272b44',
+          props: [
+            {
+              id: '6448cb82319af5b84c5249f6',
+              name: 'data',
+              key: 'data',
+              desc: '菜单数据',
+              types: [
+                {
+                  type: 'module',
+                  multiple: true,
+                  rules: {
+                    properties: [
+                      {
+                        name: 'value',
+                        types: [
+                          {
+                            type: 'text',
+                          },
+                        ],
+                        id: '6448cb9c319af5b84c5249f7',
+                        extendPlatform: true,
+                        desc: 'value',
+                        key: 'value',
+                      },
+                      {
+                        name: 'label',
+                        types: [
+                          {
+                            type: 'text',
+                          },
+                        ],
+                        id: '6448cba1319af5b84c5249f8',
+                        extendPlatform: true,
+                        desc: 'label',
+                        key: 'label',
+                      },
+                    ],
+                  },
+                },
+              ],
+              extendPlatform: true,
+            },
+          ],
+          emits: [
+            {
+              id: '6448cdf4ff2be83d64646158',
+              key: 'xuanzhongshijian',
+              name: '选中事件',
+              desc: '',
+              parameters: [
+                {
+                  name: 'data',
+                  types: [
+                    {
+                      type: 'module',
+                      rules: {
+                        properties: [
+                          {
+                            name: '当前项',
+                            types: [
+                              {
+                                type: 'module',
+                              },
+                            ],
+                            id: '6448ce2fff2be83d6464615b',
+                            key: 'dangqianxiang',
+                          },
+                          {
+                            name: '当前标识',
+                            types: [
+                              {
+                                type: 'text',
+                              },
+                            ],
+                            id: '6448ce42ff2be83d6464615c',
+                            key: 'dangqianbiaoshi',
+                          },
+                          {
+                            name: '选中标识数组',
+                            types: [
+                              {
+                                type: 'text',
+                                multiple: true,
+                              },
+                            ],
+                            id: '6448ce47ff2be83d6464615d',
+                            key: 'xuanzhongbiaoshishuzu',
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  id: '6448ce21ff2be83d6464615a',
+                  key: 'data',
+                },
+              ],
+            },
+          ],
+          slots: [
+            {
+              id: '64647e5e52af8e55ee6c57d1',
+              key: 'MenuItemchacao',
+              name: 'MenuItem插槽',
+              desc: undefined,
+              properties: [
+                {
+                  name: 'item',
+                  types: [
+                    {
+                      type: 'text',
+                    },
+                  ],
+                  id: '64647e7952af8e55ee6c57d2',
+                  key: 'item',
+                },
+              ],
+            },
+          ],
+          lifeCycle: [],
+          functions: [],
+          variables: [],
+          nodes: [
+            {
+              id: 'J415',
+              preId: null,
+              nextId: null,
+              parentId: null,
+              tagId: '613ecb25af722dc29c7fc39d',
+              packageId: '6352061254bb9b1c84ce3570',
+              props: undefined,
+              events: undefined,
+            },
+            {
+              id: 'J415#641a7052cf44f6204642b716',
+              preId: null,
+              nextId: 'J415#641a7052cf44f6204642b717',
+              parentId: 'J415',
+              tagId: '62d65a88e7021e08c65c4634',
+              packageId: '6455c49bc56f0402c3fd3436',
+              props: undefined,
+              events: undefined,
+            },
+            {
+              id: 'Q544',
+              preId: null,
+              nextId: null,
+              parentId: 'J415#641a7052cf44f6204642b716',
+              tagId: '62d65a88e7021e08c65c462e',
+              packageId: '6455c49bc56f0402c3fd3436',
+              props: [
+                {
+                  propId: '641a7052cf44f6204642b606',
+                  value: {
+                    type: 'data',
+                    mode: 'getCmptPropData',
+                    args: {
+                      id: '6448cb82319af5b84c5249f6',
+                    },
+                  },
+                },
+              ],
+              events: undefined,
+            },
+            {
+              id: 'Q544#641a7052cf44f6204642b607',
+              preId: null,
+              nextId: null,
+              parentId: 'Q544',
+              tagId: '62d65a88e7021e08c65c4634',
+              packageId: '6455c49bc56f0402c3fd3436',
+              props: undefined,
+              events: undefined,
+            },
+            {
+              id: 'S946',
+              preId: null,
+              nextId: null,
+              parentId: 'Q544#641a7052cf44f6204642b607',
+              tagId: '613ecb25af722dc29c7fc39e',
+              packageId: '6352061254bb9b1c84ce3570',
+              props: undefined,
+              events: undefined,
+            },
+          ],
+        },
+      ],
+      elements: [],
+      functions: [],
+      actions: [],
+      events: [],
+      slots: [],
+      props: [],
+      apis: [],
+    },
+    {
       id: '6455c49bc56f0402c3fd3436',
       projectId: '6455c49bc56f0402c3fd3436',
       name: '系统(pc)',
@@ -7446,7 +8174,197 @@ const codeSchema = {
       apis: [],
     },
   ],
-  components: [],
+  components: [
+    {
+      id: '6448cb0258252f48a6d48610',
+      name: 'e-menu',
+      key: 'f-43272b44',
+      props: [
+        {
+          id: '6448cb82319af5b84c5249f6',
+          name: 'data',
+          key: 'data',
+          desc: '菜单数据',
+          types: [
+            {
+              type: 'module',
+              multiple: true,
+              rules: {
+                properties: [
+                  {
+                    name: 'value',
+                    types: [
+                      {
+                        type: 'text',
+                      },
+                    ],
+                    id: '6448cb9c319af5b84c5249f7',
+                    extendPlatform: true,
+                    desc: 'value',
+                    key: 'value',
+                  },
+                  {
+                    name: 'label',
+                    types: [
+                      {
+                        type: 'text',
+                      },
+                    ],
+                    id: '6448cba1319af5b84c5249f8',
+                    extendPlatform: true,
+                    desc: 'label',
+                    key: 'label',
+                  },
+                ],
+              },
+            },
+          ],
+          extendPlatform: true,
+        },
+      ],
+      emits: [
+        {
+          id: '6448cdf4ff2be83d64646158',
+          key: 'xuanzhongshijian',
+          name: '选中事件',
+          desc: '',
+          parameters: [
+            {
+              name: 'data',
+              types: [
+                {
+                  type: 'module',
+                  rules: {
+                    properties: [
+                      {
+                        name: '当前项',
+                        types: [
+                          {
+                            type: 'module',
+                          },
+                        ],
+                        id: '6448ce2fff2be83d6464615b',
+                        key: 'dangqianxiang',
+                      },
+                      {
+                        name: '当前标识',
+                        types: [
+                          {
+                            type: 'text',
+                          },
+                        ],
+                        id: '6448ce42ff2be83d6464615c',
+                        key: 'dangqianbiaoshi',
+                      },
+                      {
+                        name: '选中标识数组',
+                        types: [
+                          {
+                            type: 'text',
+                            multiple: true,
+                          },
+                        ],
+                        id: '6448ce47ff2be83d6464615d',
+                        key: 'xuanzhongbiaoshishuzu',
+                      },
+                    ],
+                  },
+                },
+              ],
+              id: '6448ce21ff2be83d6464615a',
+              key: 'data',
+            },
+          ],
+        },
+      ],
+      slots: [
+        {
+          id: '64647e5e52af8e55ee6c57d1',
+          key: 'MenuItemchacao',
+          name: 'MenuItem插槽',
+          desc: undefined,
+          properties: [
+            {
+              name: 'item',
+              types: [
+                {
+                  type: 'text',
+                },
+              ],
+              id: '64647e7952af8e55ee6c57d2',
+              key: 'item',
+            },
+          ],
+        },
+      ],
+      lifeCycle: [],
+      functions: [],
+      variables: [],
+      nodes: [
+        {
+          id: 'J415',
+          preId: null,
+          nextId: null,
+          parentId: null,
+          tagId: '613ecb25af722dc29c7fc39d',
+          packageId: '6352061254bb9b1c84ce3570',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'J415#641a7052cf44f6204642b716',
+          preId: null,
+          nextId: 'J415#641a7052cf44f6204642b717',
+          parentId: 'J415',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'Q544',
+          preId: null,
+          nextId: null,
+          parentId: 'J415#641a7052cf44f6204642b716',
+          tagId: '62d65a88e7021e08c65c462e',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: [
+            {
+              propId: '641a7052cf44f6204642b606',
+              value: {
+                type: 'data',
+                mode: 'getCmptPropData',
+                args: {
+                  id: '6448cb82319af5b84c5249f6',
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'Q544#641a7052cf44f6204642b607',
+          preId: null,
+          nextId: null,
+          parentId: 'Q544',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'S946',
+          preId: null,
+          nextId: null,
+          parentId: 'Q544#641a7052cf44f6204642b607',
+          tagId: '613ecb25af722dc29c7fc39e',
+          packageId: '6352061254bb9b1c84ce3570',
+          props: undefined,
+          events: undefined,
+        },
+      ],
+    },
+  ],
   pages: [
     {
       id: '64464a419c229310c169d486',
@@ -7479,7 +8397,7 @@ const codeSchema = {
         {
           id: 'D767',
           preId: null,
-          nextId: null,
+          nextId: 'K654',
           parentId: null,
           tagId: '62d65a88e7021e08c65c462e',
           packageId: '6455c49bc56f0402c3fd3436',
@@ -7863,6 +8781,47 @@ const codeSchema = {
           ],
           events: undefined,
         },
+        {
+          id: 'K654',
+          preId: 'D767',
+          nextId: null,
+          parentId: null,
+          tagId: '6448cb0258252f48a6d48610',
+          packageId: '6448caed58252f48a6d485e5',
+          props: [
+            {
+              propId: '6448cb82319af5b84c5249f6',
+              value: {
+                type: 'data',
+                mode: 'getVar',
+                args: {
+                  id: '6464820f98e92c32432c8e7c',
+                },
+              },
+            },
+          ],
+          events: undefined,
+        },
+        {
+          id: 'K654#64647e5e52af8e55ee6c57d1',
+          preId: null,
+          nextId: null,
+          parentId: 'K654',
+          tagId: '62d65a88e7021e08c65c4634',
+          packageId: '6455c49bc56f0402c3fd3436',
+          props: undefined,
+          events: undefined,
+        },
+        {
+          id: 'D991',
+          preId: null,
+          nextId: null,
+          parentId: 'K654#64647e5e52af8e55ee6c57d1',
+          tagId: '62c68d5d27d4bddfa72888fb',
+          packageId: '6358fb8554bb9b1c84ce47a2',
+          props: undefined,
+          events: undefined,
+        },
       ],
       variables: [
         {
@@ -7996,6 +8955,43 @@ const codeSchema = {
                   ],
                   multiple: true,
                 },
+              },
+            },
+          ],
+          extendPlatform: undefined,
+        },
+        {
+          id: '6464820f98e92c32432c8e7c',
+          name: 'menu数组',
+          key: 'menushuzu',
+          desc: 'menuOptions',
+          types: [
+            {
+              type: 'module',
+              multiple: true,
+              rules: {
+                properties: [
+                  {
+                    name: 'value',
+                    types: [
+                      {
+                        type: 'text',
+                      },
+                    ],
+                    id: '6464822898e92c32432c8e7d',
+                    key: 'value',
+                  },
+                  {
+                    name: 'label',
+                    types: [
+                      {
+                        type: 'text',
+                      },
+                    ],
+                    id: '6464822898e92c32432c8e7e',
+                    key: 'label',
+                  },
+                ],
               },
             },
           ],

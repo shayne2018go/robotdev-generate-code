@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { buildGlobalCtx, parsingVueCompileOptions } from '../../../compileVue';
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
-import { CompilePageCtx, parsingCurrent } from '../../../compilePages';
+import { CompileCurrentCtx, parsingCurrent } from '../../../compilePages';
 import { BindParseCtx, BindRdData } from '../../bind-parse/types';
 import { genVarName } from '../../helper';
 import { bindToAst } from '../../bind-parse/core';
@@ -18,7 +18,7 @@ describe('core', () => {
 
   const parsingPageResult = parsingCurrent(page, vueGlobalCtx);
 
-  const currentPageCompileOptions: CompilePageCtx = {
+  const currentPageCompileOptions: CompileCurrentCtx = {
     global: vueGlobalCtx,
     scope: {
       current: parsingPageResult,

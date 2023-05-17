@@ -1,6 +1,9 @@
-import { CompilePageCtx } from '../compilePages';
+import { CompileCurrentCtx } from '../compilePages';
 
-function compileStyle(page: CodeSchema.Page, compileCtx: CompilePageCtx): { token: string } {
+function compileStyle<T extends CodeSchema.Page | CodeSchema.Component>(
+  page: T,
+  compileCtx: CompileCurrentCtx<T>
+): { token: string } {
   const token = '';
 
   return { token };

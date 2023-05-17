@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import compileTemplate from '../compileTemplate';
 import { parsingVueCompileOptions, buildGlobalCtx } from '../../compileVue';
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
-import { CompilePageCtx, parsingCurrent } from '../../compilePages';
+import { CompileCurrentCtx, parsingCurrent } from '../../compilePages';
 import templateToken from './__fixture__/template-tokens.json';
 import templateEachIfoken from './__fixture__/template-each-if-tokens.json';
 
@@ -18,7 +18,7 @@ describe('compileTemplate', () => {
 
     const parsingPageResult = parsingCurrent(page, vueGlobalCtx);
 
-    const currentPageCompileOptions: CompilePageCtx = {
+    const currentPageCompileOptions: CompileCurrentCtx = {
       global: vueGlobalCtx,
       scope: {
         current: parsingPageResult,
@@ -37,7 +37,7 @@ describe('compileTemplate', () => {
 
     const parsingPageResult = parsingCurrent(page, vueGlobalCtx);
 
-    const currentPageCompileOptions: CompilePageCtx = {
+    const currentPageCompileOptions: CompileCurrentCtx = {
       global: vueGlobalCtx,
       scope: {
         current: parsingPageResult,

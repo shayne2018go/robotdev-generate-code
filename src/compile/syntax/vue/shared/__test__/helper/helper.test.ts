@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { parsingVueCompileOptions, buildGlobalCtx } from '../../../compileVue';
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
-import { CompilePageCtx, parsingCurrent } from '../../../compilePages';
+import { CompileCurrentCtx, parsingCurrent } from '../../../compilePages';
 import {
   getNodeEventKeyByNodeId,
   getNodePropKeyByNodeId,
@@ -21,7 +21,7 @@ describe('compileScript', () => {
 
     const parsingPageResult = parsingCurrent(page, vueGlobalCtx);
 
-    const currentPageCompileOptions: CompilePageCtx = {
+    const currentPageCompileOptions: CompileCurrentCtx = {
       global: vueGlobalCtx,
       scope: {
         current: parsingPageResult,
@@ -50,7 +50,7 @@ describe('compileScript', () => {
 
     const parsingPageResult = parsingCurrent(page, vueGlobalCtx);
 
-    const currentPageCompileOptions: CompilePageCtx = {
+    const currentPageCompileOptions: CompileCurrentCtx = {
       global: vueGlobalCtx,
       scope: {
         current: parsingPageResult,

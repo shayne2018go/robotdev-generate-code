@@ -12,7 +12,7 @@ import {
   OptionalMemberExpression,
   StringLiteral,
 } from '@babel/types';
-import { CompilePageCtx } from '../../../compilePages';
+import { CompileCurrentCtx } from '../../../compilePages';
 import { genVarName } from '../../helper';
 
 export type ActionAst = CallExpression | AssignmentExpression;
@@ -51,9 +51,9 @@ export type LiteralAst =
   | DecimalLiteral
   | CallExpression;
 
-export type BindParseCtx = {
-  global: CompilePageCtx['global'];
-  scope: CompilePageCtx['scope'] & {
+export type BindParseCtx<T extends CodeSchema.Page | CodeSchema.Component = CodeSchema.Page> = {
+  global: CompileCurrentCtx<T>['global'];
+  scope: CompileCurrentCtx<T>['scope'] & {
     node?: CodeSchema.ComponentNode;
     prop?: CodeSchema.Property;
     event?: CodeSchema.Event;

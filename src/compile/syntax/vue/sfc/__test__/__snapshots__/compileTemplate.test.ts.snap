@@ -1,17 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`compileTemplate > tempalte 变量 事件 1`] = `
-"<template><a-card><a-form><a-form-item :label=\\"nodesState.aFormItem.label\\"><a-input :value=\\"nodesState.aInput.value\\" @change=\\"(...args) => {
-  nodesState.aInput.change(...args);
-}\\"></a-input></a-form-item><a-form-item :label=\\"nodesState.aFormItem_2.label\\"><a-input-number @change=\\"(...args) => {
-  nodesState.aInputNumber.change(...args);
-}\\"></a-input-number></a-form-item><a-form-item :label=\\"nodesState.aFormItem_3.label\\" :labelAlign=\\"nodesState.aFormItem_3.labelAlign\\"><a-button :type=\\"nodesState.aButton.type\\" :size=\\"nodesState.aButton.size\\" :shape=\\"nodesState.aButton.shape\\" @click=\\"(...args) => {
-  nodesState.aButton.click(...args);
-}\\">{{nodesState.text.text}}</a-button><a-button :shape=\\"nodesState.aButton_2.shape({})\\" @click=\\"(...args) => {
-  nodesState.aButton_2.click(...args);
-}\\">{{nodesState.text_2.text}}</a-button></a-form-item></a-form></a-card></template>"
-`;
-
 exports[`compileTemplate > tempalte 循环 判断 1`] = `
 "<template><template v-for=\\"(each_item, each_index) in nodesState.each.data\\"><template v-for=\\"(each_2_item, each_2_index) in nodesState.each_2.data\\"><template v-for=\\"(each_3_item, each_3_index) in nodesState.each_3.data\\"><template v-if=\\"nodesState.cond.value({
   each_item: each_item,
@@ -21,5 +9,5 @@ exports[`compileTemplate > tempalte 循环 判断 1`] = `
   each_item: each_item,
   each_2_item: each_2_item,
   each_3_item: each_3_item
-})}}{{each_3_item?.yonghunianling}}</a-card>{{nodesState.text_4.text}}</template></template></template><template v-for=\\"(each_4_item, each_4_index) in each_item\\"><input :type=\\"nodesState.input.type\\" :placeholder=\\"each_4_item\\" /></template></template></template>"
+})}}{{each_3_item?.yonghunianling}}</a-card>{{nodesState.text_4.text}}</template></template></template><template v-for=\\"(each_4_item, each_4_index) in each_item\\"><input :type=\\"nodesState.input.type\\" :placeholder=\\"each_4_item\\" /></template></template><f-43272b44 :data=\\"nodesState.f43272b44.data\\"></f-43272b44></template>"
 `;

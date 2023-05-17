@@ -268,8 +268,9 @@ declare namespace CodeSchema {
   export interface Slot_Protocol {
     id: string;
     name: string;
+    desc?: string;
     key: string;
-    isHide: boolean;
+    isHide?: boolean;
     properties: Array<Property_Protocol>;
   }
 }

@@ -1,4 +1,4 @@
-import { CompilePageCtx } from '../compilePages';
+import { CompileCurrentCtx } from '../compilePages';
 import { VirtualTag } from '../const/config';
 import { valueToAst } from './bind-parse/core';
 import { getPathPropertieKeys } from './bind-parse/shared/getPathProperties';
@@ -17,7 +17,10 @@ import { BindParseCtx } from './bind-parse/types';
 import { NodeMapItem } from './store/nodes';
 import * as t from '@babel/types';
 
-export const getNodeTag = (tagId: string, ctx: CompilePageCtx) => {
+export const getNodeTag = <T extends CodeSchema.Page | CodeSchema.Component>(
+  tagId: string,
+  ctx: CompileCurrentCtx<T>
+) => {
   const node_protocol = ctx.global.componentsStore.getCmpt(tagId);
   if (!node_protocol) {
     throw new Error(`Cannot find tagId: ${tagId}`);
@@ -25,7 +28,11 @@ export const getNodeTag = (tagId: string, ctx: CompilePageCtx) => {
   return node_protocol.key;
 };
 
-export const getNodePropKeyById = (nodeId: string, propId: string, ctx: CompilePageCtx) => {
+export const getNodePropKeyById = <T extends CodeSchema.Page | CodeSchema.Component>(
+  nodeId: string,
+  propId: string,
+  ctx: CompileCurrentCtx<T>
+) => {
   const prop_protocol = ctx.scope.current.nodesStore.getNodePropDefine(nodeId, propId);
   if (!prop_protocol) {
     throw new Error(`Cannot find tagId: ${nodeId}`);
@@ -33,13 +40,21 @@ export const getNodePropKeyById = (nodeId: string, propId: string, ctx: CompileP
   return prop_protocol.data.key;
 };
 
-export const getNodePropKeyByTagId = (tagId: string, propId: string, ctx: CompilePageCtx) => {
+export const getNodePropKeyByTagId = <T extends CodeSchema.Page | CodeSchema.Component>(
+  tagId: string,
+  propId: string,
+  ctx: CompileCurrentCtx<T>
+) => {
   const prop_protocol = ctx.global.componentsStore.getProp(tagId, propId);
 
   return prop_protocol?.data.key;
 };
 
-export const getNodePropValueVariable = (nodeId: string, value: CodeSchema.Property, ctx: BindParseCtx) => {
+export const getNodePropValueVariable = <T extends CodeSchema.Page | CodeSchema.Component>(
+  nodeId: string,
+  value: CodeSchema.Property,
+  ctx: BindParseCtx<T>
+) => {
   const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
     return;
@@ -67,7 +82,11 @@ export const getNodePropValueVariable = (nodeId: string, value: CodeSchema.Prope
   );
 };
 
-export const getNodePropValueVariableCall = (nodeId: string, value: CodeSchema.Property, ctx: BindParseCtx) => {
+export const getNodePropValueVariableCall = <T extends CodeSchema.Page | CodeSchema.Component>(
+  nodeId: string,
+  value: CodeSchema.Property,
+  ctx: BindParseCtx<T>
+) => {
   const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
     return;
@@ -94,7 +113,11 @@ export const getNodePropValueVariableCall = (nodeId: string, value: CodeSchema.P
   );
 };
 
-export const getNodePropValueExpression = (nodeId: string, value: CodeSchema.Property, ctx: BindParseCtx) => {
+export const getNodePropValueExpression = <T extends CodeSchema.Page | CodeSchema.Component>(
+  nodeId: string,
+  value: CodeSchema.Property,
+  ctx: BindParseCtx<T>
+) => {
   // 变量 或 函数调用
   const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
@@ -111,7 +134,11 @@ export const getNodePropValueExpression = (nodeId: string, value: CodeSchema.Pro
   }
 };
 
-export const getNodeEventKeyByTagId = (nodeId: string, eventId: string, ctx: BindParseCtx) => {
+export const getNodeEventKeyByTagId = <T extends CodeSchema.Page | CodeSchema.Component>(
+  nodeId: string,
+  eventId: string,
+  ctx: BindParseCtx<T>
+) => {
   const event_protocol = ctx.scope.current.nodesStore.getNodeEventDefine(nodeId, eventId);
   if (!event_protocol) {
     throw new Error(`Cannot find event_protocol nodeId: ${nodeId}`);
@@ -119,7 +146,11 @@ export const getNodeEventKeyByTagId = (nodeId: string, eventId: string, ctx: Bin
   return event_protocol?.data.key;
 };
 
-export const getNodeEventValue = (nodeId: string, eventId: string, ctx: BindParseCtx) => {
+export const getNodeEventValue = <T extends CodeSchema.Page | CodeSchema.Component>(
+  nodeId: string,
+  eventId: string,
+  ctx: BindParseCtx<T>
+) => {
   const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
     return;
@@ -171,7 +202,10 @@ export const isScriptVariableCall = (value: CodeSchema.DataValueArgument | CodeS
 };
 
 // 获取当前上下文的数据对象（eachData, slotData）
-export const getScopeData = (node: NodeMapItem, ctx: BindParseCtx): string[] => {
+export const getScopeData = <T extends CodeSchema.Page | CodeSchema.Component>(
+  node: NodeMapItem,
+  ctx: BindParseCtx<T>
+): string[] => {
   // TODO: 获取所有父节点
   const parentNodes = nodeCtx(node.data.id, ctx);
   if (!parentNodes.length) {
@@ -190,10 +224,10 @@ export const getScopeData = (node: NodeMapItem, ctx: BindParseCtx): string[] => 
 };
 
 // each
-export function getNodeEachExpression(
+export function getNodeEachExpression<T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
   value: CodeSchema.Property,
-  ctx: BindParseCtx
+  ctx: BindParseCtx<T>
 ): t.BinaryExpression {
   const nodeMapItem = ctx.scope.current.nodesStore.find(nodeId);
   if (!nodeMapItem) {

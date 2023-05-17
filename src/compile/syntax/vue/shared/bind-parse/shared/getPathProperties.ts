@@ -124,6 +124,7 @@ const getBindPathProperties = {
     if (!data.args.id) {
       return;
     }
+
     const define = ctx.scope.current.propsStore.findId(data.args.id);
     if (!define) {
       throw new Error('getCmptPropData的定义获取失败');

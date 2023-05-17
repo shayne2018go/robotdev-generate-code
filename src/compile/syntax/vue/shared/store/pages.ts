@@ -29,10 +29,10 @@ export const pagesDataStore = (pages: GlobalContext.Page[]) => {
       return pages;
     },
     getPage(pageId: GlobalContext.Page['id']): GlobalContext.Page | undefined {
-      return pageMap[pageId].data;
+      return pageMap[pageId]?.data;
     },
     getQuery(pageId: GlobalContext.Page['id'], queryId: CodeSchema.Property_Protocol['id']) {
-      return pageMap[pageId].members.querysStore.findId(queryId);
+      return pageMap[pageId]?.members.querysStore.findId(queryId);
     },
   };
 };

@@ -1,8 +1,8 @@
 import * as g from '@/compile/tokens/markup/vue-template/generate-schema';
-import * as t from '@babel/types';
-import { CompilePageCtx } from '../compilePages';
 import { relative } from '@/utils/node';
 import { tools } from '@/utils/tools';
+import * as t from '@babel/types';
+import { CompileCurrentCtx } from '../compilePages';
 import { actionsToAst, nodePropsAst } from '../shared/bind-parse/core';
 import { getNodeTagVarName, getVariableVarName } from '../shared/script-helper';
 
@@ -14,11 +14,14 @@ export enum VueVariable {
   router = 'router',
 }
 
-function compileScript(page: CodeSchema.Page, ctx: CompilePageCtx): { token: string } {
+function compileScript<T extends CodeSchema.Page | CodeSchema.Component>(
+  page: T,
+  ctx: CompileCurrentCtx
+): { token: string } {
   return { token: gernateScriptToken(page, ctx) };
 }
 
-function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string {
+function gernateScriptToken<T extends CodeSchema.Page | CodeSchema.Component>(page: T, ctx: CompileCurrentCtx): string {
   let statements: Array<t.Statement> = [];
   // 导入模块
   statements = statements.concat(getAllImports(ctx));
@@ -35,7 +38,7 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
   );
 }
 
-function getAllImports(ctx: CompilePageCtx): t.Statement[] {
+function getAllImports<T extends CodeSchema.Page | CodeSchema.Component>(ctx: CompileCurrentCtx): t.Statement[] {
   let imports: t.Statement[] = [];
   const apis = ctx.global.apisStore.apis();
   const importComponents = ctx.scope.current.importComponents;
@@ -53,7 +56,10 @@ function getAllImports(ctx: CompilePageCtx): t.Statement[] {
   return imports;
 }
 
-function getAllVariables(page: CodeSchema.Page, ctx: CompilePageCtx): t.Statement[] {
+function getAllVariables<T extends CodeSchema.Page | CodeSchema.Component>(
+  page: T,
+  ctx: CompileCurrentCtx
+): t.Statement[] {
   let variables: t.Statement[] = [];
   const { variables: pageVariables } = page;
   const apis = ctx.global.apisStore.apis();
@@ -71,7 +77,10 @@ function getAllVariables(page: CodeSchema.Page, ctx: CompilePageCtx): t.Statemen
   return variables;
 }
 
-function getFunctionMethod(page: CodeSchema.Page, ctx: CompilePageCtx): t.Statement[] {
+function getFunctionMethod<T extends CodeSchema.Page | CodeSchema.Component>(
+  page: T,
+  ctx: CompileCurrentCtx
+): t.Statement[] {
   let fnMethods: t.Statement[] = [];
   const { lifeCycle, functions } = page;
   if (functions && functions.length) {
@@ -102,11 +111,14 @@ function getVueImports(): t.ImportDeclaration[] {
   ];
 }
 
-function getComponentImports(importComponents: GlobalContext.Component[], ctx: CompilePageCtx): t.ImportDeclaration[] {
+function getComponentImports<T extends CodeSchema.Page | CodeSchema.Component>(
+  importComponents: GlobalContext.Component[],
+  ctx: CompileCurrentCtx
+): t.ImportDeclaration[] {
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
-  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath;
+  let pageDir = getCurrentDependency(ctx.scope.current.data.id, ctx)?.source?.filePath;
   pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
   importComponents.forEach((ele) => {
     let { key, source } = ele;
@@ -130,11 +142,14 @@ function getComponentImports(importComponents: GlobalContext.Component[], ctx: C
   });
 }
 
-function getFunctionImports(importComponents: GlobalContext.Function[], ctx: CompilePageCtx): t.ImportDeclaration[] {
+function getFunctionImports<T extends CodeSchema.Page | CodeSchema.Component>(
+  importComponents: GlobalContext.Function[],
+  ctx: CompileCurrentCtx
+): t.ImportDeclaration[] {
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
-  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath;
+  let pageDir = getCurrentDependency(ctx.scope.current.data.id, ctx)?.source?.filePath;
   pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
   importComponents.forEach((ele) => {
     let { key, source } = ele;
@@ -157,9 +172,12 @@ function getFunctionImports(importComponents: GlobalContext.Function[], ctx: Com
   });
 }
 
-function getApiImports(apis: GlobalContext.Api[], ctx: CompilePageCtx) {
+function getApiImports<T extends CodeSchema.Page | CodeSchema.Component>(
+  apis: GlobalContext.Api[],
+  ctx: CompileCurrentCtx
+) {
   const importArray: any[] = [];
-  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath;
+  let pageDir = getCurrentDependency(ctx.scope.current.data.id, ctx)?.source?.filePath;
   pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
   apis.forEach((ele) => {
     let { key, source } = ele;
@@ -200,7 +218,10 @@ function getVueVariables() {
   ]);
 }
 
-function getVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: CompilePageCtx): t.VariableDeclaration {
+function getVariables<T extends CodeSchema.Page | CodeSchema.Component>(
+  variables: Array<CodeSchema.Property_Protocol>,
+  ctx: CompileCurrentCtx
+): t.VariableDeclaration {
   const varProperty: t.ObjectProperty[] = [];
   variables.forEach((ele) => {
     const varName = getVariableVarName(ele.id, ctx);
@@ -216,7 +237,10 @@ function getVariables(variables: Array<CodeSchema.Property_Protocol>, ctx: Compi
   ]);
 }
 
-function getNodesVariables(nodes: CodeSchema.ComponentNode[], ctx: CompilePageCtx): t.VariableDeclaration {
+function getNodesVariables<T extends CodeSchema.Page | CodeSchema.Component>(
+  nodes: CodeSchema.ComponentNode[],
+  ctx: CompileCurrentCtx
+): t.VariableDeclaration {
   const nodeProps: t.ObjectProperty[] = [];
   nodes.forEach((node) => {
     const props = nodePropsAst(node.id, ctx);
@@ -233,7 +257,10 @@ function getNodesVariables(nodes: CodeSchema.ComponentNode[], ctx: CompilePageCt
   ]);
 }
 
-function getApiVariables(apis: GlobalContext.Api[], ctx: CompilePageCtx): t.VariableDeclaration {
+function getApiVariables<T extends CodeSchema.Page | CodeSchema.Component>(
+  apis: GlobalContext.Api[],
+  ctx: CompileCurrentCtx
+): t.VariableDeclaration {
   const apiProps: t.ObjectProperty[] = [];
   apis.forEach((api) => {
     const varName = api.key;
@@ -249,7 +276,10 @@ function getApiVariables(apis: GlobalContext.Api[], ctx: CompilePageCtx): t.Vari
   ]);
 }
 
-function getFunctions(functions: Array<CodeSchema.Function_Protocol>, _ctx: CompilePageCtx): t.FunctionDeclaration[] {
+function getFunctions<T extends CodeSchema.Page | CodeSchema.Component>(
+  functions: Array<CodeSchema.Function_Protocol>,
+  _ctx: CompileCurrentCtx
+): t.FunctionDeclaration[] {
   return functions.map((func) => {
     return t.functionDeclaration(
       t.identifier(func.key),
@@ -261,7 +291,10 @@ function getFunctions(functions: Array<CodeSchema.Function_Protocol>, _ctx: Comp
   });
 }
 
-function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: CompilePageCtx): t.ExpressionStatement[] {
+function getLifeCycles<T extends CodeSchema.Page | CodeSchema.Component>(
+  lifeCycles: Array<CodeSchema.ComponentLifeCycle>,
+  ctx: CompileCurrentCtx
+): t.ExpressionStatement[] {
   const lifeCycleExprs: t.CallExpression[] = [];
   lifeCycles.forEach((lifeCycle) => {
     const actionStatements: t.ExpressionStatement[] = actionsToAst(lifeCycle.actions, ctx);
@@ -277,4 +310,10 @@ function getLifeCycles(lifeCycles: Array<CodeSchema.ComponentLifeCycle>, ctx: Co
   return lifeCycleExprs.map((ele) => t.expressionStatement(ele));
 }
 
+export function getCurrentDependency<T extends CodeSchema.Page | CodeSchema.Component>(
+  id: string,
+  ctx: CompileCurrentCtx
+) {
+  return ctx.global.pagesStore.getPage(id) || ctx.global.componentsStore.getCmpt(id);
+}
 export default compileScript;

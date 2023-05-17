@@ -1,6 +1,6 @@
 import * as g from '@/compile/tokens/markup/vue-template/generate-schema';
 import { GenerateVueTemplateTypes } from '@/compile/tokens/markup/vue-template/types';
-import { CompilePageCtx } from '../compilePages';
+import { CompileCurrentCtx } from '../compilePages';
 import { VOID_ELEMENT, VirtualTag } from '../const/config';
 import { BindParseCtx } from '../shared/bind-parse/types';
 import { genVarName } from '../shared/helper';
@@ -14,17 +14,20 @@ import {
   getNodeTag,
 } from '../shared/template-helper';
 
-interface CompileTemplateCtx extends CompilePageCtx {
+type CompileTemplateCtx<T extends CodeSchema.Page | CodeSchema.Component> = CompileCurrentCtx<T> & {
   helper?: {
     uniqueVarname?: (varname: string) => string; // 去重名
   };
-}
+};
 
-function compileTemplate(page: CodeSchema.Page, compileCtx: CompilePageCtx): { token: string } {
+function compileTemplate<T extends CodeSchema.Page | CodeSchema.Component>(
+  current: T,
+  compileCtx: CompileCurrentCtx<T>
+): { token: string } {
   // 变量名称去重
   const uniqueVarname = genVarName();
 
-  const compileTemplateCtx = Object.assign({}, compileCtx, { helper: { uniqueVarname } }) as CompileTemplateCtx;
+  const compileTemplateCtx = Object.assign({}, compileCtx, { helper: { uniqueVarname } }) as CompileTemplateCtx<T>;
 
   const ast = createTemplateAst(compileCtx.scope.current.nodesStore.treeNodes, compileTemplateCtx);
 
@@ -33,13 +36,19 @@ function compileTemplate(page: CodeSchema.Page, compileCtx: CompilePageCtx): { t
   return { token };
 }
 
-function createTemplateAst(nodes: TreeNode[], compileCtx: CompileTemplateCtx) {
+function createTemplateAst<T extends CodeSchema.Page | CodeSchema.Component>(
+  nodes: TreeNode[],
+  compileCtx: CompileTemplateCtx<T>
+) {
   return g.node('template', [], parsingChildren(nodes, compileCtx));
 }
 
 // const WHITE_TAG = ['each', 'cond', 'slot', 'tpl'];
 
-function parsingChildren(nodes: TreeNode[], compileCtx: CompileTemplateCtx): GenerateVueTemplateTypes.NodeElement[] {
+function parsingChildren<T extends CodeSchema.Page | CodeSchema.Component>(
+  nodes: TreeNode[],
+  compileCtx: CompileTemplateCtx<T>
+): GenerateVueTemplateTypes.NodeElement[] {
   let children = [] as Array<GenerateVueTemplateTypes.NodeElement>;
 
   nodes.forEach((node) => {
@@ -57,10 +66,13 @@ function parsingChildren(nodes: TreeNode[], compileCtx: CompileTemplateCtx): Gen
 
 type ParsingNodeReturn = GenerateVueTemplateTypes.NodeElement | GenerateVueTemplateTypes.NodeElement[] | null;
 
-function parsingNode(node: TreeNode, compileCtx: CompileTemplateCtx): ParsingNodeReturn {
+function parsingNode<T extends CodeSchema.Page | CodeSchema.Component>(
+  node: TreeNode,
+  compileCtx: CompileTemplateCtx<T>
+): ParsingNodeReturn {
   const tag = getNodeTag(node.data.tagId, compileCtx);
 
-  const bindParseCtx: BindParseCtx = {
+  const bindParseCtx: BindParseCtx<T> = {
     global: compileCtx.global,
     scope: {
       current: compileCtx.scope.current,
@@ -88,7 +100,10 @@ function parsingNode(node: TreeNode, compileCtx: CompileTemplateCtx): ParsingNod
 }
 
 // 循环 <template v-for="xx in xx"></template>
-function parsingNodeEach(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeReturn {
+function parsingNodeEach<T extends CodeSchema.Page | CodeSchema.Component>(
+  node: TreeNode,
+  compileCtx: BindParseCtx<T>
+): ParsingNodeReturn {
   const { id: nodeId, tagId, props, key } = node.data;
 
   const eachData = props?.find((p) => getNodePropKeyById(nodeId, p.propId, compileCtx) === 'data');
@@ -104,7 +119,10 @@ function parsingNodeEach(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeR
 }
 
 // 条件 <template v-if="xx"></template>
-function parsingNodeCond(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeReturn {
+function parsingNodeCond<T extends CodeSchema.Page | CodeSchema.Component>(
+  node: TreeNode,
+  compileCtx: BindParseCtx<T>
+): ParsingNodeReturn {
   const { id: nodeId, tagId, props, key } = node.data;
 
   const ifData = props?.find((p) => getNodePropKeyById(nodeId, p.propId, compileCtx) === 'value');
@@ -120,13 +138,19 @@ function parsingNodeCond(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeR
 }
 
 // 条件 <slot name="xx" :xx="xx"></slot>
-function parsingNodeSlot(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeReturn {
+function parsingNodeSlot<T extends CodeSchema.Page | CodeSchema.Component>(
+  node: TreeNode,
+  compileCtx: BindParseCtx<T>
+): ParsingNodeReturn {
   const { tagId } = node.data;
   return g.node('slot', [], parsingChildren(node.children || [], compileCtx));
 }
 
 // template <template #slotname="xx"> </template>
-function parsingNodeTpl(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeReturn {
+function parsingNodeTpl<T extends CodeSchema.Page | CodeSchema.Component>(
+  node: TreeNode,
+  compileCtx: BindParseCtx<T>
+): ParsingNodeReturn {
   const { tagId, props } = node.data;
   if (!props && node.children?.length) {
     // 过滤掉无属性的template标签
@@ -136,7 +160,10 @@ function parsingNodeTpl(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeRe
 }
 
 // text 文本
-function parsingNodeText(node: TreeNode, compileCtx: BindParseCtx): GenerateVueTemplateTypes.InsertText | null {
+function parsingNodeText<T extends CodeSchema.Page | CodeSchema.Component>(
+  node: TreeNode,
+  compileCtx: BindParseCtx<T>
+): GenerateVueTemplateTypes.InsertText | null {
   const { id: nodeId, tagId, props } = node.data;
 
   const textData = props?.find((p) => getNodePropKeyById(nodeId, p.propId, compileCtx) === 'text');
@@ -153,7 +180,10 @@ function parsingNodeText(node: TreeNode, compileCtx: BindParseCtx): GenerateVueT
   return g.insertText(valueExpression);
 }
 
-function parsingNodeNormal(node: TreeNode, compileCtx: BindParseCtx): ParsingNodeReturn {
+function parsingNodeNormal<T extends CodeSchema.Page | CodeSchema.Component>(
+  node: TreeNode,
+  compileCtx: BindParseCtx<T>
+): ParsingNodeReturn {
   const { tagId, id: nodeId } = node.data;
   const tagName = getNodeTag(tagId, compileCtx);
 

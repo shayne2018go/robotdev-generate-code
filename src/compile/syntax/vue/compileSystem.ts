@@ -19,7 +19,6 @@ function compileSystem(): { tokens: Compile.Token[] } {
     tokens.push(createToken(path, content));
   });
 
-  debugger;
   return { tokens };
 }
 
