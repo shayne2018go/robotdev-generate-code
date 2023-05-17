@@ -40,7 +40,7 @@ import { ActionAst, ActionsAst, BindAst, BindParseCtx, BindRdData, LiteralAst, R
 
 /** helper end*/
 
-const defaultAst = <T extends CodeSchema.Page | CodeSchema.Component>(
+export const defaultAst = <T extends CodeSchema.Page | CodeSchema.Component>(
   ctx: BindParseCtx,
   types?: CodeSchema.PropertyType_Protocol[]
 ) => {
