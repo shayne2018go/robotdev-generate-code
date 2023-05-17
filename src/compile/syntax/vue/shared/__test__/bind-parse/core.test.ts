@@ -131,9 +131,19 @@ describe('core', () => {
       expect(customGenerate(ast!).code).toEqual('each_3_item?.yonghuming');
     });
     it('getCmptPropData', () => {
-      /* mock数据无 */
+      throw new Error('无mock数据');
     });
-    it('getArguments', () => {});
+    it('getArguments', () => {
+      throw new Error('无mock数据');
+    });
+  });
+  describe('toAstMethods', () => {
+    it('toAstMethods.fx', () => {
+      throw new Error('未处理');
+    })
+    it('toAstMethods.tableData', () => {
+      throw new Error('未处理');
+    })
   });
   describe('actionToAst', () => {
     it('setVar', () => {
@@ -180,8 +190,13 @@ describe('core', () => {
         'chaxunsuoyouyonghu("hxy").then(res=>{apiState.chaxunsuoyouyonghu=res;open("in","blank","404")}).catch(error=>{})'
       );
     });
-    it('when', () => {});
-    it('callAction', () => {});
+    it('when', () => {
+      throw new Error('未处理');
+    });
+
+    it('callAction', () => {
+      throw new Error('未处理');
+    });
   });
   describe('literalToAst', () => {
     it('text', () => {
@@ -390,7 +405,7 @@ describe('core', () => {
       expect(customGenerate(ast).code).toEqual('["a","b","c","d"]');
     });
     it('url', () => {
-      // 没有mock数据
+      throw new Error('无mock数据');
     });
     it('option', () => {
       const ast = literalToAst(
@@ -407,5 +422,4 @@ describe('core', () => {
       expect(customGenerate(ast).code).toEqual('"primary"');
     });
   });
-  describe('tableDataToAst', () => {});
 });
