@@ -45,21 +45,23 @@ function compileApis(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx)
 }
 
 function generateApiToken(api: GlobalContext.Api): string {
-  const statement = t.program([getAxiosImport(), getExportRequests(api)]);
+  const statement = t.program([getAxiosImport(api), getExportRequests(api)]);
   const { code } = generate(statement, { minified: true });
   return code;
 }
 
-function getAxiosImport(): t.ImportDeclaration {
+function getAxiosImport(_api: GlobalContext.Api): t.ImportDeclaration {
   return t.importDeclaration([t.importDefaultSpecifier(t.identifier('axios'))], t.stringLiteral('axios'));
 }
 
 // @ts-ignore
-function getAxiosUtilImport(): t.ImportDeclaration {
+function getAxiosUtilImport(api: GlobalContext.Api): t.ImportDeclaration {
   const utilFile = 'axios.ts';
+  let apiDir = api.source.filePath;
+  apiDir = apiDir && apiDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
   return t.importDeclaration(
     [t.importDefaultSpecifier(t.identifier('axios'))],
-    t.stringLiteral(relative(API_DIR, `${UTIL_DIR}/${utilFile}`))
+    t.stringLiteral(relative(apiDir!, `${UTIL_DIR}/${utilFile}/axios.ts`))
   );
 }
 
