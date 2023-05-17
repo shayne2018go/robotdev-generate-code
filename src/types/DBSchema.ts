@@ -90,6 +90,7 @@ export namespace DBSchema {
     name: string;
     key?: string;
     version?: string;
+    subType?: string;
   }
 
   export interface Api {

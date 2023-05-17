@@ -1,5 +1,5 @@
 import { Compile } from '@/types/compile/token';
-import { format } from 'prettier';
+import { check, format } from 'prettier';
 
 const fileNameSuffix_parser_map: Record<string, string | boolean> = {
   ts: 'typescript',
@@ -26,6 +26,11 @@ const fileNameSuffix_parser_map: Record<string, string | boolean> = {
   yaml: true,
 };
 
+const FORMAT_OPTION_DEFAULT = {
+  semi: false,
+  printWidth: 120,
+};
+
 function optimize(tokens: Compile.Token[]): Compile.Token[] {
   return tokens.map((token) => {
     const fileName = token.path.split('.').pop() as string;
@@ -35,14 +40,11 @@ function optimize(tokens: Compile.Token[]): Compile.Token[] {
     const parser =
       typeof fileNameSuffix_parser_map[fileName] === 'string' ? fileNameSuffix_parser_map[fileName] : fileName;
 
+    const formatOptions = Object.assign(FORMAT_OPTION_DEFAULT, { parser });
+
     return {
       path: token.path,
-      token: format(token.token, {
-        semi: false,
-        parser,
-        bracketSameLine: true,
-        printWidth: 120,
-      }),
+      token: format(token.token, formatOptions),
     };
   });
 }

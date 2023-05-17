@@ -62,6 +62,7 @@ declare namespace CodeSchema {
     name: string; // 包名
     key?: string; // antd html wxapi uni-app
     version?: string; // 包的版本号
+    subType?: string; //包类型
     components?: Array<Component>; // 前端组件
     elements?: Array<Element_Protocol>;
     functions?: Array<Function_Protocol>;

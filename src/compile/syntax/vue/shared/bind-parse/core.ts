@@ -16,7 +16,7 @@ import { VueVariable } from '../../sfc/compileScript';
 import { genVarName } from '../helper';
 import { getNodeEventKeyByNodeId, getNodePropKeyByNodeId } from '../script-helper';
 import { searchModulePathKeys } from '../searchPath';
-import { getPathPropertieKeys } from './shared/getPathProperties';
+import { getPathPropertieKeys, getPathProperties } from './shared/getPathProperties';
 import {
   actionCheck,
   getEventArgVarName,
@@ -76,7 +76,7 @@ const defaultAst = (ctx: BindParseCtx, types?: CodeSchema.PropertyType_Protocol[
 };
 
 const toAstMethods = {
-  getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): OptionalMemberExpression | undefined => {
+  getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): OptionalMemberExpression | Identifier | undefined => {
     // api响应数据 apiState.api函数名.data?.响应body?.响应body属性
     if (!data.args.id) {
       throw new Error('getApiData的data.args.id失败');
@@ -88,7 +88,10 @@ const toAstMethods = {
     const rootName = ctx.global.variablesRootName; // 变量外层的变量名
     return getOptMemberExpr([rootName, ...pathPropertieKeys]);
   },
-  getApiData: (data: CodeSchema.DataValue_GetApiData, ctx: BindParseCtx): OptionalMemberExpression | undefined => {
+  getApiData: (
+    data: CodeSchema.DataValue_GetApiData,
+    ctx: BindParseCtx
+  ): OptionalMemberExpression | Identifier | undefined => {
     // api响应数据 apiState.api函数名.data?.响应body?.响应body属性
     if (!data.args.id) {
       throw new Error('getApiData的data.args.id失败');
@@ -100,7 +103,10 @@ const toAstMethods = {
     const rootName = ctx.global.apiVarRootName; // 变量外层的变量名
     return getOptMemberExpr([rootName, ...pathPropertieKeys]);
   },
-  getParam: (data: CodeSchema.DataValue_GetParam, ctx: BindParseCtx): OptionalMemberExpression | undefined => {
+  getParam: (
+    data: CodeSchema.DataValue_GetParam,
+    ctx: BindParseCtx
+  ): OptionalMemberExpression | Identifier | undefined => {
     // 页面路由参数 router.query.xxx
     if (!data.args.id) {
       throw new Error('getApiData的data.args.id失败');
@@ -139,7 +145,10 @@ const toAstMethods = {
     }
     return getOptMemberExpr([varName, ...pathArr]);
   },
-  getSlotData: (data: CodeSchema.DataValue_GetSlotData, ctx: BindParseCtx): OptionalMemberExpression | undefined => {
+  getSlotData: (
+    data: CodeSchema.DataValue_GetSlotData,
+    ctx: BindParseCtx
+  ): OptionalMemberExpression | Identifier | undefined => {
     if (!data.args.id) {
       return;
     }
@@ -149,7 +158,10 @@ const toAstMethods = {
     }
     return getOptMemberExpr(pathPropertieKeys);
   },
-  getEachData: (data: CodeSchema.DataValue_GetEachData, ctx: BindParseCtx): OptionalMemberExpression | undefined => {
+  getEachData: (
+    data: CodeSchema.DataValue_GetEachData,
+    ctx: BindParseCtx
+  ): OptionalMemberExpression | Identifier | undefined => {
     if (!data.args.id) {
       return;
     }

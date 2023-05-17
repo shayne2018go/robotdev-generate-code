@@ -1,21 +1,18 @@
 import * as g from '@/compile/tokens/markup/vue-template/generate-schema';
+import { GenerateVueTemplateTypes } from '@/compile/tokens/markup/vue-template/types';
 import { CompilePageCtx } from '../compilePages';
-import { VirtualTag } from '../const/config';
+import { VOID_ELEMENT, VirtualTag } from '../const/config';
+import { BindParseCtx } from '../shared/bind-parse/types';
+import { genVarName } from '../shared/helper';
 import { TreeNode } from '../shared/store/nodes';
 import {
   getNodeEachExpression,
   getNodeEventKeyByTagId,
   getNodeEventValue,
   getNodePropKeyById,
-  getNodePropKeyByTagId,
   getNodePropValueExpression,
-  getNodePropValueVariable,
   getNodeTag,
 } from '../shared/template-helper';
-import { genVarName } from '../shared/helper';
-import { GenerateVueTemplateTypes } from '@/compile/tokens/markup/vue-template/types';
-import { BindParseCtx } from '../shared/bind-parse/types';
-import { getEachIndexVarName, getEachItemVarName } from '../shared/bind-parse/shared/helper';
 
 interface CompileTemplateCtx extends CompilePageCtx {
   helper?: {
@@ -170,7 +167,9 @@ function parsingNodeNormal(node: TreeNode, compileCtx: BindParseCtx): ParsingNod
   ];
 
   const children = parsingChildren(node.children || [], compileCtx);
-  return g.node(tagName, props, children);
+  const isVoidElement = VOID_ELEMENT.includes(tagName);
+
+  return g.node(tagName, props, children, isVoidElement);
 }
 
 export default compileTemplate;

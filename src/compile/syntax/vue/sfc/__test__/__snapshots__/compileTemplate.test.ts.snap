@@ -5,9 +5,11 @@ exports[`compileTemplate > tempalte 变量 事件 1`] = `
   nodesState.aInput.change(...args);
 }\\"></a-input></a-form-item><a-form-item :label=\\"nodesState.aFormItem_2.label\\"><a-input-number @change=\\"(...args) => {
   nodesState.aInputNumber.change(...args);
-}\\"></a-input-number></a-form-item><a-form-item :label=\\"nodesState.aFormItem_3.label\\"><a-button :type=\\"nodesState.aButton.type\\" :size=\\"nodesState.aButton.size\\" :shape=\\"nodesState.aButton.shape\\" @click=\\"(...args) => {
+}\\"></a-input-number></a-form-item><a-form-item :label=\\"nodesState.aFormItem_3.label\\" :labelAlign=\\"nodesState.aFormItem_3.labelAlign\\"><a-button :type=\\"nodesState.aButton.type\\" :size=\\"nodesState.aButton.size\\" :shape=\\"nodesState.aButton.shape\\" @click=\\"(...args) => {
   nodesState.aButton.click(...args);
-}\\">{{nodesState.text.text}}</a-button></a-form-item></a-form></a-card></template>"
+}\\">{{nodesState.text.text}}</a-button><a-button :shape=\\"nodesState.aButton_2.shape({})\\" @click=\\"(...args) => {
+  nodesState.aButton_2.click(...args);
+}\\">{{nodesState.text_2.text}}</a-button></a-form-item></a-form></a-card></template>"
 `;
 
 exports[`compileTemplate > tempalte 循环 判断 1`] = `
@@ -15,9 +17,9 @@ exports[`compileTemplate > tempalte 循环 判断 1`] = `
   each_item: each_item,
   each_2_item: each_2_item,
   each_3_item: each_3_item
-})\\"><a-card :title=\\"nodesState.aCard.title\\">{{nodesState.text.text}}{{nodesState.text_2.text({
+})\\"><a-card :title=\\"each_3_item?.ID\\">{{each_3_item?.yonghuming}}{{nodesState.text_2.text({
   each_item: each_item,
   each_2_item: each_2_item,
   each_3_item: each_3_item
-})}}{{nodesState.text_3.text}}</a-card>{{nodesState.text_4.text}}</template></template></template></template></template>"
+})}}{{each_3_item?.yonghunianling}}</a-card>{{nodesState.text_4.text}}</template></template></template><template v-for=\\"(each_4_item, each_4_index) in each_item\\"><input :type=\\"nodesState.input.type\\" :placeholder=\\"each_4_item\\" /></template></template></template>"
 `;

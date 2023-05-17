@@ -136,6 +136,7 @@ export namespace DBWSchema {
     name: string;
     key?: string;
     version?: string;
+    subType?: string;
   }
 
   export interface Api {

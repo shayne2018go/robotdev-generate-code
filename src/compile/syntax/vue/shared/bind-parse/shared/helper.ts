@@ -198,16 +198,26 @@ export const getMemberExpr = (paths: string[], optional = false): t.MemberExpres
   }
 };
 
-export const getOptMemberExpr = (paths: string[], optional = true): t.OptionalMemberExpression => {
+export const getOptMemberExpr = (paths: string[], optional = true): t.OptionalMemberExpression | t.Identifier => {
   if (!paths.length) {
     throw new Error('getMemberExpr的paths元素个数少于2');
   }
-  const varStr = paths.pop() as string;
-  const memberPaths = paths;
-  if (memberPaths.length !== 1) {
-    return t.optionalMemberExpression(getOptMemberExpr(memberPaths, optional), t.identifier(varStr), undefined, optional);
+  // const varStr = paths.pop() as string;
+  // const memberPaths = paths;
+  // if (memberPaths.length !== 1) {
+  //   return t.optionalMemberExpression(getOptMemberExpr(memberPaths, optional), t.identifier(varStr), undefined, optional);
+  // } else {
+  //   return t.optionalMemberExpression(t.identifier(memberPaths[0]), t.identifier(varStr), undefined, optional);
+  // }
+  if (paths.length === 1) {
+    return t.identifier(paths[0]);
   } else {
-    return t.optionalMemberExpression(t.identifier(memberPaths[0]), t.identifier(varStr), undefined, optional);
+    return t.optionalMemberExpression(
+      getOptMemberExpr(paths.slice(0, -1), optional),
+      t.identifier(paths[paths.length - 1]),
+      undefined,
+      optional
+    );
   }
 };
 

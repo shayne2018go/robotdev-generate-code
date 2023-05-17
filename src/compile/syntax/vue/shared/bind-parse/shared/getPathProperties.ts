@@ -38,6 +38,9 @@ const genApiResProp = (api: CodeSchema.Api_Protocol) => {
 };
 
 const genEachModuleType = (varName: string, types: CodeSchema.PropertyType_Protocol[]) => {
+  const itemTypes = types.map((type) => {
+    return { ...type, multiple: false };
+  });
   return {
     type: 'module',
     rules: {
@@ -45,7 +48,7 @@ const genEachModuleType = (varName: string, types: CodeSchema.PropertyType_Proto
         {
           id: 'item',
           key: getEachItemVarName(varName),
-          types,
+          types: itemTypes,
           // name: '每次循环得到的数据',
         },
         {
@@ -199,7 +202,7 @@ const getBindPathProperties = {
       const last = bindPathProperties[bindPathProperties?.length - 1];
 
       const types = [genEachModuleType(node.varName, last.types)];
-      const accessPath = searchModulePath(types || [], data.args?.path || [], true); // 路径中的每个属性名
+      const accessPath = searchModulePath(types || [], data.args?.path || []); // 路径中的每个属性名
       return accessPath;
     }
     return;

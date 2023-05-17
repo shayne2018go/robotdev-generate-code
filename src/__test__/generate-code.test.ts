@@ -22,7 +22,7 @@ describe('generate-code', () => {
     const optimizeTokens = optimize(tokens);
 
     debugger;
-    const { projectPath } = generate(tokens);
+    const { projectPath } = generate(optimizeTokens);
 
     await build(projectPath);
 

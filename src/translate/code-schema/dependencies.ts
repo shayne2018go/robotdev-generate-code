@@ -1,6 +1,4 @@
 import { DBWSchema } from '@/types';
-import { ICS_Component } from '@/types/component';
-import { ICS_Dependencies } from '@/types/dependencies';
 import { isAction, isComponent, isElement, isEvent, isFunction, isProp, isSlot } from '../utils/is';
 import {
   preprocessComponentEmits,
@@ -10,7 +8,6 @@ import {
   preprocessComponentVariables,
   preprocessNodes,
 } from './components';
-import { ICS_Function } from '@/types/function';
 import { preprocessDeclare } from './shared/declare';
 import {
   isElement as isMockDataElement,
@@ -20,22 +17,17 @@ import {
   isSlot as isMockDataSlot,
   system,
 } from '@dreawer/robotdev-view-editor-mock-data';
-import { ICS_Element } from '@/types/element';
-import { ICS_ACTION } from '@/types/action';
-import { ICS_Slot } from '@/types/slot';
-import { ICS_Property } from '@/types/prop';
-import { ICS_Event } from '@/types/event';
 import { BUILT_IN_PACKAGES } from '@/compile/syntax/vue/const/config';
 
 export interface DependenciesBuilder {
-  dependencies: ICS_Dependencies[];
+  dependencies: CodeSchema.Dependency[];
   packagesWhiteList: string[];
   idDependenciesIndexs: Record<string, string[]>;
   tagDependenciesIndexs: Record<string, DBWSchema.Dependencies>;
 }
 
 interface PreprocessDependenciesResult {
-  dependencies: Array<ICS_Dependencies>;
+  dependencies: Array<CodeSchema.Dependency>;
   dependenciesBuilder: DependenciesBuilder;
 }
 
@@ -71,13 +63,13 @@ function preprocessDependencies(
       }
     });
 
-    const curComponents = [] as ICS_Component[],
-      curElements = [] as ICS_Element[],
-      curFunctions = [] as ICS_Function[],
-      curActions = [] as ICS_ACTION[],
-      curEvents = [] as ICS_Event[],
-      curSlots = [] as ICS_Slot[],
-      curProps = [] as ICS_Property[];
+    const curComponents = [] as CodeSchema.Component[],
+      curElements = [] as CodeSchema.Element_Protocol[],
+      curFunctions = [] as CodeSchema.Function_Protocol[],
+      curActions = [] as CodeSchema.Action_Protocol[],
+      curEvents = [] as CodeSchema.Event_Protocol[],
+      curSlots = [] as CodeSchema.Slot_Protocol[],
+      curProps = [] as CodeSchema.Property_Protocol[];
 
     currentPackageDependencies.forEach((dep) => {
       if (isComponent(dep)) {
@@ -117,6 +109,7 @@ function preprocessDependencies(
       name: dp.name,
       key: packageKey,
       version: dp.version || 'latest',
+      subType: dp.subType,
       components: curComponents,
       elements: curElements,
       functions: curFunctions,
@@ -125,7 +118,7 @@ function preprocessDependencies(
       slots: curSlots,
       props: curProps,
       apis: [],
-    } as ICS_Dependencies;
+    } as CodeSchema.Dependency;
   });
 
   const dependenciesBuilder = {
@@ -226,7 +219,7 @@ function preprocessDependenciesComponent<T extends DBWSchema.Component | DBWSche
   componentDependencies: T,
   tagDependenciesIndexs: Record<string, DBWSchema.Dependencies>,
   idDependenciesIndexs: Record<string, string[]>
-): T extends DBWSchema.Component ? ICS_Component : ICS_Element {
+): T extends DBWSchema.Component ? CodeSchema.Component : CodeSchema.Element_Protocol {
   const componentProps = preprocessComponentProps(componentDependencies.spec?.props);
   const componentEmits = preprocessComponentEmits(componentDependencies.spec?.events);
   const componentSlots = preprocessComponentSlots(componentDependencies.spec?.slots);
@@ -255,7 +248,7 @@ function preprocessDependenciesComponent<T extends DBWSchema.Component | DBWSche
 
 function preprocessDependenciesFunction<T extends DBWSchema.Function | DBWSchema.Action>(
   functionDependencies: T
-): T extends DBWSchema.Function ? ICS_Function : ICS_ACTION {
+): T extends DBWSchema.Function ? CodeSchema.Function_Protocol : CodeSchema.Action_Protocol {
   const parameters = functionDependencies.func?.parameters?.map(preprocessDeclare) || [];
   const outTypes = functionDependencies.func?.output?.types || [];
   return {
@@ -266,7 +259,7 @@ function preprocessDependenciesFunction<T extends DBWSchema.Function | DBWSchema
     outTypes,
   };
 }
-function preprocessDependenciesEvent(emitDependencies: DBWSchema.Emit): ICS_Event {
+function preprocessDependenciesEvent(emitDependencies: DBWSchema.Emit): CodeSchema.Event_Protocol {
   // const parameters = functionDependencies.func?.parameters?.map(preprocessDeclare) || [];
   // const outTypes = functionDependencies.func?.output?.types || [];
   return {
@@ -277,16 +270,17 @@ function preprocessDependenciesEvent(emitDependencies: DBWSchema.Emit): ICS_Even
   };
 }
 
-function preprocessDependenciesSlot<T extends DBWSchema.Slot>(slotDependencies: T): ICS_Slot {
+function preprocessDependenciesSlot<T extends DBWSchema.Slot>(slotDependencies: T): CodeSchema.Slot_Protocol {
   return {
     id: slotDependencies.id,
     name: slotDependencies.name!,
     key: slotDependencies.key!,
     isHide: slotDependencies.isHide!,
+    properties: slotDependencies.parameters || [],
   };
 }
 
-function preprocessDependenciesProp(propDependencies: DBWSchema.Prop): ICS_Property {
+function preprocessDependenciesProp(propDependencies: DBWSchema.Prop): CodeSchema.Property_Protocol {
   return {
     id: propDependencies.id,
     key: propDependencies.key,

@@ -436,8 +436,15 @@ exports[`preprocess > code schema 1`] = `
       "actions": [
         {
           "id": "64449e64ad342e0014ed328a",
-          "key": "message.success",
+          "key": "chenggongxiaoxitishi",
           "name": "成功消息提示",
+          "outTypes": [],
+          "parameters": [],
+        },
+        {
+          "id": "646328fdcff50e223777b75f",
+          "key": "Modal.info",
+          "name": "弹窗（信息）",
           "outTypes": [
             {
               "type": "text",
@@ -447,19 +454,109 @@ exports[`preprocess > code schema 1`] = `
             {
               "desc": "",
               "extendPlatform": true,
-              "id": "64449e7dc6443a3ec17428da",
-              "key": "content",
-              "name": "内容",
+              "id": "64632a60899e94bfe954bf8f",
+              "key": "data",
+              "name": "data",
               "types": [
                 {
-                  "default": {
-                    "args": {
-                      "type": "text",
-                      "value": "操作成功",
-                    },
-                    "mode": "custom",
-                    "type": "data",
+                  "rules": {
+                    "properties": [
+                      {
+                        "extendPlatform": true,
+                        "id": "64632a69899e94bfe954bf90",
+                        "key": "title",
+                        "name": "title",
+                        "types": [
+                          {
+                            "type": "text",
+                          },
+                        ],
+                      },
+                      {
+                        "extendPlatform": true,
+                        "id": "64632a6c899e94bfe954bf91",
+                        "key": "onOk",
+                        "name": "onOk",
+                        "types": [
+                          {
+                            "rules": {
+                              "parameters": [
+                                {
+                                  "extendPlatform": true,
+                                  "id": "64632a76899e94bfe954bf92",
+                                  "key": "onOkArgs",
+                                  "name": "onOkArgs",
+                                  "types": [
+                                    {
+                                      "rules": {
+                                        "properties": [
+                                          {
+                                            "extendPlatform": true,
+                                            "id": "64632a7f899e94bfe954bf93",
+                                            "key": "x",
+                                            "name": "x",
+                                            "types": [
+                                              {
+                                                "type": "text",
+                                              },
+                                            ],
+                                          },
+                                          {
+                                            "extendPlatform": true,
+                                            "id": "64632a82899e94bfe954bf94",
+                                            "key": "t",
+                                            "name": "t",
+                                            "types": [
+                                              {
+                                                "type": "text",
+                                              },
+                                            ],
+                                          },
+                                        ],
+                                      },
+                                      "type": "module",
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                            "type": "action",
+                          },
+                        ],
+                      },
+                    ],
                   },
+                  "type": "module",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "64632a1bcff50e223777b790",
+          "key": "aaa",
+          "name": "aaa",
+          "outTypes": [],
+          "parameters": [],
+        },
+        {
+          "id": "64632b11cff50e223777b7c1",
+          "key": "message.error",
+          "name": "信息（错误）",
+          "outTypes": [
+            {
+              "type": "text",
+            },
+          ],
+          "parameters": [
+            {
+              "desc": "",
+              "extendPlatform": true,
+              "id": "64632b1b30c50e816190ea3d",
+              "key": "content",
+              "name": "content",
+              "types": [
+                {
                   "type": "text",
                 },
               ],
@@ -467,9 +564,9 @@ exports[`preprocess > code schema 1`] = `
             {
               "desc": "",
               "extendPlatform": true,
-              "id": "64449ea0c6443a3ec17428db",
+              "id": "64632b2330c50e816190ea3e",
               "key": "duration",
-              "name": "持续事件",
+              "name": "duration",
               "types": [
                 {
                   "default": {
@@ -480,25 +577,140 @@ exports[`preprocess > code schema 1`] = `
                     "mode": "custom",
                     "type": "data",
                   },
-                  "rules": {
-                    "maxPrecision": 2,
-                  },
                   "type": "number",
                 },
               ],
             },
             {
-              "desc": "提示框关闭时的回调",
+              "desc": "",
               "extendPlatform": true,
-              "id": "64449ec2c6443a3ec17428dc",
+              "id": "64632b3030c50e816190ea3f",
               "key": "onClose",
-              "name": "关闭回调",
+              "name": "onClose",
               "types": [
                 {
                   "rules": {
-                    "parameters": [],
+                    "parameters": [
+                      {
+                        "extendPlatform": true,
+                        "id": "64632bb830c50e816190ea40",
+                        "key": "onCloseArgs",
+                        "name": "onCloseArg",
+                        "types": [
+                          {
+                            "type": "text",
+                          },
+                        ],
+                      },
+                    ],
                   },
                   "type": "action",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          "id": "6463331dcff50e223777b926",
+          "key": "Modal.success",
+          "name": "消息弹窗",
+          "outTypes": [
+            {
+              "type": "text",
+            },
+          ],
+          "parameters": [
+            {
+              "desc": "",
+              "extendPlatform": true,
+              "id": "64633322a9ed0cfd83c5ff1a",
+              "key": "data",
+              "name": "data",
+              "types": [
+                {
+                  "rules": {
+                    "properties": [
+                      {
+                        "extendPlatform": true,
+                        "id": "6463332ea9ed0cfd83c5ff1b",
+                        "key": "title",
+                        "name": "title",
+                        "types": [
+                          {
+                            "type": "text",
+                          },
+                        ],
+                      },
+                      {
+                        "extendPlatform": true,
+                        "id": "64633330a9ed0cfd83c5ff1c",
+                        "key": "onOk",
+                        "name": "onOk",
+                        "types": [
+                          {
+                            "rules": {
+                              "parameters": [
+                                {
+                                  "extendPlatform": true,
+                                  "id": "6463333ca9ed0cfd83c5ff1d",
+                                  "key": "onOkArgs",
+                                  "name": "新建属性",
+                                  "types": [
+                                    {
+                                      "rules": {
+                                        "properties": [
+                                          {
+                                            "extendPlatform": true,
+                                            "id": "64633345a9ed0cfd83c5ff1e",
+                                            "key": "x",
+                                            "name": "x",
+                                            "types": [
+                                              {
+                                                "type": "text",
+                                              },
+                                            ],
+                                          },
+                                          {
+                                            "extendPlatform": true,
+                                            "id": "64633347a9ed0cfd83c5ff1f",
+                                            "key": "y",
+                                            "name": "y",
+                                            "types": [
+                                              {
+                                                "rules": {
+                                                  "properties": [
+                                                    {
+                                                      "extendPlatform": true,
+                                                      "id": "64633351a9ed0cfd83c5ff20",
+                                                      "key": "yy",
+                                                      "name": "yy",
+                                                      "types": [
+                                                        {
+                                                          "type": "text",
+                                                        },
+                                                      ],
+                                                    },
+                                                  ],
+                                                },
+                                                "type": "module",
+                                              },
+                                            ],
+                                          },
+                                        ],
+                                      },
+                                      "type": "module",
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                            "type": "action",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  "type": "module",
                 },
               ],
             },
@@ -2270,13 +2482,21 @@ exports[`preprocess > code schema 1`] = `
           "nodes": [],
           "props": [
             {
-              "desc": undefined,
+              "desc": "设置按钮类型",
               "extendPlatform": undefined,
               "id": "641a7052cf44f6204642b65a",
               "key": "type",
-              "name": "类型",
+              "name": "按钮类型",
               "types": [
                 {
+                  "default": {
+                    "args": {
+                      "type": "option",
+                      "value": "primary",
+                    },
+                    "mode": "custom",
+                    "type": "data",
+                  },
                   "rules": {
                     "items": [
                       {
@@ -2310,13 +2530,21 @@ exports[`preprocess > code schema 1`] = `
               ],
             },
             {
-              "desc": undefined,
+              "desc": "设置按钮的大小",
               "extendPlatform": undefined,
               "id": "641a7052cf44f6204642b65b",
               "key": "size",
               "name": "按钮大小",
               "types": [
                 {
+                  "default": {
+                    "args": {
+                      "type": "option",
+                      "value": "middle",
+                    },
+                    "mode": "custom",
+                    "type": "data",
+                  },
                   "rules": {
                     "items": [
                       {
@@ -2338,11 +2566,11 @@ exports[`preprocess > code schema 1`] = `
               ],
             },
             {
-              "desc": undefined,
+              "desc": "设置按钮类型",
               "extendPlatform": undefined,
               "id": "641a7052cf44f6204642b65c",
               "key": "shape",
-              "name": "形状",
+              "name": "按钮形状",
               "types": [
                 {
                   "default": "round",
@@ -2368,7 +2596,19 @@ exports[`preprocess > code schema 1`] = `
               ],
             },
             {
-              "desc": undefined,
+              "desc": "将按钮宽度调整为其父宽度的选项",
+              "extendPlatform": undefined,
+              "id": "641a7052cf44f6204642b660",
+              "key": "block",
+              "name": "适应父级宽度",
+              "types": [
+                {
+                  "type": "whether",
+                },
+              ],
+            },
+            {
+              "desc": "幽灵属性，使按钮背景透明",
               "extendPlatform": undefined,
               "id": "641a7052cf44f6204642b65d",
               "key": "ghost",
@@ -2382,9 +2622,9 @@ exports[`preprocess > code schema 1`] = `
             {
               "desc": undefined,
               "extendPlatform": undefined,
-              "id": "641a7052cf44f6204642b65e",
-              "key": "disabled",
-              "name": "禁用",
+              "id": "641a7052cf44f6204642b662",
+              "key": "danger",
+              "name": "危险按钮",
               "types": [
                 {
                   "type": "whether",
@@ -2406,49 +2646,9 @@ exports[`preprocess > code schema 1`] = `
             {
               "desc": undefined,
               "extendPlatform": undefined,
-              "id": "641a7052cf44f6204642b660",
-              "key": "block",
-              "name": "适应父级",
-              "types": [
-                {
-                  "type": "whether",
-                },
-              ],
-            },
-            {
-              "desc": undefined,
-              "extendPlatform": undefined,
-              "id": "641a7052cf44f6204642b661",
-              "key": "htmlType",
-              "name": "type属性",
-              "types": [
-                {
-                  "rules": {
-                    "items": [
-                      {
-                        "label": "提交",
-                        "value": "submit",
-                      },
-                      {
-                        "label": "按钮",
-                        "value": "button",
-                      },
-                      {
-                        "label": "清除",
-                        "value": "reset",
-                      },
-                    ],
-                  },
-                  "type": "option",
-                },
-              ],
-            },
-            {
-              "desc": undefined,
-              "extendPlatform": undefined,
-              "id": "641a7052cf44f6204642b662",
-              "key": "danger",
-              "name": "危险按钮",
+              "id": "641a7052cf44f6204642b65e",
+              "key": "disabled",
+              "name": "禁用",
               "types": [
                 {
                   "type": "whether",
@@ -2460,13 +2660,13 @@ exports[`preprocess > code schema 1`] = `
               "extendPlatform": undefined,
               "id": "641a7052cf44f6204642b663",
               "key": "href",
-              "name": "跳转地址",
+              "name": "按钮跳转地址",
               "types": [
                 {
                   "rules": {
                     "items": [],
                   },
-                  "type": "option",
+                  "type": "url",
                 },
               ],
             },
@@ -2478,6 +2678,14 @@ exports[`preprocess > code schema 1`] = `
               "name": "打开方式",
               "types": [
                 {
+                  "default": {
+                    "args": {
+                      "type": "option",
+                      "value": "_blank",
+                    },
+                    "mode": "custom",
+                    "type": "data",
+                  },
                   "rules": {
                     "items": [
                       {
@@ -2495,6 +2703,43 @@ exports[`preprocess > code schema 1`] = `
                       {
                         "label": "超链接窗口",
                         "value": "_top",
+                      },
+                    ],
+                  },
+                  "type": "option",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "641a7052cf44f6204642b661",
+              "key": "htmlType",
+              "name": "按钮原生类型",
+              "types": [
+                {
+                  "default": {
+                    "args": {
+                      "type": "option",
+                      "value": "submit",
+                    },
+                    "mode": "custom",
+                    "type": "data",
+                  },
+                  "multiple": false,
+                  "rules": {
+                    "items": [
+                      {
+                        "label": "提交",
+                        "value": "submit",
+                      },
+                      {
+                        "label": "按钮",
+                        "value": "button",
+                      },
+                      {
+                        "label": "清除",
+                        "value": "reset",
                       },
                     ],
                   },
@@ -3263,18 +3508,6 @@ exports[`preprocess > code schema 1`] = `
           "nodes": [],
           "props": [
             {
-              "desc": "添加代码样式",
-              "extendPlatform": undefined,
-              "id": "641a7052cf44f6204642b67f",
-              "key": "code",
-              "name": "代码高亮",
-              "types": [
-                {
-                  "type": "whether",
-                },
-              ],
-            },
-            {
               "desc": undefined,
               "extendPlatform": undefined,
               "id": "641a7052cf44f6204642b680",
@@ -3291,7 +3524,19 @@ exports[`preprocess > code schema 1`] = `
               "extendPlatform": undefined,
               "id": "641a7052cf44f6204642b681",
               "key": "delete",
-              "name": "删除线",
+              "name": "添加删除线样式",
+              "types": [
+                {
+                  "type": "whether",
+                },
+              ],
+            },
+            {
+              "desc": "添加代码样式",
+              "extendPlatform": undefined,
+              "id": "641a7052cf44f6204642b67f",
+              "key": "code",
+              "name": "添加代码样式",
               "types": [
                 {
                   "type": "whether",
@@ -3303,7 +3548,7 @@ exports[`preprocess > code schema 1`] = `
               "extendPlatform": undefined,
               "id": "641a7052cf44f6204642b682",
               "key": "disabled",
-              "name": "禁用置灰",
+              "name": "禁用文本",
               "types": [
                 {
                   "type": "whether",
@@ -3323,14 +3568,80 @@ exports[`preprocess > code schema 1`] = `
               ],
             },
             {
-              "desc": undefined,
+              "desc": "自动溢出省略，为对象时可设置省略行数、是否可展开、添加后缀等",
               "extendPlatform": undefined,
               "id": "641a7052cf44f6204642b684",
               "key": "ellipsis",
-              "name": "超出省略",
+              "name": "溢出省略",
               "types": [
                 {
                   "type": "whether",
+                },
+                {
+                  "rules": {
+                    "properties": [
+                      {
+                        "extendPlatform": true,
+                        "id": "645a0e58470c480de3bfb32d",
+                        "key": "expandable",
+                        "name": "可展开",
+                        "types": [
+                          {
+                            "type": "whether",
+                          },
+                        ],
+                      },
+                      {
+                        "extendPlatform": true,
+                        "id": "645a0e59470c480de3bfb32e",
+                        "key": "rows",
+                        "name": "最大行数",
+                        "types": [
+                          {
+                            "type": "number",
+                          },
+                        ],
+                      },
+                      {
+                        "extendPlatform": true,
+                        "id": "645a0e59470c480de3bfb32f",
+                        "key": "suffix",
+                        "name": "自定义省略内容后缀",
+                        "types": [
+                          {
+                            "type": "text",
+                          },
+                        ],
+                      },
+                      {
+                        "extendPlatform": true,
+                        "id": "645a0e59470c480de3bfb330",
+                        "key": "symbol",
+                        "name": "自定义展开描述文案",
+                        "types": [
+                          {
+                            "type": "text",
+                          },
+                        ],
+                      },
+                      {
+                        "desc": "省略时，展示提示信息",
+                        "extendPlatform": true,
+                        "id": "645a0e59470c480de3bfb331",
+                        "key": "tooltip",
+                        "name": "省略时提示信息",
+                        "types": [
+                          {
+                            "type": "whether",
+                          },
+                          {
+                            "type": "text",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  "type": "module",
                 },
               ],
             },
@@ -3501,13 +3812,22 @@ exports[`preprocess > code schema 1`] = `
         },
       ],
       "events": [],
-      "functions": [],
+      "functions": [
+        {
+          "id": "644789a3ad342e0014ed5a83",
+          "key": "sasada",
+          "name": "飒飒大",
+          "outTypes": [],
+          "parameters": [],
+        },
+      ],
       "id": "6352061254bb9b1c84ce3570",
       "key": "ant-design-vue",
       "name": "Ant Design",
       "projectId": "000000000000000000000010",
       "props": [],
       "slots": [],
+      "subType": "element",
       "version": "latest",
     },
     {
@@ -3515,6 +3835,111 @@ exports[`preprocess > code schema 1`] = `
       "apis": [],
       "components": [],
       "elements": [
+        {
+          "emits": [],
+          "functions": [],
+          "id": "62c68d5d27d4bddfa728891b",
+          "key": "input",
+          "lifeCycle": [],
+          "name": "input 输入框",
+          "nodes": [],
+          "props": [
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "type",
+              "key": "type",
+              "name": undefined,
+              "types": [
+                {
+                  "rules": {
+                    "items": [
+                      {
+                        "label": "文本",
+                        "value": "text",
+                      },
+                      {
+                        "label": "数字",
+                        "value": "number",
+                      },
+                      {
+                        "label": "密码",
+                        "value": "password",
+                      },
+                      {
+                        "label": "日期",
+                        "value": "date",
+                      },
+                      {
+                        "label": "时间",
+                        "value": "time",
+                      },
+                      {
+                        "label": "地址",
+                        "value": "URL",
+                      },
+                      {
+                        "label": "电子邮箱",
+                        "value": "email",
+                      },
+                      {
+                        "label": "单选框",
+                        "value": "radio",
+                      },
+                      {
+                        "label": "多选框",
+                        "value": "checkbox",
+                      },
+                      {
+                        "label": "搜索框",
+                        "value": "searc",
+                      },
+                    ],
+                  },
+                  "type": "option",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "name",
+              "key": "name",
+              "name": undefined,
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "value",
+              "key": "value",
+              "name": undefined,
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+            {
+              "desc": undefined,
+              "extendPlatform": undefined,
+              "id": "placeholder",
+              "key": "placeholder",
+              "name": undefined,
+              "types": [
+                {
+                  "type": "text",
+                },
+              ],
+            },
+          ],
+          "slots": [],
+          "variables": [],
+        },
         {
           "emits": [],
           "functions": [],
@@ -3536,6 +3961,7 @@ exports[`preprocess > code schema 1`] = `
       "projectId": "000000000000000000000000",
       "props": [],
       "slots": [],
+      "subType": "component",
       "version": "latest",
     },
     {
@@ -3586,6 +4012,7 @@ exports[`preprocess > code schema 1`] = `
       "projectId": "000000000000000000000001",
       "props": [],
       "slots": [],
+      "subType": "element",
       "version": "latest",
     },
     {
@@ -3812,42 +4239,6 @@ exports[`preprocess > code schema 1`] = `
           ],
         },
         {
-          "id": "64097ff1237f2a94b9bd7639",
-          "key": "random",
-          "name": "区间内的随机数",
-          "outTypes": [
-            {
-              "type": "number",
-            },
-          ],
-          "parameters": [
-            {
-              "desc": "区间的上限值（必须为整数）",
-              "extendPlatform": true,
-              "id": "641a7054cf44f6204642c2c6",
-              "key": "num1",
-              "name": "最小数",
-              "types": [
-                {
-                  "type": "number",
-                },
-              ],
-            },
-            {
-              "desc": "区间的下限值（必须为整数）",
-              "extendPlatform": true,
-              "id": "641a7054cf44f6204642c2c7",
-              "key": "num2",
-              "name": "最大数",
-              "types": [
-                {
-                  "type": "number",
-                },
-              ],
-            },
-          ],
-        },
-        {
           "id": "640980e9237f2a94b9bd7657",
           "key": "getHours",
           "name": "获取小时数",
@@ -3995,7 +4386,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "64098321237f2a94b9bd76be",
           "key": "inc",
-          "name": "数字加1",
+          "name": "在输入值上加1",
           "outTypes": [
             {
               "type": "number",
@@ -4343,7 +4734,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "64098724237f2a94b9bd77f4",
           "key": "mod",
-          "name": "取余",
+          "name": "获取余数",
           "outTypes": [
             {
               "type": "number",
@@ -4386,7 +4777,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "640987d0237f2a94b9bd7808",
           "key": "negate",
-          "name": "取反",
+          "name": "获取相反数",
           "outTypes": [
             {
               "type": "number",
@@ -4594,7 +4985,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "64099416237f2a94b9bd7911",
           "key": "If",
-          "name": "如果一个条件成立",
+          "name": "条件判断",
           "outTypes": [
             {
               "type": "text",
@@ -5216,7 +5607,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "64099ad3237f2a94b9bd7cdd",
           "key": "or",
-          "name": "或是",
+          "name": "或",
           "outTypes": [
             {
               "type": "whether",
@@ -5291,7 +5682,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "6409a845237f2a94b9bd7d4d",
           "key": "and",
-          "name": "并且",
+          "name": "且",
           "outTypes": [
             {
               "type": "whether",
@@ -5316,7 +5707,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "6409a94e237f2a94b9bd7d76",
           "key": "max",
-          "name": "取最大值",
+          "name": "获取最大值",
           "outTypes": [
             {
               "type": "number",
@@ -5341,7 +5732,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "6409a990237f2a94b9bd7d8a",
           "key": "isNumberString",
-          "name": "是否为数字字符串",
+          "name": "是否为数字文本",
           "outTypes": [
             {
               "type": "whether",
@@ -5365,7 +5756,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "6409a9b9237f2a94b9bd7d94",
           "key": "min",
-          "name": "取最小值",
+          "name": "获取最小值",
           "outTypes": [
             {
               "type": "number",
@@ -5510,7 +5901,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "6409b0c9237f2a94b9bd7e46",
           "key": "toUpperAllFirst",
-          "name": "所有首字母转大写",
+          "name": "所有字母转大写",
           "outTypes": [
             {
               "type": "text",
@@ -5521,30 +5912,6 @@ exports[`preprocess > code schema 1`] = `
               "desc": "要将所有首字母转为大写的数值",
               "extendPlatform": true,
               "id": "641a7054cf44f6204642c312",
-              "key": "text",
-              "name": "文本值",
-              "types": [
-                {
-                  "type": "text",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          "id": "6409b113237f2a94b9bd7e66",
-          "key": "toUpper",
-          "name": "所有字母转大写",
-          "outTypes": [
-            {
-              "type": "text",
-            },
-          ],
-          "parameters": [
-            {
-              "desc": "要将所有字母转为大写的数值",
-              "extendPlatform": true,
-              "id": "641a7054cf44f6204642c313",
               "key": "text",
               "name": "文本值",
               "types": [
@@ -6000,7 +6367,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "640ad77d237f2a94b9bd89ef",
           "key": "MD5",
-          "name": "md5",
+          "name": "md5消息摘要算法",
           "outTypes": [
             {
               "type": "text",
@@ -6270,7 +6637,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "641a7e66438489df6840bc89",
           "key": "first",
-          "name": "获取列表中的第一个元素",
+          "name": "获取列表中的第一个值",
           "outTypes": [
             {
               "multiple": true,
@@ -6328,7 +6695,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "641a7e6f438489df6840bc93",
           "key": "last",
-          "name": "获取列表中的最后一个元素",
+          "name": "获取列表中的最后一个值",
           "outTypes": [
             {
               "multiple": true,
@@ -6386,7 +6753,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "641aa8e3438489df6840bf85",
           "key": "startsWith",
-          "name": "第一个元素是否为指定元素",
+          "name": "判断第一个值是否为指定的值",
           "outTypes": [
             {
               "type": "whether",
@@ -6451,7 +6818,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "641aa8f3438489df6840bf9b",
           "key": "endsWith",
-          "name": "最后一个元素是否为指定元素",
+          "name": "判断最后一个值是否为指定值",
           "outTypes": [
             {
               "type": "whether",
@@ -6582,7 +6949,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "id": "641aa913438489df6840bfaf",
           "key": "lastIndexOfArray",
-          "name": "获取指定文本最后一次出现的位置",
+          "name": "获取指定值最后一次出现的位置",
           "outTypes": [
             {
               "type": "number",
@@ -6679,12 +7046,13 @@ exports[`preprocess > code schema 1`] = `
           "parameters": [],
         },
       ],
-      "id": "64254754fdc7e85f87137555",
+      "id": "645db2c06aa75524b6077dbf",
       "key": "@robotdev/fx-common",
       "name": "系统函数",
       "projectId": "6405a27e2d9335b17497fd8f",
       "props": [],
       "slots": [],
+      "subType": "element",
       "version": "latest",
     },
     {
@@ -7499,8 +7867,10 @@ exports[`preprocess > code schema 1`] = `
           "isHide": true,
           "key": "default",
           "name": "默认插槽",
+          "properties": [],
         },
       ],
+      "subType": undefined,
       "version": "latest",
     },
   ],
@@ -7563,7 +7933,7 @@ exports[`preprocess > code schema 1`] = `
     },
   ],
   "functions": [],
-  "id": "645d9aeed6f2ba7e83945986",
+  "id": "64643a6acff50e223777d5b1",
   "key": "ethanqianduan",
   "meta": {
     "describe": "项目提交到应用中心描述...",
@@ -7613,44 +7983,9 @@ exports[`preprocess > code schema 1`] = `
               "propId": "641a7052cf44f6204642b606",
               "value": {
                 "args": {
-                  "multiple": true,
-                  "type": "text",
-                  "value": [
-                    {
-                      "args": {
-                        "type": "text",
-                        "value": "a",
-                      },
-                      "mode": "custom",
-                      "type": "data",
-                    },
-                    {
-                      "args": {
-                        "type": "text",
-                        "value": "b",
-                      },
-                      "mode": "custom",
-                      "type": "data",
-                    },
-                    {
-                      "args": {
-                        "type": "text",
-                        "value": "c",
-                      },
-                      "mode": "custom",
-                      "type": "data",
-                    },
-                    {
-                      "args": {
-                        "type": "text",
-                        "value": "d",
-                      },
-                      "mode": "custom",
-                      "type": "data",
-                    },
-                  ],
+                  "id": "645dea4c76948742ae1664cd",
                 },
-                "mode": "custom",
+                "mode": "getVar",
                 "type": "data",
               },
             },
@@ -7670,7 +8005,7 @@ exports[`preprocess > code schema 1`] = `
         {
           "events": undefined,
           "id": "Y576",
-          "nextId": null,
+          "nextId": "Q091",
           "packageId": "6455c49bc56f0402c3fd3436",
           "parentId": "D767#641a7052cf44f6204642b607",
           "preId": null,
@@ -7981,6 +8316,75 @@ exports[`preprocess > code schema 1`] = `
           ],
           "tagId": "62c68d5d27d4bddfa72888fb",
         },
+        {
+          "events": undefined,
+          "id": "Q091",
+          "nextId": null,
+          "packageId": "6455c49bc56f0402c3fd3436",
+          "parentId": "D767#641a7052cf44f6204642b607",
+          "preId": "Y576",
+          "props": [
+            {
+              "propId": "641a7052cf44f6204642b606",
+              "value": {
+                "args": {
+                  "id": "D767",
+                  "path": [
+                    "item",
+                  ],
+                },
+                "mode": "getEachData",
+                "type": "data",
+              },
+            },
+          ],
+          "tagId": "62d65a88e7021e08c65c462e",
+        },
+        {
+          "events": undefined,
+          "id": "Q091#641a7052cf44f6204642b607",
+          "nextId": null,
+          "packageId": "6455c49bc56f0402c3fd3436",
+          "parentId": "Q091",
+          "preId": null,
+          "props": undefined,
+          "tagId": "62d65a88e7021e08c65c4634",
+        },
+        {
+          "events": undefined,
+          "id": "E645",
+          "nextId": null,
+          "packageId": "6352061a54bb9b1c84ce357d",
+          "parentId": "Q091#641a7052cf44f6204642b607",
+          "preId": null,
+          "props": [
+            {
+              "propId": "type",
+              "value": {
+                "args": {
+                  "type": "option",
+                  "value": "text",
+                },
+                "mode": "custom",
+                "type": "data",
+              },
+            },
+            {
+              "propId": "placeholder",
+              "value": {
+                "args": {
+                  "id": "Q091",
+                  "path": [
+                    "item",
+                  ],
+                },
+                "mode": "getEachData",
+                "type": "data",
+              },
+            },
+          ],
+          "tagId": "62c68d5d27d4bddfa728891b",
+        },
       ],
       "route": {
         "query": [
@@ -8077,6 +8481,61 @@ exports[`preprocess > code schema 1`] = `
                 ],
               },
               "type": "module",
+            },
+          ],
+        },
+        {
+          "desc": undefined,
+          "extendPlatform": undefined,
+          "id": "645dea4c76948742ae1664cd",
+          "key": "xunhuanwenbenshuju",
+          "name": "循环文本数据",
+          "types": [
+            {
+              "default": {
+                "args": {
+                  "multiple": true,
+                  "type": "text",
+                  "value": [
+                    {
+                      "args": {
+                        "type": "text",
+                        "value": "aaaaa",
+                      },
+                      "mode": "custom",
+                      "type": "data",
+                    },
+                    {
+                      "args": {
+                        "type": "text",
+                        "value": "bbbbb",
+                      },
+                      "mode": "custom",
+                      "type": "data",
+                    },
+                    {
+                      "args": {
+                        "type": "text",
+                        "value": "ccccc",
+                      },
+                      "mode": "custom",
+                      "type": "data",
+                    },
+                    {
+                      "args": {
+                        "type": "text",
+                        "value": "dddd",
+                      },
+                      "mode": "custom",
+                      "type": "data",
+                    },
+                  ],
+                },
+                "mode": "custom",
+                "type": "data",
+              },
+              "multiple": true,
+              "type": "text",
             },
           ],
         },
@@ -8356,7 +8815,18 @@ exports[`preprocess > code schema 1`] = `
               "value": {
                 "args": {
                   "type": "text",
-                  "value": "学生年龄",
+                  "value": "",
+                },
+                "mode": "custom",
+                "type": "data",
+              },
+            },
+            {
+              "propId": "641a7052cf44f6204642b860",
+              "value": {
+                "args": {
+                  "type": "option",
+                  "value": "right",
                 },
                 "mode": "custom",
                 "type": "data",
@@ -8438,7 +8908,7 @@ exports[`preprocess > code schema 1`] = `
             },
           ],
           "id": "E423",
-          "nextId": null,
+          "nextId": "V966",
           "packageId": "6352061254bb9b1c84ce3570",
           "parentId": "E399#641a7052cf44f6204642b86c",
           "preId": null,
@@ -8503,6 +8973,126 @@ exports[`preprocess > code schema 1`] = `
                 "args": {
                   "type": "text",
                   "value": "提交表单",
+                },
+                "mode": "custom",
+                "type": "data",
+              },
+            },
+          ],
+          "tagId": "62c68d5d27d4bddfa72888fb",
+        },
+        {
+          "events": [
+            {
+              "actions": [
+                {
+                  "args": {
+                    "rd_else": {
+                      "actions": [],
+                    },
+                    "rd_if": [
+                      {
+                        "actions": [],
+                        "condition": {
+                          "args": {
+                            "expression": [
+                              {
+                                "args": {
+                                  "left": {
+                                    "args": {
+                                      "id": "6454c8d32f633c035f506d50",
+                                    },
+                                    "mode": "getVar",
+                                    "type": "data",
+                                  },
+                                  "right": {
+                                    "args": {
+                                      "id": "641a7052cf44f6204642b666",
+                                      "path": [
+                                        "64337737142f1aa760d86bd7",
+                                        "643377e8142f1aa760d86bd8",
+                                      ],
+                                    },
+                                    "mode": "getEventData",
+                                    "type": "data",
+                                  },
+                                },
+                                "mode": "",
+                              },
+                              {
+                                "args": {
+                                  "left": {
+                                    "args": {
+                                      "id": "6454c8d32f633c035f506d50",
+                                    },
+                                    "mode": "getVar",
+                                    "type": "data",
+                                  },
+                                  "right": {
+                                    "args": {
+                                      "id": "641a7052cf44f6204642b666",
+                                      "path": [
+                                        "64337737142f1aa760d86bd7",
+                                        "643377e8142f1aa760d86bd8",
+                                      ],
+                                    },
+                                    "mode": "getEventData",
+                                    "type": "data",
+                                  },
+                                },
+                                "mode": "neq",
+                              },
+                            ],
+                          },
+                          "mode": "expression",
+                        },
+                      },
+                    ],
+                  },
+                  "mode": "when",
+                  "type": "action",
+                },
+              ],
+              "eventId": "641a7052cf44f6204642b665",
+            },
+          ],
+          "id": "V966",
+          "nextId": null,
+          "packageId": "6352061254bb9b1c84ce3570",
+          "parentId": "E399#641a7052cf44f6204642b86c",
+          "preId": "E423",
+          "props": [
+            {
+              "propId": "641a7052cf44f6204642b65c",
+              "value": "round",
+            },
+          ],
+          "tagId": "613ecb25af722dc29c7fc387",
+        },
+        {
+          "events": undefined,
+          "id": "V966#641a7052cf44f6204642b667",
+          "nextId": "V966#641a7052cf44f6204642b668",
+          "packageId": "6455c49bc56f0402c3fd3436",
+          "parentId": "V966",
+          "preId": null,
+          "props": undefined,
+          "tagId": "62d65a88e7021e08c65c4634",
+        },
+        {
+          "events": undefined,
+          "id": "H105",
+          "nextId": null,
+          "packageId": "6358fb8554bb9b1c84ce47a2",
+          "parentId": "V966#641a7052cf44f6204642b667",
+          "preId": null,
+          "props": [
+            {
+              "propId": "641a7052cf44f6204642b61f",
+              "value": {
+                "args": {
+                  "type": "text",
+                  "value": "保存",
                 },
                 "mode": "custom",
                 "type": "data",

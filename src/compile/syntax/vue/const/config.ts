@@ -26,3 +26,5 @@ export enum VirtualTag {
   TPL = 'tpl', // 模板
   TEXT = 'text', // 文本
 }
+
+export const VOID_ELEMENT = ['input', 'img', 'area', 'base', 'link', 'br'];
