@@ -98,7 +98,7 @@ export type TableProps = {
   };
   dataSource: {
     key: string;
-    value: ArrayExpression;
+    value: ActionAst | ActionsAst | BindAst | undefined;
   };
 };
 

@@ -10,6 +10,7 @@ import {
   MemberExpression,
   OptionalMemberExpression,
   ObjectProperty,
+  ArrayExpression,
 } from '@babel/types';
 import { CompileCurrentCtx } from '../../compilePages';
 import { VueVariable } from '../../sfc/compileScript';
@@ -489,7 +490,8 @@ const literalToAst = (
         if (!ast.value || ast.type === 'table') {
           return;
         }
-        kv.push(t.objectProperty(t.identifier(item.key), ast.value as BindAst));
+        // TODO item.propId不应该拿来编译，暂时先这么处理，明天再分析解决方案
+        kv.push(t.objectProperty(t.identifier(item.propId || item.key), ast.value as BindAst));
       });
       return t.objectExpression(kv);
     }
@@ -546,15 +548,84 @@ const tableDataToAst = (
   ctx: BindParseCtx,
   types?: CodeSchema.PropertyType_Protocol[]
 ): TableProps => {
+  if (!data.args.data) {
+    throw new Error('data.args.data is undefined');
+  }
+  const bindDataPathProperties = getPathProperties(ctx, data.args.data);
+  if (!bindDataPathProperties) {
+    throw new Error('bindDataPathProperties生成');
+  }
+  const last = bindDataPathProperties[bindDataPathProperties.length - 1];
+  const dataSource = valueToAst(data.args.data, ctx);
+
+  if (!ctx.scope.node) {
+    throw new Error('ctx.scope.node is undefined');
+  }
+  if (!ctx.scope.prop) {
+    throw new Error('ctx.scope.prop is undefined');
+  }
+  const define = ctx.scope.current.nodesStore.getNodePropDefine(ctx.scope.node?.id, ctx.scope.prop?.propId);
+
+  if (!define) {
+    throw new Error('prop的define 获取失败');
+  }
+  const tableDefine = define?.data?.types.find((item) => item.type === 'table');
+  if (!tableDefine) {
+    throw new Error('tableDefine not found');
+  }
+  const tableConfig = tableDefine.rules?.tableConfig;
+  const tableDataKey = tableDefine.rules?.tableDataKey;
+  if (!tableConfig) {
+    throw new Error('tableConfig not found');
+  }
+  if (!tableDataKey) {
+    throw new Error('tableDataKey not found');
+  }
+
+  const tableConfigObj: { [key: string]: any } = {};
+  tableConfig.forEach((item: any) => {
+    tableConfigObj[item.id] = item;
+  });
+  const propertiesObj: { [key: string]: any } = {};
+  last.types
+    .find((item) => item.type === 'module')
+    ?.rules?.properties?.forEach((item: any) => {
+      propertiesObj[item.id] = item;
+    });
+  const keyFieldName = data.args.keyFieldName;
+  if (!keyFieldName) {
+    throw new Error('data.args.keyFieldName not found');
+  }
+  const columns = data.args.columns
+    .filter((item) => {
+      return data.args.showColumns.includes(item[keyFieldName]);
+    })
+    .map((item) => {
+      const obj: any = {};
+      Object.entries(item).forEach(([key, value]) => {
+        if (key === keyFieldName) {
+          obj[key] = propertiesObj[value]?.key;
+        } else if (key === data.args.titleFieldName) {
+          obj[key] = value;
+        } else {
+          if (tableConfigObj[key]?.key) {
+            obj[tableConfigObj[key]?.key] = value;
+          }
+        }
+      });
+      return obj;
+    });
+  // columns 直接是一个字面量的数组
+
   const res: TableProps = {
     _table_: true,
     columns: {
-      key: '',
-      value: t.arrayExpression(),
+      key: define?.data.key || define?.varName,
+      value: literalToAst(literalToRdData_Custom(columns), ctx) as ArrayExpression,
     },
     dataSource: {
-      key: '',
-      value: t.arrayExpression(),
+      key: 'tableDataKey',
+      value: dataSource.value as Exclude<typeof dataSource.value, TableProps>,
     },
   };
   return res;
