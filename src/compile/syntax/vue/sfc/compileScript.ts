@@ -1,3 +1,4 @@
+import * as g from '@/compile/tokens/markup/vue-template/generate-schema';
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 import { CompilePageCtx } from '../compilePages';
@@ -20,32 +21,21 @@ function compileScript(page: CodeSchema.Page, ctx: CompilePageCtx): { token: str
 
 function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string {
   let statements: Array<t.Statement> = [];
-  let code = '';
   // 导入模块
   statements = statements.concat(getAllImports(ctx));
   // 声明变量与赋值
   statements = statements.concat(getAllVariables(page, ctx));
-  // 执行方法和方法执行
+  // 函数和方法执行
   statements = statements.concat(getFunctionMethod(page, ctx));
-  const program = t.program(statements);
-  const tag = getTagStrs();
-  code += tag[0]; // <script>
-  code += generate(program, { minified: true }).code; // code代码
-  code += tag[1]; // </script>
-  return code;
-}
-
-function getTagStrs(): string[] {
-  const statement = t.jsxElement(
-    t.jsxOpeningElement(t.jsxIdentifier('script'), [
-      t.jsxAttribute(t.jsxIdentifier('setup')),
-      t.jsxAttribute(t.jsxIdentifier('lang'), t.stringLiteral('ts')),
-    ]),
-    t.jsxClosingElement(t.jsxIdentifier('script')),
-    [t.jsxText('split')]
-  );
-  const { code } = generate(statement);
-  return code.split('split');
+  // 使用xml生成script标签
+  return g.generate([
+    g.node(
+      'script',
+      [g.prop('setup'), g.prop('lang', 'ts')],
+      // 字符串形式代码
+      [g.text(generate(t.program(statements), { minified: true }).code)]
+    ),
+  ]);
 }
 
 function getAllImports(ctx: CompilePageCtx): t.Statement[] {
@@ -119,8 +109,8 @@ function getComponentImports(importComponents: GlobalContext.Component[], ctx: C
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
-  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath
-  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1]
+  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath;
+  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
   importComponents.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
@@ -147,8 +137,8 @@ function getFunctionImports(importComponents: GlobalContext.Function[], ctx: Com
   const importArray: any[] = [];
   const packageObj: { [propname: string]: number } = {};
   let count = 0;
-  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath
-  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1]
+  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath;
+  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
   importComponents.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
@@ -172,8 +162,8 @@ function getFunctionImports(importComponents: GlobalContext.Function[], ctx: Com
 
 function getApiImports(apis: GlobalContext.Api[], ctx: CompilePageCtx) {
   const importArray: any[] = [];
-  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath
-  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1]
+  let pageDir = ctx.global.pagesStore.getPage(ctx.scope.current.data.id)?.source.filePath;
+  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
   apis.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
