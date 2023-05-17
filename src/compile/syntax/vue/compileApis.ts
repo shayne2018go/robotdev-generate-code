@@ -73,7 +73,7 @@ function getExportRequests(api: GlobalContext.Api): t.ExportNamedDeclaration {
           t.callExpression(t.identifier('axios'), [
             t.objectExpression([
               t.objectProperty(t.identifier('method'), t.stringLiteral(api.protocol.method)),
-              t.objectProperty(t.identifier('url'), t.stringLiteral(api.key)),
+              t.objectProperty(t.identifier('url'), t.stringLiteral(api.protocol.key)),
               t.objectProperty(t.identifier('data'), t.identifier('data')),
             ]),
           ])

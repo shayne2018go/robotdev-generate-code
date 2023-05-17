@@ -50,6 +50,9 @@ export const actionCheck = {
   isApi: (data: CodeSchema.Action): data is CodeSchema.Action_Api => {
     return data.mode === 'api';
   },
+  isWhen: (data: CodeSchema.Action): data is CodeSchema.Action_When => {
+    return data.mode === 'when';
+  },
 };
 
 export const rdDataisCustom = (data: CodeSchema.DataValue): data is CodeSchema.DataValue_Custom => {

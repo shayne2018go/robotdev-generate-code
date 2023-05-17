@@ -236,6 +236,15 @@ declare namespace CodeSchema {
   }
 
   // 执行业务
+  export interface Action_When extends Action {
+    mode: 'when';
+    args: {
+      rd_if: { condition: Action; actions: Action[] }[];
+      rd_else: { actions: Action[] }[];
+    };
+  }
+
+  // 执行业务
   export interface Action_Open extends Action {
     mode: 'open';
     args: {
