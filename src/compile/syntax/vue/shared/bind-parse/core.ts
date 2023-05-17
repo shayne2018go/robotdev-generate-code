@@ -175,12 +175,12 @@ const toAstMethods = {
     }
     return getOptMemberExpr(pathPropertieKeys);
   },
-  getCmptPropData: (data: CodeSchema.DataValue_GetCmptPropData, ctx: BindParseCtx): CallExpression => {
-    const pathProperties = getPathProperties(ctx, data);
-    if (!pathProperties?.length) {
+  getCmptPropData: (data: CodeSchema.DataValue_GetCmptPropData, ctx: BindParseCtx): OptionalMemberExpression | Identifier => {
+    const pathPropertieKeys = getPathPropertieKeys(ctx, data);
+    if (!pathPropertieKeys?.length) {
       throw new Error(`Cannot find getCmptPropData path ${data}`);
     }
-    // TODO: 通过path返回对应的ast (a.b.c)
+    return getOptMemberExpr(pathPropertieKeys);
   },
   getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): CallExpression => {
     // const { id, path } = data.args;
@@ -334,6 +334,9 @@ const toAstMethods = {
       throw new Error('open函数的mode类型错误');
     }
   },
+  when: (data: CodeSchema.Action_When, ctx: BindParseCtx): CallExpression => {
+
+  },
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {
     // const { modeId, args } = data;
     // if (!modeId) {
@@ -392,6 +395,8 @@ export const actionToAst = (data: CodeSchema.Action, ctx: BindParseCtx): ActionA
     return toAstMethods.set(data, ctx);
   } else if (actionCheck.isApi(data)) {
     return toAstMethods.api(data, ctx);
+  } else if (actionCheck.isWhen(data)) {
+    return toAstMethods.when(data, ctx);
   } else {
     return toAstMethods.callAction(data, ctx);
   }
@@ -437,7 +442,7 @@ export const actionsToAst = <T extends CodeSchema.Page | CodeSchema.Component>(
   return statements;
 };
 
-const literalToAst = (
+export const literalToAst = (
   data: CodeSchema.DataValue_Custom,
   ctx: BindParseCtx,
   types?: CodeSchema.PropertyType_Protocol[]
