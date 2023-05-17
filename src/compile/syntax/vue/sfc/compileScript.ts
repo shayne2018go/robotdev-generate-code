@@ -1,5 +1,4 @@
 import * as g from '@/compile/tokens/markup/vue-template/generate-schema';
-import generate from '@babel/generator';
 import * as t from '@babel/types';
 import { CompilePageCtx } from '../compilePages';
 import { relative } from '@/utils/node';
@@ -28,14 +27,18 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
   // 函数和方法执行
   statements = statements.concat(getFunctionMethod(page, ctx));
   // 使用xml生成script标签
-  return g.generate([
-    g.node(
-      'script',
-      [g.prop('setup'), g.prop('lang', 'ts')],
-      // 字符串形式代码
-      [g.text(generate(t.program(statements), { minified: true }).code)]
-    ),
-  ]);
+  return g.generate(
+    [
+      g.node(
+        'script',
+        [g.prop('setup'), g.prop('lang', 'ts')],
+        [g.text(t.program(statements))]
+      ),
+    ],
+    // 字符串形式代码
+    // minified压缩一行 minimal中文不转码为unicode
+    { minified: true, jsescOption: { minimal: true } }
+  );
 }
 
 function getAllImports(ctx: CompilePageCtx): t.Statement[] {

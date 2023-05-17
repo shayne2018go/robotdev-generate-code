@@ -1,3 +1,4 @@
+import { GeneratorOptions } from '@babel/generator';
 import { generateVueTemplate } from '../core';
 import { GenerateVueTemplateTypes, VueTemplateTypes } from '../types';
 
@@ -162,9 +163,12 @@ export function node(
 /**
  * 通过generate node schema生成vue template string
  */
-export function generate(nodeArr: Array<GenerateVueTemplateTypes.NodeElement>): string {
+export function generate(
+  nodeArr: Array<GenerateVueTemplateTypes.NodeElement>,
+  opts?: GeneratorOptions
+): string {
   let code = '';
   const nodes = convert(nodeArr);
-  code += generateVueTemplate({ nodes });
+  code += generateVueTemplate({ nodes }, opts);
   return code;
 }
