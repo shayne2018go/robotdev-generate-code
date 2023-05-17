@@ -3,6 +3,7 @@ import compileComponents from './compileComponents';
 import compileFunctions from './compileFunctions';
 import compilePages from './compilePages';
 import compileRouter from './compileRouter';
+import compileSystem from './compileSystem';
 import { BUILT_IN_PACKAGES, COMPONENT_DIR, PAGE_DIR } from './const/config';
 import { getPathByDirectories } from './shared/directory-helper';
 import {
@@ -63,8 +64,16 @@ function compileVue(codeSchema: CodeSchema.Project) {
   // 编译页面
   const { tokens: pageTokens } = compilePages(codeSchema, vueGlobalCtx);
 
+  // 编译内部文件（open 函数）
+  const { tokens: sysTokens } = compileSystem();
+
   // 汇总
-  const tokens = routerTokens.concat(apiTokens).concat(functionTokens).concat(componentTokens).concat(pageTokens);
+  const tokens = routerTokens
+    .concat(apiTokens)
+    .concat(functionTokens)
+    .concat(componentTokens)
+    .concat(pageTokens)
+    .concat(sysTokens);
 
   return { tokens };
 }
@@ -133,6 +142,8 @@ export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalC
     nodePropFunctionCtxParamName: 'ctx',
   };
 }
+
+// function parsingSystem(codeSchema: CodeSchema.Project)
 
 function parsingPages(codeSchema: CodeSchema.Project): { pages: GlobalContext.Page[] } {
   const { directories = [], pages } = codeSchema;

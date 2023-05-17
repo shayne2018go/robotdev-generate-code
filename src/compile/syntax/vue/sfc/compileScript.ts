@@ -28,13 +28,7 @@ function gernateScriptToken(page: CodeSchema.Page, ctx: CompilePageCtx): string 
   statements = statements.concat(getFunctionMethod(page, ctx));
   // 使用xml生成script标签
   return g.generate(
-    [
-      g.node(
-        'script',
-        [g.prop('setup'), g.prop('lang', 'ts')],
-        [g.text(t.program(statements))]
-      ),
-    ],
+    [g.node('script', [g.prop('setup'), g.prop('lang', 'ts')], [g.text(t.program(statements))])],
     // 字符串形式代码
     // minified压缩一行 minimal中文不转码为unicode
     { minified: true, jsescOption: { minimal: true } }

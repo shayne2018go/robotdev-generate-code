@@ -331,12 +331,13 @@ const toAstMethods = {
     }
   },
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {
-    const { modeId, args } = data;
-    if (!modeId) {
-      throw new Error(`cannot find modeId ${data.id}`);
-    }
-    const action_protocol = ctx.global.actionsStore.getAction(modeId);
-    debugger;
+    // const { modeId, args } = data;
+    // if (!modeId) {
+    //   debugger;
+    //   throw new Error(`cannot find modeId ${data.id}`);
+    // }
+    // const action_protocol = ctx.global.actionsStore.getAction(modeId);
+    // debugger;
   },
 };
 
@@ -643,9 +644,7 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
       } else if (rdActionIsSys(prop.value)) {
         return;
       } else {
-        propProps.push(
-          t.objectProperty(t.identifier(varName), t.arrowFunctionExpression([t.identifier('ctx')], ast))
-        );
+        propProps.push(t.objectProperty(t.identifier(varName), t.arrowFunctionExpression([t.identifier('ctx')], ast)));
       }
     });
   }

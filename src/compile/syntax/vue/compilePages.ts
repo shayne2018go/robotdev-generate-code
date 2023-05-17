@@ -77,7 +77,16 @@ export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>
   ctx: VueGlobalCtx
 ): ParsingCurrentResult<T> {
   const importComponents: GlobalContext.Component[] = [];
-  const importFunctions: GlobalContext.Function[] = [];
+  const importFunctions: Omit<GlobalContext.Function, 'protocol'>[] = [
+    {
+      id: 'open', // 函数id
+      key: 'open', // 函数名称
+      source: {
+        filePath: 'src/system/action.ts', // 本地路径
+        exportName: 'open', // 导出名 (不能为空 默认default )
+      },
+    },
+  ];
   const nodesStore = nodesDataStore(data.nodes, ctx);
   const variablesStore = propertiesDataStore(data.variables || []);
   const lifeCyclesStore = ctx.eventsStore;

@@ -23,30 +23,30 @@ export type IViteCompilerOptions = {
 function compileVite(codeSchema: CodeSchema.Project, compileConfig: CompileConfig) {
   const template: ViteTemplate = 'vue-ts';
   const plugins: CodeSchema.TechnologyStack.Plugin[] = [
-    {
-      name: 'less',
-      dependencies: [
-        {
-          name: 'less',
-          version: '4.1.3',
-        },
-      ],
-      configs: [
-        {
-          path: 'vite.config.ts',
-          file: [{ type: 'exportExpression' }, { type: 'callExpression', name: 'defineConfig' }],
-          value: {
-            'css.preprocessorOptions.less.javascriptEnabled': true,
-          },
-        },
-        {
-          path: 'postcss.config.js',
-          value: {
-            'plugins.preprocessorOptions.less.javascriptEnabled': true,
-          },
-        },
-      ],
-    },
+    // {
+    //   name: 'less',
+    //   dependencies: [
+    //     {
+    //       name: 'less',
+    //       version: '4.1.3',
+    //     },
+    //   ],
+    //   configs: [
+    //     {
+    //       path: 'vite.config.ts',
+    //       file: [{ type: 'exportExpression' }, { type: 'callExpression', name: 'defineConfig' }],
+    //       value: {
+    //         'css.preprocessorOptions.less.javascriptEnabled': true,
+    //       },
+    //     },
+    //     {
+    //       path: 'postcss.config.js',
+    //       value: {
+    //         'plugins.preprocessorOptions.less.javascriptEnabled': true,
+    //       },
+    //     },
+    //   ],
+    // },
   ];
 
   const { tokens: templateTokens } = compileViteTemplate(template, compileConfig);
