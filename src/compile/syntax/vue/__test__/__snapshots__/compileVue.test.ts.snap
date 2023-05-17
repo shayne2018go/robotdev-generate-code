@@ -26,17 +26,6 @@ exports[`compile vue > compileApis 1`] = `
     "path": "src/apis/chaxunyonghu.ts",
     "token": "import axios from\\"axios\\";export function chaxunyonghu(data){return axios({method:\\"post\\",url:\\"chaxunyonghu\\",data:data})}",
   },
-  {
-    "path": "src/apis/chaxunyonghu.ts",
-    "token": "import axios from \\"axios\\";
-export function chaxunyonghu(data) {
-  return axios({
-    method: \\"post\\",
-    url: \\"chaxunyonghu\\",
-    data: data
-  });
-}",
-  },
 ]
 `;
 
@@ -47,17 +36,6 @@ exports[`compile vue > compileApis 2`] = `
     "token": "import axios from\\"axios\\";const instance=axios.create({timeout:6000,baseURL:\\"\\",headers:{}});instance.interceptors.request.use(function(config){return config},function(error){return error.reject(error)});instance.interceptors.response.use(function(response){return response.data},function(error){return error.reject(error)});export default instance;",
   },
 ]
-`;
-
-exports[`compile vue > compileRequestInstance 1`] = `
-{
-  "tokens": [
-    {
-      "path": "src/utils/axios.ts",
-      "token": "import axios from\\"axios\\";const instance=axios.create({timeout:6000,baseURL:\\"\\",headers:{}});instance.interceptors.request.use(function(config){return config},function(error){return error.reject(error)});instance.interceptors.response.use(function(response){return response.data},function(error){return error.reject(error)});export default instance;",
-    },
-  ],
-}
 `;
 
 exports[`compile vue > compileRouter 1`] = `

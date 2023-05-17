@@ -572,7 +572,6 @@ export const valueToAst = (
 
 export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectProperty[] => {
   const propProps: ObjectProperty[] = [];
-  const eventProps: ObjectProperty[] = [];
   const node = ctx.scope.current.nodesStore.getNode(nodeId);
   if (!node) {
     throw new Error('节点不存在');
@@ -648,7 +647,7 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
     });
   }
 
-  return propProps.concat(eventProps);
+  return propProps;
 };
 
 export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseCtx): ReturnRef | undefined => {
