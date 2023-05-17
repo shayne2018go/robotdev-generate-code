@@ -1,5 +1,5 @@
 import * as t from '@babel/types';
-import { dataType, tools } from '@/utils/tools';
+import { tools } from '@/utils/tools';
 import { AccessPath, ActionAst, BindAst, BindParseCtx, ReturnRef, TableProps } from '../types';
 import { NodeMapItem } from '../../store/nodes';
 
@@ -222,7 +222,7 @@ export const getOptMemberExpr = (paths: string[], optional = true): t.OptionalMe
 };
 
 export const getDataAstByAny = (value: any): t.Literal | t.ObjectExpression | t.ArrayExpression => {
-  const type = dataType.getType(value);
+  const type = tools.dataType.getType(value);
   switch (type) {
     case 'string': {
       return t.stringLiteral(value);

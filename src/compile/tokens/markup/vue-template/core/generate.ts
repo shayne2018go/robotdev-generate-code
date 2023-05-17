@@ -1,13 +1,18 @@
 import { check } from '../tools/helper';
 import { VueTemplateTypes } from '../types';
 import * as t from '@babel/types';
-import generate from '@babel/generator';
+import generate, { GeneratorOptions } from '@babel/generator';
+
+let options: GeneratorOptions | undefined;
+let customGenerate = (ast: t.Node) => {
+  return generate(ast, options);
+};
 
 const generatePropItem = (propItem: VueTemplateTypes.PropItem) => {
   if (['string', 'number'].includes(typeof propItem)) {
     return propItem;
   } else if (typeof propItem === 'object') {
-    const { code } = generate(propItem);
+    const { code } = customGenerate(propItem);
     return code;
   } else {
     return propItem;
@@ -18,7 +23,7 @@ const generateEventItem = (eventItem: VueTemplateTypes.EventItem) => {
   if (['string', 'number'].includes(typeof eventItem)) {
     return eventItem;
   } else if (typeof eventItem === 'object') {
-    const { code } = generate(eventItem);
+    const { code } = customGenerate(eventItem);
     return code;
   } else {
     return eventItem;
@@ -130,7 +135,7 @@ const generateTemplateText = (schema: VueTemplateTypes.Text): string => {
   } else if (['string', 'number'].includes(typeof schema.text)) {
     return `${schema.text}`;
   } else if (typeof schema.text === 'object') {
-    const { code } = generate(schema.text);
+    const { code } = customGenerate(schema.text);
     return code;
   }
   return `${schema.text}`;
@@ -142,7 +147,7 @@ const generateTemplateInsertText = (schema: VueTemplateTypes.InsertText): string
   } else if (['string', 'number'].includes(typeof schema.expression)) {
     return `{{${schema.expression}}}`;
   } else if (typeof schema.expression === 'object') {
-    const { code } = generate(schema.expression);
+    const { code } = customGenerate(schema.expression);
     return `{{${code}}}`;
   }
   return `{{${schema.expression}}}`;
@@ -170,8 +175,9 @@ const generateTemplateNodes = (schema: VueTemplateTypes.ChildNodes): string => {
   return code;
 };
 
-export const generateVueTemplate = (schema: VueTemplateTypes.VueTemplate): string => {
+export const generateVueTemplate = (schema: VueTemplateTypes.VueTemplate, opts?: GeneratorOptions): string => {
   let code = '';
+  options = opts;
   if (schema.nodes) {
     code += generateTemplateNodes(schema.nodes);
   }

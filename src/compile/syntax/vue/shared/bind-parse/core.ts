@@ -584,7 +584,6 @@ export const valueToAst = (
 
 export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectProperty[] => {
   const propProps: ObjectProperty[] = [];
-  const eventProps: ObjectProperty[] = [];
   const node = ctx.scope.current.nodesStore.getNode(nodeId);
   if (!node) {
     throw new Error('节点不存在');
@@ -610,57 +609,61 @@ export const nodePropsAst = (nodeId: string, ctx: CompilePageCtx): ObjectPropert
   if (node.props?.length) {
     node.props.forEach((prop) => {
       const res = nodePropValueAst(node.id, prop.propId, bindParseCtx);
-      if (res) {
-        const varName = getNodePropKeyByNodeId(node.id, prop.propId, ctx);
-        if (varName && res.value) {
-          const ast = res.value as ActionAst | BindAst;
-          if (!isRdData(prop.value) || rdDataisCustom(prop.value)) {
-            propProps.push(t.objectProperty(t.identifier(varName), ast));
-          } else if (rdDataIsBind(prop.value)) {
-            if (['getSlotData', 'getEachData'].includes(prop.value.mode)) {
-              return;
-            }
-            propProps.push(
-              t.objectProperty(
-                t.identifier(varName),
-                t.callExpression(t.identifier('computed'), [t.arrowFunctionExpression([], ast)])
-              )
-            );
-          } else if (rdDataIsTable(prop.value)) {
-            const tableProp = res.value as TableProps;
-            propProps.push(
-              t.objectProperty(
-                t.identifier(varName),
-                t.objectExpression([
-                  t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
-                  t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
-                ])
-              )
-            );
-          } else if (rdActionIsSys(prop.value)) {
-            return;
-          } else {
-            propProps.push(
-              t.objectProperty(t.identifier(varName), t.arrowFunctionExpression([t.identifier('ctx')], ast))
-            );
-          }
+      if (!res || !res.value) {
+        return;
+      }
+      const varName = getNodePropKeyByNodeId(node.id, prop.propId, ctx);
+      if (!varName) {
+        return;
+      }
+      const ast = res.value as ActionAst | BindAst;
+      if (!isRdData(prop.value) || rdDataisCustom(prop.value)) {
+        propProps.push(t.objectProperty(t.identifier(varName), ast));
+      } else if (rdDataIsBind(prop.value)) {
+        if (['getSlotData', 'getEachData'].includes(prop.value.mode)) {
+          return;
         }
+        propProps.push(
+          t.objectProperty(
+            t.identifier(varName),
+            t.callExpression(t.identifier('computed'), [t.arrowFunctionExpression([], ast)])
+          )
+        );
+      } else if (rdDataIsTable(prop.value)) {
+        const tableProp = res.value as TableProps;
+        propProps.push(
+          t.objectProperty(
+            t.identifier(varName),
+            t.objectExpression([
+              t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
+              t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
+            ])
+          )
+        );
+      } else if (rdActionIsSys(prop.value)) {
+        return;
+      } else {
+        propProps.push(
+          t.objectProperty(t.identifier(varName), t.arrowFunctionExpression([t.identifier('ctx')], ast))
+        );
       }
     });
   }
   if (node.events?.length) {
     node.events.forEach((event) => {
       const ast = nodeEventValueAst(node.id, event.eventId, bindParseCtx);
-      if (ast) {
-        const varName = getNodeEventKeyByNodeId(node.id, event.eventId, ctx);
-        if (varName) {
-          propProps.push(t.objectProperty(t.identifier(varName), ast));
-        }
+      if (!ast) {
+        return;
       }
+      const varName = getNodeEventKeyByNodeId(node.id, event.eventId, ctx);
+      if (!varName) {
+        return;
+      }
+      propProps.push(t.objectProperty(t.identifier(varName), ast));
     });
   }
 
-  return propProps.concat(eventProps);
+  return propProps;
 };
 
 export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseCtx): ReturnRef | undefined => {

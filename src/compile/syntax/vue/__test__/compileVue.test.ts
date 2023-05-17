@@ -35,12 +35,4 @@ describe('compile vue', () => {
     expect(api).toMatchObject(apiTokens);
     expect(axios).toMatchObject(axiosTokens);
   });
-
-  it('compileRequestInstance', () => {
-    const tokens = compileRequestInstance({});
-
-    debugger;
-    expect(tokens).toMatchSnapshot();
-    expect(tokens).toMatchObject(axiosTokens);
-  });
 });

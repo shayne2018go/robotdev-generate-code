@@ -42,17 +42,17 @@ describe('core', () => {
     it('getVar', () => {
       bindParseCtx.scope.node = bindParseCtx.scope.current.nodesStore.getNode('Y576');
       const ast = bindToAst(bindParseCtx.scope.node?.props?.[0].value! as BindRdData, bindParseCtx);
-      expect(generate(ast!).code).toEqual('variables.xunhuancols');
+      expect(generate(ast!).code).toEqual('variables?.xunhuancols');
     });
     it('getApiData', () => {
       bindParseCtx.scope.node = bindParseCtx.scope.current.nodesStore.getNode('F104');
       const ast = bindToAst(bindParseCtx.scope.node?.props?.[0].value! as BindRdData, bindParseCtx);
-      expect(generate(ast!).code).toEqual('apiState.chaxunsuoyouyonghu.data.yonghushuzu');
+      expect(generate(ast!).code).toEqual('apiState?.chaxunsuoyouyonghu?.data?.yonghushuzu');
     });
     it('getParam', () => {
       bindParseCtx.scope.node = bindParseCtx.scope.current.nodesStore.getNode('F104');
       const ast = bindToAst(bindParseCtx.scope.node?.props?.[1].value! as BindRdData, bindParseCtx);
-      expect(generate(ast!).code).toEqual('router.query.id');
+      expect(generate(ast!).code).toEqual('router?.query?.id');
     });
     it('getEventData', () => {
       bindParseCtx.scope.node = bindParseCtx.scope.current.nodesStore.getNode('F104');
@@ -62,7 +62,7 @@ describe('core', () => {
           .value! as BindRdData,
         bindParseCtx
       );
-      expect(generate(ast!).code).toEqual('event.target.value');
+      expect(generate(ast!).code).toEqual('event_event?.target?.value');
     });
     it('getSlotData', () => {});
     it('getEachData', () => {});

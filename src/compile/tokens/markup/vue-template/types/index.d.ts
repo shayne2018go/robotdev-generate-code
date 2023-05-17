@@ -5,6 +5,7 @@ import {
   NumericLiteral,
   StringLiteral,
   ArrowFunctionExpression,
+  Program,
 } from '@babel/types';
 declare namespace VueTemplateTypes {
   export type PropItem = string | number | CallExpression | MemberExpression | BinaryExpression;
@@ -15,7 +16,7 @@ declare namespace VueTemplateTypes {
 
   export type TextExpression = string | CallExpression | MemberExpression;
 
-  export type TextLiteral = NumericLiteral | StringLiteral | string | number;
+  export type TextLiteral = NumericLiteral | StringLiteral | Program | string | number;
 
   export interface Prop {
     key: string;
