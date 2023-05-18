@@ -143,7 +143,7 @@ function getComponentImports<T extends CodeSchema.Page | CodeSchema.Component>(
 }
 
 function getFunctionImports<T extends CodeSchema.Page | CodeSchema.Component>(
-  importComponents: GlobalContext.Function[],
+  importFunctions: GlobalContext.Function[],
   ctx: CompileCurrentCtx
 ): t.ImportDeclaration[] {
   const importArray: any[] = [];
@@ -151,7 +151,7 @@ function getFunctionImports<T extends CodeSchema.Page | CodeSchema.Component>(
   let count = 0;
   let pageDir = getCurrentDependency(ctx.scope.current.data.id, ctx)?.source?.filePath;
   pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
-  importComponents.forEach((ele) => {
+  importFunctions.forEach((ele) => {
     let { key, source } = ele;
     if (key && source) {
       const { filePath, packageName, exportName, alias } = source;

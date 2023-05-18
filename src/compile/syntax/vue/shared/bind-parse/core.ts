@@ -31,6 +31,7 @@ import {
   rdDataIsTable,
 } from './shared/helper';
 import { ActionAst, ActionsAst, BindAst, BindParseCtx, BindRdData, LiteralAst, ReturnRef, TableProps } from './types';
+import { getScopeData } from '../template-helper';
 
 /** helper  start*/
 
@@ -208,17 +209,13 @@ const toAstMethods = {
       if (!data.args[paramId]) {
         return;
       }
-      const ast = valueToAst(data.args[paramId], ctx);
-      if (!ast || !ast.value) {
+      const ast = valueToAst(data.args[paramId], ctx)?.value;
+      if (!ast) {
         return;
       }
-      if (rdDataIsBind(data.args[paramId] as CodeSchema.DataValue)) {
-        argsExprs.push(t.prependToMemberExpression(ast.value as MemberExpression, t.identifier('ctx')));
-      } else {
-        argsExprs.push(ast.value as Expression);
-      }
+      argsExprs.push(ast as BindAst | ActionAst | LiteralAst);
     });
-    return t.callExpression(t.identifier(fxDefine.key), argsExprs);
+    return t.callExpression(t.memberExpression(t.identifier('fx'), t.identifier(fxDefine.key)), argsExprs);
   },
   set: (data: CodeSchema.Action_Set, ctx: BindParseCtx): AssignmentExpression[] => {
     const { actions = [] } = data.args;
@@ -261,8 +258,8 @@ const toAstMethods = {
     if (!api) {
       throw new Error('setApiData函数的api失败');
     }
+    let paths: string[] = [];
     if (data.args.path && data.args.path.length) {
-      let paths: string[] = [];
       paths.push(ctx.global.apiVarRootName, api.key);
       const [dataName, bodyId, ...argPaths] = data.args.path || [];
       if (dataName) {
@@ -279,12 +276,11 @@ const toAstMethods = {
         paths.push(body.varName);
         paths.push(...searchModulePathKeys(body.data.types, argPaths)); // 路径中的每个属性名
       }
-      const ast = valueToAst(data.args.value as CodeSchema.DataValueArgument, ctx);
-      return t.assignmentExpression('=', getMemberExpr(paths), ast.value as Expression);
     } else {
-      const ast = valueToAst(data.args.value as CodeSchema.DataValueArgument, ctx);
-      return t.assignmentExpression('=', getMemberExpr([ctx.global.apiVarRootName, api.key]), ast.value as Expression);
+      paths = [ctx.global.apiVarRootName, api.key];
     }
+    const ast = valueToAst(data.args.value as CodeSchema.DataValueArgument, ctx);
+    return t.assignmentExpression('=', getMemberExpr(paths), ast.value as Expression);
   },
   api: (data: CodeSchema.Action_Api, ctx: BindParseCtx): CallExpression => {
     // 执行api
@@ -750,7 +746,26 @@ export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
       } else if (rdActionIsSys(prop.value)) {
         return;
       } else {
-        propProps.push(t.objectProperty(t.identifier(varName), t.arrowFunctionExpression([t.identifier('ctx')], ast)));
+        const nodeMapItem = ctx.scope.current.nodesStore.find(nodeId);
+        if (!nodeMapItem) {
+          return;
+        }
+        const scopeData = getScopeData(nodeMapItem, ctx);
+        propProps.push(
+          t.objectProperty(
+            t.identifier(varName),
+            t.arrowFunctionExpression(
+              [
+                t.objectPattern(
+                  scopeData.map((varText: string) =>
+                    t.objectProperty(t.identifier(varText), t.identifier(varText), undefined, true)
+                  )
+                ),
+              ],
+              ast
+            )
+          )
+        );
       }
     });
   }
