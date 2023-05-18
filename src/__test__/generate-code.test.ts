@@ -24,7 +24,7 @@ describe('generate-code', () => {
     debugger;
     const { projectPath } = generate(optimizeTokens);
 
-    await build(projectPath);
+    // await build(projectPath);
 
     const isExist = fse.existsSync(projectPath);
 

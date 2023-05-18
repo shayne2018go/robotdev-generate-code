@@ -1,6 +1,6 @@
 import { genVarName } from '../helper';
 
-interface PropertiesMapItem {
+export interface PropertiesMapItem {
   data: CodeSchema.Property_Protocol;
   varName: string;
   members: TypesTree;
@@ -53,6 +53,7 @@ export const propertiesDataStore = (
 ) => {
   const propertiesMap: PropertiesMap = {};
   const propertiesKeyMap: PropertiesMap = {};
+  const propertiesArray: PropertiesMapItem[] = [];
   const genVariablesNameHandler = genVarName();
 
   let length = 0;
@@ -65,10 +66,14 @@ export const propertiesDataStore = (
         members: typesToMap(item.types),
       };
       propertiesKeyMap[item.key] = propertiesMap[item.id];
+      propertiesArray.push(propertiesMap[item.id]);
     });
   }
 
   return {
+    findAll(): PropertiesMapItem[] {
+      return propertiesArray;
+    },
     find(
       id_or_Key: CodeSchema.Property_Protocol['id'] | CodeSchema.Property_Protocol['key']
     ): PropertiesMapItem | undefined {

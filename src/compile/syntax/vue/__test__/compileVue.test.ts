@@ -6,6 +6,7 @@ import vueRouterTokens from './fixture/vue-router-tokens.json';
 import compileApis, { compileRequestInstance } from '../compileApis';
 import apiTokens from './fixture/api-tokens.json';
 import axiosTokens from './fixture/axios-tokens.json';
+import vueTokens from './fixture/vue-tokens.json';
 
 describe('compile vue', () => {
   // 解析相关依赖协议
@@ -16,6 +17,9 @@ describe('compile vue', () => {
 
   it('compileVue', () => {
     const { tokens } = compileVue(codeSchema);
+    debugger;
+
+    expect(tokens).toMatchObject(vueTokens);
   });
 
   it('compileRouter', () => {

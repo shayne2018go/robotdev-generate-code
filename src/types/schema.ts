@@ -236,15 +236,6 @@ declare namespace CodeSchema {
   }
 
   // 执行业务
-  export interface Action_When extends Action {
-    mode: 'when';
-    args: {
-      rd_if: { condition: Action; actions: Action[] }[];
-      rd_else: { actions: Action[] }[];
-    };
-  }
-
-  // 执行业务
   export interface Action_Open extends Action {
     mode: 'open';
     args: {
@@ -253,6 +244,75 @@ declare namespace CodeSchema {
       pageId: string;
       url: string;
     };
+  }
+}
+
+// 条件
+declare namespace CodeSchema {
+  export interface Action_When {
+    mode: 'when';
+    args: {
+      rd_if: { condition: Action_When_Expression; actions: Action[] }[];
+      rd_else: { actions: Action[] }[];
+    };
+  }
+
+  export interface Action_When_Expression {
+    mode: string;
+    args: {
+      operation?: Connectors;
+      expression?: Action_When_ExpressionSimple[];
+    };
+  }
+
+  export interface Action_When_ExpressionSimpleBase {
+    mode: Comparators;
+    args: {
+      left?: any;
+      right?: any;
+    };
+  }
+
+  export type Action_When_ExpressionSimple = Action_When_Expression & Action_When_ExpressionSimpleBase;
+}
+
+declare namespace CodeSchema {
+  // 比较
+  export enum Comparators {
+    EQ = 'eq', // 是
+    NEQ = 'neq', // 不是
+    STARTWITH = 'startwith', // 开头为
+    NSTARTWITH = 'nstartwith', // 开头不为
+    ENDWITH = 'endwith', // 结尾为
+    NENDWITH = 'nendwith', // 结尾不为
+    CONTAIN = 'contain', // 包含
+    NCONTAIN = 'ncontain', // 不包含
+    IN = 'in', // 包含于
+    NIN = 'nin', // 不包含于
+    NULL = 'null', // 为空
+    NNULL = 'nnull', // 不为空
+    LTE = 'lte', // 小于等于
+    LT = 'lt', // 小于
+    GTE = 'gte', // 大于等于
+    GT = 'gt', // 大于
+    TODAY = 'today', // 今天
+    YESTERDAY = 'yesterday', // 昨天
+    LAST7DAYS = 'last7days', // 过去7天
+    NEXT7DAYS = 'next7days', // 未来7天
+    LASTWEEK = 'lastweek', // 上周
+    NEXTWEEK = 'nextweek', // 下周
+    LASTMONTH = 'lastmonth', // 上个月
+    CURRENTMONTH = 'currentmonth', // 本月
+    NEXTMONTH = 'nextmonth', // 下个月
+    LASTYEAR = 'lastyear', // 去年
+    CURRENTYEAR = 'currentyear', // 今年
+    NEXTYEAR = 'nextyear', // 明年
+  }
+
+  // 连接
+  export enum Connectors {
+    AND = 'and', // 且
+    OR = 'or', // 或
   }
 }
 

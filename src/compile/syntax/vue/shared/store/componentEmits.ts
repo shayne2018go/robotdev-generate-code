@@ -1,7 +1,7 @@
 import { genVarName } from '../helper';
 import { propertiesDataStore } from './properties';
 
-interface EmitMapItem {
+export interface EmitMapItem {
   data: CodeSchema.ComponentEmit;
   varName: string;
   members: Members;
@@ -18,6 +18,7 @@ interface Members {
 export const componentEmitsDataStore = (emits: CodeSchema.ComponentEmit[]) => {
   const emitsMap: EmitMap = {};
   const emitsKeyMap: EmitMap = {};
+  const emitsArray: EmitMapItem[] = [];
   const genVariablesNameHandler = genVarName();
 
   if (emits) {
@@ -31,10 +32,14 @@ export const componentEmitsDataStore = (emits: CodeSchema.ComponentEmit[]) => {
           },
         };
         emitsKeyMap[item.key] = emitsMap[item.id];
+        emitsArray.push(emitsMap[item.id]);
       });
     }
   }
   return {
+    findAll() {
+      return emitsArray;
+    },
     find(id_or_Key: CodeSchema.ComponentEmit['id'] | CodeSchema.ComponentEmit['key']) {
       const data = emitsMap[id_or_Key] || emitsKeyMap[id_or_Key];
       if (!data) {

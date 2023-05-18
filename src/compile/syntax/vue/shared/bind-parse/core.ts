@@ -184,7 +184,7 @@ const toAstMethods = {
     if (!pathPropertieKeys?.length) {
       throw new Error(`Cannot find getCmptPropData path ${data}`);
     }
-    return getOptMemberExpr(pathPropertieKeys);
+    return getOptMemberExpr(['props', ...pathPropertieKeys]);
   },
   getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): CallExpression => {
     // const { id, path } = data.args;
@@ -200,7 +200,8 @@ const toAstMethods = {
       return;
     }
     const fxDefine = ctx.global.functionsStore.getFunction(data.modeId);
-    if (!fxDefine) {
+    debugger;
+    if (!fxDefine || !fxDefine.source?.exportNamespace) {
       return;
     }
     const argsExprs: Expression[] = [];
@@ -215,7 +216,11 @@ const toAstMethods = {
       }
       argsExprs.push(ast as BindAst | ActionAst | LiteralAst);
     });
-    return t.callExpression(t.memberExpression(t.identifier('fx'), t.identifier(fxDefine.key)), argsExprs);
+
+    return t.callExpression(
+      t.memberExpression(t.identifier(fxDefine.source?.exportNamespace), t.identifier(fxDefine.key)),
+      argsExprs
+    );
   },
   set: (data: CodeSchema.Action_Set, ctx: BindParseCtx): AssignmentExpression[] => {
     const { actions = [] } = data.args;
