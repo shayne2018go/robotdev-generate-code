@@ -744,7 +744,7 @@ export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
           t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value as ActionAst)
         );
       } else if (rdActionIsSys(prop.value)) {
-        return;
+        propProps.push(t.objectProperty(t.identifier(varName), ast));
       } else {
         const nodeMapItem = ctx.scope.current.nodesStore.find(nodeId);
         if (!nodeMapItem) {
