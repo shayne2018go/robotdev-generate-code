@@ -12,6 +12,7 @@ import {
   rdDataIsBind,
   rdDataIsTable,
   rdDataisCustom,
+  isAction,
 } from './bind-parse/shared/helper';
 import { BindParseCtx } from './bind-parse/types';
 import { NodeMapItem } from './store/nodes';
@@ -195,6 +196,46 @@ export const getNodeEventValue = <T extends CodeSchema.Page | CodeSchema.Compone
 // 判断当前值 是变量还是函数调用
 export const isScriptVariable = (value: CodeSchema.DataValueArgument | CodeSchema.ActionArgument) => {
   return isRdData(value) && (rdDataisCustom(value) || rdDataIsBind(value) || rdDataIsTable(value));
+};
+
+interface nodePropValueTypeRes {
+  // error：数据错误
+  // directCompilation: 直接编译
+  // literal：字面量
+  // literalVar：将属性变量当作 字面量
+  // computed：将属性变量当作计算属性
+  // function：将属性变量当作函数，入参为object，元素为父辈的所有局部变量
+  // split：拆分成多个属性
+  type: 'error' | 'directCompilation' | 'var' | 'literal' | 'literalVar' | 'computed' | 'function' | 'split';
+}
+export const nodePropValueType = (value: CodeSchema.DataValueArgument) => {
+  const res: nodePropValueTypeRes = {
+    type: 'error',
+  };
+  if (isRdData(value)) {
+    if (rdDataisCustom(value)) {
+      res.type = 'var'; // 未来根据是否包含双引号决定是否为literal
+    } else if (isRdData(value) && rdDataIsBind(value)) {
+      // TODO 理论上，所有的绑定都应该直接编译，但目前先只管 循环和插槽
+      if (['getEachData', 'getSlotData'].includes(value.mode)) {
+        res.type = 'directCompilation';
+      } else {
+        res.type = 'computed';
+      }
+    } else if (rdDataIsBind(value)) {
+      res.type = 'function';
+    } else if (rdDataIsTable(value)) {
+      res.type = 'split';
+    } else {
+      res.type = 'error';
+    }
+  } else if (isAction(value)) {
+    res.type = 'error';
+    return res;
+  } else {
+    res.type = 'var'; // 未来根据是否包含双引号决定是否为literal
+  }
+  return res;
 };
 
 export const isScriptVariableCall = (value: CodeSchema.DataValueArgument | CodeSchema.ActionArgument) => {
