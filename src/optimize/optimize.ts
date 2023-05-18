@@ -1,5 +1,5 @@
 import { Compile } from '@/types/compile/token';
-import { check, format } from 'prettier';
+import { Options, format } from 'prettier';
 
 const fileNameSuffix_parser_map: Record<string, string | boolean> = {
   ts: 'typescript',
@@ -26,7 +26,7 @@ const fileNameSuffix_parser_map: Record<string, string | boolean> = {
   yaml: true,
 };
 
-const FORMAT_OPTION_DEFAULT = {
+const FORMAT_OPTION_DEFAULT: Options = {
   semi: false,
   printWidth: 120,
 };

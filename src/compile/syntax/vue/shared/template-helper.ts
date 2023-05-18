@@ -216,6 +216,7 @@ export const getScopeData = <T extends CodeSchema.Page | CodeSchema.Component>(
     const tag = getNodeTag(pNode.data.tagId, ctx);
     if (tag === VirtualTag.EACH) {
       data.push(`${getEachItemVarName(pNode.varName)}`);
+      data.push(`${getEachIndexVarName(pNode.varName)}`);
     } else if (tag === VirtualTag.SLOT) {
       data.push(`${getSlotVarName(pNode.varName)}`);
     }
