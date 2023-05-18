@@ -1,6 +1,4 @@
 import * as g from '@/compile/tokens/markup/vue-template/generate-schema';
-import { relative } from '@/utils/node';
-import { tools } from '@/utils/tools';
 import * as t from '@babel/types';
 import { CompileCurrentCtx } from '../compilePages';
 import { actionsToAst, nodePropsAst } from '../shared/bind-parse/core';

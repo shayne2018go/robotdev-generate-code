@@ -206,7 +206,7 @@ interface nodePropValueTypeRes {
   // computed：将属性变量当作计算属性
   // function：将属性变量当作函数，入参为object，元素为父辈的所有局部变量
   // split：拆分成多个属性
-  type: 'error' | 'directCompilation' | 'var' | 'literal' | 'literalVar' | 'computed' | 'function' | 'split';
+  type: 'error' | 'directCompilation' | 'literal' | 'literalVar' | 'computed' | 'function' | 'split';
 }
 export const nodePropValueType = (value: CodeSchema.DataValueArgument) => {
   const res: nodePropValueTypeRes = {
@@ -214,7 +214,7 @@ export const nodePropValueType = (value: CodeSchema.DataValueArgument) => {
   };
   if (isRdData(value)) {
     if (rdDataisCustom(value)) {
-      res.type = 'var'; // 未来根据是否包含双引号决定是否为literal
+      res.type = 'literalVar'; // 未来根据是否包含双引号决定是否为literal
     } else if (isRdData(value) && rdDataIsBind(value)) {
       // TODO 理论上，所有的绑定都应该直接编译，但目前先只管 循环和插槽
       if (['getEachData', 'getSlotData'].includes(value.mode)) {
@@ -233,7 +233,7 @@ export const nodePropValueType = (value: CodeSchema.DataValueArgument) => {
     res.type = 'error';
     return res;
   } else {
-    res.type = 'var'; // 未来根据是否包含双引号决定是否为literal
+    res.type = 'literalVar'; // 未来根据是否包含双引号决定是否为literal
   }
   return res;
 };
