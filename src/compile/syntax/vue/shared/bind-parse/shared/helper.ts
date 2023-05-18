@@ -33,28 +33,6 @@ export const isAction = (data: any): data is CodeSchema.DataValue => {
   }
   return false;
 };
-
-export const actionCheck = {
-  isSetVar: (data: CodeSchema.Action): data is CodeSchema.Action_SetVar => {
-    return data.mode === 'setVar';
-  },
-  isSetApiData: (data: CodeSchema.Action): data is CodeSchema.Action_SetApiData => {
-    return data.mode === 'setApiData';
-  },
-  isOpen: (data: CodeSchema.Action): data is CodeSchema.Action_Open => {
-    return data.mode === 'open';
-  },
-  isSet: (data: CodeSchema.Action): data is CodeSchema.Action_Set => {
-    return data.mode === 'set';
-  },
-  isApi: (data: CodeSchema.Action): data is CodeSchema.Action_Api => {
-    return data.mode === 'api';
-  },
-  isWhen: (data: CodeSchema.Action): data is CodeSchema.Action_When => {
-    return data.mode === 'when';
-  },
-};
-
 export const rdDataisCustom = (data: CodeSchema.DataValue): data is CodeSchema.DataValue_Custom => {
   return data.mode === 'custom';
 };
@@ -76,6 +54,27 @@ export const rdActionIsSys = (data: any): data is SysAction => {
 };
 export const rdDataIsTable = (data: CodeSchema.DataValue): data is CodeSchema.DataValue_TableData => {
   return data.mode === 'tableData';
+};
+
+export const actionCheck = {
+  isSetVar: (data: CodeSchema.Action): data is CodeSchema.Action_SetVar => {
+    return data.mode === 'setVar';
+  },
+  isSetApiData: (data: CodeSchema.Action): data is CodeSchema.Action_SetApiData => {
+    return data.mode === 'setApiData';
+  },
+  isOpen: (data: CodeSchema.Action): data is CodeSchema.Action_Open => {
+    return data.mode === 'open';
+  },
+  isSet: (data: CodeSchema.Action): data is CodeSchema.Action_Set => {
+    return data.mode === 'set';
+  },
+  isApi: (data: CodeSchema.Action): data is CodeSchema.Action_Api => {
+    return data.mode === 'api';
+  },
+  isWhen: (data: any): data is CodeSchema.Action_When => {
+    return data.mode === 'when';
+  },
 };
 
 export const genRdData = (
@@ -188,30 +187,26 @@ export const inTemplate = (data: BindRdData) => {
   return false;
 };
 
-export const getMemberExpr = (paths: string[], optional = false): t.MemberExpression => {
+export const getMemberExpr = (paths: string[], optional = false): t.MemberExpression | t.Identifier => {
   if (!paths.length) {
-    throw new Error('getMemberExpr的paths元素个数少于2');
+    throw new Error('getMemberExpr的paths元素个数不能为1');
   }
-  const varStr = paths.pop() as string;
-  const memberPaths = paths;
-  if (memberPaths.length !== 1) {
-    return t.memberExpression(getMemberExpr(memberPaths, optional), t.identifier(varStr), undefined, optional);
+  if (paths.length === 1) {
+    return t.identifier(paths[0]);
   } else {
-    return t.memberExpression(t.identifier(memberPaths[0]), t.identifier(varStr), undefined, optional);
+    return t.memberExpression(
+      getMemberExpr(paths.slice(0, -1), optional),
+      t.identifier(paths[paths.length - 1]),
+      undefined,
+      optional
+    );
   }
 };
 
 export const getOptMemberExpr = (paths: string[], optional = true): t.OptionalMemberExpression | t.Identifier => {
   if (!paths.length) {
-    throw new Error('getMemberExpr的paths元素个数少于2');
+    throw new Error('getOptMemberExpr的paths元素个数不能为1');
   }
-  // const varStr = paths.pop() as string;
-  // const memberPaths = paths;
-  // if (memberPaths.length !== 1) {
-  //   return t.optionalMemberExpression(getOptMemberExpr(memberPaths, optional), t.identifier(varStr), undefined, optional);
-  // } else {
-  //   return t.optionalMemberExpression(t.identifier(memberPaths[0]), t.identifier(varStr), undefined, optional);
-  // }
   if (paths.length === 1) {
     return t.identifier(paths[0]);
   } else {

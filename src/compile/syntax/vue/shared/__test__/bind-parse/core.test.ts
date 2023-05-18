@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { buildGlobalCtx, parsingVueCompileOptions } from '../../../compileVue';
-import codeSchema from './mock/CodeSchema';
+import codeSchema from '../mock/CodeSchema';
 import { CompileCurrentCtx, parsingCurrent } from '../../../compilePages';
 import { ActionAst, ActionsAst, BindParseCtx, BindRdData } from '../../bind-parse/types';
 import { genVarName } from '../../helper';
