@@ -175,7 +175,10 @@ const toAstMethods = {
     }
     return getOptMemberExpr(pathPropertieKeys);
   },
-  getCmptPropData: (data: CodeSchema.DataValue_GetCmptPropData, ctx: BindParseCtx): OptionalMemberExpression | Identifier => {
+  getCmptPropData: (
+    data: CodeSchema.DataValue_GetCmptPropData,
+    ctx: BindParseCtx
+  ): OptionalMemberExpression | Identifier => {
     const pathPropertieKeys = getPathPropertieKeys(ctx, data);
     if (!pathPropertieKeys?.length) {
       throw new Error(`Cannot find getCmptPropData path ${data}`);
@@ -191,7 +194,32 @@ const toAstMethods = {
     }
   },
   tableData: (data: CodeSchema.DataValue_TableData, ctx: BindParseCtx): CallExpression => {},
-  fx: (data: CodeSchema.DataValue, ctx: BindParseCtx): CallExpression => {},
+  fx: (data: CodeSchema.DataValue, ctx: BindParseCtx): CallExpression | undefined => {
+    if (!data.modeId) {
+      return;
+    }
+    const fxDefine = ctx.global.functionsStore.getFunction(data.modeId);
+    if (!fxDefine) {
+      return;
+    }
+    const argsExprs: Expression[] = [];
+    fxDefine.protocol.parameters.forEach((param) => {
+      const paramId = param.id;
+      if (!data.args[paramId]) {
+        return;
+      }
+      const ast = valueToAst(data.args[paramId], ctx);
+      if (!ast || !ast.value) {
+        return;
+      }
+      if (rdDataIsBind(data.args[paramId] as CodeSchema.DataValue)) {
+        argsExprs.push(t.prependToMemberExpression(ast.value as MemberExpression, t.identifier('ctx')));
+      } else {
+        argsExprs.push(ast.value as Expression);
+      }
+    });
+    return t.callExpression(t.identifier(fxDefine.key), argsExprs);
+  },
   set: (data: CodeSchema.Action_Set, ctx: BindParseCtx): AssignmentExpression[] => {
     const { actions = [] } = data.args;
     return actions.map((act) => {
@@ -334,9 +362,7 @@ const toAstMethods = {
       throw new Error('open函数的mode类型错误');
     }
   },
-  when: (data: CodeSchema.Action_When, ctx: BindParseCtx): CallExpression => {
-
-  },
+  when: (data: CodeSchema.Action_When, ctx: BindParseCtx): CallExpression => {},
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {
     // const { modeId, args } = data;
     // if (!modeId) {
@@ -718,13 +744,8 @@ export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
       } else if (rdDataIsTable(prop.value)) {
         const tableProp = res.value as TableProps;
         propProps.push(
-          t.objectProperty(
-            t.identifier(varName),
-            t.objectExpression([
-              t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
-              t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value),
-            ])
-          )
+          t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
+          t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value as ActionAst)
         );
       } else if (rdActionIsSys(prop.value)) {
         return;
