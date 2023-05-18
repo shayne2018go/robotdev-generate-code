@@ -11,7 +11,7 @@ const codeSchema = {
       id: '6352061254bb9b1c84ce3570',
       projectId: '000000000000000000000010',
       name: 'Ant Design',
-      key: 'ant-design-vue',
+      key: 'antd',
       version: 'latest',
       components: [],
       elements: [
@@ -3167,7 +3167,7 @@ const codeSchema = {
       id: '64254754fdc7e85f87137555',
       projectId: '6405a27e2d9335b17497fd8f',
       name: '系统函数',
-      key: '@robotdev/fx-common',
+      key: 'system-function',
       version: 'latest',
       components: [],
       elements: [],
@@ -7297,7 +7297,7 @@ const codeSchema = {
                         mode: 'setApiData',
                         args: {
                           id: '64464f4e9c229310c169d7da',
-                          path: ['data','64464f8e442d4717949ba954','64464f9d442d4717949ba955'],
+                          path: ['data', '64464f8e442d4717949ba954', '64464f9d442d4717949ba955'],
                           value: {
                             type: 'data',
                             mode: 'custom',

@@ -80,7 +80,7 @@ export const defaultAst = <T extends CodeSchema.Page | CodeSchema.Component>(
   return;
 };
 
-const toAstMethods = {
+export const toAstMethods = {
   getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): OptionalMemberExpression | Identifier | undefined => {
     // api响应数据 apiState.api函数名.data?.响应body?.响应body属性
     if (!data.args.id) {
@@ -184,7 +184,7 @@ const toAstMethods = {
     if (!pathPropertieKeys?.length) {
       throw new Error(`Cannot find getCmptPropData path ${data}`);
     }
-    return getOptMemberExpr(pathPropertieKeys);
+    return getOptMemberExpr(['props', ...pathPropertieKeys]);
   },
   getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): CallExpression => {
     // const { id, path } = data.args;
@@ -194,13 +194,15 @@ const toAstMethods = {
       throw new Error(`Cannot find getCmptPropData path ${data}`);
     }
   },
-  tableData: (data: CodeSchema.DataValue_TableData, ctx: BindParseCtx): CallExpression => {},
+  tableData: (data: CodeSchema.DataValue_TableData, ctx: BindParseCtx): TableProps => {
+    return tableDataToAst(data, ctx);
+  },
   fx: (data: CodeSchema.DataValue, ctx: BindParseCtx): CallExpression | undefined => {
     if (!data.modeId) {
       return;
     }
     const fxDefine = ctx.global.functionsStore.getFunction(data.modeId);
-    if (!fxDefine) {
+    if (!fxDefine || !fxDefine.source?.exportNamespace) {
       return;
     }
     const argsExprs: Expression[] = [];
@@ -215,7 +217,11 @@ const toAstMethods = {
       }
       argsExprs.push(ast as BindAst | ActionAst | LiteralAst);
     });
-    return t.callExpression(t.memberExpression(t.identifier('fx'), t.identifier(fxDefine.key)), argsExprs);
+
+    return t.callExpression(
+      t.memberExpression(t.identifier(fxDefine.source?.exportNamespace), t.identifier(fxDefine.key)),
+      argsExprs
+    );
   },
   set: (data: CodeSchema.Action_Set, ctx: BindParseCtx): AssignmentExpression[] => {
     const { actions = [] } = data.args;
@@ -679,7 +685,7 @@ export const valueToAst = (
     res.value = bindToAst(data, ctx);
   } else if (rdDataIsTable(data)) {
     res.type = 'table';
-    res.value = tableDataToAst(data, ctx);
+    res.value = toAstMethods.tableData(data, ctx);
     return res;
   } else {
     res.value = toAstMethods.fx(data, ctx);

@@ -4,7 +4,7 @@ import codeSchema from './mock/CodeSchema';
 import { CompileCurrentCtx, parsingCurrent } from '../../../compilePages';
 import { ActionAst, ActionsAst, BindParseCtx, BindRdData } from '../../bind-parse/types';
 import { genVarName } from '../../helper';
-import { actionToAst, bindToAst, defaultAst, literalToAst } from '../../bind-parse/core';
+import { actionToAst, bindToAst, defaultAst, literalToAst, toAstMethods } from '../../bind-parse/core';
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 
@@ -139,11 +139,56 @@ describe('core', () => {
   });
   describe('toAstMethods', () => {
     it('toAstMethods.fx', () => {
-      throw new Error('未处理');
-    })
+      bindParseCtx.scope.node = bindParseCtx.scope.current.nodesStore.getNode('A908');
+      bindParseCtx.scope.prop = bindParseCtx.scope.node?.props?.[0];
+      const ast = toAstMethods.fx(bindParseCtx.scope.node?.props?.[0].value! as BindRdData, bindParseCtx);
+      expect(customGenerate(ast!).code).toEqual('Fx.gt(each_3_item?.yonghunianling,10)');
+    });
     it('toAstMethods.tableData', () => {
-      throw new Error('未处理');
-    })
+      // 解析相关依赖协议
+      const vueCompileOptions = parsingVueCompileOptions(codeSchema);
+
+      // 构建全局上下文
+      const vueGlobalCtx = buildGlobalCtx(vueCompileOptions);
+
+      const page = codeSchema.pages[4];
+
+      const parsingPageResult = parsingCurrent(page, vueGlobalCtx);
+
+      const currentPageCompileOptions: CompileCurrentCtx = {
+        global: vueGlobalCtx,
+        scope: {
+          current: parsingPageResult,
+        },
+      };
+      const bindParseCtx: BindParseCtx = Object.assign(currentPageCompileOptions, {
+        scope: {
+          ...currentPageCompileOptions.scope,
+          ...{
+            actions: {
+              genVarName: genVarName(),
+              map: {},
+            },
+          },
+        },
+        helper: {
+          uniqueVarname: genVarName(),
+        },
+      });
+      bindParseCtx.scope.node = bindParseCtx.scope.current.nodesStore.getNode('D157');
+      bindParseCtx.scope.prop = bindParseCtx.scope.node?.props?.[0];
+      const tableProp = toAstMethods.tableData(
+        bindParseCtx.scope.node?.props?.[0].value! as CodeSchema.DataValue_TableData,
+        bindParseCtx
+      );
+      const ast = t.objectExpression([
+        t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
+        t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value as ActionAst),
+      ]);
+      expect(customGenerate(ast!).code).toEqual(
+        '{columns:[{dataIndex:"ID",title:"ID"},{dataIndex:"yonghuming",title:"用户名"},{dataIndex:"yonghunianling",title:"用户年龄"}],tableDataKey:apiState?.chaxunsuoyouyonghu?.data?.yonghushuzu}'
+      );
+    });
   });
   describe('actionToAst', () => {
     it('setVar', () => {

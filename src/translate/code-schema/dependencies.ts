@@ -94,10 +94,10 @@ function preprocessDependencies(
 
     switch (dp.projectId) {
       case '000000000000000000000010':
-        packageKey = 'ant-design-vue';
+        packageKey = 'antd';
         break;
       case '6405a27e2d9335b17497fd8f':
-        packageKey = '@robotdev/fx-common';
+        packageKey = 'system-function';
         break;
       default:
         break;

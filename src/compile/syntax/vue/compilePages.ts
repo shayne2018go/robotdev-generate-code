@@ -1,7 +1,7 @@
 import createToken from '@/compile/config/createToken';
 import { Compile } from '@/types/compile/token';
 import { VueGlobalCtx } from './compileVue';
-import { PAGE_DIR } from './const/config';
+import { BUILT_IN_IMPORTED_PACKAGE, PAGE_DIR } from './const/config';
 import { compileScript, compileStyle, compileTemplate } from './sfc';
 import { componentEmitsDataStore, componentSlotsDataStore } from './shared/store';
 import { nodesDataStore } from './shared/store/nodes';
@@ -77,7 +77,13 @@ export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>
   ctx: VueGlobalCtx
 ): ParsingCurrentResult<T> {
   const importComponents: GlobalContext.Component[] = parsingCurrentImportedComponents(data, ctx);
-  const importFunctions: Omit<GlobalContext.Function, 'protocol'>[] = [
+
+  const buitinImportedFunctions: GlobalContext.PartialPick<GlobalContext.Function, 'protocol'>[] =
+    ctx.functionsStore.findAll().filter((func) => {
+      return func.source?.packageName && BUILT_IN_IMPORTED_PACKAGE.includes(func.source?.packageName);
+    }) || [];
+
+  const importFunctions: GlobalContext.PartialPick<GlobalContext.Function, 'protocol'>[] = [
     {
       id: 'open', // 函数id
       key: 'open', // 函数名称
@@ -85,8 +91,9 @@ export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>
         filePath: 'src/system/action.ts', // 本地路径
         exportName: 'open', // 导出名 (不能为空 默认default )
       },
-    },
-  ];
+    } as GlobalContext.PartialPick<GlobalContext.Function, 'protocol'>,
+  ].concat(buitinImportedFunctions);
+
   const nodesStore = nodesDataStore(data.nodes, ctx);
   const emitsStore = componentEmitsDataStore(isComponent(data) ? data.emits : []);
   const slotsStore = componentSlotsDataStore(isComponent(data) ? data.slots : []);

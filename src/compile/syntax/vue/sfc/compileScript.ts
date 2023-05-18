@@ -5,6 +5,9 @@ import * as t from '@babel/types';
 import { CompileCurrentCtx } from '../compilePages';
 import { actionsToAst, nodePropsAst } from '../shared/bind-parse/core';
 import { getNodeTagVarName, getVariableVarName } from '../shared/script-helper';
+import { PropertiesMapItem } from '../shared/store/properties';
+import { getVueType } from '../shared/vue-helper';
+import { getCurrentDirByPath, parsingImportedParsingArray } from './shared/imported-helper';
 
 export enum LifeCycle {
   loading = 'onMounted',
@@ -22,9 +25,15 @@ function compileScript<T extends CodeSchema.Page | CodeSchema.Component>(
 }
 
 function gernateScriptToken<T extends CodeSchema.Page | CodeSchema.Component>(page: T, ctx: CompileCurrentCtx): string {
+  debugger;
+
   let statements: Array<t.Statement> = [];
   // 导入模块
   statements = statements.concat(getAllImports(ctx));
+  // 属性声明
+  statements = statements.concat(parsingComponentProps(ctx));
+  // 事件声明
+  statements = statements.concat(parsingComponentEmits(ctx));
   // 声明变量与赋值
   statements = statements.concat(getAllVariables(page, ctx));
   // 函数和方法执行
@@ -45,15 +54,50 @@ function getAllImports<T extends CodeSchema.Page | CodeSchema.Component>(ctx: Co
   const importFunctions = ctx.scope.current.importFunctions;
   imports = imports.concat(getVueImports());
   if (importComponents && importComponents.length) {
-    imports = imports.concat(getComponentImports(importComponents, ctx));
+    imports = imports.concat(getImporteds(importComponents, ctx));
   }
   if (importFunctions && importFunctions.length) {
-    imports = imports.concat(getFunctionImports(importFunctions, ctx));
+    imports = imports.concat(getImporteds(importFunctions, ctx));
   }
   if (apis && apis.length) {
-    imports = imports.concat(getApiImports(apis, ctx));
+    imports = imports.concat(getImporteds(apis, ctx));
   }
   return imports;
+}
+
+function parsingComponentProps(ctx: CompileCurrentCtx): t.VariableDeclaration {
+  const props = ctx.scope.current.propsStore.findAll() || [];
+
+  return createComponentPropsAst(props);
+}
+
+function createComponentPropsAst(props: PropertiesMapItem[]) {
+  return t.variableDeclaration('const', [
+    t.variableDeclarator(
+      t.identifier('props'),
+      t.callExpression(t.identifier('defineProps'), [
+        t.objectExpression(
+          props.map((p) =>
+            t.objectProperty(
+              t.identifier(p.data.key),
+              t.identifier(getVueType(p.data.types[0]))
+              // t.objectExpression([t.objectProperty(t.identifier('type'), t.identifier(getType(p.data.types[0])))])
+            )
+          )
+        ),
+      ])
+    ),
+  ]);
+}
+
+function parsingComponentEmits(ctx: CompileCurrentCtx): t.VariableDeclaration {
+  const emits = ctx.scope.current.emitsStore.findAll() || [];
+  return t.variableDeclaration('const', [
+    t.variableDeclarator(
+      t.identifier('emit'),
+      t.callExpression(t.identifier('defineEmits'), [t.arrayExpression(emits.map((p) => t.stringLiteral(p.data.key)))])
+    ),
+  ]);
 }
 
 function getAllVariables<T extends CodeSchema.Page | CodeSchema.Component>(
@@ -101,6 +145,8 @@ function getVueImports(): t.ImportDeclaration[] {
         t.importSpecifier(t.identifier('reactive'), t.identifier('reactive')),
         t.importSpecifier(t.identifier('ref'), t.identifier('ref')),
         t.importSpecifier(t.identifier('computed'), t.identifier('computed')),
+        t.importSpecifier(t.identifier('defineProps'), t.identifier('defineProps')),
+        t.importSpecifier(t.identifier('defineEmits'), t.identifier('defineEmits')),
       ],
       t.stringLiteral('vue')
     ),
@@ -111,105 +157,19 @@ function getVueImports(): t.ImportDeclaration[] {
   ];
 }
 
-function getComponentImports<T extends CodeSchema.Page | CodeSchema.Component>(
-  importComponents: GlobalContext.Component[],
+function getImporteds<T extends CodeSchema.Page | CodeSchema.Component>(
+  importeds: (GlobalContext.Component | GlobalContext.Function | GlobalContext.Api)[],
   ctx: CompileCurrentCtx
 ): t.ImportDeclaration[] {
-  const importArray: any[] = [];
-  const packageObj: { [propname: string]: number } = {};
-  let count = 0;
-  let pageDir = getCurrentDependency(ctx.scope.current.data.id, ctx)?.source?.filePath;
-  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
-  importComponents.forEach((ele) => {
-    let { key, source } = ele;
-    if (key && source) {
-      const { filePath, packageName, exportName, alias } = source;
-
-      const sourceStr = packageName || relative(pageDir!, filePath as string);
-      if (packageObj[sourceStr] === undefined) {
-        let specifier = getImportSpecifier(exportName, key, alias);
-        let source = t.stringLiteral(sourceStr);
-        importArray.push([[specifier], source]);
-      } else {
-        importArray[packageObj[sourceStr]][0].push(getImportSpecifier(exportName, key, alias));
-      }
-      packageObj[sourceStr] = count;
-      count++;
-    }
-  });
-  return importArray.map((ele) => {
-    return t.importDeclaration(ele[0], ele[1]);
-  });
-}
-
-function getFunctionImports<T extends CodeSchema.Page | CodeSchema.Component>(
-  importFunctions: GlobalContext.Function[],
-  ctx: CompileCurrentCtx
-): t.ImportDeclaration[] {
-  const importArray: any[] = [];
-  const packageObj: { [propname: string]: number } = {};
-  let count = 0;
-  let pageDir = getCurrentDependency(ctx.scope.current.data.id, ctx)?.source?.filePath;
-  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
-  importFunctions.forEach((ele) => {
-    let { key, source } = ele;
-    if (key && source) {
-      const { filePath, packageName, exportName, alias } = source;
-      const sourceStr = packageName || relative(pageDir!, filePath as string);
-      if (packageObj[sourceStr] === undefined) {
-        let specifier = getImportSpecifier(exportName, key, alias);
-        let source = t.stringLiteral(sourceStr);
-        importArray.push([[specifier], source]);
-      } else {
-        importArray[packageObj[sourceStr]][0].push(getImportSpecifier(exportName, key, alias));
-      }
-      packageObj[sourceStr] = count;
-      count++;
-    }
-  });
-  return importArray.map((ele) => {
-    return t.importDeclaration(ele[0], ele[1]);
-  });
-}
-
-function getApiImports<T extends CodeSchema.Page | CodeSchema.Component>(
-  apis: GlobalContext.Api[],
-  ctx: CompileCurrentCtx
-) {
-  const importArray: any[] = [];
-  let pageDir = getCurrentDependency(ctx.scope.current.data.id, ctx)?.source?.filePath;
-  pageDir = pageDir && pageDir.match(/^(.+[\\/])([^\\/]+)$/)?.[1];
-  apis.forEach((ele) => {
-    let { key, source } = ele;
-    if (key && source) {
-      const { filePath, exportName } = source;
-      const sourcePath = relative(pageDir!, filePath as string);
-      let specifier = getImportSpecifier(exportName, key);
-      let sourceStr = t.stringLiteral(sourcePath);
-      importArray.push([[specifier], sourceStr]);
-    }
-  });
-  return importArray.map((ele) => {
-    return t.importDeclaration(ele[0], ele[1]);
-  });
-}
-
-function getImportSpecifier(
-  exportName: string,
-  key: string,
-  alias?: string
-): t.ImportSpecifier | t.ImportDefaultSpecifier {
-  let specifier;
-  if (exportName === 'default') {
-    specifier = t.importDefaultSpecifier(t.identifier(tools.string.lineToHumpBig(key)));
-  } else {
-    if (!alias) {
-      specifier = t.importSpecifier(t.identifier(exportName), t.identifier(exportName));
-    } else {
-      specifier = t.importSpecifier(t.identifier(exportName), t.identifier(alias));
-    }
+  const currentFilePath = getCurrentDependency(ctx.scope.current.data.id, ctx)?.source?.filePath;
+  if (!currentFilePath) {
+    return [];
   }
-  return specifier;
+  const currentDir = getCurrentDirByPath(currentFilePath);
+
+  const importedParsingArray = parsingImportedParsingArray(importeds, currentDir);
+
+  return importedParsingArray.map((ip) => t.importDeclaration(ip.specifiers, t.stringLiteral(ip.importPath)));
 }
 
 function getVueVariables() {

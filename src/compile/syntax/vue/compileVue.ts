@@ -1,10 +1,11 @@
+import { tools } from '@/utils/tools';
 import compileApis, { parsingApis } from './compileApis';
 import compileComponents from './compileComponents';
 import compileFunctions from './compileFunctions';
 import compilePages from './compilePages';
 import compileRouter from './compileRouter';
 import compileSystem from './compileSystem';
-import { BUILT_IN_PACKAGES, COMPONENT_DIR, PAGE_DIR } from './const/config';
+import { BUILT_IN_PACKAGES, COMPONENT_DIR, PACKAGE_NPM, PAGE_DIR } from './const/config';
 import { getPathByDirectories } from './shared/directory-helper';
 import {
   actionsDataStore,
@@ -191,6 +192,7 @@ function parsingDependenciesComponents(cur: CodeSchema.Dependency): GlobalContex
         source: {
           filePath: `${COMPONENT_DIR}/${cmpt.key}.vue`,
           exportName: 'default',
+          alias: tools.string.lineToHumpBig(cmpt.key),
         },
         protocol: cmpt,
       });
@@ -233,11 +235,14 @@ function parsingDependenciesFunctions(cur: CodeSchema.Dependency): GlobalContext
     cur.functions?.map((func) => {
       const exportName = func.key.split('.')[0];
 
-      const source = cur.key
-        ? {
-            packageName: cur.key, // 包路径
+      const packageName = cur.key ? PACKAGE_NPM[cur.key] : undefined;
+
+      const source = packageName
+        ? ({
+            packageName: packageName.npmPackage, // 包路径
+            exportNamespace: packageName.namespace,
             exportName,
-          }
+          } as GlobalContext.Source)
         : undefined;
 
       return {
@@ -245,7 +250,7 @@ function parsingDependenciesFunctions(cur: CodeSchema.Dependency): GlobalContext
         key: func.key, // 行为名称
         source,
         protocol: func, // 协议
-      };
+      } as GlobalContext.Function;
     }) || [];
   return functions;
 }

@@ -28,3 +28,17 @@ export enum VirtualTag {
 }
 
 export const VOID_ELEMENT = ['input', 'img', 'area', 'base', 'link', 'br'];
+
+interface PackageNpmConfig {
+  npmPackage: string;
+  namespace?: string;
+}
+
+export const PACKAGE_NPM: Record<string, PackageNpmConfig> = {
+  'system-function': {
+    npmPackage: '@robotdev/fx-common',
+    namespace: 'Fx',
+  },
+};
+
+export const BUILT_IN_IMPORTED_PACKAGE = ['@robotdev/fx-common'];

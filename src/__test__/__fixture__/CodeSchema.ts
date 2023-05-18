@@ -4116,7 +4116,7 @@ const codeSchema = {
       id: '645db2c06aa75524b6077dbf',
       projectId: '6405a27e2d9335b17497fd8f',
       name: '系统函数',
-      key: '@robotdev/fx-common',
+      key: 'system-function',
       version: 'latest',
       subType: 'element',
       components: [],

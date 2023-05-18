@@ -16,9 +16,13 @@ export const functionsDataStore = (functions: GlobalContext.Function[]) => {
       };
     });
   return {
+    findAll() {
+      return store.queries() as GlobalContext.Function[];
+    },
     getFunction(tagId: GlobalContext.Function['id']) {
       return store.query(tagId);
     },
+
     getParameters(
       tagId: GlobalContext.Function['id'],
       propId: GlobalContext.Function['protocol']['parameters'][number]['id']
