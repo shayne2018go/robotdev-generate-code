@@ -774,8 +774,7 @@ export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
           t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value as ActionAst)
         );
       } else if (valueType === 'error') {
-        // throw new Error('数据类型错误')
-        propProps.push(t.objectProperty(t.identifier(varName), ast));
+        throw new Error('数据类型错误')
       } else {
         throw new Error('type类型未知')
       }
@@ -807,6 +806,7 @@ export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseC
   if (!prop) {
     return;
   }
+  // const define =  ctx.scope.current.nodesStore.getNodePropDefine(nodeId,propId);
   const define = ctx.global.componentsStore.getProp(node.tagId, propId);
   if (!define) {
     return;
@@ -834,6 +834,7 @@ export const nodeEventValueAst = (
   if (!event?.actions) {
     return;
   }
+  // const define =  ctx.scope.current.nodesStore.getNodeEventDefine(nodeId,eventId);
   const define = ctx.global.componentsStore.getEmit(node.tagId, eventId);
   if (!define) {
     return;

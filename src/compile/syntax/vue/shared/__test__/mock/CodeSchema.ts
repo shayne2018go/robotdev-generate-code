@@ -7250,16 +7250,6 @@ const codeSchema = {
                 },
               },
             },
-            {
-              propId: '641a7052cf44f6204642b608',
-              value: {
-                type: 'data',
-                mode: 'getParam',
-                args: {
-                  id: '6448e22cc48ddbf7e5f02da6',
-                },
-              },
-            },
           ],
           events: [
             {
@@ -7394,6 +7384,16 @@ const codeSchema = {
                 },
               },
             },
+            {
+              propId: '641a7053cf44f6204642b9c0',
+              value: {
+                type: 'data',
+                mode: 'getParam',
+                args: {
+                  id: '6448e22cc48ddbf7e5f02da6',
+                },
+              },
+            }
           ],
           events: undefined,
         },

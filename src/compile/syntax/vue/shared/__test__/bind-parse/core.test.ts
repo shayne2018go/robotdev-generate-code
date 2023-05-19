@@ -109,7 +109,7 @@ describe('core', () => {
       expect(customGenerate(ast!).code).toEqual('apiState?.chaxunsuoyouyonghu?.data?.yonghushuzu');
     });
     it('getParam', () => {
-      bindParseCtx.scope.node = bindParseCtx.scope.current.nodesStore.getNode('F104');
+      bindParseCtx.scope.node = bindParseCtx.scope.current.nodesStore.getNode('X741');
       const ast = bindToAst(bindParseCtx.scope.node?.props?.[1].value! as BindRdData, bindParseCtx);
       expect(customGenerate(ast!).code).toEqual('router?.query?.id');
     });
@@ -123,7 +123,9 @@ describe('core', () => {
       );
       expect(customGenerate(ast!).code).toEqual('event_event?.target?.value');
     });
-    it('getSlotData', () => {});
+    it('getSlotData', () => {
+      throw new Error('无mock数据');
+    });
     it('getEachData', () => {
       bindParseCtx.scope.node = bindParseCtx.scope.current.nodesStore.getNode('Y459');
       bindParseCtx.scope.prop = bindParseCtx.scope.node?.props?.[0];

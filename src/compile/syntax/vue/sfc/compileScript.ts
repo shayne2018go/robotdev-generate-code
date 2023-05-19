@@ -23,8 +23,6 @@ function compileScript<T extends CodeSchema.Page | CodeSchema.Component>(
 }
 
 function gernateScriptToken<T extends CodeSchema.Page | CodeSchema.Component>(page: T, ctx: CompileCurrentCtx): string {
-  debugger;
-
   let statements: Array<t.Statement> = [];
   // 导入模块
   statements = statements.concat(getAllImports(ctx));
