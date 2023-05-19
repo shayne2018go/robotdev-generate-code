@@ -215,19 +215,17 @@ export const nodePropValueType = (value: CodeSchema.DataValueArgument) => {
   if (isRdData(value)) {
     if (rdDataisCustom(value)) {
       res.type = 'literalVar'; // 未来根据是否包含双引号决定是否为literal
-    } else if (isRdData(value) && rdDataIsBind(value)) {
+    } else if (rdDataIsBind(value)) {
       // TODO 理论上，所有的绑定都应该直接编译，但目前先只管 循环和插槽
       if (['getEachData', 'getSlotData'].includes(value.mode)) {
         res.type = 'directCompilation';
       } else {
         res.type = 'computed';
       }
-    } else if (rdDataIsBind(value)) {
-      res.type = 'function';
     } else if (rdDataIsTable(value)) {
       res.type = 'split';
     } else {
-      res.type = 'error';
+      res.type = 'function';
     }
   } else if (isAction(value)) {
     res.type = 'error';

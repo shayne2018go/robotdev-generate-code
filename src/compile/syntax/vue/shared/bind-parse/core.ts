@@ -31,7 +31,7 @@ import {
   rdDataIsTable,
 } from './shared/helper';
 import { ActionAst, ActionsAst, BindAst, BindParseCtx, BindRdData, LiteralAst, ReturnRef, TableProps } from './types';
-import { getScopeData } from '../template-helper';
+import { getScopeData, nodePropValueType } from '../template-helper';
 
 /** helper  start*/
 
@@ -730,28 +730,23 @@ export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
       if (!varName) {
         return;
       }
+      if (!prop.value) {
+        return;
+      }
       const ast = res.value as ActionAst | BindAst;
-      if (!isRdData(prop.value) || rdDataisCustom(prop.value)) {
+      const valueType = nodePropValueType(prop.value).type;
+      if (['directCompilation', 'literal'].includes(valueType)) {
+        return;
+      } else if (valueType === 'literalVar') {
         propProps.push(t.objectProperty(t.identifier(varName), ast));
-      } else if (rdDataIsBind(prop.value)) {
-        if (['getSlotData', 'getEachData'].includes(prop.value.mode)) {
-          return;
-        }
+      } else if (valueType === 'computed') {
         propProps.push(
           t.objectProperty(
             t.identifier(varName),
             t.callExpression(t.identifier('computed'), [t.arrowFunctionExpression([], ast)])
           )
         );
-      } else if (rdDataIsTable(prop.value)) {
-        const tableProp = res.value as TableProps;
-        propProps.push(
-          t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
-          t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value as ActionAst)
-        );
-      } else if (rdActionIsSys(prop.value)) {
-        propProps.push(t.objectProperty(t.identifier(varName), ast));
-      } else {
+      } else if (valueType === 'function') {
         const nodeMapItem = ctx.scope.current.nodesStore.find(nodeId);
         if (!nodeMapItem) {
           return;
@@ -772,6 +767,17 @@ export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
             )
           )
         );
+      } else if (valueType === 'split') {
+        const tableProp = res.value as TableProps;
+        propProps.push(
+          t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
+          t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value as ActionAst)
+        );
+      } else if (valueType === 'error') {
+        // throw new Error('数据类型错误')
+        propProps.push(t.objectProperty(t.identifier(varName), ast));
+      } else {
+        throw new Error('type类型未知')
       }
     });
   }
