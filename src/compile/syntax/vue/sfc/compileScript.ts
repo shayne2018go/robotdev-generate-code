@@ -250,10 +250,10 @@ function getFunctions<T extends CodeSchema.Page | CodeSchema.Component>(
 function getLifeCycles<T extends CodeSchema.Page | CodeSchema.Component>(
   lifeCycles: Array<CodeSchema.ComponentLifeCycle>,
   ctx: CompileCurrentCtx
-): t.ExpressionStatement[] {
+): t.Statement[] {
   const lifeCycleExprs: t.CallExpression[] = [];
   lifeCycles.forEach((lifeCycle) => {
-    const actionStatements: t.ExpressionStatement[] = actionsToAst(lifeCycle.actions, ctx);
+    const actionStatements: t.Statement[] = actionsToAst(lifeCycle.actions, ctx);
     lifeCycleExprs.push(
       t.callExpression(
         t.identifier(

@@ -32,6 +32,7 @@ import {
 } from './shared/helper';
 import { ActionAst, ActionsAst, BindAst, BindParseCtx, BindRdData, LiteralAst, ReturnRef, TableProps } from './types';
 import { getScopeData, nodePropValueType } from '../template-helper';
+import { getConnectorOperator } from '../../const/config';
 
 /** helper  start*/
 
@@ -186,13 +187,14 @@ export const toAstMethods = {
     }
     return getOptMemberExpr(['props', ...pathPropertieKeys]);
   },
-  getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): CallExpression => {
+  getArguments: (data: CodeSchema.DataValue_GetArguments, ctx: BindParseCtx): OptionalMemberExpression | Identifier => {
     // const { id, path } = data.args;
     // const argVarname = ctx.scope.actions?.map[id].parametersVarNames[argId].varName;
-    const pathProperties = getPathProperties(ctx, data);
-    if (!pathProperties?.length) {
+    const pathPropertieKeys = getPathPropertieKeys(ctx, data);
+    if (!pathPropertieKeys?.length) {
       throw new Error(`Cannot find getCmptPropData path ${data}`);
     }
+    return getOptMemberExpr(pathPropertieKeys);
   },
   tableData: (data: CodeSchema.DataValue_TableData, ctx: BindParseCtx): TableProps => {
     return tableDataToAst(data, ctx);
@@ -298,8 +300,8 @@ export const toAstMethods = {
       throw new Error('api函数的api失败');
     }
     let paramsExprs: Expression[] = [];
-    let successExprStatements: ExpressionStatement[] = [];
-    let failExprStatements: ExpressionStatement[] = [];
+    let successExprStatements: t.Statement[] = [];
+    let failExprStatements: t.Statement[] = [];
     if (data.args.params) {
       const ast = literalToAst(data.args.params, ctx);
       if (ast) {
@@ -364,17 +366,83 @@ export const toAstMethods = {
       throw new Error('open函数的mode类型错误');
     }
   },
-  when: (data: CodeSchema.Action_When, ctx: BindParseCtx): CallExpression => {},
+  when: (data: CodeSchema.Action_When, ctx: BindParseCtx): t.IfStatement | undefined => {
+    const { rd_if, rd_else } = data.args;
+    debugger;
+    return createIfStatment(rd_if, rd_else, ctx);
+  },
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {
-    // const { modeId, args } = data;
-    // if (!modeId) {
-    //   debugger;
-    //   throw new Error(`cannot find modeId ${data.id}`);
-    // }
-    // const action_protocol = ctx.global.actionsStore.getAction(modeId);
-    // debugger;
+    const { modeId, args } = data;
+    if (!modeId) {
+      debugger;
+      throw new Error(`cannot find modeId ${data.id}`);
+    }
+    const action_protocol = ctx.global.actionsStore.getAction(modeId);
   },
 };
+
+function createIfStatment(
+  rd_ifs: {
+    condition: CodeSchema.Action_When_Expression;
+    actions: CodeSchema.Action[];
+  }[],
+  rd_else: { actions: CodeSchema.Action[] },
+  ctx: BindParseCtx
+): t.IfStatement | undefined {
+  const currentIf = rd_ifs[0];
+  const alternateIfs = rd_ifs.length > 1 ? rd_ifs.slice(1) : [];
+
+  const test = createIfTest(currentIf.condition, ctx);
+  if (!test) {
+    return;
+  }
+
+  const alternate = alternateIfs.length
+    ? createIfStatment(alternateIfs, rd_else, ctx)
+    : createIfAlternate(rd_else.actions, ctx);
+  return t.ifStatement(test, createIfConsequent(currentIf.actions, ctx), alternate);
+}
+
+function createIfTest(
+  exp: CodeSchema.Action_When_Expression,
+  ctx: BindParseCtx
+): t.LogicalExpression | t.CallExpression | undefined {
+  if (exp.mode === 'expression') {
+    const { operation = 'and' as CodeSchema.Connectors.AND, expression = [] } = exp.args;
+    if (expression.length > 1) {
+      const left = createIfTest({ mode: 'expression', args: { operation, expression: expression.slice(0, -1) } }, ctx);
+      const right = createIfTest({ mode: 'expression', args: { operation, expression: expression.slice(-1) } }, ctx);
+      if (!left || !right) {
+        return;
+      }
+      return t.logicalExpression(getConnectorOperator(operation), left, right);
+    } else if (expression.length === 1) {
+      return createIfTest(expression[0], ctx);
+    } else {
+      return;
+    }
+  } else {
+    // 这里直接采用函数取代比较符
+    const { mode, args } = exp as CodeSchema.Action_When_ExpressionSimpleBase;
+    const { value: leftAst } = valueToAst(args.left, ctx);
+    const { value: rightAst } = valueToAst(args.right, ctx);
+    if (!leftAst || !rightAst) {
+      return;
+    }
+    return t.callExpression(t.memberExpression(t.identifier('Fx'), t.identifier(mode)), [
+      leftAst as t.Expression,
+      rightAst as t.Expression,
+    ]);
+  }
+}
+
+function createIfConsequent(actions: CodeSchema.Action[], ctx: BindParseCtx): t.Statement {
+  return t.blockStatement([]);
+}
+function createIfAlternate(actions: CodeSchema.Action[], ctx: BindParseCtx): t.Statement {
+  const body = actionsToAst(actions, ctx) as t.Statement[];
+  return t.blockStatement(body);
+}
 
 export const bindToAst = (data: BindRdData, ctx: BindParseCtx): BindAst | undefined => {
   switch (data.mode) {
@@ -409,7 +477,10 @@ export const bindToAst = (data: BindRdData, ctx: BindParseCtx): BindAst | undefi
   return;
 };
 
-export const actionToAst = (data: CodeSchema.Action, ctx: BindParseCtx): ActionAst | ActionsAst | undefined => {
+export const actionToAst = (
+  data: CodeSchema.Action,
+  ctx: BindParseCtx
+): ActionAst | ActionsAst | t.IfStatement | undefined => {
   /**
    * 这里操作ctx.scope.actions
    */
@@ -432,9 +503,9 @@ export const actionToAst = (data: CodeSchema.Action, ctx: BindParseCtx): ActionA
 
 export const actionsToAst = <T extends CodeSchema.Page | CodeSchema.Component>(
   actions: CodeSchema.Action[],
-  ctx: CompileCurrentCtx<T>
-): ExpressionStatement[] => {
-  const statements: ExpressionStatement[] = [];
+  ctx: CompileCurrentCtx
+): (ExpressionStatement | t.IfStatement)[] => {
+  const statements: (ExpressionStatement | t.IfStatement)[] = [];
   const bindParseCtx: BindParseCtx = Object.assign(ctx, {
     scope: {
       ...ctx.scope,
@@ -445,9 +516,6 @@ export const actionsToAst = <T extends CodeSchema.Page | CodeSchema.Component>(
         },
       },
     },
-    helper: {
-      uniqueVarname: genVarName(),
-    },
   });
   if (actions && actions.length) {
     actions.forEach((action) => {
@@ -455,7 +523,7 @@ export const actionsToAst = <T extends CodeSchema.Page | CodeSchema.Component>(
         const ast = actionToAst(action, bindParseCtx);
         if (ast) {
           if (!Array.isArray(ast)) {
-            statements.push(t.expressionStatement(ast));
+            statements.push(t.isIfStatement(ast) ? ast : t.expressionStatement(ast));
           } else {
             ast.forEach((ele) => {
               if (ele) {
@@ -591,6 +659,10 @@ const tableDataToAst = (
   const last = bindDataPathProperties[bindDataPathProperties.length - 1];
   const dataSource = valueToAst(data.args.data, ctx);
 
+  if (t.isIfStatement(dataSource.value)) {
+    throw new Error('tableDataToAst value is not tableData');
+  }
+
   if (!ctx.scope.node) {
     throw new Error('ctx.scope.node is undefined');
   }
@@ -657,7 +729,7 @@ const tableDataToAst = (
       value: literalToAst(literalToRdData_Custom(columns), ctx) as ArrayExpression,
     },
     dataSource: {
-      key: 'tableDataKey',
+      key: tableDataKey,
       value: dataSource.value as Exclude<typeof dataSource.value, TableProps>,
     },
   };
@@ -671,7 +743,7 @@ export const valueToAst = (
 ): ReturnRef => {
   const res: {
     type: 'table' | 'ast';
-    value?: ActionAst | ActionsAst | BindAst | TableProps | undefined;
+    value?: ActionAst | ActionsAst | t.IfStatement | BindAst | TableProps | undefined;
   } = {
     type: 'ast',
   };
@@ -695,7 +767,7 @@ export const valueToAst = (
 
 export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
-  ctx: CompileCurrentCtx<T>
+  ctx: CompileCurrentCtx
 ): ObjectProperty[] => {
   const propProps: ObjectProperty[] = [];
   const node = ctx.scope.current.nodesStore.getNode(nodeId);
@@ -712,9 +784,6 @@ export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
           map: {},
         },
       },
-    },
-    helper: {
-      uniqueVarname: genVarName(),
     },
   });
   if (!node.props?.length && !node.events?.length) {
@@ -774,9 +843,9 @@ export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
           t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value as ActionAst)
         );
       } else if (valueType === 'error') {
-        throw new Error('数据类型错误')
+        throw new Error('数据类型错误');
       } else {
-        throw new Error('type类型未知')
+        throw new Error('type类型未知');
       }
     });
   }
@@ -849,14 +918,19 @@ export const nodeEventValueAst = (
     }) || [];
   parems.push(t.identifier(getEventArgVarName('ctx')));
 
-  const body: ExpressionStatement[] = [];
+  const body: t.Statement[] = [];
   event.actions.forEach((item) => {
     const ast = actionToAst(item, ctx);
     if (!ast) {
       return;
     }
     if (!Array.isArray(ast)) {
-      body.push(t.expressionStatement(ast));
+      if (t.isIfStatement(ast)) {
+        body.push(ast);
+      } else {
+        //TODO
+        body.push(t.expressionStatement(ast));
+      }
     } else {
       ast.forEach((ele) => {
         if (ele) {

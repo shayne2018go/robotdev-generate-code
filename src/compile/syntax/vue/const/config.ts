@@ -42,3 +42,15 @@ export const PACKAGE_NPM: Record<string, PackageNpmConfig> = {
 };
 
 export const BUILT_IN_IMPORTED_PACKAGE = ['@robotdev/fx-common'];
+
+// 操作符映射表
+
+export const getComparatorOperator = (comparator: CodeSchema.ComparatorType) => {};
+export const getConnectorOperator = (connector: CodeSchema.ConnectorType) => {
+  switch (connector) {
+    case 'and':
+      return '&&';
+    case 'or':
+      return '||';
+  }
+};

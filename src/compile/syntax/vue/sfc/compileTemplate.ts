@@ -1,33 +1,28 @@
+import typeHelper from '@/compile/shared/tools/type-helper';
+import valueHelper from '@/compile/shared/tools/value-helper';
 import * as g from '@/compile/tokens/markup/vue-template/generate-schema';
 import { GenerateVueTemplateTypes } from '@/compile/tokens/markup/vue-template/types';
 import { CompileCurrentCtx } from '../compilePages';
 import { VOID_ELEMENT, VirtualTag } from '../const/config';
 import { BindParseCtx } from '../shared/bind-parse/types';
-import { genVarName } from '../shared/helper';
 import { TreeNode } from '../shared/store/nodes';
 import {
   getNodeEachExpression,
   getNodeEventKeyByTagId,
   getNodeEventValue,
   getNodePropKeyById,
+  getNodePropTableSplitProps,
   getNodePropValueExpression,
   getNodeTag,
 } from '../shared/template-helper';
 
-type CompileTemplateCtx<T extends CodeSchema.Page | CodeSchema.Component> = CompileCurrentCtx<T> & {
-  helper?: {
-    uniqueVarname?: (varname: string) => string; // 去重名
-  };
-};
+type CompileTemplateCtx<T extends CodeSchema.Page | CodeSchema.Component> = CompileCurrentCtx;
 
 function compileTemplate<T extends CodeSchema.Page | CodeSchema.Component>(
   current: T,
-  compileCtx: CompileCurrentCtx<T>
+  compileCtx: CompileCurrentCtx
 ): { token: string } {
-  // 变量名称去重
-  const uniqueVarname = genVarName();
-
-  const compileTemplateCtx = Object.assign({}, compileCtx, { helper: { uniqueVarname } }) as CompileTemplateCtx<T>;
+  const compileTemplateCtx = Object.assign({}, compileCtx) as CompileTemplateCtx<T>;
 
   const ast = createTemplateAst(compileCtx.scope.current.nodesStore.treeNodes, compileTemplateCtx);
 
@@ -72,14 +67,11 @@ function parsingNode<T extends CodeSchema.Page | CodeSchema.Component>(
 ): ParsingNodeReturn {
   const tag = getNodeTag(node.data.tagId, compileCtx);
 
-  const bindParseCtx: BindParseCtx<T> = {
+  const bindParseCtx: BindParseCtx = {
     global: compileCtx.global,
     scope: {
       current: compileCtx.scope.current,
       node: compileCtx.scope.current.nodesStore.getNode(node.id)!,
-    },
-    helper: {
-      uniqueVarname: compileCtx.helper?.uniqueVarname,
     },
   };
 
@@ -102,7 +94,7 @@ function parsingNode<T extends CodeSchema.Page | CodeSchema.Component>(
 // 循环 <template v-for="xx in xx"></template>
 function parsingNodeEach<T extends CodeSchema.Page | CodeSchema.Component>(
   node: TreeNode,
-  compileCtx: BindParseCtx<T>
+  compileCtx: BindParseCtx
 ): ParsingNodeReturn {
   const { id: nodeId, tagId, props, key } = node.data;
 
@@ -121,7 +113,7 @@ function parsingNodeEach<T extends CodeSchema.Page | CodeSchema.Component>(
 // 条件 <template v-if="xx"></template>
 function parsingNodeCond<T extends CodeSchema.Page | CodeSchema.Component>(
   node: TreeNode,
-  compileCtx: BindParseCtx<T>
+  compileCtx: BindParseCtx
 ): ParsingNodeReturn {
   const { id: nodeId, tagId, props, key } = node.data;
 
@@ -140,7 +132,7 @@ function parsingNodeCond<T extends CodeSchema.Page | CodeSchema.Component>(
 // 条件 <slot name="xx" :xx="xx"></slot>
 function parsingNodeSlot<T extends CodeSchema.Page | CodeSchema.Component>(
   node: TreeNode,
-  compileCtx: BindParseCtx<T>
+  compileCtx: BindParseCtx
 ): ParsingNodeReturn {
   const { tagId } = node.data;
   return g.node('slot', [], parsingChildren(node.children || [], compileCtx));
@@ -149,7 +141,7 @@ function parsingNodeSlot<T extends CodeSchema.Page | CodeSchema.Component>(
 // template <template #slotname="xx"> </template>
 function parsingNodeTpl<T extends CodeSchema.Page | CodeSchema.Component>(
   node: TreeNode,
-  compileCtx: BindParseCtx<T>
+  compileCtx: BindParseCtx
 ): ParsingNodeReturn {
   const { tagId, props } = node.data;
   if (!props && node.children?.length) {
@@ -162,7 +154,7 @@ function parsingNodeTpl<T extends CodeSchema.Page | CodeSchema.Component>(
 // text 文本
 function parsingNodeText<T extends CodeSchema.Page | CodeSchema.Component>(
   node: TreeNode,
-  compileCtx: BindParseCtx<T>
+  compileCtx: BindParseCtx
 ): GenerateVueTemplateTypes.InsertText | null {
   const { id: nodeId, tagId, props } = node.data;
 
@@ -182,15 +174,13 @@ function parsingNodeText<T extends CodeSchema.Page | CodeSchema.Component>(
 
 function parsingNodeNormal<T extends CodeSchema.Page | CodeSchema.Component>(
   node: TreeNode,
-  compileCtx: BindParseCtx<T>
+  compileCtx: BindParseCtx
 ): ParsingNodeReturn {
   const { tagId, id: nodeId } = node.data;
   const tagName = getNodeTag(tagId, compileCtx);
 
   const props = [
-    ...(node.data.props || []).map((p) =>
-      g.prop(getNodePropKeyById(nodeId, p.propId, compileCtx), getNodePropValueExpression(nodeId, p, compileCtx), true)
-    ),
+    ...parsingNodeProps(node, compileCtx),
     ...(node.data.events || []).map((p) =>
       g.evt(getNodeEventKeyByTagId(nodeId, p.eventId, compileCtx), getNodeEventValue(nodeId, p.eventId, compileCtx))
     ),
@@ -200,6 +190,34 @@ function parsingNodeNormal<T extends CodeSchema.Page | CodeSchema.Component>(
   const isVoidElement = VOID_ELEMENT.includes(tagName);
 
   return g.node(tagName, props, children, isVoidElement);
+}
+
+function parsingNodeProps(node: TreeNode, compileCtx: BindParseCtx): GenerateVueTemplateTypes.Prop[] {
+  const { props = [], id: nodeId } = node.data;
+  const propsAst = [] as GenerateVueTemplateTypes.Prop[];
+  props?.forEach((p) => {
+    const prop_protocol = compileCtx.scope.current.nodesStore.getNodePropDefine(nodeId, p.propId);
+
+    // 判断是否为table类型 拆分为两个属性
+    if (typeHelper.hasTable(prop_protocol?.data.types) && valueHelper.isTable(p.value)) {
+      const tableSplitProps = getNodePropTableSplitProps(nodeId, p, compileCtx);
+      if (tableSplitProps) {
+        tableSplitProps.forEach((tsp) => {
+          const propAst = g.prop(tsp.key, tsp.value, true);
+          propsAst.push(propAst);
+        });
+      }
+    } else {
+      const propAst = g.prop(
+        getNodePropKeyById(nodeId, p.propId, compileCtx),
+        getNodePropValueExpression(nodeId, p, compileCtx),
+        true
+      );
+      propsAst.push(propAst);
+    }
+  });
+
+  return propsAst;
 }
 
 export default compileTemplate;

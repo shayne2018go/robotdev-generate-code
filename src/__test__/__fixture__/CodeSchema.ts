@@ -9483,7 +9483,7 @@ const codeSchema = {
                           args: {
                             expression: [
                               {
-                                mode: '',
+                                mode: 'eq',
                                 args: {
                                   left: {
                                     type: 'data',

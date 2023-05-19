@@ -7,15 +7,15 @@ import { componentEmitsDataStore, componentSlotsDataStore } from './shared/store
 import { nodesDataStore } from './shared/store/nodes';
 import { propertiesDataStore } from './shared/store/properties';
 
-export type CompileCurrentCtx<T extends CodeSchema.Page | CodeSchema.Component = CodeSchema.Page> = {
+export type CompileCurrentCtx = {
   global: VueGlobalCtx;
   scope: {
-    current: ParsingCurrentResult<T>;
+    current: ParsingCurrentResult;
   };
 };
 
-export interface ParsingCurrentResult<T extends CodeSchema.Component | CodeSchema.Page = CodeSchema.Page> {
-  data: T;
+export interface ParsingCurrentResult {
+  data: CodeSchema.Component | CodeSchema.Page;
   nodesStore: ReturnType<typeof nodesDataStore>;
   variablesStore: ReturnType<typeof propertiesDataStore>;
   lifeCyclesStore: ReturnType<typeof componentEmitsDataStore>;
@@ -56,7 +56,7 @@ function compilePages(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlobalCtx
 function compilePage(page: CodeSchema.Page, ctx: VueGlobalCtx) {
   const parsingComponentResult = parsingCurrent(page, ctx);
 
-  const currentPageCompileOptions: CompileCurrentCtx<CodeSchema.Page> = {
+  const currentPageCompileOptions: CompileCurrentCtx = {
     global: ctx,
     scope: {
       current: parsingComponentResult,
@@ -75,7 +75,7 @@ function compilePage(page: CodeSchema.Page, ctx: VueGlobalCtx) {
 export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>(
   data: T,
   ctx: VueGlobalCtx
-): ParsingCurrentResult<T> {
+): ParsingCurrentResult {
   const importComponents: GlobalContext.Component[] = parsingCurrentImportedComponents(data, ctx);
 
   const buitinImportedFunctions: GlobalContext.PartialPick<GlobalContext.Function, 'protocol'>[] =
@@ -111,7 +111,7 @@ export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>
     emitsStore,
     slotsStore,
     propsStore,
-  } as ParsingCurrentResult<T>;
+  } as ParsingCurrentResult;
 
   return result;
 }

@@ -39,9 +39,6 @@ describe('core', () => {
         },
       },
     },
-    helper: {
-      uniqueVarname: genVarName(),
-    },
   });
   describe('defaultAst', () => {
     it('text ', () => {

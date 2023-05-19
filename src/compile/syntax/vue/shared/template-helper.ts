@@ -18,10 +18,7 @@ import { BindParseCtx } from './bind-parse/types';
 import { NodeMapItem } from './store/nodes';
 import * as t from '@babel/types';
 
-export const getNodeTag = <T extends CodeSchema.Page | CodeSchema.Component>(
-  tagId: string,
-  ctx: CompileCurrentCtx<T>
-) => {
+export const getNodeTag = <T extends CodeSchema.Page | CodeSchema.Component>(tagId: string, ctx: CompileCurrentCtx) => {
   const node_protocol = ctx.global.componentsStore.getCmpt(tagId);
   if (!node_protocol) {
     throw new Error(`Cannot find tagId: ${tagId}`);
@@ -32,7 +29,7 @@ export const getNodeTag = <T extends CodeSchema.Page | CodeSchema.Component>(
 export const getNodePropKeyById = <T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
   propId: string,
-  ctx: CompileCurrentCtx<T>
+  ctx: CompileCurrentCtx
 ) => {
   const prop_protocol = ctx.scope.current.nodesStore.getNodePropDefine(nodeId, propId);
   if (!prop_protocol) {
@@ -44,7 +41,7 @@ export const getNodePropKeyById = <T extends CodeSchema.Page | CodeSchema.Compon
 export const getNodePropKeyByTagId = <T extends CodeSchema.Page | CodeSchema.Component>(
   tagId: string,
   propId: string,
-  ctx: CompileCurrentCtx<T>
+  ctx: CompileCurrentCtx
 ) => {
   const prop_protocol = ctx.global.componentsStore.getProp(tagId, propId);
 
@@ -54,7 +51,7 @@ export const getNodePropKeyByTagId = <T extends CodeSchema.Page | CodeSchema.Com
 export const getNodePropValueVariable = <T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
   value: CodeSchema.Property,
-  ctx: BindParseCtx<T>
+  ctx: BindParseCtx
 ) => {
   const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
@@ -86,7 +83,7 @@ export const getNodePropValueVariable = <T extends CodeSchema.Page | CodeSchema.
 export const getNodePropValueVariableCall = <T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
   value: CodeSchema.Property,
-  ctx: BindParseCtx<T>
+  ctx: BindParseCtx
 ) => {
   const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
@@ -117,8 +114,8 @@ export const getNodePropValueVariableCall = <T extends CodeSchema.Page | CodeSch
 export const getNodePropValueExpression = <T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
   value: CodeSchema.Property,
-  ctx: BindParseCtx<T>
-) => {
+  ctx: BindParseCtx
+): t.MemberExpression | t.CallExpression | undefined => {
   // 变量 或 函数调用
   const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
@@ -132,13 +129,14 @@ export const getNodePropValueExpression = <T extends CodeSchema.Page | CodeSchem
   } else if (isScriptVariableCall(value.value)) {
     return getNodePropValueVariableCall(nodeId, value, ctx);
   } else {
+    return;
   }
 };
 
 export const getNodeEventKeyByTagId = <T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
   eventId: string,
-  ctx: BindParseCtx<T>
+  ctx: BindParseCtx
 ) => {
   const event_protocol = ctx.scope.current.nodesStore.getNodeEventDefine(nodeId, eventId);
   if (!event_protocol) {
@@ -150,7 +148,7 @@ export const getNodeEventKeyByTagId = <T extends CodeSchema.Page | CodeSchema.Co
 export const getNodeEventValue = <T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
   eventId: string,
-  ctx: BindParseCtx<T>
+  ctx: BindParseCtx
 ) => {
   const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
@@ -195,7 +193,10 @@ export const getNodeEventValue = <T extends CodeSchema.Page | CodeSchema.Compone
 
 // 判断当前值 是变量还是函数调用
 export const isScriptVariable = (value: CodeSchema.DataValueArgument | CodeSchema.ActionArgument) => {
-  return isRdData(value) && (rdDataisCustom(value) || rdDataIsBind(value) || rdDataIsTable(value));
+  return isRdData(value) && nodePropValueType(value)?.type !== 'function';
+};
+export const isScriptVariableCall = (value: CodeSchema.DataValueArgument | CodeSchema.ActionArgument) => {
+  return !isScriptVariable(value);
 };
 
 interface nodePropValueTypeRes {
@@ -236,14 +237,10 @@ export const nodePropValueType = (value: CodeSchema.DataValueArgument) => {
   return res;
 };
 
-export const isScriptVariableCall = (value: CodeSchema.DataValueArgument | CodeSchema.ActionArgument) => {
-  return !isScriptVariable(value);
-};
-
 // 获取当前上下文的数据对象（eachData, slotData）
 export const getScopeData = <T extends CodeSchema.Page | CodeSchema.Component>(
   node: NodeMapItem,
-  ctx: BindParseCtx<T>
+  ctx: BindParseCtx
 ): string[] => {
   // TODO: 获取所有父节点
   const parentNodes = nodeCtx(node.data.id, ctx);
@@ -267,7 +264,7 @@ export const getScopeData = <T extends CodeSchema.Page | CodeSchema.Component>(
 export function getNodeEachExpression<T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
   value: CodeSchema.Property,
-  ctx: BindParseCtx<T>
+  ctx: BindParseCtx
 ): t.BinaryExpression {
   const nodeMapItem = ctx.scope.current.nodesStore.find(nodeId);
   if (!nodeMapItem) {
@@ -287,4 +284,53 @@ export function getNodeEachExpression<T extends CodeSchema.Page | CodeSchema.Com
     ]),
     valueExpression
   );
+}
+
+// table
+export function getNodePropTableSplitProps(
+  nodeId: string,
+  value: CodeSchema.Property,
+  ctx: BindParseCtx
+): { key: string; value: t.MemberExpression }[] | undefined {
+  const tableSplitProps: { key: string; value: t.MemberExpression }[] = [];
+  const define = ctx.scope.current.nodesStore.getNodePropDefine(nodeId, value.propId);
+
+  if (!define) {
+    throw new Error('prop的define 获取失败');
+  }
+  const tableDefine = define?.data?.types.find((item) => item.type === 'table');
+  if (!tableDefine) {
+    throw new Error('tableDefine not found');
+  }
+  const tableConfig = tableDefine.rules?.tableConfig;
+  const tableDataKey = tableDefine.rules?.tableDataKey;
+  const tableColumnsKey = define?.data.key || define?.varName;
+  if (!tableConfig) {
+    throw new Error('tableConfig not found');
+  }
+  if (!tableDataKey) {
+    throw new Error('tableDataKey not found');
+  }
+
+  const nodeVarName = ctx.scope.current.nodesStore.getNodeVarName(nodeId);
+  if (!nodeVarName) {
+    return;
+  }
+
+  tableSplitProps.push({
+    key: tableDataKey,
+    value: t.memberExpression(
+      t.memberExpression(t.identifier(ctx.global.nodesVarRootName), t.identifier(nodeVarName)),
+      t.identifier(tableDataKey)
+    ),
+  });
+
+  tableSplitProps.push({
+    key: tableColumnsKey,
+    value: t.memberExpression(
+      t.memberExpression(t.identifier(ctx.global.nodesVarRootName), t.identifier(nodeVarName)),
+      t.identifier(tableColumnsKey)
+    ),
+  });
+  return tableSplitProps;
 }

@@ -253,7 +253,7 @@ declare namespace CodeSchema {
     mode: 'when';
     args: {
       rd_if: { condition: Action_When_Expression; actions: Action[] }[];
-      rd_else: { actions: Action[] }[];
+      rd_else: { actions: Action[] };
     };
   }
 
@@ -309,11 +309,15 @@ declare namespace CodeSchema {
     NEXTYEAR = 'nextyear', // 明年
   }
 
+  export type ComparatorType = `${Comparators}`;
+
   // 连接
   export enum Connectors {
     AND = 'and', // 且
     OR = 'or', // 或
   }
+
+  export type ConnectorType = `${Connectors}`;
 }
 
 // event

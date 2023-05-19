@@ -5,6 +5,7 @@ import {
   CallExpression,
   DecimalLiteral,
   Identifier,
+  IfStatement,
   MemberExpression,
   NullLiteral,
   NumericLiteral,
@@ -14,9 +15,11 @@ import {
 } from '@babel/types';
 import { CompileCurrentCtx } from '../../../compilePages';
 import { genVarName } from '../../helper';
+import { T } from 'vitest/dist/types-e3c9754d';
 
 export type ActionAst = CallExpression | AssignmentExpression;
 export type ActionsAst = CallExpression[] | AssignmentExpression[];
+
 export type BindAst =
   | OptionalMemberExpression
   | MemberExpression
@@ -52,8 +55,8 @@ export type LiteralAst =
   | CallExpression;
 
 export type BindParseCtx<T extends CodeSchema.Page | CodeSchema.Component = CodeSchema.Page> = {
-  global: CompileCurrentCtx<T>['global'];
-  scope: CompileCurrentCtx<T>['scope'] & {
+  global: CompileCurrentCtx['global'];
+  scope: CompileCurrentCtx['scope'] & {
     node?: CodeSchema.ComponentNode;
     prop?: CodeSchema.Property;
     event?: CodeSchema.Event;
@@ -80,9 +83,6 @@ export type BindParseCtx<T extends CodeSchema.Page | CodeSchema.Component = Code
       };
     };
   };
-  helper?: {
-    uniqueVarname?: (varname: string) => string; // 去重名
-  };
 };
 
 export type AccessPath = {
@@ -104,5 +104,5 @@ export type TableProps = {
 
 export type ReturnRef = {
   type: 'table' | 'ast';
-  value?: ActionAst | ActionsAst | BindAst | TableProps | undefined;
+  value?: ActionAst | ActionsAst | IfStatement | BindAst | TableProps | undefined;
 };
