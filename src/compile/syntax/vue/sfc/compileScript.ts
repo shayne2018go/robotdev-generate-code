@@ -201,6 +201,9 @@ function getNodesVariables<T extends CodeSchema.Page | CodeSchema.Component>(
   nodes.forEach((node) => {
     const props = nodePropsAst(node.id, ctx);
     const varName = getNodeTagVarName(node.id, ctx);
+    if (!props.length) {
+      return;
+    }
     if (varName) {
       nodeProps.push(t.objectProperty(t.identifier(varName), t.objectExpression(props)));
     }
