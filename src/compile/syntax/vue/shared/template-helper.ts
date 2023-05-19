@@ -200,11 +200,11 @@ export const isScriptVariable = (value: CodeSchema.DataValueArgument | CodeSchem
 
 interface nodePropValueTypeRes {
   // error：数据错误
-  // directCompilation: 直接编译
-  // literal：字面量
-  // literalVar：将属性变量当作 字面量
-  // computed：将属性变量当作计算属性
-  // function：将属性变量当作函数，入参为object，元素为父辈的所有局部变量
+  // directCompilation: template直接编译getData，script跳过
+  // literal：字面量，template直接编译字面量，script跳过
+  // literalVar：将属性变量当作字面量，template使用script的变量，script生成变量
+  // computed：将属性变量当作计算属性，template使用script的变量，script生成computed计算属性变量
+  // function：将属性变量当作函数，入参为object，元素为父辈的所有局部变量，script生成函数接受变量
   // split：拆分成多个属性
   type: 'error' | 'directCompilation' | 'literal' | 'literalVar' | 'computed' | 'function' | 'split';
 }
