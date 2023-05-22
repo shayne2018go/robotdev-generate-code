@@ -7,16 +7,15 @@ interface GenerateResult {
   projectPath: string;
 }
 
-function generate(tokens: Compile.Token[], projectName?: string): GenerateResult;
-function generate(tokens: Compile.Token[], projectName: string = defaultProjectName) {
-  const projectPath = resolve(defaultRootPath, projectName);
+function generate(tokens: Compile.Token[], projectPath?: string): GenerateResult;
+function generate(tokens: Compile.Token[], projectPath?: string) {
+  const finallyProjectPath = projectPath || resolve(defaultRootPath, defaultProjectName);
   tokens.forEach((t) => {
-    const finalPath = resolve(projectPath, t.path);
-    // const finalPath = resolve('/home/dreawer/workspace', `/${defaultPath}`, t.path);
+    const finalPath = resolve(finallyProjectPath, t.path);
     fileUtils.create(finalPath, t.token);
   });
 
-  return { projectPath };
+  return { projectPath: finallyProjectPath };
 }
 
 export default generate;

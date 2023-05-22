@@ -4,7 +4,7 @@ import { compilerFactory } from '@/compile';
 import { generate } from '@/generate';
 import build from '@/deploy/build';
 import fse from 'fs-extra';
-import { resolve } from '@/utils/node';
+// import { resolve } from '@/utils/node';
 import { optimize } from '..';
 
 describe('generate-code', () => {
@@ -24,11 +24,11 @@ describe('generate-code', () => {
     debugger;
     const { projectPath } = generate(optimizeTokens);
 
-    // await build(projectPath);
+    await build(projectPath);
 
     const isExist = fse.existsSync(projectPath);
 
-    const isBuild = fse.pathExistsSync(resolve(projectPath, 'dist'));
+    // const isBuild = fse.pathExistsSync(resolve(projectPath, 'dist'));
 
     vi.runAllTimers();
 

@@ -371,13 +371,15 @@ export const toAstMethods = {
     debugger;
     return createIfStatment(rd_if, rd_else, ctx);
   },
-  callAction: (data: CodeSchema.Action, ctx: BindParseCtx): CallExpression => {
-    const { modeId, args } = data;
-    if (!modeId) {
-      debugger;
-      throw new Error(`cannot find modeId ${data.id}`);
-    }
-    const action_protocol = ctx.global.actionsStore.getAction(modeId);
+  callAction: (data: CodeSchema.Action, ctx: BindParseCtx): undefined => {
+    //TODO: 放到处理uniapp编译时一起处理
+    return;
+    // const { modeId, args } = data;
+    // if (!modeId) {
+    //   debugger;
+    //   throw new Error(`cannot find modeId ${data.id}`);
+    // }
+    // const action_protocol = ctx.global.actionsStore.getAction(modeId);
   },
 };
 

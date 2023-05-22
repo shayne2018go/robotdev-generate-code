@@ -23,12 +23,7 @@ async function build(path: string) {
     shelljs.exit(1);
   }
 
-  console.log(shelljs.pwd());
-  await promiseExec(shelljs.exec('pnpm install', { silent: true, async: true }));
-  debugger;
-  // await promiseExec(shelljs.exec('pnpm build', { silent: true, async: true }));
-
-  return Promise.resolve();
+  await promiseExec(shelljs.exec('pnpm install && pnpm build', { silent: true, async: true }));
 }
 
 function promiseExec(exec: ChildProcess): Promise<void> {
@@ -38,6 +33,7 @@ function promiseExec(exec: ChildProcess): Promise<void> {
     });
 
     exec.addListener('exit', () => {
+      console.log('exit');
       resolve();
     });
 
