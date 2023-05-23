@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import { literal } from '../literal';
 import {
   literal_array,

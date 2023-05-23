@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import { parsingVueCompileOptions, buildGlobalCtx } from '../../../compileVue';
 import codeSchema from '../mock/CodeSchema';
 import { CompileCurrentCtx, parsingCurrent } from '../../../compilePages';
@@ -205,12 +204,12 @@ describe('helper', () => {
 
   describe('shared helper', () => {
     it('getMemberExpr', () => {
-      const ast = getMemberExpr(['a','b','c']);
-      expect(customGenerate(ast).code).toEqual('a.b.c')
-    })
+      const ast = getMemberExpr(['a', 'b', 'c']);
+      expect(customGenerate(ast).code).toEqual('a.b.c');
+    });
     it('getOptMemberExpr', () => {
-      const ast = getOptMemberExpr(['a','b','c']);
-      expect(customGenerate(ast).code).toEqual('a?.b?.c')
-    })
-  })
+      const ast = getOptMemberExpr(['a', 'b', 'c']);
+      expect(customGenerate(ast).code).toEqual('a?.b?.c');
+    });
+  });
 });

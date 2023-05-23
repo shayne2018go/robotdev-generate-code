@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import { createExpression, updateObjectExpression } from '../object-expression';
 import { ObjectExpression } from '@babel/types';
 

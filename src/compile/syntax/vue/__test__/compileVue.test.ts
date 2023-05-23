@@ -1,5 +1,4 @@
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
-import { describe, expect, it } from 'vitest';
 import compileRouter from '../compileRouter';
 import compileVue, { buildGlobalCtx, parsingVueCompileOptions } from '../compileVue';
 import vueRouterTokens from './fixture/vue-router-tokens.json';

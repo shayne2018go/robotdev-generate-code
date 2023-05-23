@@ -2,7 +2,7 @@ import createToken from '@/compile/config/createToken';
 import { Compile } from '@/types/compile/token';
 import { relative } from '@/utils/node';
 import generate from '@babel/generator';
-import t from '@babel/types';
+import * as t from '@babel/types';
 import { VueGlobalCtx } from './compileVue';
 import { ROUTER_DIR, ROUTES_FILENAME } from './const/config';
 

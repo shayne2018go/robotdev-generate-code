@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest';
 import { generateVueTemplate } from '../index';
 
 describe('generate vue template', () => {

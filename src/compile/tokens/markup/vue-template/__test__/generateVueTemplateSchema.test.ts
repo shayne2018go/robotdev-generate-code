@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest';
 import * as g from '../generate-schema';
 import * as t from '@babel/types';
 

@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest';
 import { generateCss, generateStyle } from '../core';
 import { ICss, IStyle } from '../types';
 

@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest';
 import { statement } from '../statement';
 import { mock_throw } from './fixtures/stmtThrow';
 

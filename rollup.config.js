@@ -8,6 +8,7 @@ import externals from 'rollup-plugin-node-externals';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 import { fileURLToPath } from 'url';
+import alias from '@rollup/plugin-alias';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -27,12 +28,14 @@ export default {
     {
       file: outputEsPath,
       format: 'es',
+      sourcemap: true,
     },
     {
       file: outputCjsPath,
       format: 'cjs',
     },
   ],
+
   plugins: [
     // polyfillNode(),
     copy({
@@ -49,6 +52,9 @@ export default {
       tsconfigOverride: true,
       // typescript: import('typescript'),
       useTsconfigDeclarationDir: true,
+    }),
+    alias({
+      '@/*': path.resolve(__dirname, './src/*'),
     }),
     babel({
       exclude: 'node_modules/**',

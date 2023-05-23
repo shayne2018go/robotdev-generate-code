@@ -1,6 +1,15 @@
-import { describe, it, expect } from 'vitest';
 import { statement } from '../statement';
-import { mock_import, mock_import_all, mock_import_default_all, mock_import_element, mock_import_element_as, mock_import_element_default, mock_import_elements, mock_import_elements_as, mock_import_only_path } from './fixtures/stmtImport';
+import {
+  mock_import,
+  mock_import_all,
+  mock_import_default_all,
+  mock_import_element,
+  mock_import_element_as,
+  mock_import_element_default,
+  mock_import_elements,
+  mock_import_elements_as,
+  mock_import_only_path,
+} from './fixtures/stmtImport';
 
 describe('statement import', () => {
   it('import', () => {

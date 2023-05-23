@@ -1,4 +1,4 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`compile syntax > compileVue 1`] = `
 [
@@ -95,6 +95,158 @@ export { routes };",
     "token": "<template><a-typography-title>{{nodesState.text.text}}</a-typography-title><div><template v-for=\\"(each_item, each_index) in nodesState.each.data\\"><template v-if=\\"nodesState.cond.value({
   each_item: each_item
 })\\"><a-card :title=\\"each_item.yonghuming\\">{{each_item.ID}}{{nodesState.text_3.text}}</a-card><a-card :title=\\"each_item.yonghuming\\">{{each_item.ID}}{{nodesState.text_5.text}}</a-card></template></template></div></template><script setup lang=\\"ts\\">import{onBeforeUnmount,onMounted,reactive,ref,computed}from\\"vue\\";import{useRouter}from\\"vue-router\\";import{chuangjianyonghu}from\\"../apis/chuangjianyonghu.ts\\";import{chuangjianbanji}from\\"../apis/chuangjianbanji.ts\\";import{luruxueshengbanji}from\\"../apis/luruxueshengbanji.ts\\";import{chaxunxueshengbanji}from\\"../apis/chaxunxueshengbanji.ts\\";import{chaxunsuoyouyonghu}from\\"../apis/chaxunsuoyouyonghu.ts\\";import{chaxunyonghu}from\\"../apis/chaxunyonghu.ts\\";const router=useRouter();const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});const nodesState=reactive({aTypographyTitle:{},tpl:{},text:{text:computed(()=>apiState.chaxunyonghu.data.yonghuxinxi.yonghuming)},div:{},tpl_2:{},each:{data:computed(()=>apiState.chaxunsuoyouyonghu.data.yonghushuzu)},tpl_3:{},cond:{},tpl_4:{},aCard:{title:computed(()=>each_item.yonghuming)},tpl_5:{},text_2:{text:computed(()=>each_item.ID)},text_3:{text:\\"\\\\u5C0F\\\\u4E8E6\\"},tpl_6:{},aCard_2:{title:computed(()=>each_item.yonghuming)},tpl_7:{},text_4:{text:computed(()=>each_item.ID)},text_5:{text:\\"\\\\u5927\\\\u4E8E\\\\u7B49\\\\u4E8E6\\"}});onMounted(()=>{chaxunyonghu().then(res=>{apiState.chaxunyonghu=res}).catch(error=>{});chaxunsuoyouyonghu().then(res=>{apiState.chaxunsuoyouyonghu=res}).catch(error=>{})});</script>",
+  },
+]
+`;
+
+exports[`compile syntax compileVue 1`] = `
+[
+  {
+    "path": "src/router/routes.ts",
+    "token": "import { RouteRecordRaw } from "vue-router";
+const routes = [{
+  path: "/shouye",
+  name: "shouye",
+  component: () => import("../pages/shouye.vue")
+}, {
+  path: "/404",
+  name: "404",
+  component: () => import("../pages/404.vue")
+}, {
+  path: "/502",
+  name: "502",
+  component: () => import("../pages/502.vue")
+}, {
+  path: "/renyuan/renyuanluruye",
+  name: "renyuanluruye",
+  component: () => import("../pages/renyuan/renyuanluruye.vue")
+}, {
+  path: "/renyuan/renyuanliebiao",
+  name: "renyuanliebiao",
+  component: () => import("../pages/renyuan/renyuanliebiao.vue")
+}, {
+  path: "/renyuan/renyuanxiangqingye",
+  name: "renyuanxiangqingye",
+  component: () => import("../pages/renyuan/renyuanxiangqingye.vue")
+}];
+export { routes };",
+  },
+  {
+    "path": "src/apis/chuangjianyonghu.ts",
+    "token": "import axios from"axios";export function chuangjianyonghu(data){return axios({method:"post",url:"chuangjianyonghu",data:data})}",
+  },
+  {
+    "path": "src/apis/chuangjianbanji.ts",
+    "token": "import axios from"axios";export function chuangjianbanji(data){return axios({method:"post",url:"chuangjianbanji",data:data})}",
+  },
+  {
+    "path": "src/apis/luruxueshengbanji.ts",
+    "token": "import axios from"axios";export function luruxueshengbanji(data){return axios({method:"post",url:"luruxueshengbanji",data:data})}",
+  },
+  {
+    "path": "src/apis/chaxunxueshengbanji.ts",
+    "token": "import axios from"axios";export function chaxunxueshengbanji(data){return axios({method:"post",url:"chaxunxueshengbanji",data:data})}",
+  },
+  {
+    "path": "src/apis/chaxunsuoyouyonghu.ts",
+    "token": "import axios from"axios";export function chaxunsuoyouyonghu(data){return axios({method:"post",url:"chaxunsuoyouyonghu",data:data})}",
+  },
+  {
+    "path": "src/apis/chaxunyonghu.ts",
+    "token": "import axios from"axios";export function chaxunyonghu(data){return axios({method:"post",url:"chaxunyonghu",data:data})}",
+  },
+  {
+    "path": "src/components/f-43272b44.vue",
+    "token": "<template><a-menu><template v-for="(each_item, each_index) in nodesState.each.data"><a-menu-item></a-menu-item></template></a-menu></template><script setup lang="ts">import{onBeforeUnmount,onMounted,reactive,ref,computed,defineProps,defineEmits}from"vue";import{useRouter}from"vue-router";import{open}from"../system/action.ts";import*as Fx from"@robotdev/fx-common";import{chuangjianyonghu}from"../apis/chuangjianyonghu.ts";import{chuangjianbanji}from"../apis/chuangjianbanji.ts";import{luruxueshengbanji}from"../apis/luruxueshengbanji.ts";import{chaxunxueshengbanji}from"../apis/chaxunxueshengbanji.ts";import{chaxunsuoyouyonghu}from"../apis/chaxunsuoyouyonghu.ts";import{chaxunyonghu}from"../apis/chaxunyonghu.ts";const props=defineProps({data:Array});const emit=defineEmits(["xuanzhongshijian"]);const router=useRouter();const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});const nodesState=reactive({each:{data:computed(()=>props?.data)}});</script>",
+  },
+  {
+    "path": "src/pages/shouye.vue",
+    "token": "<template><template v-for="(each_item, each_index) in nodesState.each.data"><template v-for="(each_2_item, each_2_index) in nodesState.each_2.data"><template v-for="(each_3_item, each_3_index) in nodesState.each_3.data"><template v-if="nodesState.cond.value({
+  each_item: each_item,
+  each_index: each_index,
+  each_2_item: each_2_item,
+  each_2_index: each_2_index,
+  each_3_item: each_3_item,
+  each_3_index: each_3_index
+})"><a-card :title="each_3_item?.ID">{{each_3_item?.yonghuming}}{{nodesState.text_2.text({
+  each_item: each_item,
+  each_index: each_index,
+  each_2_item: each_2_item,
+  each_2_index: each_2_index,
+  each_3_item: each_3_item,
+  each_3_index: each_3_index
+})}}{{each_3_item?.yonghunianling}}</a-card>{{nodesState.text_4.text}}</template></template></template><template v-for="(each_4_item, each_4_index) in each_item"><input :type="nodesState.input.type" :placeholder="each_4_item" /></template></template><f-43272b44 :data="nodesState.f43272b44.data"></f-43272b44></template><script setup lang="ts">import{onBeforeUnmount,onMounted,reactive,ref,computed,defineProps,defineEmits}from"vue";import{useRouter}from"vue-router";import{default as F43272b44}from"../components/f-43272b44.vue";import{open}from"../system/action.ts";import*as Fx from"@robotdev/fx-common";import{chuangjianyonghu}from"../apis/chuangjianyonghu.ts";import{chuangjianbanji}from"../apis/chuangjianbanji.ts";import{luruxueshengbanji}from"../apis/luruxueshengbanji.ts";import{chaxunxueshengbanji}from"../apis/chaxunxueshengbanji.ts";import{chaxunsuoyouyonghu}from"../apis/chaxunsuoyouyonghu.ts";import{chaxunyonghu}from"../apis/chaxunyonghu.ts";const props=defineProps({});const emit=defineEmits([]);const router=useRouter();const variables=reactive({xueshengmingcheng:null,xueshengnianling:null,xunhuancols:null,xunhuanwenbenshuju:null,menushuzu:null});const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});const nodesState=reactive({each:{data:computed(()=>variables?.xunhuanwenbenshuju)},each_2:{data:computed(()=>variables?.xunhuancols)},each_3:{data:computed(()=>apiState?.chaxunsuoyouyonghu?.data?.yonghushuzu)},cond:{value:({each_item,each_index,each_2_item,each_2_index,each_3_item,each_3_index})=>Fx.gt(each_3_item?.yonghunianling,10)},text_2:{text:({each_item,each_index,each_2_item,each_2_index,each_3_item,each_3_index})=>Fx.concatString(["年龄大于十------",each_index,each_2_item?.name,each_3_item?.ID])},text_4:{text:"年龄小于10----------"},input:{type:"text"},f43272b44:{data:computed(()=>variables?.menushuzu)}});onMounted(()=>{chaxunsuoyouyonghu().then(res=>{apiState.chaxunsuoyouyonghu=res}).catch(error=>{})});</script>",
+  },
+  {
+    "path": "src/pages/404.vue",
+    "token": "<template></template><script setup lang="ts">import{onBeforeUnmount,onMounted,reactive,ref,computed,defineProps,defineEmits}from"vue";import{useRouter}from"vue-router";import{open}from"../system/action.ts";import*as Fx from"@robotdev/fx-common";import{chuangjianyonghu}from"../apis/chuangjianyonghu.ts";import{chuangjianbanji}from"../apis/chuangjianbanji.ts";import{luruxueshengbanji}from"../apis/luruxueshengbanji.ts";import{chaxunxueshengbanji}from"../apis/chaxunxueshengbanji.ts";import{chaxunsuoyouyonghu}from"../apis/chaxunsuoyouyonghu.ts";import{chaxunyonghu}from"../apis/chaxunyonghu.ts";const props=defineProps({});const emit=defineEmits([]);const router=useRouter();const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});</script>",
+  },
+  {
+    "path": "src/pages/502.vue",
+    "token": "<template></template><script setup lang="ts">import{onBeforeUnmount,onMounted,reactive,ref,computed,defineProps,defineEmits}from"vue";import{useRouter}from"vue-router";import{open}from"../system/action.ts";import*as Fx from"@robotdev/fx-common";import{chuangjianyonghu}from"../apis/chuangjianyonghu.ts";import{chuangjianbanji}from"../apis/chuangjianbanji.ts";import{luruxueshengbanji}from"../apis/luruxueshengbanji.ts";import{chaxunxueshengbanji}from"../apis/chaxunxueshengbanji.ts";import{chaxunsuoyouyonghu}from"../apis/chaxunsuoyouyonghu.ts";import{chaxunyonghu}from"../apis/chaxunyonghu.ts";const props=defineProps({});const emit=defineEmits([]);const router=useRouter();const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});</script>",
+  },
+  {
+    "path": "src/pages/renyuan/renyuanluruye.vue",
+    "token": "<template><a-card><a-form><a-form-item :label="nodesState.aFormItem.label"><a-input :value="nodesState.aInput.value" @change="(...args) => {
+  nodesState.aInput.change(...args);
+}"></a-input></a-form-item><a-form-item :label="nodesState.aFormItem_2.label"><a-input-number @change="(...args) => {
+  nodesState.aInputNumber.change(...args);
+}"></a-input-number></a-form-item><a-form-item :label="nodesState.aFormItem_3.label" :labelAlign="nodesState.aFormItem_3.labelAlign"><a-button :type="nodesState.aButton.type" :size="nodesState.aButton.size" :shape="nodesState.aButton.shape" @click="(...args) => {
+  nodesState.aButton.click(...args);
+}">{{nodesState.text.text}}</a-button><a-button :shape="nodesState.aButton_2.shape({})" @click="(...args) => {
+  nodesState.aButton_2.click(...args);
+}">{{nodesState.text_2.text}}</a-button></a-form-item></a-form></a-card></template><script setup lang="ts">import{onBeforeUnmount,onMounted,reactive,ref,computed,defineProps,defineEmits}from"vue";import{useRouter}from"vue-router";import{open}from"../../system/action.ts";import*as Fx from"@robotdev/fx-common";import{chuangjianyonghu}from"../../apis/chuangjianyonghu.ts";import{chuangjianbanji}from"../../apis/chuangjianbanji.ts";import{luruxueshengbanji}from"../../apis/luruxueshengbanji.ts";import{chaxunxueshengbanji}from"../../apis/chaxunxueshengbanji.ts";import{chaxunsuoyouyonghu}from"../../apis/chaxunsuoyouyonghu.ts";import{chaxunyonghu}from"../../apis/chaxunyonghu.ts";const props=defineProps({});const emit=defineEmits([]);const router=useRouter();const variables=reactive({xueshengmingcheng:null,xueshengnianling:null});const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});const nodesState=reactive({aFormItem:{label:"学生名称"},aInput:{value:"",change:(event_event,event_ctx)=>{variables.xueshengmingcheng=event_event?.target?.value}},aFormItem_2:{label:"学生年龄"},aInputNumber:{change:(event_value,event_ctx)=>{variables.xueshengnianling=121}},aFormItem_3:{label:"",labelAlign:"right"},aButton:{type:"primary",size:"middle",shape:"round"},text:{text:"提交表单"},aButton_2:{shape:"round",click:(event_event,event_ctx)=>{if(Fx.eq(variables?.xueshengmingcheng,event_event?.target?.value)&&Fx.neq(variables?.xueshengmingcheng,event_event?.target?.value)){}else{}}},text_2:{text:"保存"}});</script>",
+  },
+  {
+    "path": "src/pages/renyuan/renyuanliebiao.vue",
+    "token": "<template><a-table :dataSource="nodesState.aTable.dataSource" :columns="nodesState.aTable.columns"></a-table><a-button></a-button></template><script setup lang="ts">import{onBeforeUnmount,onMounted,reactive,ref,computed,defineProps,defineEmits}from"vue";import{useRouter}from"vue-router";import{open}from"../../system/action.ts";import*as Fx from"@robotdev/fx-common";import{chuangjianyonghu}from"../../apis/chuangjianyonghu.ts";import{chuangjianbanji}from"../../apis/chuangjianbanji.ts";import{luruxueshengbanji}from"../../apis/luruxueshengbanji.ts";import{chaxunxueshengbanji}from"../../apis/chaxunxueshengbanji.ts";import{chaxunsuoyouyonghu}from"../../apis/chaxunsuoyouyonghu.ts";import{chaxunyonghu}from"../../apis/chaxunyonghu.ts";const props=defineProps({});const emit=defineEmits([]);const router=useRouter();const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});const nodesState=reactive({aTable:{columns:[{dataIndex:"ID",title:"ID"},{dataIndex:"yonghuming",title:"用户名"},{dataIndex:"yonghunianling",title:"用户年龄"}],dataSource:apiState?.chaxunsuoyouyonghu?.data?.yonghushuzu}});onMounted(()=>{chaxunsuoyouyonghu().then(res=>{apiState.chaxunsuoyouyonghu=res}).catch(error=>{})});</script>",
+  },
+  {
+    "path": "src/pages/renyuan/renyuanxiangqingye.vue",
+    "token": "<template><a-typography-title>{{nodesState.text.text}}</a-typography-title><div><template v-for="(each_item, each_index) in nodesState.each.data"><template v-if="nodesState.cond.value({
+  each_item: each_item,
+  each_index: each_index
+})"><a-card :title="each_item?.yonghuming">{{each_item?.ID}}{{nodesState.text_3.text}}</a-card><a-card :title="each_item?.yonghuming">{{each_item?.ID}}{{nodesState.text_5.text}}</a-card></template></template></div></template><script setup lang="ts">import{onBeforeUnmount,onMounted,reactive,ref,computed,defineProps,defineEmits}from"vue";import{useRouter}from"vue-router";import{open}from"../../system/action.ts";import*as Fx from"@robotdev/fx-common";import{chuangjianyonghu}from"../../apis/chuangjianyonghu.ts";import{chuangjianbanji}from"../../apis/chuangjianbanji.ts";import{luruxueshengbanji}from"../../apis/luruxueshengbanji.ts";import{chaxunxueshengbanji}from"../../apis/chaxunxueshengbanji.ts";import{chaxunsuoyouyonghu}from"../../apis/chaxunsuoyouyonghu.ts";import{chaxunyonghu}from"../../apis/chaxunyonghu.ts";const props=defineProps({});const emit=defineEmits([]);const router=useRouter();const apiState=reactive({chuangjianyonghu:null,chuangjianbanji:null,luruxueshengbanji:null,chaxunxueshengbanji:null,chaxunsuoyouyonghu:null,chaxunyonghu:null});const nodesState=reactive({text:{text:computed(()=>apiState?.chaxunyonghu?.data?.yonghuxinxi?.yonghuming)},each:{data:computed(()=>apiState?.chaxunsuoyouyonghu?.data?.yonghushuzu)},cond:{value:({each_item,each_index})=>Fx.lt(each_item?.yonghunianling,6)},text_3:{text:"小于6"},text_5:{text:"大于等于6"}});onMounted(()=>{chaxunyonghu().then(res=>{apiState.chaxunyonghu=res}).catch(error=>{});chaxunsuoyouyonghu().then(res=>{apiState.chaxunsuoyouyonghu=res}).catch(error=>{})});</script>",
+  },
+  {
+    "path": "src/system/action.ts",
+    "token": "import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+// const request = (url: string, body: any, success: (res: any) => void, fail: (err: any) => void) => {
+//   return axios.post(url, body).then(
+//     (response: any) => success(response),
+//     (err: any) => fail(err)
+//   );
+// };
+
+function open(mode: 'out', target: string, url: string): void;
+function open(mode: 'in', target: string, name: string, query?: any): void;
+function open(mode: string, target: string, url: string, query?: any) {
+  const router = useRouter();
+  if (mode === 'in') {
+    router.push({ name: url, query })
+  } else if (mode === 'out') {
+    const dom = document.createElement('a');
+    dom.setAttribute('href', url);
+    dom.setAttribute('target', \`_\${target}\`);
+    dom.click();
+    dom.remove();
+  } else {
+    throw new Error ('open的mode类型错误')
+  }
+}
+// const open = (mode: 'out', name: string, query: any) => void;
+// const open = (mode: 'in', name: string, query: any) => void;
+// const open = (mode:) => {
+//   return axios.post(url, body).then(
+//     (response: any) => success(response),
+//     (err: any) => fail(err)
+//   );
+// };
+
+export { open };
+",
   },
 ]
 `;

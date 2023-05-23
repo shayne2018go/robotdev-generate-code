@@ -1,5 +1,5 @@
 {
-  "name": "robotdev-generate-code",
+  "name": "@dreawer/robotdev-generate-code",
   "version": "0.0.1",
   "license": "ISC",
   "engines": {
@@ -7,7 +7,7 @@
   },
   "type": "module",
   "types": "./dist/types/index.d.ts",
-  "main": "./dist/index.js",
+  "main": "./dist/index.esm.js",
   "module": "./dist/index.esm.js",
   "unpkg": "./dist/index.umd.js",
   "files": [
@@ -27,6 +27,7 @@
     "@babel/preset-env": "^7.21.5",
     "@babel/preset-typescript": "^7.21.5",
     "@jest/globals": "^29.5.0",
+    "@rollup/plugin-alias": "^5.0.0",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-json": "^6.0.0",
@@ -68,6 +69,7 @@
     "tiny-warning": "^1.0.3",
     "ts-babel": "^6.1.7",
     "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
     "yarn-deduplicate": "^6.0.2"
   },

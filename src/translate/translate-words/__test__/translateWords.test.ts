@@ -1,9 +1,7 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import DBSchema from '../../../__test__/__fixture__/DBSchema';
-import DBWSchema from '../../../__test__/__fixture__/DBWSchema';
-import axios from 'axios';
 import * as Fxc from '@robotdev/fx-code';
 import translateWords from '..';
+import DBSchema from '../../../__test__/__fixture__/DBSchema';
+import DBWSchema from '../../../__test__/__fixture__/DBWSchema';
 
 /**
  * 翻译name为key
@@ -14,10 +12,10 @@ const getTranlatedWord = async (name: string) => {
 };
 describe('translateWords', () => {
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
   });
   afterEach(() => {
-    vi.useRealTimers();
+    jest.useRealTimers();
   });
 
   it('start', async () => {
@@ -27,10 +25,11 @@ describe('translateWords', () => {
     debugger;
     await translateWords(dbData, { translateFn: getTranlatedWord });
 
-    vi.runAllTimers();
+    jest.runAllTimers();
 
     debugger;
     expect(dbData).toMatchSnapshot();
+
     expect(dbData).toMatchObject(target);
   });
 });

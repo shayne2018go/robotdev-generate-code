@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import compileTemplate from '../compileTemplate';
 import { parsingVueCompileOptions, buildGlobalCtx } from '../../compileVue';
 import codeSchema from '@/__test__/__fixture__/CodeSchema';

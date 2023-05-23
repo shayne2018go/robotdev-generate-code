@@ -1,12 +1,4 @@
-import { describe, it, expect } from 'vitest';
-import {
-  IJson_Array,
-  IJson_Boolean,
-  IJson_Null,
-  IJson_Number,
-  IJson_Object,
-  IJson_String,
-} from '../types';
+import { IJson_Array, IJson_Boolean, IJson_Null, IJson_Number, IJson_Object, IJson_String } from '../types';
 import { generateJson } from '../core';
 
 const schema_boolean1: IJson_Boolean = { type: 'boolean', value: false };

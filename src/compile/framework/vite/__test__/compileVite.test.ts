@@ -1,5 +1,4 @@
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
-import { describe, expect, it } from 'vitest';
 import compileVite from '../compileVite';
 import compileViteTokens from './fixture/vite-tokens.json';
 

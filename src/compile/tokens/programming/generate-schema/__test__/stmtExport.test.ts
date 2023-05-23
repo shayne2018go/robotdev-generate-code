@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'vitest';
 import { statement } from '../statement';
 
 describe('statement export', () => {

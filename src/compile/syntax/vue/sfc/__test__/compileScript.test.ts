@@ -1,5 +1,4 @@
 import codeSchema from '@/__test__/__fixture__/CodeSchema';
-import { describe, expect, it } from 'vitest';
 import { CompileCurrentCtx, parsingCurrent } from '../../compilePages';
 import { buildGlobalCtx, parsingVueCompileOptions } from '../../compileVue';
 import compileScript from '../compileScript';
@@ -44,6 +43,7 @@ describe('compileScript', () => {
     };
 
     const { token } = compileScript(page, currentPageCompileOptions);
+    debugger;
 
     expect(token).toMatchSnapshot();
     expect(token).toEqual(scriptToken2);

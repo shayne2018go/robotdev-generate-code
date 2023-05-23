@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import webData from '../../../__test__/__fixture__/DBWSchema';
 import preprocess from '../';
 import codeSchemaTarget from '../../../__test__/__fixture__/CodeSchema';
