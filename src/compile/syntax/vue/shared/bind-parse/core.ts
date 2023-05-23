@@ -615,6 +615,7 @@ export const literalToAst = (
     }
     case 'url': {
       // TODO:分外部和内部链接
+      throw new Error('option的值必须是文本(id)');
     }
     case 'option': {
       if (typeof data.args.value !== 'string') {

@@ -1,14 +1,15 @@
 import { DBWSchema } from '@/types';
-import { ICS_Api } from '@/types/api';
 import { DirectoryBuilder } from './directory';
-import { ICS_Directory } from '@/types/directory';
 
 interface ApiBuilder {}
 
-function preprocessApis(dbwSchema: DBWSchema.Project, directoryBuilder: DirectoryBuilder): { apis: ICS_Api[] } {
+function preprocessApis(
+  dbwSchema: DBWSchema.Project,
+  directoryBuilder: DirectoryBuilder
+): { apis: CodeSchema.Api_Protocol[] } {
   const { directories } = directoryBuilder;
 
-  function preprocessApi(api: DBWSchema.Api): ICS_Api {
+  function preprocessApi(api: DBWSchema.Api): CodeSchema.Api_Protocol {
     // TODO: 未处理第三方API
     return {
       id: api.id,
@@ -31,6 +32,6 @@ function preprocessApis(dbwSchema: DBWSchema.Project, directoryBuilder: Director
   return { apis };
 }
 
-function getApiPath(api: DBWSchema.Api, directories: ICS_Directory[]) {}
+function getApiPath(api: DBWSchema.Api, directories: CodeSchema.Directory[]) {}
 
 export default preprocessApis;

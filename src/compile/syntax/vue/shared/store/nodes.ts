@@ -25,15 +25,15 @@ export interface ViewNodeSlot {
 
 //ctx.getNodePropDefine(nodeId,propId
 
-const propsStore = localSqlStore<CodeSchema.Property, 'propId', []>;
-const eventsStore = localSqlStore<CodeSchema.Event, 'eventId', []>;
+const propsStore = localSqlStore;
+const eventsStore = localSqlStore;
 
 export interface NodeMapItem {
   data: CodeSchema.ComponentNode;
   component: ReturnType<VueGlobalCtx['componentsStore']['find']>;
   varName: string;
-  propsStore: ReturnType<typeof propsStore>;
-  eventsStore: ReturnType<typeof eventsStore>;
+  propsStore: ReturnType<typeof propsStore<CodeSchema.Property, 'propId', []>>;
+  eventsStore: ReturnType<typeof eventsStore<CodeSchema.Event, 'eventId', []>>;
 }
 
 export type TreeNode = {
@@ -68,8 +68,8 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
         data: node,
         component: cmpt,
         varName: genVarNameHanlder(key),
-        propsStore: propsStore({ primaryKey: 'propId' }).created(node.props || []),
-        eventsStore: eventsStore({ primaryKey: 'eventId' }).created(node.events || []),
+        propsStore: propsStore<CodeSchema.Property, 'propId', []>({ primaryKey: 'propId' }).created(node.props || []),
+        eventsStore: eventsStore<CodeSchema.Event, 'eventId', []>({ primaryKey: 'eventId' }).created(node.events || []),
       };
       if (!tree[node.id]) {
         const treeNode: TreeNode = {

@@ -1,7 +1,7 @@
 import { genVarName } from '../helper';
 import { propertiesDataStore } from './properties';
 
-interface SlotMapItem {
+export interface SlotMapItem {
   data: CodeSchema.ComponentSlot;
   varName: string;
   members: Members;

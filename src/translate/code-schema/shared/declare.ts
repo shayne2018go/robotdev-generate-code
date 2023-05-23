@@ -1,12 +1,11 @@
 import { DBWSchema } from '@/types';
-import { Identifier } from '@/types/code-schema/Identifier';
 
-function preprocessDeclare(rdProp: DBWSchema.RdDecl): Identifier;
-function preprocessDeclare(rdProp: DBWSchema.RdDefineProp): Identifier;
-function preprocessDeclare(rdProp: DBWSchema.RdComponentDefineProp): Identifier;
+function preprocessDeclare(rdProp: DBWSchema.RdDecl): CodeSchema.Property_Protocol;
+function preprocessDeclare(rdProp: DBWSchema.RdDefineProp): CodeSchema.Property_Protocol;
+function preprocessDeclare(rdProp: DBWSchema.RdComponentDefineProp): CodeSchema.Property_Protocol;
 function preprocessDeclare(
   rdProp: DBWSchema.RdDecl | DBWSchema.RdDefineProp | DBWSchema.RdComponentDefineProp
-): Identifier {
+): CodeSchema.Property_Protocol {
   return {
     id: rdProp.id,
     name: rdProp.name!,

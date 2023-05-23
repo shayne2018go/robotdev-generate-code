@@ -24,7 +24,7 @@ function compileComponents(codeSchema: CodeSchema.Project, vueGlobalCtx: VueGlob
 function compileComponent(component: CodeSchema.Component, ctx: VueGlobalCtx) {
   const parsingComponentResult = parsingCurrent(component, ctx);
 
-  const currentPageCompileOptions: CompileCurrentCtx<CodeSchema.Component> = {
+  const currentPageCompileOptions: CompileCurrentCtx = {
     global: ctx,
     scope: {
       current: parsingComponentResult,

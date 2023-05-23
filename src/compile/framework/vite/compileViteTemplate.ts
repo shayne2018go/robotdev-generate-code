@@ -2,7 +2,7 @@ import { ViteTemplate } from './compileVite';
 import { resolve, dirname, readFileSync } from '@/utils/node';
 
 import { fileURLToPath } from 'url';
-import { globbySync } from 'globby';
+import glob from 'glob';
 import { Compile } from '@/types/compile/token';
 import { CompileConfig } from '@/compile/config/parseCompileConfig';
 import createToken from '@/compile/config/createToken';
@@ -15,8 +15,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 function compileViteTemplate(temp: ViteTemplate, compileConfig?: CompileConfig): { tokens: Compile.Token[] } {
   const templatesRoot = resolve(__dirname, './templates', `template-${temp}`);
 
-  const paths = globbySync('**', { cwd: templatesRoot });
-
+  const paths = glob.sync('**', { cwd: templatesRoot, nodir: true });
   const tokens = [] as any[];
 
   paths.forEach((path) => {

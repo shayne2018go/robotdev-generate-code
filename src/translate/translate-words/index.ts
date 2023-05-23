@@ -5,7 +5,7 @@ import { TranslateOptions } from '../tanslate';
 
 const translateWords = async (db: DBSchema.Project, options: TranslateOptions): Promise<DBWSchema.Project> => {
   const dbData = db;
-  const translateWords = [] as any[];
+  const translateWords = [] as Record<string, any>[][];
 
   eachDBSchema(dbData, (data, config) => {
     if (config?.translated) {

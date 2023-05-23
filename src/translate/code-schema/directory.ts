@@ -1,14 +1,13 @@
 import { DBWSchema } from '@/types';
-import { ICS_Directory } from '@/types/directory';
 
 type PreprocessDir = DBWSchema.ProjectIndexPage | DBWSchema.ProjectIndexFlowchart | DBWSchema.ProjectIndexApi;
 
 export interface DirectoryBuilder {
-  directories: ICS_Directory[];
+  directories: CodeSchema.Directory[];
 }
 
 function preprocessDirectories(dbwSchema: DBWSchema.Project): { directoryBuilder: DirectoryBuilder } {
-  function preprocessDirectory(dir: PreprocessDir): ICS_Directory {
+  function preprocessDirectory(dir: PreprocessDir): CodeSchema.Directory {
     return {
       id: dir.id,
       key: dir.key,
@@ -21,7 +20,7 @@ function preprocessDirectories(dbwSchema: DBWSchema.Project): { directoryBuilder
 
   const { page = [], flowchart = [], api = [] } = dbwSchema.projectIndex;
 
-  const directories: ICS_Directory[] = page
+  const directories: CodeSchema.Directory[] = page
     .map(preprocessDirectory)
     .concat(flowchart.map(preprocessDirectory))
     .concat(api.map(preprocessDirectory));
@@ -35,7 +34,7 @@ function preprocessDirectories(dbwSchema: DBWSchema.Project): { directoryBuilder
   };
 }
 
-function getResourceType(type: PreprocessDir['type']): ICS_Directory['resourceType'] {
+function getResourceType(type: PreprocessDir['type']): CodeSchema.Directory['resourceType'] {
   switch (type) {
     case 'directory':
       return;

@@ -1,13 +1,4 @@
-import {
-  ICS_Component,
-  I_Component_Emit,
-  I_Component_Props,
-  I_Component_Slot,
-  I_Component_Variable,
-  I_component_LifeCycle,
-} from '@/types/component';
 import { DBWSchema } from '@/types';
-import { INode } from '@/types/view';
 import { preprocessDeclare } from './shared/declare';
 import { DependenciesBuilder } from './dependencies';
 
@@ -21,16 +12,16 @@ function preprocessComponents(dependenciesBuilder: DependenciesBuilder) {
 
   const components = localPackages.reduce((pre, cur) => {
     return pre.concat(cur.components || []);
-  }, [] as ICS_Component[]);
+  }, [] as CodeSchema.Component[]);
 
   return { components };
 }
 
-function preprocessComponentProps(props?: DBWSchema.RdComponentDefineProp[]): I_Component_Props[] {
+function preprocessComponentProps(props?: DBWSchema.RdComponentDefineProp[]): CodeSchema.ComponentProp[] {
   return props ? props.map(preprocessDeclare) : [];
 }
 
-function preprocessComponentEmits(emits?: DBWSchema.RdComponentDefineEvent[]): I_Component_Emit[] {
+function preprocessComponentEmits(emits?: DBWSchema.RdComponentDefineEvent[]): CodeSchema.ComponentEmit[] {
   return emits
     ? emits.map((emit) => {
         return {
@@ -44,7 +35,7 @@ function preprocessComponentEmits(emits?: DBWSchema.RdComponentDefineEvent[]): I
     : [];
 }
 
-function preprocessComponentSlots(slots?: DBWSchema.RdComponentDefineSlot[]): I_Component_Slot[] {
+function preprocessComponentSlots(slots?: DBWSchema.RdComponentDefineSlot[]): CodeSchema.ComponentSlot[] {
   return slots
     ? slots.map((slot) => {
         return {
@@ -58,7 +49,7 @@ function preprocessComponentSlots(slots?: DBWSchema.RdComponentDefineSlot[]): I_
     : [];
 }
 
-function preprocessComponentLifeCycle(lifeCycles?: DBWSchema.RdEvent[]): I_component_LifeCycle[] {
+function preprocessComponentLifeCycle(lifeCycles?: DBWSchema.RdEvent[]): CodeSchema.ComponentLifeCycle[] {
   return lifeCycles
     ? lifeCycles.map((lifeCycle) => {
         return {
@@ -69,14 +60,14 @@ function preprocessComponentLifeCycle(lifeCycles?: DBWSchema.RdEvent[]): I_compo
     : [];
 }
 
-function preprocessComponentVariables(variables?: DBWSchema.RdDecl[]): I_Component_Variable[] {
+function preprocessComponentVariables(variables?: DBWSchema.RdDecl[]): CodeSchema.ComponentVariable[] {
   return variables ? variables.map(preprocessDeclare) : [];
 }
 
 function preprocessNodes(
   rdNodes?: DBWSchema.RdNode[],
   tagIndexs?: Record<string, DBWSchema.Dependencies>
-): { nodes: INode[]; dependenciesIds: string[] } {
+): { nodes: CodeSchema.ComponentNode[]; dependenciesIds: string[] } {
   // 收集节点里的依赖
   const dependenciesIds = [] as string[];
 

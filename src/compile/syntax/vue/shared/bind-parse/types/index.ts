@@ -15,7 +15,6 @@ import {
 } from '@babel/types';
 import { CompileCurrentCtx } from '../../../compilePages';
 import { genVarName } from '../../helper';
-import { T } from 'vitest/dist/types-e3c9754d';
 
 export type ActionAst = CallExpression | AssignmentExpression;
 export type ActionsAst = CallExpression[] | AssignmentExpression[];
