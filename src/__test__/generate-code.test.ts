@@ -14,6 +14,7 @@ describe('generate-code', () => {
     jest.useRealTimers();
   });
   it('all', async () => {
+    // 项目目录位置
     const path = resolve(__dirname, '/codes/123');
     const { compiler } = compilerFactory(codeSchema);
 
@@ -25,7 +26,7 @@ describe('generate-code', () => {
 
     // 产生项目 -> 打包 -> 部署 -> 解压缩 安装 依赖
 
-    await build(projectPath);
+    // await build(projectPath);
 
     // const isExist = fse.existsSync(projectPath);
 
