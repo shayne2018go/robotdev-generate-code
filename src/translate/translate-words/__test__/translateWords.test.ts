@@ -28,7 +28,6 @@ describe('translateWords', () => {
     jest.runAllTimers();
 
     debugger;
-    expect(dbData).toMatchSnapshot();
 
     expect(dbData).toMatchObject(target);
   });

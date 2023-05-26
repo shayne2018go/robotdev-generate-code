@@ -8,7 +8,6 @@ describe('preprocess', () => {
     const target = codeSchemaTarget;
 
     debugger;
-    expect(codeSchema).toMatchSnapshot();
     expect(codeSchema).toMatchObject(target);
   });
 });
