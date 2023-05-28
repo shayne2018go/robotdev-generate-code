@@ -156,9 +156,9 @@ function parsingNodeText<T extends CodeSchema.Page | CodeSchema.Component>(
   node: TreeNode,
   compileCtx: BindParseCtx
 ): ParsingNodeReturn | null {
-  const { id: nodeId, tagId, props } = node.data;
-
-  const textData = props?.find((p) => getNodePropKeyById(nodeId, p.propId, compileCtx) === 'text');
+  const { id: nodeId, tagId } = node.data;
+  
+  const textData = node.data?.props?.find((p) => getNodePropKeyById(nodeId, p.propId, compileCtx) === 'text');
 
   if (!textData) {
     // 过滤掉没有值的text标签
@@ -169,10 +169,15 @@ function parsingNodeText<T extends CodeSchema.Page | CodeSchema.Component>(
   if (!valueExpression) {
     throw new Error(`can not find variable "${textData.propId}"`);
   }
-
+  
   const tagName = 'rd-text';
+
+  const props = [
+    ...parsingNodeProps(node, compileCtx).filter(item => item.key !== 'text')
+  ];
   const isVoidElement = VOID_ELEMENT.includes(tagName);
-  return g.node(tagName, [], [g.insertText(valueExpression)], isVoidElement);
+
+  return g.node(tagName, props, [g.insertText(valueExpression)], isVoidElement);
 }
 
 function parsingNodeNormal<T extends CodeSchema.Page | CodeSchema.Component>(
