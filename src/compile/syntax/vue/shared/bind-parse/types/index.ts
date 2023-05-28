@@ -17,7 +17,7 @@ import { CompileCurrentCtx } from '../../../compilePages';
 import { genVarName } from '../../helper';
 
 export type ActionAst = CallExpression | AssignmentExpression;
-export type ActionsAst = CallExpression[] | AssignmentExpression[];
+export type ActionsAst = (CallExpression | AssignmentExpression)[];
 
 export type BindAst =
   | OptionalMemberExpression

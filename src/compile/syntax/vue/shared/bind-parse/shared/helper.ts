@@ -1,6 +1,6 @@
 import * as t from '@babel/types';
 import { tools } from '@/utils/tools';
-import { AccessPath, ActionAst, BindAst, BindParseCtx, ReturnRef, TableProps } from '../types';
+import { AccessPath, ActionAst, ActionsAst, BindAst, BindParseCtx, ReturnRef, TableProps } from '../types';
 import { NodeMapItem } from '../../store/nodes';
 
 type BindRdData =
@@ -95,7 +95,23 @@ export const genRdData = (
   };
 };
 
-export const literalToRdData_Custom = (data: any): CodeSchema.DataValue_Custom => {
+export const literalToRdData_Custom = (
+  data: any,
+  types?: CodeSchema.PropertyType_Protocol[]
+): CodeSchema.DataValue_Custom => {
+  if (types?.[0]?.type) {
+    if (types?.[0]?.type === 'module') {
+      const objList: { propId: string; value: any }[] = [];
+      Object.entries(data).forEach((item) => {
+        objList.push({
+          propId: item[0],
+          value: item[1],
+        });
+      });
+      return genRdData('module', objList);
+    }
+    return genRdData(types?.[0]?.type, data);
+  }
   const type = tools.dataType.getType(data);
   switch (type) {
     case 'string': {
@@ -104,7 +120,7 @@ export const literalToRdData_Custom = (data: any): CodeSchema.DataValue_Custom =
     case 'number': {
       return genRdData('number', data);
     }
-    case 'whether': {
+    case 'boolean': {
       return genRdData('whether', data);
     }
     case 'object': {
@@ -253,5 +269,28 @@ export const getDataAstByAny = (value: any): t.Literal | t.ObjectExpression | t.
 
     default:
       throw new Error('getDataAstByAny的未知类型type');
+  }
+};
+
+// 判断是表达式还是语句（赋值表达式视为语句）
+export const astIsExpression = (value: any): value is BindAst => {
+  if (t.isStatement(value) || t.isAssignmentExpression(value) || Array.isArray(value)) {
+    return false;
+  }
+  return true;
+};
+
+// TODO
+export const initDefaultValue = (propDefine: CodeSchema.Property_Protocol) => {
+  // TODO 本期考虑没有多类型，默认取第一个，未来再考虑多类型。由于未来默认值很有可能存在属性节点，所以把属性传进来
+  const type = propDefine.types[0];
+  if (type.default !== undefined) {
+    return type.default;
+  }
+  if (type.multiple === true) {
+    return [];
+  }
+  if (type.type !== 'module') {
+    return undefined; // 不是模块就返回undefined
   }
 };

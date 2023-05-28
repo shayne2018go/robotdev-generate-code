@@ -92,6 +92,14 @@ export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>
         exportName: 'open', // 导出名 (不能为空 默认default )
       },
     } as GlobalContext.PartialPick<GlobalContext.Function, 'protocol'>,
+    {
+      id: 'assignment', // 函数id
+      key: 'assignment', // 函数名称
+      source: {
+        filePath: 'src/system/action.ts', // 本地路径
+        exportName: 'assignment', // 导出名 (不能为空 默认default )
+      },
+    } as GlobalContext.PartialPick<GlobalContext.Function, 'protocol'>,
   ].concat(buitinImportedFunctions);
 
   const nodesStore = nodesDataStore(data.nodes, ctx);

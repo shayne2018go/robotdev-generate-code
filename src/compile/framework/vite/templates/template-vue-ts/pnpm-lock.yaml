@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@robotdev/fx-common': 0.0.2
+  '@robotdev/fx-common': 0.0.3
   '@vitejs/plugin-vue': ^4.1.0
   ant-design-vue: ^3.2.15
   axios: ^1.4.0
@@ -18,7 +18,7 @@ dependencies:
   vue-router: 4.2.1_vue@3.3.4
 
 devDependencies:
-  '@robotdev/fx-common': 0.0.2
+  '@robotdev/fx-common': 0.0.3
   '@vitejs/plugin-vue': 4.2.3_vite@4.3.8+vue@3.3.4
   ant-design-vue: 3.2.20_vue@3.3.4
   less: 4.1.3
@@ -291,8 +291,8 @@ packages:
       ramda: 0.28.0
     dev: true
 
-  /@robotdev/fx-common/0.0.2:
-    resolution: {integrity: sha512-10GX+Rg0AkPiNDlyotl0ejxOvd7sdbhyhPBFo8uXg6HTjiCt0yyox4BVRt7yf3/nNT/RMSt6h1Lzcx3IpR+aMA==}
+  /@robotdev/fx-common/0.0.3:
+    resolution: {integrity: sha512-f7hOUa3pHymnkhdxMXhe4ygfFQGlhT201KNW0YHNU5HP/gKgfpluvIAI5NxpITOrqHYwZhA3h14eSp4RT+Z7CQ==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
     dependencies:
       '@robotdev/fx-basic': 0.7.48

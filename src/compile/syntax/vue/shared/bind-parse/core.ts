@@ -20,6 +20,7 @@ import { searchModulePathKeys } from '../searchPath';
 import { getPathPropertieKeys, getPathProperties } from './shared/getPathProperties';
 import {
   actionCheck,
+  astIsExpression,
   getEventArgVarName,
   getMemberExpr,
   getOptMemberExpr,
@@ -81,10 +82,27 @@ export const defaultAst = <T extends CodeSchema.Page | CodeSchema.Component>(
   return;
 };
 
+const assignmentMethodAst = (ctx: BindParseCtx, rootPath: string[], path: (string | number)[], value: BindAst) => {
+  const pathAst = literalToAst(literalToRdData_Custom(path), ctx);
+  if (!t.isArrayExpression(pathAst)) {
+    return;
+  }
+  return t.callExpression(t.identifier(ctx.global.assignmentMethodName), [getMemberExpr(rootPath), pathAst, value]);
+};
+
+const assignmentAst = (ctx: BindParseCtx, rootPath: string[], path: string[] | undefined, value: BindAst) => {
+  if (!path?.length) {
+    // 如果没有额外path，直接生成正常的赋值表达式
+    return t.assignmentExpression('=', getMemberExpr(rootPath), value);
+  }
+  // 否则生成赋值方法调用的表达式
+  return assignmentMethodAst(ctx, rootPath, path, value);
+};
+
 export const toAstMethods = {
   getVar: (data: CodeSchema.DataValue_GetVar, ctx: BindParseCtx): OptionalMemberExpression | Identifier | undefined => {
     // api响应数据 apiState.api函数名.data?.响应body?.响应body属性
-    if (!data.args.id) {
+    if (!data.args?.id) {
       throw new Error('getApiData的data.args.id失败');
     }
     const pathPropertieKeys = getPathPropertieKeys(ctx, data);
@@ -99,7 +117,7 @@ export const toAstMethods = {
     ctx: BindParseCtx
   ): OptionalMemberExpression | Identifier | undefined => {
     // api响应数据 apiState.api函数名.data?.响应body?.响应body属性
-    if (!data.args.id) {
+    if (!data.args?.id) {
       throw new Error('getApiData的data.args.id失败');
     }
     const pathPropertieKeys = getPathPropertieKeys(ctx, data);
@@ -114,7 +132,7 @@ export const toAstMethods = {
     ctx: BindParseCtx
   ): OptionalMemberExpression | Identifier | undefined => {
     // 页面路由参数 router.query.xxx
-    if (!data.args.id) {
+    if (!data.args?.id) {
       throw new Error('getApiData的data.args.id失败');
     }
     const pathPropertieKeys = getPathPropertieKeys(ctx, data);
@@ -131,7 +149,7 @@ export const toAstMethods = {
     if (!ctx.scope.event?.eventId) {
       throw new Error('getEventData的ctx.scope.event?.eventId获取失败');
     }
-    if (!data.args.id) {
+    if (!data.args?.id) {
       throw new Error('getEventData的data.args.id失败');
     }
     // 通过参数id拿到varName和types
@@ -155,7 +173,7 @@ export const toAstMethods = {
     data: CodeSchema.DataValue_GetSlotData,
     ctx: BindParseCtx
   ): OptionalMemberExpression | Identifier | undefined => {
-    if (!data.args.id) {
+    if (!data.args?.id) {
       return;
     }
     const pathPropertieKeys = getPathPropertieKeys(ctx, data);
@@ -168,7 +186,7 @@ export const toAstMethods = {
     data: CodeSchema.DataValue_GetEachData,
     ctx: BindParseCtx
   ): OptionalMemberExpression | Identifier | undefined => {
-    if (!data.args.id) {
+    if (!data.args?.id) {
       return;
     }
     const pathPropertieKeys = getPathPropertieKeys(ctx, data);
@@ -180,9 +198,10 @@ export const toAstMethods = {
   getCmptPropData: (
     data: CodeSchema.DataValue_GetCmptPropData,
     ctx: BindParseCtx
-  ): OptionalMemberExpression | Identifier => {
+  ): OptionalMemberExpression | Identifier | undefined => {
     const pathPropertieKeys = getPathPropertieKeys(ctx, data);
     if (!pathPropertieKeys?.length) {
+      return
       throw new Error(`Cannot find getCmptPropData path ${data}`);
     }
     return getOptMemberExpr(['props', ...pathPropertieKeys]);
@@ -192,7 +211,7 @@ export const toAstMethods = {
     // const argVarname = ctx.scope.actions?.map[id].parametersVarNames[argId].varName;
     const pathPropertieKeys = getPathPropertieKeys(ctx, data);
     if (!pathPropertieKeys?.length) {
-      throw new Error(`Cannot find getCmptPropData path ${data}`);
+      throw new Error(`Cannot find getArguments path ${data}`);
     }
     return getOptMemberExpr(pathPropertieKeys);
   },
@@ -225,74 +244,81 @@ export const toAstMethods = {
       argsExprs
     );
   },
-  set: (data: CodeSchema.Action_Set, ctx: BindParseCtx): AssignmentExpression[] => {
+  set: (data: CodeSchema.Action_Set, ctx: BindParseCtx): (AssignmentExpression | CallExpression)[] => {
     const { actions = [] } = data.args;
-    return actions.map((act) => {
+    const res: (AssignmentExpression | CallExpression)[] = [];
+    actions.forEach((act) => {
       if (act.mode === 'setVar') {
-        return toAstMethods.setVar(act, ctx);
+        const ast = toAstMethods.setVar(act, ctx)
+        if (!ast) {
+          return
+        }
+        res.push(ast);
       } else if (act.mode === 'setApiData') {
-        return toAstMethods.setApiData(act, ctx);
+        const ast = toAstMethods.setApiData(act, ctx);
+        if (!ast) {
+          return
+        }
+        res.push(ast);
       } else {
         throw new Error(`Invalid action`);
       }
     });
+    return res;
   },
-  setVar: (data: CodeSchema.Action_SetVar, ctx: BindParseCtx): AssignmentExpression => {
+  setVar: (data: CodeSchema.Action_SetVar, ctx: BindParseCtx): AssignmentExpression | CallExpression | undefined => {
     // 变量赋值 variables.变量名?.变量属性 = value
-    if (!data.args.id) {
+    if (!data.args?.id) {
       throw new Error('setVar函数的data.args.id失败');
     }
     const variable = ctx.scope.current.variablesStore.findId(data.args.id as string);
     if (!variable) {
       throw new Error('setVar的variable获取失败');
     }
-    let paths = [];
+    let paths: string[] = [];
     const rootName = ctx.global.variablesRootName; // 变量外层的变量名
     const varName = variable.varName; // 变量名
     if (!varName) {
       throw new Error('setVar的variable.varName获取失败');
     }
-    paths.push(rootName, varName);
-    paths.push(...searchModulePathKeys(variable.data.types, data.args.path || [])); // 路径中的每个属性名
     const ast = valueToAst(data.args.value as CodeSchema.DataValueArgument, ctx);
-    return t.assignmentExpression('=', getMemberExpr(paths), ast.value as Expression);
+    if (ast.type !== 'ast') {
+      throw new Error('setVar的valueToAst调用返回type不正常');
+    }
+    if (!astIsExpression(ast.value)) {
+      throw new Error('setVar的valueToAst调用返回value不正常');
+    }
+    const rootPath = [rootName, varName];
+    return assignmentAst(
+      ctx,
+      rootPath,
+      data.args.path?.length ? searchModulePathKeys(variable.data.types, data.args.path) : undefined,
+      ast.value
+    );
   },
-  setApiData: (data: CodeSchema.Action_SetApiData, ctx: BindParseCtx): AssignmentExpression => {
+  setApiData: (data: CodeSchema.Action_SetApiData, ctx: BindParseCtx): AssignmentExpression | CallExpression | undefined => {
     // api数据赋值
-    if (!data.args.id) {
-      throw new Error('setApiData函数的data.args.id失败');
+    if (!data.args?.id) {
+      throw new Error('getApiData的data.args.id失败');
     }
-    const api = ctx.global.apisStore.getApi(data.args.id as string)?.data;
-    if (!api) {
-      throw new Error('setApiData函数的api失败');
+    const pathPropertieKeys = getPathPropertieKeys(ctx, data);
+    if (!pathPropertieKeys?.length) {
+      throw new Error('setApiData函数的path缺少');
     }
-    let paths: string[] = [];
-    if (data.args.path && data.args.path.length) {
-      paths.push(ctx.global.apiVarRootName, api.key);
-      const [dataName, bodyId, ...argPaths] = data.args.path || [];
-      if (dataName) {
-        paths.push(dataName);
-      }
-      if (bodyId) {
-        const body = ctx.global.apisStore.getApiBody(data.args.id, bodyId);
-        if (!body) {
-          throw new Error(`获取body失败 ${bodyId}`);
-        }
-        if (!body.varName) {
-          throw new Error('getApiData的body.varName获取失败');
-        }
-        paths.push(body.varName);
-        paths.push(...searchModulePathKeys(body.data.types, argPaths)); // 路径中的每个属性名
-      }
-    } else {
-      paths = [ctx.global.apiVarRootName, api.key];
-    }
+    const [apiKey, sysKey, businessKey, ...dataPath] = pathPropertieKeys || [];
+    const rootPath = [ctx.global.apiVarRootName, apiKey];
     const ast = valueToAst(data.args.value as CodeSchema.DataValueArgument, ctx);
-    return t.assignmentExpression('=', getMemberExpr(paths), ast.value as Expression);
+    if (ast.type !== 'ast') {
+      throw new Error('setVar的valueToAst调用返回type不正常');
+    }
+    if (!astIsExpression(ast.value)) {
+      throw new Error('setVar的valueToAst调用返回value不正常');
+    }
+    return assignmentAst(ctx, rootPath, [apiKey, sysKey, businessKey, ...dataPath], ast.value);
   },
   api: (data: CodeSchema.Action_Api, ctx: BindParseCtx): CallExpression => {
     // 执行api
-    if (!data.args.id) {
+    if (!data.args?.id) {
       throw new Error('api函数的data.args.id失败');
     }
     const api = ctx.global.apisStore.getApi(data.args.id as string)?.data;
@@ -303,9 +329,9 @@ export const toAstMethods = {
     let successExprStatements: t.Statement[] = [];
     let failExprStatements: t.Statement[] = [];
     if (data.args.params) {
-      const ast = literalToAst(data.args.params, ctx);
-      if (ast) {
-        paramsExprs.push(ast);
+      const ast = valueToAst(data.args.params, ctx, [{type: 'module', rules: {properties: api.protocol.request.body}}]);
+      if (t.isExpression(ast.value)) {
+        paramsExprs.push(ast.value);
       }
     }
     if (data.args.success) {
@@ -368,7 +394,6 @@ export const toAstMethods = {
   },
   when: (data: CodeSchema.Action_When, ctx: BindParseCtx): t.IfStatement | undefined => {
     const { rd_if, rd_else } = data.args;
-    debugger;
     return createIfStatment(rd_if, rd_else, ctx);
   },
   callAction: (data: CodeSchema.Action, ctx: BindParseCtx): undefined => {
@@ -588,13 +613,18 @@ export const literalToAst = (
         throw new Error('不是module数组');
       }
       const kv: ObjectProperty[] = [];
+      const properties = types?.find(item => item.type === 'module' && item.multiple !== true)?.rules?.properties || []
+      const map: Record<string, typeof properties[number]> = {}
+      properties.forEach((item) => {
+        map[item.id] = item
+      })
       data.args.value.forEach((item) => {
-        const ast = valueToAst(item.value, ctx, types);
+        const ast = valueToAst(item.value, ctx, map[item.propId]?.types);
         if (!ast.value || ast.type === 'table') {
           return;
         }
         // TODO item.propId不应该拿来编译，暂时先这么处理，明天再分析解决方案
-        kv.push(t.objectProperty(t.identifier(item.propId || item.key), ast.value as BindAst));
+        kv.push(t.objectProperty(t.identifier(map[item.propId]?.key || item.propId || item.key), ast.value as BindAst));
       });
       return t.objectExpression(kv);
     }
@@ -605,7 +635,7 @@ export const literalToAst = (
 
       const array: Expression[] = [];
       data.args.value.forEach((item) => {
-        const ast = valueToAst(item?.value || item, ctx, types);
+        const ast = valueToAst(item?.value || item, ctx, types?.map((item => ({...item, multiple: false}))));
         if (!ast.value || ast.type === 'table') {
           return;
         }
@@ -614,8 +644,8 @@ export const literalToAst = (
       return t.arrayExpression(array);
     }
     case 'url': {
-      // TODO:分外部和内部链接
-      throw new Error('option的值必须是文本(id)');
+      // TODO: 分外部和内部链接
+      return t.stringLiteral('')
     }
     case 'option': {
       if (typeof data.args.value !== 'string') {
@@ -633,6 +663,12 @@ export const literalToAst = (
       //   throw new Error('option的项没有对应的值数据');
       // }
       // return t.stringLiteral(optionItem?.value);
+    }
+    case 'icon': {
+      if (!tools.dataType.isObject(data.args.value)) {
+        throw new Error('icon的值必须是object');
+      }
+      return literalToAst(literalToRdData_Custom(data.args.value), ctx, types);
     }
   }
   throw new Error('rdData_custom中的类型"' + data.args.type + '"不支持编译');
@@ -753,7 +789,7 @@ export const valueToAst = (
   if (rdActionIsSys(data)) {
     res.value = actionToAst(data, ctx);
   } else if (!isRdData(data)) {
-    res.value = literalToAst(literalToRdData_Custom(data), ctx, types);
+    res.value = literalToAst(literalToRdData_Custom(data, types), ctx, types);
   } else if (rdDataisCustom(data)) {
     res.value = literalToAst(data, ctx, types);
   } else if (rdDataIsBind(data)) {

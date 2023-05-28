@@ -42,6 +42,7 @@ export interface VueGlobalCtx {
   apiVarRootName: string;
   nodesVarRootName: string;
   nodePropFunctionCtxParamName: string;
+  assignmentMethodName: string;
 }
 function compileVue(codeSchema: CodeSchema.Project) {
   // 解析相关依赖协议
@@ -141,6 +142,7 @@ export function buildGlobalCtx(VueCompileOptions: VueCompileOptions): VueGlobalC
     variablesRootName: 'variables',
     nodesVarRootName: 'nodesState',
     nodePropFunctionCtxParamName: 'ctx',
+    assignmentMethodName: 'assignment',
   };
 }
 

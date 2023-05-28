@@ -17458,7 +17458,7 @@ const codeSchema = {
                 mode: 'getApiData',
                 args: {
                   id: '6469b037c8becd52db1474c1',
-                  path: ['data', '646b3a046e10705f2ff67a7a'],
+                  path: ['data', 'data', '646b3a046e10705f2ff67a7a'],
                 },
               },
             },
@@ -19239,17 +19239,6 @@ const codeSchema = {
           tagId: '62d65a88e7021e08c65c462e',
           packageId: '6455c49bc56f0402c3fd3436',
           props: [
-            {
-              propId: '641a7052cf44f6204642b606',
-              value: {
-                type: 'data',
-                mode: 'getApiData',
-                args: {
-                  id: '6469b00ac8becd52db147479',
-                  path: ['data', '646b2b22bd904b1164cab6e7'],
-                },
-              },
-            },
           ],
           events: undefined,
         },
@@ -19291,17 +19280,6 @@ const codeSchema = {
           tagId: '62c68d5d27d4bddfa72888fb',
           packageId: '6358fb8554bb9b1c84ce47a2',
           props: [
-            {
-              propId: '641a7052cf44f6204642b61f',
-              value: {
-                type: 'data',
-                mode: 'getEachData',
-                args: {
-                  id: 'J569',
-                  path: ['item', '646b2b32bd904b1164cab6e8'],
-                },
-              },
-            },
           ],
           events: undefined,
         },
@@ -20930,7 +20908,7 @@ const codeSchema = {
                 mode: 'getApiData',
                 args: {
                   id: '6469b037c8becd52db1474b9',
-                  path: ['data', '646ae7a1ec1677171046294c', '646ae7bfec1677171046294d'],
+                  path: ['data', 'data', '646ae7a1ec1677171046294c', '646ae7bfec1677171046294d'],
                 },
               },
             },
@@ -21027,7 +21005,7 @@ const codeSchema = {
                 mode: 'getApiData',
                 args: {
                   id: '6469b037c8becd52db1474b9',
-                  path: ['data', '646ae7a1ec1677171046294c', '646ae7bfec1677171046294d'],
+                  path: ['data', 'data', '646ae7a1ec1677171046294c', '646ae7bfec1677171046294d'],
                 },
               },
             },
@@ -21074,7 +21052,7 @@ const codeSchema = {
                 mode: 'getApiData',
                 args: {
                   id: '6469b037c8becd52db1474b9',
-                  path: ['data', '646ae7a1ec1677171046294c', '646b01e0ec16771710462955'],
+                  path: ['data', 'data', '646ae7a1ec1677171046294c', '646b01e0ec16771710462955'],
                 },
               },
             },
@@ -21248,7 +21226,7 @@ const codeSchema = {
                 mode: 'getApiData',
                 args: {
                   id: '6469b037c8becd52db1474b9',
-                  path: ['data', '646ae7a1ec1677171046294c', '646ae823ec16771710462950'],
+                  path: ['data', 'data', '646ae7a1ec1677171046294c', '646ae823ec16771710462950'],
                 },
               },
             },
@@ -21290,7 +21268,7 @@ const codeSchema = {
                 mode: 'getApiData',
                 args: {
                   id: '6469b037c8becd52db1474b9',
-                  path: ['data', '646ae7a1ec1677171046294c', '646ae835ec16771710462951'],
+                  path: ['data', 'data', '646ae7a1ec1677171046294c', '646ae835ec16771710462951'],
                 },
               },
             },
@@ -21332,7 +21310,7 @@ const codeSchema = {
                 mode: 'getApiData',
                 args: {
                   id: '6469b037c8becd52db1474b9',
-                  path: ['data', '646ae7a1ec1677171046294c', '646ae8a4ec16771710462954'],
+                  path: ['data', 'data', '646ae7a1ec1677171046294c', '646ae8a4ec16771710462954'],
                 },
               },
             },
@@ -21389,7 +21367,7 @@ const codeSchema = {
                 mode: 'getApiData',
                 args: {
                   id: '6469b037c8becd52db1474b9',
-                  path: ['data', '646ae7a1ec1677171046294c', '646ae813ec1677171046294f'],
+                  path: ['data', 'data', '646ae7a1ec1677171046294c', '646ae813ec1677171046294f'],
                 },
               },
             },
