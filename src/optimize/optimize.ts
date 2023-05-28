@@ -29,6 +29,7 @@ const fileNameSuffix_parser_map: Record<string, string | boolean> = {
 const FORMAT_OPTION_DEFAULT: Options = {
   semi: false,
   printWidth: 120,
+  htmlWhitespaceSensitivity: 'ignore',
 };
 
 function optimize(tokens: Compile.Token[]): Compile.Token[] {

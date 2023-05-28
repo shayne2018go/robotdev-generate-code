@@ -7393,7 +7393,7 @@ const codeSchema = {
                   id: '6448e22cc48ddbf7e5f02da6',
                 },
               },
-            }
+            },
           ],
           events: undefined,
         },
@@ -7666,7 +7666,7 @@ const codeSchema = {
                     type: 'action',
                     args: {
                       mode: 'in',
-                      pageId: '64464a419c229310c169d487',
+                      page: '64464a419c229310c169d487',
                       target: 'blank',
                     },
                   },
@@ -8062,7 +8062,7 @@ const codeSchema = {
                         type: 'action',
                         args: {
                           mode: 'in',
-                          pageId: '6447315b9c229310c169e36c',
+                          page: '6447315b9c229310c169e36c',
                           target: 'blank',
                         },
                       },

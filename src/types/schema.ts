@@ -241,7 +241,7 @@ declare namespace CodeSchema {
     args: {
       mode: 'in' | 'out';
       target: string;
-      pageId: string;
+      page: string;
       url: string;
     };
   }

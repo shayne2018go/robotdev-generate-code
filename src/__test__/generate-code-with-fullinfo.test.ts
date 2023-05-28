@@ -1,12 +1,13 @@
-import codeSchema from '@/__test__/__fixture__/CodeSchema';
+import data from '@/__test__/__fixture__/ethan-test.json';
 import { compilerFactory } from '@/compile';
 import { generate } from '@/generate';
-import { resolve } from 'path';
-import { optimize } from '..';
-import build from '@/deploy/build';
+import { DBSchema } from '@/types';
+import * as Fxc from '@robotdev/fx-code';
 import fse from 'fs-extra';
+import { resolve } from 'path';
+import { optimize, translate } from '..';
 
-describe('generate-code', () => {
+describe('generate-code-fullinfo', () => {
   beforeEach(() => {
     jest.useFakeTimers();
   });
@@ -14,6 +15,16 @@ describe('generate-code', () => {
     jest.useRealTimers();
   });
   it('all', async () => {
+    const codeSchema = await translate(data as DBSchema.Project, {
+      async translateFn(name: string) {
+        const regex = new RegExp(/\s*[-|\/|\(|\)|\（|\）]\s*/, 'gi');
+        name = name.replace(regex, '');
+
+        const text = Fxc.toPinyin(name).replace(/\s/g, '');
+        return text;
+      },
+    });
+
     // 项目目录位置
     const path = resolve(__dirname, `/codes/${codeSchema.key}-${codeSchema.id}`);
 
