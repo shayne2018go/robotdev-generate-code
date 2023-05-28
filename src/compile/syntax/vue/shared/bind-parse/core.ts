@@ -45,10 +45,14 @@ import { getConnectorOperator } from '../../const/config';
 
 export const defaultAst = <T extends CodeSchema.Page | CodeSchema.Component>(
   ctx: BindParseCtx,
-  types?: CodeSchema.PropertyType_Protocol[]
+  types?: CodeSchema.PropertyType_Protocol[],
+  typeDefault?: boolean
 ) => {
   if (!types?.[0]) {
     return t.nullLiteral();
+  }
+  if (types?.[0].default !== undefined && typeDefault) {
+    return valueToAst(ctx, types?.[0]?.default, types)?.value as Exclude<ReturnRef['value'], SplitProps | ActionsAst | IfStatement>;
   }
   switch (types[0].type) {
     case 'text':
@@ -83,7 +87,7 @@ export const defaultAst = <T extends CodeSchema.Page | CodeSchema.Component>(
 };
 
 const assignmentMethodAst = (ctx: BindParseCtx, rootPath: string[], path: (string | number)[], value: BindAst) => {
-  const pathAst = literalToAst(literalToRdData_Custom(path), ctx);
+  const pathAst = literalToAst(ctx, literalToRdData_Custom(path));
   if (!t.isArrayExpression(pathAst)) {
     return;
   }
@@ -232,7 +236,7 @@ export const toAstMethods = {
       if (!data.args[paramId]) {
         return;
       }
-      const ast = valueToAst(data.args[paramId], ctx)?.value;
+      const ast = valueToAst(ctx, data.args[paramId])?.value;
       if (!ast) {
         return;
       }
@@ -281,7 +285,7 @@ export const toAstMethods = {
     if (!varName) {
       throw new Error('setVar的variable.varName获取失败');
     }
-    const ast = valueToAst(data.args.value as CodeSchema.DataValueArgument, ctx);
+    const ast = valueToAst(ctx, data.args.value as CodeSchema.DataValueArgument);
     if (ast.type !== 'ast') {
       throw new Error('setVar的valueToAst调用返回type不正常');
     }
@@ -310,7 +314,7 @@ export const toAstMethods = {
     }
     const [apiKey, sysKey, businessKey, ...dataPath] = pathPropertieKeys || [];
     const rootPath = [ctx.global.apiVarRootName, apiKey];
-    const ast = valueToAst(data.args.value as CodeSchema.DataValueArgument, ctx);
+    const ast = valueToAst(ctx, data.args.value as CodeSchema.DataValueArgument);
     if (ast.type !== 'ast') {
       throw new Error('setVar的valueToAst调用返回type不正常');
     }
@@ -332,7 +336,7 @@ export const toAstMethods = {
     let successExprStatements: t.Statement[] = [];
     let failExprStatements: t.Statement[] = [];
     if (data.args.params) {
-      const ast = valueToAst(data.args.params, ctx, [
+      const ast = valueToAst(ctx, data.args.params, [
         { type: 'module', rules: { properties: api.protocol.request.body } },
       ]);
       if (t.isExpression(ast.value)) {
@@ -456,8 +460,8 @@ function createIfTest(
   } else {
     // 这里直接采用函数取代比较符
     const { mode, args } = exp as CodeSchema.Action_When_ExpressionSimpleBase;
-    const { value: leftAst } = valueToAst(args.left, ctx);
-    const { value: rightAst } = valueToAst(args.right, ctx);
+    const { value: leftAst } = valueToAst(ctx, args.left);
+    const { value: rightAst } = valueToAst(ctx, args.right);
     if (!leftAst || !rightAst) {
       return;
     }
@@ -571,8 +575,8 @@ export const actionsToAst = <T extends CodeSchema.Page | CodeSchema.Component>(
 };
 
 export const literalToAst = (
-  data: CodeSchema.DataValue_Custom,
   ctx: BindParseCtx,
+  data: CodeSchema.DataValue_Custom,
   types?: CodeSchema.PropertyType_Protocol[]
 ): LiteralAst => {
   if (data?.args?.multiple === true) {
@@ -625,7 +629,7 @@ export const literalToAst = (
         map[item.id] = item;
       });
       data.args.value.forEach((item) => {
-        const ast = valueToAst(item.value, ctx, map[item.propId]?.types);
+        const ast = valueToAst(ctx, item.value, map[item.propId]?.types);
         if (!ast?.value || ast.type === 'split') {
           return;
         }
@@ -642,8 +646,8 @@ export const literalToAst = (
       const array: Expression[] = [];
       data.args.value.forEach((item) => {
         const ast = valueToAst(
-          item?.value || item,
           ctx,
+          item?.value || item,
           types?.map((item) => ({ ...item, multiple: false }))
         );
         if (!ast?.value || ast.type === 'split') {
@@ -678,7 +682,7 @@ export const literalToAst = (
       if (!tools.dataType.isObject(data.args.value)) {
         throw new Error('icon的值必须是object');
       }
-      return literalToAst(literalToRdData_Custom(data.args.value), ctx, types);
+      return literalToAst(ctx, literalToRdData_Custom(data.args.value), types);
     }
   }
   throw new Error('rdData_custom中的类型"' + data.args.type + '"不支持编译');
@@ -704,7 +708,7 @@ const tableDataToAst = (
     throw new Error('bindDataPathProperties生成');
   }
   const last = bindDataPathProperties[bindDataPathProperties.length - 1];
-  const dataSource = valueToAst(data.args.data, ctx);
+  const dataSource = valueToAst(ctx, data.args.data);
 
   if (!dataSource) {
     throw new Error('tableDataToAst value is null');
@@ -775,7 +779,7 @@ const tableDataToAst = (
   const res: SplitProps = [
     {
       key: define?.data.key || define?.varName,
-      value: literalToAst(literalToRdData_Custom(columns), ctx) as ArrayExpression,
+      value: literalToAst(ctx, literalToRdData_Custom(columns)) as ArrayExpression,
     },
     {
       key: tableDataKey,
@@ -786,9 +790,10 @@ const tableDataToAst = (
 };
 
 export const valueToAst = (
-  data: CodeSchema.DataValueArgument | CodeSchema.Action | undefined,
   ctx: BindParseCtx,
-  types?: CodeSchema.PropertyType_Protocol[]
+  data: CodeSchema.DataValueArgument | CodeSchema.ActionArgument | undefined | null,
+  types?: CodeSchema.PropertyType_Protocol[],
+  typeDefault?: boolean
 ): ReturnRef => {
   const res: {
     type: 'split' | 'ast' | 'error';
@@ -797,29 +802,27 @@ export const valueToAst = (
     type: 'ast',
   };
 
-  if (!data) {
+  if (data == null) {
     if (types) {
-      res.value = defaultAst(ctx, types);
+      res.value = defaultAst(ctx, types, typeDefault);
     }
+  } else if (rdActionIsSys(data)) {
+    res.value = actionToAst(data, ctx);
+  } else if (!isRdData(data)) {
+    res.value = literalToAst(ctx, literalToRdData_Custom(data, types), types);
+  } else if (rdDataisCustom(data)) {
+    res.value = literalToAst(ctx, data, types);
+  } else if (rdDataIsBind(data)) {
+    res.value = bindToAst(data, ctx);
+  } else if (rdDataIsTable(data)) {
+    res.type = 'split';
+    res.value = toAstMethods.tableData(data, ctx);
   } else {
-    if (rdActionIsSys(data)) {
-      res.value = actionToAst(data, ctx);
-    } else if (!isRdData(data)) {
-      res.value = literalToAst(literalToRdData_Custom(data, types), ctx, types);
-    } else if (rdDataisCustom(data)) {
-      res.value = literalToAst(data, ctx, types);
-    } else if (rdDataIsBind(data)) {
-      res.value = bindToAst(data, ctx);
-    } else if (rdDataIsTable(data)) {
-      res.type = 'split';
-      res.value = toAstMethods.tableData(data, ctx);
-    } else {
-      res.value = toAstMethods.fx(data, ctx);
-    }
+    res.value = toAstMethods.fx(data, ctx);
   }
 
   if (!res.value) {
-    res.type = 'error'
+    res.type = 'error';
   }
   return res;
 };
@@ -964,8 +967,8 @@ export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseC
   if (define.varName === 'class' || define.varName === 'style') {
     if (value) {
       if (prop.dynamic) {
-        const textValue = valueToAst(value, ctx, define.data.types);
-        const dynamicValue = valueToAst(prop.dynamic, ctx, define.data.types);
+        const textValue = valueToAst(ctx, value, define.data.types);
+        const dynamicValue = valueToAst(ctx, prop.dynamic, define.data.types);
         if (t.isExpression(textValue.value) && t.isExpression(dynamicValue?.value)) {
           return {
             type: 'ast',
@@ -981,7 +984,7 @@ export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseC
     }
   }
 
-  return valueToAst(value, ctx, define.data.types);
+  return valueToAst(ctx, value, define.data.types);
 };
 
 export const nodeEventValueAst = (

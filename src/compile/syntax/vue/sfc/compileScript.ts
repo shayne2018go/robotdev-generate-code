@@ -1,7 +1,7 @@
 import * as g from '@/compile/tokens/markup/vue-template/generate-schema';
 import * as t from '@babel/types';
 import { CompileCurrentCtx } from '../compilePages';
-import { actionsToAst, nodePropsAst } from '../shared/bind-parse/core';
+import { actionsToAst, nodePropsAst, defaultAst } from '../shared/bind-parse/core';
 import { getNodeTagVarName, getVariableVarName } from '../shared/script-helper';
 import { PropertiesMapItem } from '../shared/store/properties';
 import { getVueType } from '../shared/vue-helper';
@@ -182,7 +182,8 @@ function getVariables<T extends CodeSchema.Page | CodeSchema.Component>(
   variables.forEach((ele) => {
     const varName = getVariableVarName(ele.id, ctx);
     if (varName) {
-      varProperty.push(t.objectProperty(t.identifier(varName), t.nullLiteral()));
+      const value = defaultAst(ctx, ele.types, true) || t.identifier('undefined');
+      varProperty.push(t.objectProperty(t.identifier(varName), value));
     }
   });
   return t.variableDeclaration('const', [

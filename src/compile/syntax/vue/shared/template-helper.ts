@@ -62,7 +62,7 @@ export const getNodePropValueVariable = <T extends CodeSchema.Page | CodeSchema.
 
   if (isRdData(value.value) && rdDataIsBind(value.value)) {
     if (['getEachData', 'getSlotData'].includes(value.value.mode)) {
-      const ast = valueToAst(value.value, ctx);
+      const ast = valueToAst(ctx, value.value);
       return ast?.value as t.MemberExpression;
     }
   }
