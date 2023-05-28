@@ -53,7 +53,10 @@ export const defaultAst = <T extends CodeSchema.Page | CodeSchema.Component>(
     return t.nullLiteral();
   }
   if (types?.[0].default !== undefined && typeDefault) {
-    return valueToAst(ctx, types?.[0]?.default, types)?.value as Exclude<ReturnRef['value'], SplitProps | ActionsAst | IfStatement>;
+    return valueToAst(ctx, types?.[0]?.default, types)?.value as Exclude<
+      ReturnRef['value'],
+      SplitProps | ActionsAst | IfStatement
+    >;
   }
   switch (types[0].type) {
     case 'text':
@@ -856,7 +859,17 @@ export const nodePropAst = (bindParseCtx: BindParseCtx, prop: CodeSchema.Propert
   } else if (valueType === 'computed') {
     return t.objectProperty(
       t.identifier(varName),
-      t.callExpression(t.identifier('computed'), [t.arrowFunctionExpression([], ast)])
+      t.callExpression(t.identifier('computed'), [
+        t.arrowFunctionExpression(
+          [],
+          t.blockStatement([
+            t.tryStatement(
+              t.blockStatement([t.returnStatement(ast)]),
+              t.catchClause(t.identifier('e'), t.blockStatement([]))
+            ),
+          ])
+        ),
+      ])
     );
   } else if (valueType === 'function') {
     const nodeMapItem = bindParseCtx.scope.current.nodesStore.find(node.id);
@@ -874,7 +887,12 @@ export const nodePropAst = (bindParseCtx: BindParseCtx, prop: CodeSchema.Propert
             )
           ),
         ],
-        ast
+        t.blockStatement([
+          t.tryStatement(
+            t.blockStatement([t.returnStatement(ast)]),
+            t.catchClause(t.identifier('e'), t.blockStatement([]))
+          ),
+        ])
       )
     );
   } else if (valueType === 'split') {
