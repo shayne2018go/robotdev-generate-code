@@ -145,9 +145,6 @@ function preprocessSystemDependencies(
   if (frontPackage?.resources?.length) {
     const system: DBWSchema.Dependencies[] = frontPackage.resources
       .map((item) => {
-        if (item.id === '641a95e7cd3c6b0921a79f2b') {
-          // debugger;
-        }
         if (isMockDataElement(item)) {
           return {
             id: item.id!,

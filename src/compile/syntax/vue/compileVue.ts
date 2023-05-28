@@ -154,12 +154,13 @@ function parsingPages(codeSchema: CodeSchema.Project): { pages: GlobalContext.Pa
   const _pages =
     pages.map((page) => {
       const pagePath = getPathByDirectories(directories, page.id);
+      const pagePathKeysStr = pagePath.map((p) => p.key).join('/');
 
-      const routerPath = `/${pagePath.map((p) => p.key).join('/')}`;
+      const routerPath = pagePathKeysStr === 'shouye' ? '/' : `/${pagePath.map((p) => p.key).join('/')}`;
       const routerName = pagePath[pagePath.length - 1].key;
 
       // 文件的绝对路径
-      const filePath = `${PAGE_DIR}${routerPath}.vue`;
+      const filePath = `${PAGE_DIR}/${pagePathKeysStr}.vue`;
 
       return {
         id: page.id,

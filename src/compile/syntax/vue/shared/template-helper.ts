@@ -97,16 +97,21 @@ export const getNodePropValueVariableCall = <T extends CodeSchema.Page | CodeSch
 
   const scopeData = getScopeData(node, ctx);
 
+  const ArgsAst =
+    Object.keys(scopeData).length > 0
+      ? [
+          t.objectExpression(
+            scopeData.map((varText: string) => t.objectProperty(t.identifier(varText), t.identifier(varText)))
+          ),
+        ]
+      : [];
+
   return t.callExpression(
     t.memberExpression(
       t.memberExpression(t.identifier(ctx.global.nodesVarRootName), t.identifier(nodeVarName)),
       t.identifier(propVarName)
     ),
-    [
-      t.objectExpression(
-        scopeData.map((varText: string) => t.objectProperty(t.identifier(varText), t.identifier(varText)))
-      ),
-    ]
+    ArgsAst
   );
 };
 

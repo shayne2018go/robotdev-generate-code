@@ -380,10 +380,10 @@ export const toAstMethods = {
     // 跳转
     const mode = data.args.mode;
     if (mode === 'in') {
-      if (!data.args.pageId) {
-        throw new Error('open函数的data.args.pageId失败');
+      if (!data.args.page) {
+        throw new Error('open函数的data.args.page失败');
       }
-      const page = ctx.global.pagesStore.getPage(data.args.pageId);
+      const page = ctx.global.pagesStore.getPage(data.args.page);
       if (!page) {
         throw new Error('open函数的page失败');
       }
@@ -465,14 +465,18 @@ function createIfTest(
     // 这里直接采用函数取代比较符
     const { mode, args } = exp as CodeSchema.Action_When_ExpressionSimpleBase;
     const { value: leftAst } = valueToAst(ctx, args.left);
-    const { value: rightAst } = valueToAst(ctx, args.right);
-    if (!leftAst || !rightAst) {
-      return;
+    if (!leftAst || !mode) {
+      // return;
+      throw new Error(`createIfTest 中 left: ${args.left} 或 mode: ${mode}不能为空`);
     }
-    return t.callExpression(t.memberExpression(t.identifier('Fx'), t.identifier(mode)), [
-      leftAst as t.Expression,
-      rightAst as t.Expression,
-    ]);
+    const argsAst = [leftAst] as t.Expression[];
+
+    if (args.right) {
+      const { value: rightAst } = valueToAst(ctx, args.right);
+      if (rightAst) argsAst.push(rightAst as t.Expression);
+    }
+
+    return t.callExpression(t.memberExpression(t.identifier('Fx'), t.identifier(mode)), argsAst);
   }
 }
 
@@ -685,6 +689,12 @@ export const literalToAst = (
     case 'icon': {
       if (!tools.dataType.isObject(data.args.value)) {
         throw new Error('icon的值必须是object');
+      }
+      return literalToAst(ctx, literalToRdData_Custom(data.args.value), types);
+    }
+    case 'image': {
+      if (!tools.dataType.isObject(data.args.value)) {
+        throw new Error('image的值必须是object');
       }
       return literalToAst(ctx, literalToRdData_Custom(data.args.value), types);
     }

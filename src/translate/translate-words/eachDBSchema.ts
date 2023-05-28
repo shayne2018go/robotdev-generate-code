@@ -166,9 +166,11 @@ export const eachTypes = (types: DBSchema.RdDefinePropType[], fn: EachDbSchemaFn
 
 export const eachAction = (action: DBSchema.RdAction, fn: EachDbSchemaFn) => {
   fn(action);
-  Object.values(action.args).forEach((argValue) => {
-    eachActionDeep(argValue, fn);
-  });
+  if (isObject(action.args)) {
+    Object.values(action.args).forEach((argValue) => {
+      eachActionDeep(argValue, fn);
+    });
+  }
 };
 
 export const eachActionDeep = (obj: unknown, fn: EachDbSchemaFn) => {
