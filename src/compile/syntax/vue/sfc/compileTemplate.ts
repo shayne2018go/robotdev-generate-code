@@ -13,6 +13,7 @@ import {
   getNodePropKeyById,
   getNodePropTableSplitProps,
   getNodePropValueExpression,
+  getNodeSlotKeyById,
   getNodeTag,
 } from '../shared/template-helper';
 
@@ -91,6 +92,29 @@ function parsingNode<T extends CodeSchema.Page | CodeSchema.Component>(
   }
 }
 
+function isIgnoreTemplate(
+  children: GenerateVueTemplateTypes.NodeElement[]
+): children is GenerateVueTemplateTypes.Node[] {
+  if (children.length !== 1) {
+    return false;
+  }
+  const childNodeAst = children[0];
+
+  if (childNodeAst._node_ !== 'node') {
+    return false;
+  }
+
+  const hasForIndex = childNodeAst.propArr.findIndex((prop) => prop.key === 'for');
+  if (hasForIndex > -1) {
+    return false;
+  }
+  const hasIfIndex = childNodeAst.propArr.findIndex((prop) => prop.key === 'if');
+  if (hasIfIndex > -1) {
+    return false;
+  }
+  return true;
+}
+
 // 循环 <template v-for="xx in xx"></template>
 function parsingNodeEach<T extends CodeSchema.Page | CodeSchema.Component>(
   node: TreeNode,
@@ -108,25 +132,30 @@ function parsingNodeEach<T extends CodeSchema.Page | CodeSchema.Component>(
   const eachExpression = getNodeEachExpression(nodeId, eachData, compileCtx);
   const childrenAst = parsingChildren(node.children || [], compileCtx);
 
-  if (childrenAst.length === 1) {
-    // 当children只有一个元素 则省略
+  if (isIgnoreTemplate(childrenAst)) {
     const nodeAst = childrenAst[0];
-    if (nodeAst._node_ === 'node') {
-      // 看当前子元素是否有绑定v-if (v-if 和v-for不能同时存在)
-      const hasIfIndex = nodeAst.propArr.findIndex((prop) => prop.key === 'if');
-      if (hasIfIndex > -1) {
-        // 如果有绑定v-if 则:
-        const nodeChildrenAst = nodeAst.childNodeArr;
-        // 删除子元素原本的v-if
-        const propAst = nodeAst.propArr.splice(hasIfIndex, 1)[0];
-        // 给子元素增加一个template标签
-        nodeAst.childNodeArr = [g.node('template', [propAst], nodeChildrenAst)];
-      } else {
-        nodeAst.propArr.push(g.directive('for', eachExpression));
-      }
-    }
+    nodeAst.propArr.push(g.directive('for', eachExpression));
     return nodeAst;
   }
+  // if (childrenAst.length === 1) {
+  //   // 当children只有一个元素 且不具备for循环 则省略
+  //   const nodeAst = childrenAst[0];
+  //   if (nodeAst._node_ === 'node') {
+  //     // 看当前子元素是否有绑定v-if (v-if 和v-for不能同时存在)
+  //     const hasIfIndex = nodeAst.propArr.findIndex((prop) => prop.key === 'if');
+  //     if (hasIfIndex > -1) {
+  //       // 如果有绑定v-if 则:
+  //       const nodeChildrenAst = nodeAst.childNodeArr;
+  //       // 删除子元素原本的v-if
+  //       const propAst = nodeAst.propArr.splice(hasIfIndex, 1)[0];
+  //       // 给子元素增加一个template标签
+  //       nodeAst.childNodeArr = [g.node('template', [propAst], nodeChildrenAst)];
+  //     } else {
+  //       nodeAst.propArr.push(g.directive('for', eachExpression));
+  //     }
+  //   }
+  //   return nodeAst;
+  // }
 
   return g.node('template', [g.directive('for', eachExpression)], parsingChildren(node.children || [], compileCtx));
 }
@@ -147,7 +176,26 @@ function parsingNodeCond<T extends CodeSchema.Page | CodeSchema.Component>(
 
   const ifVariable = getNodePropValueExpression(nodeId, ifData, compileCtx);
 
-  return g.node('template', [g.directive('if', ifVariable)], parsingChildren(node.children || [], compileCtx));
+  const trueChildren = node.children.filter((child) => {
+    const slotId = child.data.id.split('#')[1];
+    if (slotId) {
+      return getNodeSlotKeyById(nodeId, slotId, compileCtx) === 'true';
+    }
+    return false;
+  });
+
+  const falseChildren = node.children.filter((child) => {
+    const slotId = child.data.id.split('#')[1];
+    if (slotId) {
+      return getNodeSlotKeyById(nodeId, slotId, compileCtx) === 'false';
+    }
+    return false;
+  });
+
+  return [
+    g.node('template', [g.directive('if', ifVariable)], parsingChildren(trueChildren || [], compileCtx)),
+    g.node('template', [g.directive('else')], parsingChildren(falseChildren || [], compileCtx)),
+  ];
 }
 
 // 条件 <slot name="xx" :xx="xx"></slot>
