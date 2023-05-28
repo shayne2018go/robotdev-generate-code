@@ -887,16 +887,19 @@ export const nodePropAst = (bindParseCtx: BindParseCtx, prop: CodeSchema.Propert
       return;
     }
     const scopeData = getScopeData(nodeMapItem, bindParseCtx);
-    return t.objectProperty(
-      t.identifier(varName),
-      t.arrowFunctionExpression(
-        [
+    const args = scopeData?.length
+      ? [
           t.objectPattern(
             scopeData.map((varText: string) =>
               t.objectProperty(t.identifier(varText), t.identifier(varText), undefined, true)
             )
           ),
-        ],
+        ]
+      : [];
+    return t.objectProperty(
+      t.identifier(varName),
+      t.arrowFunctionExpression(
+        args,
         t.blockStatement([
           t.tryStatement(
             t.blockStatement([t.returnStatement(ast)]),
