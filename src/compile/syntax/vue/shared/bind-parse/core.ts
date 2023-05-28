@@ -11,6 +11,7 @@ import {
   OptionalMemberExpression,
   ObjectProperty,
   ArrayExpression,
+  IfStatement,
 } from '@babel/types';
 import { CompileCurrentCtx } from '../../compilePages';
 import { VueVariable } from '../../sfc/compileScript';
@@ -956,7 +957,7 @@ export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseC
     return;
   }
   // const define =  ctx.scope.current.nodesStore.getNodePropDefine(nodeId,propId);
-  const define = ctx.scope.current.nodesStore.getNodePropDefine(node.tagId, propId);
+  const define = ctx.scope.current.nodesStore.getNodePropDefine(node.id, propId);
   if (!define) {
     return;
   }
