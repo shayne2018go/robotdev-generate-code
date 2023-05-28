@@ -1,6 +1,7 @@
 import {
   ArrayExpression,
   AssignmentExpression,
+  BinaryExpression,
   BooleanLiteral,
   CallExpression,
   DecimalLiteral,
@@ -30,7 +31,8 @@ export type BindAst =
   | DecimalLiteral
   | CallExpression
   | NullLiteral
-  | Identifier;
+  | Identifier
+  | BinaryExpression;
 
 export type BindRdData =
   | CodeSchema.DataValue_GetVar
@@ -89,19 +91,12 @@ export type AccessPath = {
   key: string | number;
 }[];
 
-export type TableProps = {
-  _table_: true;
-  columns: {
-    key: string;
-    value: ArrayExpression;
-  };
-  dataSource: {
-    key: string;
-    value: ActionAst | ActionsAst | BindAst | undefined;
-  };
-};
+export type SplitProps = {
+  key: string;
+  value: BindAst | undefined;
+}[];
 
 export type ReturnRef = {
-  type: 'table' | 'ast';
-  value?: ActionAst | ActionsAst | IfStatement | BindAst | TableProps | undefined;
+  type: 'split' | 'ast' | 'error';
+  value?: ActionAst | ActionsAst | IfStatement | BindAst | SplitProps | undefined;
 };

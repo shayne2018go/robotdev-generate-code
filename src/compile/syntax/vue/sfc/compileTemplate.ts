@@ -197,7 +197,7 @@ function parsingNodeProps(node: TreeNode, compileCtx: BindParseCtx): GenerateVue
   const propsAst = [] as GenerateVueTemplateTypes.Prop[];
   props?.forEach((p) => {
     const prop_protocol = compileCtx.scope.current.nodesStore.getNodePropDefine(nodeId, p.propId);
-
+    const key = getNodePropKeyById(nodeId, p.propId, compileCtx)
     // 判断是否为table类型 拆分为两个属性
     if (typeHelper.hasTable(prop_protocol?.data.types) && valueHelper.isTable(p.value)) {
       const tableSplitProps = getNodePropTableSplitProps(nodeId, p, compileCtx);
@@ -209,7 +209,7 @@ function parsingNodeProps(node: TreeNode, compileCtx: BindParseCtx): GenerateVue
       }
     } else {
       const propAst = g.prop(
-        getNodePropKeyById(nodeId, p.propId, compileCtx),
+        key,
         getNodePropValueExpression(nodeId, p, compileCtx),
         true
       );

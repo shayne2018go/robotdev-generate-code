@@ -63,8 +63,7 @@ export const getNodePropValueVariable = <T extends CodeSchema.Page | CodeSchema.
   if (isRdData(value.value) && rdDataIsBind(value.value)) {
     if (['getEachData', 'getSlotData'].includes(value.value.mode)) {
       const ast = valueToAst(value.value, ctx);
-
-      return ast.value as t.MemberExpression;
+      return ast?.value as t.MemberExpression;
     }
   }
 
@@ -113,7 +112,7 @@ export const getNodePropValueVariableCall = <T extends CodeSchema.Page | CodeSch
 
 export const getNodePropValueExpression = <T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
-  value: CodeSchema.Property,
+  prop: CodeSchema.Property,
   ctx: BindParseCtx
 ): t.MemberExpression | t.CallExpression | undefined => {
   // 变量 或 函数调用
@@ -121,13 +120,10 @@ export const getNodePropValueExpression = <T extends CodeSchema.Page | CodeSchem
   if (!node) {
     return;
   }
-  if (!value.value) {
-    return;
-  }
-  if (isScriptVariable(value.value)) {
-    return getNodePropValueVariable(nodeId, value, ctx);
-  } else if (isScriptVariableCall(value.value)) {
-    return getNodePropValueVariableCall(nodeId, value, ctx);
+  if (isScriptVariable(ctx, prop)) {
+    return getNodePropValueVariable(nodeId, prop, ctx);
+  } else if (isScriptVariableCall(ctx, prop)) {
+    return getNodePropValueVariableCall(nodeId, prop, ctx);
   } else {
     return;
   }
@@ -192,11 +188,11 @@ export const getNodeEventValue = <T extends CodeSchema.Page | CodeSchema.Compone
 };
 
 // 判断当前值 是变量还是函数调用
-export const isScriptVariable = (value: CodeSchema.DataValueArgument | CodeSchema.ActionArgument) => {
-  return isRdData(value) && nodePropValueType(value)?.type !== 'function';
+export const isScriptVariable = (ctx: BindParseCtx, prop: CodeSchema.Property) => {
+  return nodePropValueType(ctx, prop)?.type !== 'function';
 };
-export const isScriptVariableCall = (value: CodeSchema.DataValueArgument | CodeSchema.ActionArgument) => {
-  return !isScriptVariable(value);
+export const isScriptVariableCall = (ctx: BindParseCtx, prop: CodeSchema.Property) => {
+  return !isScriptVariable(ctx, prop);
 };
 
 interface nodePropValueTypeRes {
@@ -209,7 +205,7 @@ interface nodePropValueTypeRes {
   // split：拆分成多个属性
   type: 'error' | 'directCompilation' | 'literal' | 'literalVar' | 'computed' | 'function' | 'split';
 }
-export const nodePropValueType = (value: CodeSchema.DataValueArgument) => {
+const _nodePropValueType = (value: CodeSchema.DataValueArgument) => {
   const res: nodePropValueTypeRes = {
     type: 'error',
   };
@@ -237,6 +233,22 @@ export const nodePropValueType = (value: CodeSchema.DataValueArgument) => {
   return res;
 };
 
+
+export const isStyleClass = (ctx: BindParseCtx, propId: string) => {
+  return ['style', 'class'].includes(ctx.global.propsStore.getProp(propId)?.key);
+};
+
+export const nodePropValueType = (ctx: BindParseCtx, prop: CodeSchema.Property) => {
+  if (isStyleClass(ctx, prop.propId)) {
+    if (prop.dynamic) {
+      return _nodePropValueType(prop.dynamic)
+    }
+  }
+  if (prop.value) {
+    return _nodePropValueType(prop.value)
+  }
+}
+
 // 获取当前上下文的数据对象（eachData, slotData）
 export const getScopeData = <T extends CodeSchema.Page | CodeSchema.Component>(
   node: NodeMapItem,
@@ -263,7 +275,7 @@ export const getScopeData = <T extends CodeSchema.Page | CodeSchema.Component>(
 // each
 export function getNodeEachExpression<T extends CodeSchema.Page | CodeSchema.Component>(
   nodeId: string,
-  value: CodeSchema.Property,
+  prop: CodeSchema.Property,
   ctx: BindParseCtx
 ): t.BinaryExpression {
   const nodeMapItem = ctx.scope.current.nodesStore.find(nodeId);
@@ -271,7 +283,7 @@ export function getNodeEachExpression<T extends CodeSchema.Page | CodeSchema.Com
     throw new Error(`nodeMapItem ${nodeMapItem} is not parsing`);
   }
 
-  const valueExpression = getNodePropValueExpression(nodeId, value, ctx);
+  const valueExpression = getNodePropValueExpression(nodeId, prop, ctx);
   if (!valueExpression) {
     throw new Error(`getNodeEachExpression is undefined`);
   }

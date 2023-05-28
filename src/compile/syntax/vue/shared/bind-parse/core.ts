@@ -31,7 +31,7 @@ import {
   rdDataisCustom,
   rdDataIsTable,
 } from './shared/helper';
-import { ActionAst, ActionsAst, BindAst, BindParseCtx, BindRdData, LiteralAst, ReturnRef, TableProps } from './types';
+import { ActionAst, ActionsAst, BindAst, BindParseCtx, BindRdData, LiteralAst, ReturnRef, SplitProps } from './types';
 import { getScopeData, nodePropValueType } from '../template-helper';
 import { getConnectorOperator } from '../../const/config';
 
@@ -201,7 +201,7 @@ export const toAstMethods = {
   ): OptionalMemberExpression | Identifier | undefined => {
     const pathPropertieKeys = getPathPropertieKeys(ctx, data);
     if (!pathPropertieKeys?.length) {
-      return
+      return;
       throw new Error(`Cannot find getCmptPropData path ${data}`);
     }
     return getOptMemberExpr(['props', ...pathPropertieKeys]);
@@ -215,7 +215,7 @@ export const toAstMethods = {
     }
     return getOptMemberExpr(pathPropertieKeys);
   },
-  tableData: (data: CodeSchema.DataValue_TableData, ctx: BindParseCtx): TableProps => {
+  tableData: (data: CodeSchema.DataValue_TableData, ctx: BindParseCtx): SplitProps => {
     return tableDataToAst(data, ctx);
   },
   fx: (data: CodeSchema.DataValue, ctx: BindParseCtx): CallExpression | undefined => {
@@ -249,15 +249,15 @@ export const toAstMethods = {
     const res: (AssignmentExpression | CallExpression)[] = [];
     actions.forEach((act) => {
       if (act.mode === 'setVar') {
-        const ast = toAstMethods.setVar(act, ctx)
+        const ast = toAstMethods.setVar(act, ctx);
         if (!ast) {
-          return
+          return;
         }
         res.push(ast);
       } else if (act.mode === 'setApiData') {
         const ast = toAstMethods.setApiData(act, ctx);
         if (!ast) {
-          return
+          return;
         }
         res.push(ast);
       } else {
@@ -296,7 +296,10 @@ export const toAstMethods = {
       ast.value
     );
   },
-  setApiData: (data: CodeSchema.Action_SetApiData, ctx: BindParseCtx): AssignmentExpression | CallExpression | undefined => {
+  setApiData: (
+    data: CodeSchema.Action_SetApiData,
+    ctx: BindParseCtx
+  ): AssignmentExpression | CallExpression | undefined => {
     // api数据赋值
     if (!data.args?.id) {
       throw new Error('getApiData的data.args.id失败');
@@ -329,7 +332,9 @@ export const toAstMethods = {
     let successExprStatements: t.Statement[] = [];
     let failExprStatements: t.Statement[] = [];
     if (data.args.params) {
-      const ast = valueToAst(data.args.params, ctx, [{type: 'module', rules: {properties: api.protocol.request.body}}]);
+      const ast = valueToAst(data.args.params, ctx, [
+        { type: 'module', rules: { properties: api.protocol.request.body } },
+      ]);
       if (t.isExpression(ast.value)) {
         paramsExprs.push(ast.value);
       }
@@ -613,14 +618,15 @@ export const literalToAst = (
         throw new Error('不是module数组');
       }
       const kv: ObjectProperty[] = [];
-      const properties = types?.find(item => item.type === 'module' && item.multiple !== true)?.rules?.properties || []
-      const map: Record<string, typeof properties[number]> = {}
+      const properties =
+        types?.find((item) => item.type === 'module' && item.multiple !== true)?.rules?.properties || [];
+      const map: Record<string, (typeof properties)[number]> = {};
       properties.forEach((item) => {
-        map[item.id] = item
-      })
+        map[item.id] = item;
+      });
       data.args.value.forEach((item) => {
         const ast = valueToAst(item.value, ctx, map[item.propId]?.types);
-        if (!ast.value || ast.type === 'table') {
+        if (!ast?.value || ast.type === 'split') {
           return;
         }
         // TODO item.propId不应该拿来编译，暂时先这么处理，明天再分析解决方案
@@ -635,8 +641,12 @@ export const literalToAst = (
 
       const array: Expression[] = [];
       data.args.value.forEach((item) => {
-        const ast = valueToAst(item?.value || item, ctx, types?.map((item => ({...item, multiple: false}))));
-        if (!ast.value || ast.type === 'table') {
+        const ast = valueToAst(
+          item?.value || item,
+          ctx,
+          types?.map((item) => ({ ...item, multiple: false }))
+        );
+        if (!ast?.value || ast.type === 'split') {
           return;
         }
         array.push(ast.value as BindAst);
@@ -645,7 +655,7 @@ export const literalToAst = (
     }
     case 'url': {
       // TODO: 分外部和内部链接
-      return t.stringLiteral('')
+      return t.stringLiteral('');
     }
     case 'option': {
       if (typeof data.args.value !== 'string') {
@@ -674,12 +684,10 @@ export const literalToAst = (
   throw new Error('rdData_custom中的类型"' + data.args.type + '"不支持编译');
 };
 
-export const isTableAst = (data: any): data is TableProps => {
+export const isSplitAst = (data: any): data is SplitProps => {
   return (
-    tools.dataType.isObject(data) &&
-    data._table_ === true &&
-    tools.object.has(data, 'columns') &&
-    tools.object.has(data, 'dataSource')
+    Array.isArray(data) &&
+    data.every((item) => tools.dataType.isObject(item) && typeof item.key === 'string' && t.isExpression(item.value))
   );
 };
 
@@ -687,7 +695,7 @@ const tableDataToAst = (
   data: CodeSchema.DataValue_TableData,
   ctx: BindParseCtx,
   types?: CodeSchema.PropertyType_Protocol[]
-): TableProps => {
+): SplitProps => {
   if (!data.args.data) {
     throw new Error('data.args.data is undefined');
   }
@@ -698,7 +706,10 @@ const tableDataToAst = (
   const last = bindDataPathProperties[bindDataPathProperties.length - 1];
   const dataSource = valueToAst(data.args.data, ctx);
 
-  if (t.isIfStatement(dataSource.value)) {
+  if (!dataSource) {
+    throw new Error('tableDataToAst value is null');
+  }
+  if (t.isIfStatement(dataSource?.value)) {
     throw new Error('tableDataToAst value is not tableData');
   }
 
@@ -761,47 +772,117 @@ const tableDataToAst = (
     });
   // columns 直接是一个字面量的数组
 
-  const res: TableProps = {
-    _table_: true,
-    columns: {
+  const res: SplitProps = [
+    {
       key: define?.data.key || define?.varName,
       value: literalToAst(literalToRdData_Custom(columns), ctx) as ArrayExpression,
     },
-    dataSource: {
+    {
       key: tableDataKey,
-      value: dataSource.value as Exclude<typeof dataSource.value, TableProps>,
+      value: dataSource.value as Exclude<typeof dataSource.value, SplitProps | AssignmentExpression | ActionsAst>,
     },
-  };
+  ];
   return res;
 };
 
 export const valueToAst = (
-  data: CodeSchema.DataValueArgument | CodeSchema.Action,
+  data: CodeSchema.DataValueArgument | CodeSchema.Action | undefined,
   ctx: BindParseCtx,
   types?: CodeSchema.PropertyType_Protocol[]
 ): ReturnRef => {
   const res: {
-    type: 'table' | 'ast';
-    value?: ActionAst | ActionsAst | t.IfStatement | BindAst | TableProps | undefined;
+    type: 'split' | 'ast' | 'error';
+    value?: ActionAst | ActionsAst | t.IfStatement | BindAst | SplitProps | undefined;
   } = {
     type: 'ast',
   };
-  if (rdActionIsSys(data)) {
-    res.value = actionToAst(data, ctx);
-  } else if (!isRdData(data)) {
-    res.value = literalToAst(literalToRdData_Custom(data, types), ctx, types);
-  } else if (rdDataisCustom(data)) {
-    res.value = literalToAst(data, ctx, types);
-  } else if (rdDataIsBind(data)) {
-    res.value = bindToAst(data, ctx);
-  } else if (rdDataIsTable(data)) {
-    res.type = 'table';
-    res.value = toAstMethods.tableData(data, ctx);
-    return res;
+
+  if (!data) {
+    if (types) {
+      res.value = defaultAst(ctx, types);
+    }
   } else {
-    res.value = toAstMethods.fx(data, ctx);
+    if (rdActionIsSys(data)) {
+      res.value = actionToAst(data, ctx);
+    } else if (!isRdData(data)) {
+      res.value = literalToAst(literalToRdData_Custom(data, types), ctx, types);
+    } else if (rdDataisCustom(data)) {
+      res.value = literalToAst(data, ctx, types);
+    } else if (rdDataIsBind(data)) {
+      res.value = bindToAst(data, ctx);
+    } else if (rdDataIsTable(data)) {
+      res.type = 'split';
+      res.value = toAstMethods.tableData(data, ctx);
+    } else {
+      res.value = toAstMethods.fx(data, ctx);
+    }
+  }
+
+  if (!res.value) {
+    res.type = 'error'
   }
   return res;
+};
+
+export const nodePropAst = (bindParseCtx: BindParseCtx, prop: CodeSchema.Property) => {
+  const node = bindParseCtx.scope.node;
+  if (!node) {
+    return;
+  }
+  const varName = getNodePropKeyByNodeId(node.id, prop.propId, bindParseCtx);
+  if (!varName) {
+    return;
+  }
+  const res = nodePropValueAst(node.id, prop.propId, bindParseCtx);
+  if (!res || !res.value) {
+    return;
+  }
+  if (!prop.value) {
+    return;
+  }
+  const ast = res.value as ActionAst | BindAst;
+  const valueType = nodePropValueType(bindParseCtx, prop)?.type;
+  if (!valueType) {
+    return;
+  }
+  if (['directCompilation', 'literal'].includes(valueType)) {
+    return;
+  } else if (valueType === 'literalVar') {
+    return t.objectProperty(t.identifier(varName), ast);
+  } else if (valueType === 'computed') {
+    return t.objectProperty(
+      t.identifier(varName),
+      t.callExpression(t.identifier('computed'), [t.arrowFunctionExpression([], ast)])
+    );
+  } else if (valueType === 'function') {
+    const nodeMapItem = bindParseCtx.scope.current.nodesStore.find(node.id);
+    if (!nodeMapItem) {
+      return;
+    }
+    const scopeData = getScopeData(nodeMapItem, bindParseCtx);
+    return t.objectProperty(
+      t.identifier(varName),
+      t.arrowFunctionExpression(
+        [
+          t.objectPattern(
+            scopeData.map((varText: string) =>
+              t.objectProperty(t.identifier(varText), t.identifier(varText), undefined, true)
+            )
+          ),
+        ],
+        ast
+      )
+    );
+  } else if (valueType === 'split') {
+    const splitProps = res.value as SplitProps;
+    return splitProps.map((item) => {
+      return t.objectProperty(t.identifier(item.key), item.value || t.nullLiteral());
+    });
+  } else if (valueType === 'error') {
+    throw new Error('数据类型错误');
+  } else {
+    throw new Error('type类型未知');
+  }
 };
 
 export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
@@ -830,61 +911,18 @@ export const nodePropsAst = <T extends CodeSchema.Page | CodeSchema.Component>(
   }
   if (node.props?.length) {
     node.props.forEach((prop) => {
-      const res = nodePropValueAst(node.id, prop.propId, bindParseCtx);
-      if (!res || !res.value) {
-        return;
-      }
-      const varName = getNodePropKeyByNodeId(node.id, prop.propId, ctx);
-      if (!varName) {
-        return;
-      }
-      if (!prop.value) {
-        return;
-      }
-      const ast = res.value as ActionAst | BindAst;
-      const valueType = nodePropValueType(prop.value).type;
-      if (['directCompilation', 'literal'].includes(valueType)) {
-        return;
-      } else if (valueType === 'literalVar') {
-        propProps.push(t.objectProperty(t.identifier(varName), ast));
-      } else if (valueType === 'computed') {
-        propProps.push(
-          t.objectProperty(
-            t.identifier(varName),
-            t.callExpression(t.identifier('computed'), [t.arrowFunctionExpression([], ast)])
-          )
-        );
-      } else if (valueType === 'function') {
-        const nodeMapItem = ctx.scope.current.nodesStore.find(nodeId);
-        if (!nodeMapItem) {
+      const propAst = nodePropAst(bindParseCtx, prop);
+      if (!propAst) {
+        const varName = getNodePropKeyByNodeId(node.id, prop.propId, bindParseCtx);
+        if (!varName) {
           return;
         }
-        const scopeData = getScopeData(nodeMapItem, ctx);
-        propProps.push(
-          t.objectProperty(
-            t.identifier(varName),
-            t.arrowFunctionExpression(
-              [
-                t.objectPattern(
-                  scopeData.map((varText: string) =>
-                    t.objectProperty(t.identifier(varText), t.identifier(varText), undefined, true)
-                  )
-                ),
-              ],
-              ast
-            )
-          )
-        );
-      } else if (valueType === 'split') {
-        const tableProp = res.value as TableProps;
-        propProps.push(
-          t.objectProperty(t.identifier(tableProp.columns.key), tableProp.columns.value),
-          t.objectProperty(t.identifier(tableProp.dataSource.key), tableProp.dataSource.value as ActionAst)
-        );
-      } else if (valueType === 'error') {
-        throw new Error('数据类型错误');
+        return propProps.push(t.objectProperty(t.identifier(varName), t.identifier('undefined')));
+      }
+      if (Array.isArray(propAst)) {
+        propProps.push(...propAst);
       } else {
-        throw new Error('type类型未知');
+        propProps.push(propAst);
       }
     });
   }
@@ -915,18 +953,35 @@ export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseC
     return;
   }
   // const define =  ctx.scope.current.nodesStore.getNodePropDefine(nodeId,propId);
-  const define = ctx.global.componentsStore.getProp(node.tagId, propId);
+  const define = ctx.scope.current.nodesStore.getNodePropDefine(node.tagId, propId);
   if (!define) {
     return;
   }
-  if (!prop.value) {
-    return {
-      type: 'ast',
-      value: defaultAst(ctx, define.data.types),
-    };
-  }
+
   ctx.scope.prop = prop;
-  return valueToAst(prop.value, ctx, define.data.types);
+
+  let value = prop.value;
+  if (define.varName === 'class' || define.varName === 'style') {
+    if (value) {
+      if (prop.dynamic) {
+        const textValue = valueToAst(value, ctx, define.data.types);
+        const dynamicValue = valueToAst(prop.dynamic, ctx, define.data.types);
+        if (t.isExpression(textValue.value) && t.isExpression(dynamicValue?.value)) {
+          return {
+            type: 'ast',
+            value: t.binaryExpression('+', textValue?.value, dynamicValue?.value),
+          };
+        } else if (textValue.value) {
+          return textValue;
+        }
+        return dynamicValue;
+      }
+    } else {
+      value = prop.dynamic;
+    }
+  }
+
+  return valueToAst(value, ctx, define.data.types);
 };
 
 export const nodeEventValueAst = (
@@ -942,8 +997,7 @@ export const nodeEventValueAst = (
   if (!event?.actions) {
     return;
   }
-  // const define =  ctx.scope.current.nodesStore.getNodeEventDefine(nodeId,eventId);
-  const define = ctx.global.componentsStore.getEmit(node.tagId, eventId);
+  const define = ctx.scope.current.nodesStore.getNodeEventDefine(nodeId, eventId);
   if (!define) {
     return;
   }

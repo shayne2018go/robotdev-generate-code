@@ -1,6 +1,6 @@
 import * as t from '@babel/types';
 import { tools } from '@/utils/tools';
-import { AccessPath, ActionAst, ActionsAst, BindAst, BindParseCtx, ReturnRef, TableProps } from '../types';
+import { AccessPath, ActionAst, ActionsAst, BindAst, BindParseCtx, ReturnRef, SplitProps } from '../types';
 import { NodeMapItem } from '../../store/nodes';
 
 type BindRdData =
@@ -173,10 +173,6 @@ export const isEach_Or_TplSlot = (tagId: string, ctx: BindParseCtx) => {
 
 export const isAstType = (ref: ReturnRef): ref is { type: 'ast'; value: ActionAst | BindAst | undefined } => {
   return ref.type === 'ast';
-};
-
-export const isTableType = (ref: ReturnRef): ref is { type: 'table'; value: TableProps | undefined } => {
-  return ref.type === 'table';
 };
 
 // 拼接循环节点的item变量名
