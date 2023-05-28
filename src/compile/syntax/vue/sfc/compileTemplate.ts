@@ -170,7 +170,7 @@ function parsingNodeText<T extends CodeSchema.Page | CodeSchema.Component>(
     throw new Error(`can not find variable "${textData.propId}"`);
   }
 
-  const tagName = getNodeTag(tagId, compileCtx);
+  const tagName = 'rd-text';
   const isVoidElement = VOID_ELEMENT.includes(tagName);
   return g.node(tagName, [], [g.insertText(valueExpression)], isVoidElement);
 }

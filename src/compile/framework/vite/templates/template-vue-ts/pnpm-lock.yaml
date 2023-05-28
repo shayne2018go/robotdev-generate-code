@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@dreawer/robotdev-element': 0.0.31
+  '@dreawer/robotdev-element': 0.0.32
   '@robotdev/fx-common': 0.0.4
   '@vitejs/plugin-vue': ^4.1.0
   ant-design-vue: ^3.2.15
@@ -19,7 +19,7 @@ dependencies:
   vue-router: 4.2.1_vue@3.3.4
 
 devDependencies:
-  '@dreawer/robotdev-element': 0.0.31_4r5hjn24q6o3x2wqwqhantjr4u
+  '@dreawer/robotdev-element': 0.0.32_4r5hjn24q6o3x2wqwqhantjr4u
   '@robotdev/fx-common': 0.0.4
   '@vitejs/plugin-vue': 4.2.3_vite@4.3.8+vue@3.3.4
   ant-design-vue: 3.2.20_vue@3.3.4
@@ -194,8 +194,8 @@ packages:
       resize-observer-polyfill: 1.5.1
     dev: true
 
-  /@dreawer/robotdev-element/0.0.31_4r5hjn24q6o3x2wqwqhantjr4u:
-    resolution: {integrity: sha512-f0XuW9yJNvhqRQfuaXjEwHngyG3z/TINjPTI775UijUgCLcwunNfqCFWsdzAM8N3TQcnKIEd8dTyMqyos/R/JA==}
+  /@dreawer/robotdev-element/0.0.32_4r5hjn24q6o3x2wqwqhantjr4u:
+    resolution: {integrity: sha512-oax1CTXRSe57nKdkDVSKNbvMY5CLwOCYpIgvLhs20kldHus8W0lJSjlgvf9pb60Iz2OQG3JkyG9AO9TpuMB9nQ==}
     peerDependencies:
       vue: ^3.2.45
     dependencies:
