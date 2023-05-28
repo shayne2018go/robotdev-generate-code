@@ -18,12 +18,18 @@ import { BindParseCtx } from './bind-parse/types';
 import { NodeMapItem } from './store/nodes';
 import * as t from '@babel/types';
 
+// TODO: 后期去掉
+const renameTag = {
+  text: 'RdText',
+} as Record<string, string>;
+
 export const getNodeTag = <T extends CodeSchema.Page | CodeSchema.Component>(tagId: string, ctx: CompileCurrentCtx) => {
   const node_protocol = ctx.global.componentsStore.getCmpt(tagId);
   if (!node_protocol) {
     throw new Error(`Cannot find tagId: ${tagId}`);
   }
-  return node_protocol.key;
+
+  return renameTag[node_protocol.key] ? renameTag[node_protocol.key] : node_protocol.key;
 };
 
 export const getNodePropKeyById = <T extends CodeSchema.Page | CodeSchema.Component>(
@@ -238,7 +244,6 @@ const _nodePropValueType = (value: CodeSchema.DataValueArgument) => {
   return res;
 };
 
-
 export const isStyleClass = (ctx: BindParseCtx, propId: string) => {
   return ['style', 'class'].includes(ctx.global.propsStore.getProp(propId)?.key);
 };
@@ -246,13 +251,13 @@ export const isStyleClass = (ctx: BindParseCtx, propId: string) => {
 export const nodePropValueType = (ctx: BindParseCtx, prop: CodeSchema.Property) => {
   if (isStyleClass(ctx, prop.propId)) {
     if (prop.dynamic) {
-      return _nodePropValueType(prop.dynamic)
+      return _nodePropValueType(prop.dynamic);
     }
   }
   if (prop.value) {
-    return _nodePropValueType(prop.value)
+    return _nodePropValueType(prop.value);
   }
-}
+};
 
 // 获取当前上下文的数据对象（eachData, slotData）
 export const getScopeData = <T extends CodeSchema.Page | CodeSchema.Component>(

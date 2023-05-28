@@ -693,9 +693,6 @@ export const literalToAst = (
       return literalToAst(ctx, literalToRdData_Custom(data.args.value), types);
     }
     case 'image': {
-      if (!tools.dataType.isObject(data.args.value)) {
-        throw new Error('image的值必须是object');
-      }
       return literalToAst(ctx, literalToRdData_Custom(data.args.value), types);
     }
   }

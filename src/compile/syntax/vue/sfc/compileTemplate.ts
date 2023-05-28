@@ -106,6 +106,27 @@ function parsingNodeEach<T extends CodeSchema.Page | CodeSchema.Component>(
   }
 
   const eachExpression = getNodeEachExpression(nodeId, eachData, compileCtx);
+  const childrenAst = parsingChildren(node.children || [], compileCtx);
+
+  if (childrenAst.length === 1) {
+    // 当children只有一个元素 则省略
+    const nodeAst = childrenAst[0];
+    if (nodeAst._node_ === 'node') {
+      // 看当前子元素是否有绑定v-if (v-if 和v-for不能同时存在)
+      const hasIfIndex = nodeAst.propArr.findIndex((prop) => prop.key === 'if');
+      if (hasIfIndex > -1) {
+        // 如果有绑定v-if 则:
+        const nodeChildrenAst = nodeAst.childNodeArr;
+        // 删除子元素原本的v-if
+        const propAst = nodeAst.propArr.splice(hasIfIndex, 1)[0];
+        // 给子元素增加一个template标签
+        nodeAst.childNodeArr = [g.node('template', [propAst], nodeChildrenAst)];
+      } else {
+        nodeAst.propArr.push(g.directive('for', eachExpression));
+      }
+    }
+    return nodeAst;
+  }
 
   return g.node('template', [g.directive('for', eachExpression)], parsingChildren(node.children || [], compileCtx));
 }
@@ -157,7 +178,7 @@ function parsingNodeText<T extends CodeSchema.Page | CodeSchema.Component>(
   compileCtx: BindParseCtx
 ): ParsingNodeReturn | null {
   const { id: nodeId, tagId } = node.data;
-  
+
   const textData = node.data?.props?.find((p) => getNodePropKeyById(nodeId, p.propId, compileCtx) === 'text');
 
   if (!textData) {
@@ -169,12 +190,11 @@ function parsingNodeText<T extends CodeSchema.Page | CodeSchema.Component>(
   if (!valueExpression) {
     throw new Error(`can not find variable "${textData.propId}"`);
   }
-  
-  const tagName = 'rd-text';
 
-  const props = [
-    ...parsingNodeProps(node, compileCtx).filter(item => item.key !== 'text')
-  ];
+  const tagName = getNodeTag(tagId, compileCtx);
+
+  const props = [...parsingNodeProps(node, compileCtx).filter((item) => item.key !== 'text')];
+
   const isVoidElement = VOID_ELEMENT.includes(tagName);
 
   return g.node(tagName, props, [g.insertText(valueExpression)], isVoidElement);

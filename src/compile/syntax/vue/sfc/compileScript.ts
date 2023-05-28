@@ -26,6 +26,9 @@ function gernateScriptToken<T extends CodeSchema.Page | CodeSchema.Component>(pa
   let statements: Array<t.Statement> = [];
   // 导入模块
   statements = statements.concat(getAllImports(ctx));
+  // 内部provide
+  statements = statements.concat(parsingSystemProvide(ctx));
+
   // 属性声明
   statements = statements.concat(parsingComponentProps(ctx));
   // 事件声明
@@ -59,6 +62,12 @@ function getAllImports<T extends CodeSchema.Page | CodeSchema.Component>(ctx: Co
     imports = imports.concat(getImporteds(apis, ctx));
   }
   return imports;
+}
+
+function parsingSystemProvide(ctx: CompileCurrentCtx) {
+  return t.expressionStatement(
+    t.callExpression(t.identifier('provide'), [t.stringLiteral('queryImage'), t.identifier('queryImage')])
+  );
 }
 
 function parsingComponentProps(ctx: CompileCurrentCtx): t.VariableDeclaration {
@@ -141,8 +150,7 @@ function getVueImports(): t.ImportDeclaration[] {
         t.importSpecifier(t.identifier('reactive'), t.identifier('reactive')),
         t.importSpecifier(t.identifier('ref'), t.identifier('ref')),
         t.importSpecifier(t.identifier('computed'), t.identifier('computed')),
-        t.importSpecifier(t.identifier('defineProps'), t.identifier('defineProps')),
-        t.importSpecifier(t.identifier('defineEmits'), t.identifier('defineEmits')),
+        t.importSpecifier(t.identifier('provide'), t.identifier('provide')),
       ],
       t.stringLiteral('vue')
     ),

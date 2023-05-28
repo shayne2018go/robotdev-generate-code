@@ -24,14 +24,12 @@ function open(mode: string, target: string, url: string, query?: any) {
     throw new Error('open的mode类型错误');
   }
 }
-// const open = (mode: 'out', name: string, query: any) => void;
-// const open = (mode: 'in', name: string, query: any) => void;
-// const open = (mode:) => {
-//   return axios.post(url, body).then(
-//     (response: any) => success(response),
-//     (err: any) => fail(err)
-//   );
-// };
+
+const queryImage = (id: string, fn: (value: any) => void) => {
+  axios.get(`http://1.13.37.16:3001/imagesApi/images/${id}`).then((res) => {
+    fn(res);
+  });
+};
 
 const getType = (value: any) => Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
 export const assignment = (data: { [key: string]: any } | any[], path: (string | number)[], value: any) => {
@@ -89,4 +87,4 @@ export const assignment = (data: { [key: string]: any } | any[], path: (string |
   }
 };
 
-export { open };
+export { open, queryImage };
