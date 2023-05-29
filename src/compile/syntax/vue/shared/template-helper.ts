@@ -38,10 +38,7 @@ export const getNodePropKeyById = <T extends CodeSchema.Page | CodeSchema.Compon
   ctx: CompileCurrentCtx
 ) => {
   const prop_protocol = ctx.scope.current.nodesStore.getNodePropDefine(nodeId, propId);
-  if (!prop_protocol) {
-    throw new Error(`Cannot find tagId: ${nodeId}`);
-  }
-  return prop_protocol.data.key;
+  return prop_protocol?.data.key;
 };
 
 export const getNodeSlotKeyById = (nodeId: string, slotId: string, ctx: CompileCurrentCtx) => {
@@ -50,6 +47,20 @@ export const getNodeSlotKeyById = (nodeId: string, slotId: string, ctx: CompileC
     throw new Error(`Cannot find tagId: ${nodeId}`);
   }
   return slot_protocol.data.key;
+};
+
+export const getNodeSlotProps = (nodeId: string, slotId: string, ctx: CompileCurrentCtx) => {
+  const slot_protocol = ctx.scope.current.nodesStore.getNodeSlotDefine(nodeId, slotId);
+  if (!slot_protocol) {
+    throw new Error(`Cannot find tagId: ${nodeId}`);
+  }
+  const { properties = [] } = slot_protocol.data || {};
+
+  if (properties.length) {
+    return t.objectExpression(properties.map((p) => t.objectProperty(t.identifier(p.key), t.identifier(p.key))));
+  }
+
+  return undefined;
 };
 
 export const getNodePropKeyByTagId = <T extends CodeSchema.Page | CodeSchema.Component>(

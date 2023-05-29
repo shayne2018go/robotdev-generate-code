@@ -14,6 +14,7 @@ import {
   getNodePropTableSplitProps,
   getNodePropValueExpression,
   getNodeSlotKeyById,
+  getNodeSlotProps,
   getNodeTag,
 } from '../shared/template-helper';
 
@@ -82,6 +83,7 @@ function parsingNode<T extends CodeSchema.Page | CodeSchema.Component>(
     case VirtualTag.COND:
       return parsingNodeCond(node, bindParseCtx);
     case VirtualTag.SLOT:
+      debugger;
       return parsingNodeSlot(node, bindParseCtx);
     case VirtualTag.TPL:
       return parsingNodeTpl(node, bindParseCtx);
@@ -203,8 +205,17 @@ function parsingNodeSlot<T extends CodeSchema.Page | CodeSchema.Component>(
   node: TreeNode,
   compileCtx: BindParseCtx
 ): ParsingNodeReturn {
-  const { tagId } = node.data;
-  return g.node('slot', [], parsingChildren(node.children || [], compileCtx));
+  const { tagId, id: nodeId, slotId } = node.data;
+
+  if (!slotId) {
+    return g.node('slot', [], parsingChildren(node.children || [], compileCtx));
+  }
+  debugger;
+
+  const slot_protocol = compileCtx.scope.current.slotsStore.find(slotId);
+  const props = [...parsingSlotProps(node, compileCtx), g.prop('name', slot_protocol?.data.key)];
+
+  return g.node('slot', props, parsingChildren(node.children || [], compileCtx));
 }
 
 // template <template #slotname="xx"> </template>
@@ -213,11 +224,47 @@ function parsingNodeTpl<T extends CodeSchema.Page | CodeSchema.Component>(
   compileCtx: BindParseCtx
 ): ParsingNodeReturn {
   const { tagId, props } = node.data;
-  if (!props && node.children?.length) {
+
+  // 过滤 插槽
+  if (isIgnoreSlot(node, compileCtx)) {
     // 过滤掉无属性的template标签
     return parsingChildren(node.children || [], compileCtx);
   }
-  return g.node('template', [], parsingChildren(node.children || [], compileCtx));
+  const [nodeId, slotId] = node.data.id.split('#');
+
+  const slot_protocol = compileCtx.scope.current.nodesStore.getNodeSlotDefine(nodeId, slotId);
+
+  if (!slot_protocol) {
+    return parsingChildren(node.children || [], compileCtx);
+  }
+
+  const { properties = [] } = slot_protocol.data || {};
+
+  if (!properties.length && slot_protocol.data.key === 'default') {
+    return g.node('template', [], parsingChildren(node.children || [], compileCtx));
+  }
+
+  const slotProps = getNodeSlotProps(nodeId, slotId, compileCtx);
+  const propsAst = [g.prop(`#${slot_protocol.data.key}`, slotProps)];
+
+  return g.node('template', propsAst, parsingChildren(node.children || [], compileCtx));
+}
+
+function isIgnoreSlot(node: TreeNode, compileCtx: BindParseCtx) {
+  if (!node.children?.length) {
+    return true;
+  }
+  // 如果是条件的 （true/false） 插槽
+  const [nodeId, slotId] = node.data.id.split('#');
+  const parentNode = compileCtx.scope.current.nodesStore.getNode(nodeId);
+  if (!parentNode) {
+    return true;
+  }
+  const node_protocol = compileCtx.global.componentsStore.getCmpt(parentNode?.tagId);
+  if (node_protocol?.key === 'cond') {
+    debugger;
+    return true;
+  }
 }
 
 // text 文本
@@ -271,9 +318,13 @@ function parsingNodeNormal<T extends CodeSchema.Page | CodeSchema.Component>(
 function parsingNodeProps(node: TreeNode, compileCtx: BindParseCtx): GenerateVueTemplateTypes.Prop[] {
   const { props = [], id: nodeId } = node.data;
   const propsAst = [] as GenerateVueTemplateTypes.Prop[];
+
   props?.forEach((p) => {
     const prop_protocol = compileCtx.scope.current.nodesStore.getNodePropDefine(nodeId, p.propId);
     const key = getNodePropKeyById(nodeId, p.propId, compileCtx);
+    if (!key) {
+      return;
+    }
     // 判断是否为table类型 拆分为两个属性
     if (typeHelper.hasTable(prop_protocol?.data.types) && valueHelper.isTable(p.value)) {
       const tableSplitProps = getNodePropTableSplitProps(nodeId, p, compileCtx);
@@ -287,6 +338,33 @@ function parsingNodeProps(node: TreeNode, compileCtx: BindParseCtx): GenerateVue
       const propAst = g.prop(key, getNodePropValueExpression(nodeId, p, compileCtx), true);
       propsAst.push(propAst);
     }
+  });
+
+  return propsAst;
+}
+
+// <slot name="icon" :src="sss.src">
+function parsingSlotProps(node: TreeNode, compileCtx: BindParseCtx): GenerateVueTemplateTypes.Prop[] {
+  const { props = [], id: nodeId, slotId } = node.data;
+
+  if (!slotId) {
+    return [];
+  }
+  const propsAst = [] as GenerateVueTemplateTypes.Prop[];
+
+  // const slot_protocol = compileCtx.scope.current.nodesStore.getNodeSlotDefine(nodeId, slotId);
+  const slot_protocol = compileCtx.scope.current.slotsStore.find(slotId);
+
+  // A - B
+
+  props?.forEach((p) => {
+    const key = slot_protocol?.members.properties?.find(p.propId)?.data.key;
+    if (!key) {
+      return;
+    }
+    // 判断是否为table类型 拆分为两个属性
+    const propAst = g.prop(key, getNodePropValueExpression(nodeId, p, compileCtx), true);
+    propsAst.push(propAst);
   });
 
   return propsAst;

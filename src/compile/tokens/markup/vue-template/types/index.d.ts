@@ -6,9 +6,10 @@ import {
   StringLiteral,
   ArrowFunctionExpression,
   Program,
+  ObjectExpression,
 } from '@babel/types';
 declare namespace VueTemplateTypes {
-  export type PropItem = string | number | CallExpression | MemberExpression | BinaryExpression;
+  export type PropItem = string | number | CallExpression | MemberExpression | BinaryExpression | ObjectExpression;
 
   export type EventItem = string | CallExpression | MemberExpression | ArrowFunctionExpression;
 

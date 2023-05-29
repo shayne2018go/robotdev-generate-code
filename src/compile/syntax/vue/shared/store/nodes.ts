@@ -185,7 +185,8 @@ export const nodesDataStore = (nodes: CodeSchema.ComponentNode[], ctx: VueGlobal
       return nodesMap[nodeId].varName || undefined;
     },
     getNodePropDefine(nodeId: CodeSchema.ComponentNode['id'], propId: CodeSchema.Property['propId']) {
-      let define = nodesMap[nodeId]?.component?.members?.propsStore.findId(propId) || ctx.propsStore?.findId(propId);
+      let nodeInfo = nodesMap[nodeId];
+      let define = nodeInfo?.component?.members?.propsStore.findId(propId) || ctx.propsStore?.findId(propId);
       return define;
     },
     getNodeEventDefine(nodeId: CodeSchema.ComponentNode['id'], eventId: CodeSchema.Event['eventId']) {

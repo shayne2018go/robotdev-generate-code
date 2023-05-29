@@ -480,6 +480,21 @@
           "depth": 2,
           "preId": null,
           "nextId": null,
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "type": "data",
+                  "mode": "getSlotData",
+                  "args": {
+                    "id": "K654",
+                    "path": ["64647e7952af8e55ee6c57d2"]
+                  }
+                }
+              }
+            ]
+          },
           "productId": "6358fb8554bb9b1c84ce47a2"
         },
         {
@@ -688,7 +703,7 @@
           "type": "element",
           "depth": 2,
           "preId": "I745",
-          "nextId": "U642",
+          "nextId": null,
           "productId": "6352061254bb9b1c84ce3570"
         },
         {
@@ -709,6 +724,31 @@
           "depth": 4,
           "preId": null,
           "nextId": "H736",
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b6c5",
+                "value": {
+                  "type": "data",
+                  "mode": "getVar",
+                  "args": {
+                    "id": "6470732a952049f0026c2558"
+                  }
+                }
+              },
+              {
+                "propId": "641a7052cf44f6204642b6c6",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "number",
+                    "value": 150
+                  }
+                }
+              }
+            ]
+          },
           "productId": "6352061254bb9b1c84ce3570"
         },
         {
@@ -733,7 +773,7 @@
             "props": [
               {
                 "propId": "641a95e6cd3c6b0921a79f27",
-                "value": "width:256px;"
+                "value": ""
               },
               {
                 "propId": "641a95e6cd3c6b0921a79f28",
@@ -1159,10 +1199,13 @@
               {
                 "propId": "641a7052cf44f6204642b709",
                 "value": {
+                  "id": "",
                   "type": "data",
-                  "mode": "getVar",
+                  "modeId": "",
+                  "mode": "custom",
                   "args": {
-                    "id": "6470732a952049f0026c2558"
+                    "type": "whether",
+                    "value": false
                   }
                 }
               },
@@ -1273,6 +1316,41 @@
           "productId": "6352061254bb9b1c84ce3570"
         },
         {
+          "id": "S363#641a7052cf44f6204642b71b",
+          "parentId": "S363",
+          "tag": "tpl",
+          "type": "element",
+          "depth": 13,
+          "preId": null,
+          "nextId": "S363#641a7052cf44f6204642b71c",
+          "slotId": "641a7052cf44f6204642b71b"
+        },
+        {
+          "id": "W413",
+          "parentId": "S363#641a7052cf44f6204642b71b",
+          "tag": "text",
+          "type": "element",
+          "depth": 14,
+          "preId": null,
+          "nextId": null,
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "type": "data",
+                  "mode": "getEachData",
+                  "args": {
+                    "id": "E081",
+                    "path": ["item", "6464822898e92c32432c8e7e"]
+                  }
+                }
+              }
+            ]
+          },
+          "productId": "6358fb8554bb9b1c84ce47a2"
+        },
+        {
           "id": "H736",
           "parentId": "O218#641a7052cf44f6204642b6c2",
           "tag": "a-layout-content",
@@ -1283,12 +1361,22 @@
           "productId": "6352061254bb9b1c84ce3570"
         },
         {
+          "id": "H736#641a7052cf44f6204642b6d9",
+          "parentId": "H736",
+          "tag": "tpl",
+          "type": "element",
+          "depth": 5,
+          "preId": null,
+          "nextId": null,
+          "slotId": "641a7052cf44f6204642b6d9"
+        },
+        {
           "id": "U642",
-          "parentId": "G993#641a7052cf44f6204642b6c2",
+          "parentId": "H736#641a7052cf44f6204642b6d9",
           "tag": "a-layout-footer",
           "type": "element",
-          "depth": 2,
-          "preId": "O218",
+          "depth": 6,
+          "preId": null,
           "nextId": null,
           "productId": "6352061254bb9b1c84ce3570"
         }
@@ -2119,17 +2207,25 @@
                                       "args": {
                                         "id": "6454c8d32f633c035f506d50"
                                       }
+                                    },
+                                    "right": {
+                                      "type": "data",
+                                      "mode": "getEventData",
+                                      "args": {
+                                        "id": "641a7052cf44f6204642b666",
+                                        "path": ["64337737142f1aa760d86bd7", "643377e8142f1aa760d86bd8"]
+                                      }
                                     }
                                   }
                                 },
                                 {
-                                  "mode": "neq",
+                                  "mode": "nnull",
                                   "args": {
                                     "left": {
                                       "type": "data",
                                       "mode": "getVar",
                                       "args": {
-                                        "id": "6454c8d32f633c035f506d50"
+                                        "id": "645ca561aea28d56b0bdb3f8"
                                       }
                                     },
                                     "right": {
@@ -3544,7 +3640,58 @@
           "depth": 4,
           "preId": null,
           "nextId": null,
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b719",
+                "value": {
+                  "type": "data",
+                  "mode": "getEachData",
+                  "args": {
+                    "id": "Q544",
+                    "path": ["item", "6448cb9c319af5b84c5249f7"]
+                  }
+                }
+              }
+            ]
+          },
           "productId": "6352061254bb9b1c84ce3570"
+        },
+        {
+          "id": "S946#641a7052cf44f6204642b71b",
+          "parentId": "S946",
+          "tag": "tpl",
+          "type": "element",
+          "depth": 5,
+          "preId": null,
+          "nextId": "S946#641a7052cf44f6204642b71c",
+          "slotId": "641a7052cf44f6204642b71b"
+        },
+        {
+          "id": "H369",
+          "parentId": "S946#641a7052cf44f6204642b71b",
+          "tag": "slot",
+          "type": "element",
+          "depth": 6,
+          "preId": null,
+          "nextId": null,
+          "data": {
+            "props": [
+              {
+                "propId": "64647e7952af8e55ee6c57d2",
+                "value": {
+                  "type": "data",
+                  "mode": "getEachData",
+                  "args": {
+                    "id": "Q544",
+                    "path": ["item", "6448cba1319af5b84c5249f8"]
+                  }
+                }
+              }
+            ]
+          },
+          "productId": "6358fb8554bb9b1c84ce47a2",
+          "slotId": "64647e5e52af8e55ee6c57d1"
         }
       ],
       "decl": [
@@ -3567,7 +3714,12 @@
           "id": "646c7355e22177fdcc0c339f"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "eventId": "641a95e7cd3c6b0921a79f2b",
+          "actions": []
+        }
+      ],
       "spec": {
         "props": [
           {
@@ -12318,7 +12470,7 @@
       }
     ]
   },
-  "id": "6472ca48595103d2fea33e56",
+  "id": "647410b0df071e0bacd5031b",
   "dependenciesPackages": [
     {
       "productId": "6352061254bb9b1c84ce3570",

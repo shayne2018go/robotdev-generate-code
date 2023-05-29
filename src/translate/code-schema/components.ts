@@ -90,6 +90,7 @@ function preprocessNodes(
           preId: rdNode.preId,
           nextId: rdNode.nextId,
           parentId: rdNode.parentId,
+          slotId: rdNode.slotId,
 
           tagId: tag,
           packageId: packageId,

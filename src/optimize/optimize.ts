@@ -30,6 +30,7 @@ const FORMAT_OPTION_DEFAULT: Options = {
   semi: false,
   printWidth: 120,
   htmlWhitespaceSensitivity: 'ignore',
+  plugins: ['prettier-plugin-organize-imports'],
 };
 
 function optimize(tokens: Compile.Token[]): Compile.Token[] {
@@ -41,11 +42,20 @@ function optimize(tokens: Compile.Token[]): Compile.Token[] {
     const parser =
       typeof fileNameSuffix_parser_map[fileName] === 'string' ? fileNameSuffix_parser_map[fileName] : fileName;
 
-    const formatOptions = Object.assign(FORMAT_OPTION_DEFAULT, { parser });
+    const fileParserOptions = { parser } as Options;
+
+    if (fileName === 'vue') {
+      fileParserOptions.filepath = 'file.vue';
+      debugger;
+    }
+
+    const formatOptions = Object.assign(FORMAT_OPTION_DEFAULT, fileParserOptions);
+
+    const parsedToken = format(token.token, formatOptions);
 
     return {
       path: token.path,
-      token: format(token.token, formatOptions),
+      token: parsedToken,
     };
   });
 }

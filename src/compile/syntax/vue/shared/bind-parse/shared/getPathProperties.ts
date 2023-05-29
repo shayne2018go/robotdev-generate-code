@@ -188,17 +188,19 @@ const getBindPathProperties = {
       return;
     }
     const node = ctx.scope.current.nodesStore.find(data.id);
-    if (!node) {
+    if (!node || !ctx.scope.node?.id) {
       return;
     }
     const slotAffiliationCmpt = ctx.scope.current.nodesStore.parentOne(
-      data.id,
+      // data.id
+      ctx.scope.node?.id,
       (item) => item.store?.component?.data.protocol.key !== 'tpl'
     )?.component;
     const propId = data.path?.[0];
     if (!propId) {
       return;
     }
+
     const slot = slotAffiliationCmpt?.members.slotsStore.findId(propId);
     if (!slot) {
       throw new Error('数据异常，插槽节点的属性的id没找到！');
