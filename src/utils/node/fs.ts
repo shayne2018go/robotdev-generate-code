@@ -1,3 +1,3 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 
 export { readFileSync, writeFileSync };
