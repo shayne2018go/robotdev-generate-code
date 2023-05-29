@@ -210,10 +210,12 @@ function parsingNodeSlot<T extends CodeSchema.Page | CodeSchema.Component>(
   if (!slotId) {
     return g.node('slot', [], parsingChildren(node.children || [], compileCtx));
   }
-  debugger;
 
   const slot_protocol = compileCtx.scope.current.slotsStore.find(slotId);
-  const props = [...parsingSlotProps(node, compileCtx), g.prop('name', slot_protocol?.data.key)];
+  const props = [...parsingSlotProps(node, compileCtx)];
+  if (slot_protocol) {
+    props.push(g.prop('name', slot_protocol?.data.key));
+  }
 
   return g.node('slot', props, parsingChildren(node.children || [], compileCtx));
 }
@@ -241,7 +243,7 @@ function parsingNodeTpl<T extends CodeSchema.Page | CodeSchema.Component>(
   const { properties = [] } = slot_protocol.data || {};
 
   if (!properties.length && slot_protocol.data.key === 'default') {
-    return g.node('template', [], parsingChildren(node.children || [], compileCtx));
+    return parsingChildren(node.children || [], compileCtx);
   }
 
   const slotProps = getNodeSlotProps(nodeId, slotId, compileCtx);
@@ -262,7 +264,6 @@ function isIgnoreSlot(node: TreeNode, compileCtx: BindParseCtx) {
   }
   const node_protocol = compileCtx.global.componentsStore.getCmpt(parentNode?.tagId);
   if (node_protocol?.key === 'cond') {
-    debugger;
     return true;
   }
 }
