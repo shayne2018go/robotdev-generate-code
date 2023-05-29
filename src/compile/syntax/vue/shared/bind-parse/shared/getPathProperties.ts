@@ -191,21 +191,32 @@ const getBindPathProperties = {
     if (!node || !ctx.scope.node?.id) {
       return;
     }
-    const slotAffiliationCmpt = ctx.scope.current.nodesStore.parentOne(
-      // data.id
-      ctx.scope.node?.id,
-      (item) => item.store?.component?.data.protocol.key !== 'tpl'
-    )?.component;
+    let slotNode: CodeSchema.ComponentNode | undefined;
+    const slotAffiliationCmpt = ctx.scope.current.nodesStore.parentOne(ctx.scope.node?.id, (item) => {
+      if (item.store?.component?.data.protocol.key === 'tpl') {
+        if (item.data.parentId) {
+          if (item.data.parentId === data.id) {
+            slotNode = item.data;
+          }
+        } else {
+          throw new Error('tpl节点没有parentId');
+        }
+      }
+      return item.data.id === data.id;
+    })?.component;
+    if (!slotNode?.slotId) {
+      throw new Error('slotNode未取到');
+    }
     const propId = data.path?.[0];
     if (!propId) {
       return;
     }
 
-    const slot = slotAffiliationCmpt?.members.slotsStore.findId(propId);
+    const slot = slotAffiliationCmpt?.members.slotsStore.findId(slotNode.slotId);
     if (!slot) {
       throw new Error('数据异常，插槽节点的属性的id没找到！');
     }
-    const slotProp = slotAffiliationCmpt?.members.slotsStore.getParameters(slot.data.id, propId);
+    const slotProp = slot.members.properties?.find(propId);
     if (!slotProp) {
       throw new Error('数据异常，插槽节点的属性的下的参数没有没找到相应属性！');
     }
