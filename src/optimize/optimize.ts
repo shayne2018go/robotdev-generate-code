@@ -46,7 +46,6 @@ function optimize(tokens: Compile.Token[]): Compile.Token[] {
 
     if (fileName === 'vue') {
       fileParserOptions.filepath = 'file.vue';
-      debugger;
     }
 
     const formatOptions = Object.assign(FORMAT_OPTION_DEFAULT, fileParserOptions);

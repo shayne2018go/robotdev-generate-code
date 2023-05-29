@@ -83,7 +83,6 @@ function parsingNode<T extends CodeSchema.Page | CodeSchema.Component>(
     case VirtualTag.COND:
       return parsingNodeCond(node, bindParseCtx);
     case VirtualTag.SLOT:
-      debugger;
       return parsingNodeSlot(node, bindParseCtx);
     case VirtualTag.TPL:
       return parsingNodeTpl(node, bindParseCtx);
