@@ -20,7 +20,7 @@ import * as t from '@babel/types';
 
 // TODO: 后期去掉
 const renameTag = {
-  text: 'RdText',
+  text: 'rd-text',
 } as Record<string, string>;
 
 export const getNodeTag = <T extends CodeSchema.Page | CodeSchema.Component>(tagId: string, ctx: CompileCurrentCtx) => {
@@ -42,6 +42,14 @@ export const getNodePropKeyById = <T extends CodeSchema.Page | CodeSchema.Compon
     throw new Error(`Cannot find tagId: ${nodeId}`);
   }
   return prop_protocol.data.key;
+};
+
+export const getNodeSlotKeyById = (nodeId: string, slotId: string, ctx: CompileCurrentCtx) => {
+  const slot_protocol = ctx.scope.current.nodesStore.getNodeSlotDefine(nodeId, slotId);
+  if (!slot_protocol) {
+    throw new Error(`Cannot find tagId: ${nodeId}`);
+  }
+  return slot_protocol.data.key;
 };
 
 export const getNodePropKeyByTagId = <T extends CodeSchema.Page | CodeSchema.Component>(
