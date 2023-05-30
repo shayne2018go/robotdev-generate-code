@@ -7,4 +7,13 @@ import 'ant-design-vue/dist/antd.less';
 import '@dreawer/robotdev-element/dist/style.css';
 import './assets/vendor/a18e4772.js';
 
-createApp(App).use(router).use(Antd).use(RdElement).mount('#app');
+const app = createApp(App)
+
+app.config.errorHandler = (err, instance, info) => {
+  new Error(err as any)
+  console.log('instance:', instance)
+  console.log('info:', info)
+  return null
+};
+
+app.use(router).use(Antd).use(RdElement).mount('#app');
