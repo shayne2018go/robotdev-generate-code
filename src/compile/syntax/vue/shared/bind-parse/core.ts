@@ -698,7 +698,7 @@ export const literalToAst = (
       const mode = data.args?.value?.mode;
       if (mode === 'in') {
         if (!data.args?.value?.page) {
-          throw new Error('url的data.args?.value?.page失败');
+          return t.stringLiteral('')
         }
         const page = ctx.global.pagesStore.getPage(data.args?.value?.page);
         if (!page) {
@@ -707,7 +707,7 @@ export const literalToAst = (
         return t.stringLiteral(page.routerName!)
       } else if (mode === 'out') {
         if (!data.args?.value?.url) {
-          throw new Error('url的data.args?.value?.url失败');
+          return t.stringLiteral('')
         }
         return t.stringLiteral(data.args?.value?.url || '')
       } else {
