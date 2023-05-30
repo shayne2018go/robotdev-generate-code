@@ -25,12 +25,6 @@ function open(mode: string, target: string, url: string, query?: any) {
   }
 }
 
-const queryImage = (id: string, fn: (value: any) => void) => {
-  axios.get(`http://1.13.37.16:3001/imagesApi/images/${id}`).then((res) => {
-    fn(res);
-  });
-};
-
 const getType = (value: any) => Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
 export const assignment = (data: { [key: string]: any } | any[], path: (string | number)[], value: any) => {
   const state = data;
@@ -87,4 +81,4 @@ export const assignment = (data: { [key: string]: any } | any[], path: (string |
   }
 };
 
-export { open, queryImage };
+export { open };

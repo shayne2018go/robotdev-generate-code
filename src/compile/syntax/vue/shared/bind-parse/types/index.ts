@@ -53,7 +53,8 @@ export type LiteralAst =
   | BooleanLiteral
   | ObjectExpression
   | DecimalLiteral
-  | CallExpression;
+  | CallExpression
+  | Identifier;
 
 export type BindParseCtx<T extends CodeSchema.Page | CodeSchema.Component = CodeSchema.Page> = {
   global: CompileCurrentCtx['global'];

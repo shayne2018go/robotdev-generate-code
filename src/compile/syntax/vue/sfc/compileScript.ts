@@ -27,7 +27,7 @@ function gernateScriptToken<T extends CodeSchema.Page | CodeSchema.Component>(pa
   // 导入模块
   statements = statements.concat(getAllImports(ctx));
   // 内部provide
-  statements = statements.concat(parsingSystemProvide(ctx));
+  // statements = statements.concat(parsingSystemProvide(ctx));
 
   // 属性声明
   statements = statements.concat(parsingComponentProps(ctx));

@@ -93,14 +93,6 @@ export function parsingCurrent<T extends CodeSchema.Component | CodeSchema.Page>
       },
     } as GlobalContext.PartialPick<GlobalContext.Function, 'protocol'>,
     {
-      id: 'queryImage', // 函数id
-      key: 'queryImage', // 函数名称
-      source: {
-        filePath: 'src/system/action.ts', // 本地路径
-        exportName: 'queryImage', // 导出名 (不能为空 默认default )
-      },
-    } as GlobalContext.PartialPick<GlobalContext.Function, 'protocol'>,
-    {
       id: 'assignment', // 函数id
       key: 'assignment', // 函数名称
       source: {

@@ -68,7 +68,8 @@ export const defaultAst = <T extends CodeSchema.Page | CodeSchema.Component>(
     case 'fax': {
       return t.stringLiteral('');
     }
-    case 'number': {
+    case 'number':
+    case 'amount': {
       return t.numericLiteral(NaN);
     }
     case 'whether': {
@@ -80,11 +81,35 @@ export const defaultAst = <T extends CodeSchema.Page | CodeSchema.Component>(
     case 'array': {
       return t.arrayExpression([]);
     }
+    case 'date':
+    case 'time':
+    case 'datetime': {
+      return t.stringLiteral('');
+    }
     case 'url': {
       return t.stringLiteral('');
     }
     case 'option': {
       return t.stringLiteral('');
+    }
+    case 'image':
+    case 'video':
+    case 'file': {
+      return t.stringLiteral('');
+    }
+    case 'icon': {
+      return t.objectExpression([]);
+    }
+
+    case 'stylecolor':
+    case 'stylesize':
+    case 'stylespace':
+    case 'stylesizewh': {
+      return t.identifier('undefined');
+    }
+    case 'action':
+    case 'function': {
+      return t.identifier('undefined');
     }
   }
   return;
@@ -610,7 +635,8 @@ export const literalToAst = (
       }
       return t.stringLiteral(data.args.value);
     }
-    case 'number': {
+    case 'number':
+    case 'amount': {
       if (typeof data.args.value !== 'number') {
         throw new Error('不是数字');
       }
@@ -694,6 +720,41 @@ export const literalToAst = (
     }
     case 'image': {
       return literalToAst(ctx, literalToRdData_Custom(data.args.value), types);
+    }
+
+    case 'date':
+    case 'time':
+    case 'datetime': {
+      if (typeof data.args.value !== 'string') {
+        throw new Error('不是文本');
+      }
+      return t.stringLiteral(data.args.value);
+    }
+
+    case 'image':
+    case 'video':
+    case 'file': {
+      if (typeof data.args.value !== 'string') {
+        throw new Error('不是文本');
+      }
+      return t.stringLiteral(data.args.value);
+    }
+
+    case 'stylecolor':
+    case 'stylesize':
+    case 'stylespace':
+    case 'stylesizewh': {
+      if (typeof data.args.value !== 'string') {
+        throw new Error('不是文本');
+      }
+      return t.stringLiteral(data.args.value);
+    }
+    case 'action':
+    case 'function': {
+      if (typeof data.args.value !== 'string') {
+        throw new Error('不是文本');
+      }
+      return t.stringLiteral(data.args.value);
     }
   }
   throw new Error('rdData_custom中的类型"' + data.args.type + '"不支持编译');

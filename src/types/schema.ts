@@ -516,7 +516,11 @@ declare namespace CodeSchema {
     'action', // 行为
     'function', // 函数
     'table', // 表格
-    'array' // 表格
+    'array', // 数组
+    'stylecolor', // style样式-颜色
+    'stylesize', // style样式-尺寸
+    'stylespace', // class样式-间距
+    'stylesizewh', // class样式-宽高
   ];
 
   export type PropertyTypeOne = (typeof DATA_TYPE_KEYS)[number] | '';
