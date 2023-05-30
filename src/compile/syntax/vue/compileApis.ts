@@ -51,7 +51,7 @@ function generateApiToken(api: GlobalContext.Api): string {
 }
 
 function getAxiosImport(_api: GlobalContext.Api): t.ImportDeclaration {
-  return t.importDeclaration([t.importDefaultSpecifier(t.identifier('axios'))], t.stringLiteral('axios'));
+  return t.importDeclaration([t.importDefaultSpecifier(t.identifier('axios'))], t.stringLiteral('../utils/axios'));
 }
 
 // @ts-ignore
@@ -124,7 +124,7 @@ function compileRequestInstance({ timeout, baseURL, headers }: AxiosRequestConfi
     );
   };
   const program = t.program([
-    t.importDeclaration([t.importDefaultSpecifier(t.identifier('axios'))], t.stringLiteral('axios')),
+    t.importDeclaration([t.importDefaultSpecifier(t.identifier('axios'))], t.stringLiteral('../utils/axios')),
     t.variableDeclaration('const', [
       t.variableDeclarator(
         t.identifier('instance'),
