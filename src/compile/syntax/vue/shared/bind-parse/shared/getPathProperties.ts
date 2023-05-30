@@ -132,7 +132,7 @@ const getBindPathProperties = {
     if (!keyId) {
       return;
     }
-    const apiResProp = genApiResProp(define?.data.protocol || []);
+    const apiResProp = genApiResProp(define?.data.protocol || ({} as CodeSchema.Api_Protocol));
     const accessPath = searchModulePath(apiResProp.types, data.path || [], pathLastIsModuleMultiple); // 路径中的每个属性名
     if (isRoot) {
       return [apiResProp, ...accessPath];

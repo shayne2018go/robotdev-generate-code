@@ -343,8 +343,8 @@ export const toAstMethods = {
       const ast = valueToAst(ctx, data.args.params, [
         { type: 'module', rules: { properties: api.protocol.request.body } },
       ]);
-      if (t.isExpression(ast.value)) {
-        paramsExprs.push(ast.value);
+      if (t.isExpression(ast.value as t.Expression)) {
+        paramsExprs.push(ast.value as t.Expression);
       }
     }
     if (data.args.success) {
@@ -724,7 +724,7 @@ const tableDataToAst = (
   if (!dataSource) {
     throw new Error('tableDataToAst value is null');
   }
-  if (t.isIfStatement(dataSource?.value)) {
+  if (t.isIfStatement(dataSource?.value as t.IfStatement)) {
     throw new Error('tableDataToAst value is not tableData');
   }
 
@@ -794,7 +794,10 @@ const tableDataToAst = (
     },
     {
       key: tableDataKey,
-      value: dataSource.value as Exclude<typeof dataSource.value, SplitProps | AssignmentExpression | ActionsAst>,
+      value: dataSource.value as Exclude<
+        typeof dataSource.value,
+        SplitProps | AssignmentExpression | ActionsAst | t.IfStatement
+      >,
     },
   ];
   return res;
@@ -998,10 +1001,10 @@ export const nodePropValueAst = (nodeId: string, propId: string, ctx: BindParseC
       if (prop.dynamic) {
         const textValue = valueToAst(ctx, value, define.data.types);
         const dynamicValue = valueToAst(ctx, prop.dynamic, define.data.types);
-        if (t.isExpression(textValue.value) && t.isExpression(dynamicValue?.value)) {
+        if (t.isExpression(textValue.value as t.Expression) && t.isExpression(dynamicValue?.value as t.Expression)) {
           return {
             type: 'ast',
-            value: t.binaryExpression('+', textValue?.value, dynamicValue?.value),
+            value: t.binaryExpression('+', textValue?.value as t.Expression, dynamicValue?.value as t.Expression),
           };
         } else if (textValue.value) {
           return textValue;

@@ -1,16 +1,11 @@
-import { babel } from '@rollup/plugin-babel';
+import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
-import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
-import path from 'path';
+import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
-import externals from 'rollup-plugin-node-externals';
-import { terser } from 'rollup-plugin-terser';
-import typescript from 'rollup-plugin-typescript2';
 import { fileURLToPath } from 'url';
-import alias from '@rollup/plugin-alias';
-
-import nodePolyfills from 'rollup-plugin-node-polyfills';
+import path from 'path';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -40,31 +35,27 @@ export default {
   ],
 
   plugins: [
-    // polyfillNode(),
-    copy({
-      targets: [
-        { src: './src/compile/framework/vite/templates/*', dest: './dist/templates' },
-        { src: './src/compile/syntax/vue/templates/*', dest: './dist/templates' },
-      ],
+    json(),
+    typescript({
+      exclude: ['node_modules/**', '**/templates/**', '**/__test__/**', 'src/compile/tokens/programming/**'],
     }),
     commonjs(),
     resolve(),
-    nodePolyfills(),
-    externals(),
-    typescript({
-      exclude: ['node_modules/**', '**/templates/**', '**/__test__/**', 'src/compile/tokens/programming/**'],
-      tsconfigOverride: true,
-      // typescript: import('typescript'),
-      useTsconfigDeclarationDir: true,
-    }),
-    alias({
-      '@/*': path.resolve(__dirname, './src/*'),
-    }),
     babel({
-      exclude: 'node_modules/**',
+      exclude: ['node_modules'],
     }),
-    json(),
-    terser(),
+    copy({
+      targets: [
+        {
+          src: './src/compile/framework/vite/templates/*',
+          dest: './dist/templates',
+        },
+        {
+          src: './src/compile/syntax/vue/templates/*',
+          dest: './dist/templates',
+        },
+      ],
+    }),
   ],
-  external: ['**/templates/**', '**/__test__/**', 'src/compile/tokens/programming/**'],
+  external: ['**/templates/**', '**/__test__/**', 'src/compile/tokens/programming/**', 'prettier'],
 };
