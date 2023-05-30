@@ -692,8 +692,27 @@ export const literalToAst = (
       return t.arrayExpression(array);
     }
     case 'url': {
-      // TODO: 分外部和内部链接
-      return t.stringLiteral('');
+      if (!tools.dataType.isObject(data.args.value)) {
+        throw new Error('icon的值必须是object');
+      }
+      const mode = data.args?.value?.mode;
+      if (mode === 'in') {
+        if (!data.args?.value?.page) {
+          throw new Error('url的data.args?.value?.page失败');
+        }
+        const page = ctx.global.pagesStore.getPage(data.args?.value?.page);
+        if (!page) {
+          throw new Error('url的page失败');
+        }
+        return t.stringLiteral(page.routerName!)
+      } else if (mode === 'out') {
+        if (!data.args?.value?.url) {
+          throw new Error('url的data.args?.value?.url失败');
+        }
+        return t.stringLiteral(data.args?.value?.url || '')
+      } else {
+        throw new Error('url的mode类型错误');
+      }
     }
     case 'option': {
       if (typeof data.args.value !== 'string') {
