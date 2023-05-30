@@ -1,4 +1,4 @@
-import { fileURLToPath, resolve, dirname } from '@/utils/node';
+import { resolve } from '@/utils/node';
 
 const defaultRootPath = resolve(__dirname, '../../');
 

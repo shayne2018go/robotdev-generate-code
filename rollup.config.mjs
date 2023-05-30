@@ -10,6 +10,8 @@ import typescript from 'rollup-plugin-typescript2';
 import { fileURLToPath } from 'url';
 import alias from '@rollup/plugin-alias';
 
+import nodePolyfills from 'rollup-plugin-node-polyfills';
+
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const inputPath = path.resolve(__dirname, './src/index.ts');
@@ -33,6 +35,7 @@ export default {
     {
       file: outputCjsPath,
       format: 'cjs',
+      sourcemap: true,
     },
   ],
 
@@ -44,9 +47,10 @@ export default {
         { src: './src/compile/syntax/vue/templates/*', dest: './dist/templates' },
       ],
     }),
-    externals(),
-    resolve(),
     commonjs(),
+    resolve(),
+    nodePolyfills(),
+    externals(),
     typescript({
       exclude: ['node_modules/**', '**/templates/**', '**/__test__/**', 'src/compile/tokens/programming/**'],
       tsconfigOverride: true,
