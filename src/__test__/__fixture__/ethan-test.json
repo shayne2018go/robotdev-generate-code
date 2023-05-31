@@ -1,6 +1,6 @@
 {
   "project": "646872534f9dc2ce4a7824fc",
-  "name": "PC前台测试",
+  "name": "PC前台测试jason",
   "desc": "项目提交到资源中心描述...",
   "type": "application",
   "subType": "client",
@@ -549,34 +549,84 @@
           "slotId": "641a7052cf44f6204642b607"
         },
         {
-          "id": "K912",
+          "id": "Z618",
           "parentId": "S048#641a7052cf44f6204642b607",
-          "tag": "f-ec605e18",
-          "type": "component",
+          "tag": "a",
+          "type": "element",
           "depth": 10,
           "preId": null,
           "nextId": null,
           "data": {
-            "props": [
+            "events": [
               {
-                "propId": "646ad69dad5484c5ef631bb3",
-                "value": {
-                  "type": "data",
-                  "mode": "getEachData",
-                  "args": {
-                    "id": "A155",
-                    "path": ["item", "646adf1e82a790c589a4b187"]
+                "eventId": "641a95cecd3c6b0921a79efa",
+                "actions": [
+                  {
+                    "id": "64776ffe32049d9050aa73bc",
+                    "modeId": "641a95e6cd3c6b0921a79f29",
+                    "mode": "open",
+                    "name": "页面跳转",
+                    "type": "action",
+                    "args": {
+                      "mode": "in",
+                      "page": "646872794f9dc2ce4a782546",
+                      "query": {
+                        "type": "data",
+                        "mode": "custom",
+                        "args": {
+                          "type": "module",
+                          "value": [
+                            {
+                              "propId": "646ac4953fb607d13fd7fba6",
+                              "value": {
+                                "type": "data",
+                                "mode": "getEachData",
+                                "args": {
+                                  "id": "S048",
+                                  "path": ["item", "6475b825a8e1bf63134b5067"]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "target": "self"
+                    }
                   }
-                }
-              },
+                ]
+              }
+            ]
+          },
+          "productId": "6352061a54bb9b1c84ce357d"
+        },
+        {
+          "id": "Z618#641a95e6cd3c6b0921a79f2a",
+          "parentId": "Z618",
+          "tag": "tpl",
+          "type": "element",
+          "depth": 11,
+          "preId": null,
+          "nextId": null,
+          "slotId": "641a95e6cd3c6b0921a79f2a"
+        },
+        {
+          "id": "K912",
+          "parentId": "Z618#641a95e6cd3c6b0921a79f2a",
+          "tag": "f-ec605e18",
+          "type": "component",
+          "depth": 12,
+          "preId": null,
+          "nextId": null,
+          "data": {
+            "props": [
               {
                 "propId": "646ad69dad5484c5ef631bb4",
                 "value": {
                   "type": "data",
                   "mode": "getEachData",
                   "args": {
-                    "id": "A155",
-                    "path": ["item", "646adf1e82a790c589a4b188"]
+                    "id": "S048",
+                    "path": ["item", "64776e41cb7bad36fe230409"]
                   }
                 }
               },
@@ -586,8 +636,8 @@
                   "type": "data",
                   "mode": "getEachData",
                   "args": {
-                    "id": "A155",
-                    "path": ["item", "646adf1e82a790c589a4b189"]
+                    "id": "S048",
+                    "path": ["item", "64776e41cb7bad36fe230409"]
                   }
                 }
               },
@@ -597,8 +647,8 @@
                   "type": "data",
                   "mode": "getEachData",
                   "args": {
-                    "id": "A155",
-                    "path": ["item", "646adf1f82a790c589a4b18a"]
+                    "id": "S048",
+                    "path": ["item", "64776e42cb7bad36fe23040b"]
                   }
                 }
               },
@@ -608,8 +658,8 @@
                   "type": "data",
                   "mode": "getEachData",
                   "args": {
-                    "id": "A155",
-                    "path": ["item", "646adf1f82a790c589a4b18b"]
+                    "id": "S048",
+                    "path": ["item", "64776e69cb7bad36fe23040d"]
                   }
                 }
               },
@@ -2154,7 +2204,7 @@
           "type": "element",
           "depth": 8,
           "preId": null,
-          "nextId": null,
+          "nextId": "I397",
           "data": {
             "props": [
               {
@@ -2242,6 +2292,86 @@
           "productId": "6352061254bb9b1c84ce3570"
         },
         {
+          "id": "I397",
+          "parentId": "U675#641a7052cf44f6204642b86c",
+          "tag": "rd-layout-text",
+          "type": "element",
+          "depth": 8,
+          "preId": "X804",
+          "nextId": null,
+          "data": {
+            "props": [
+              {
+                "propId": "6475ec489b148d1921d320b4",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "text-[16px]"
+                  }
+                }
+              },
+              {
+                "propId": "645c4ed08f4f2569367ebd8d",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "number",
+                    "value": 1
+                  }
+                }
+              },
+              {
+                "propId": "645c4ed08f4f2569367ebd8e",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "normal"
+                  }
+                }
+              },
+              {
+                "propId": "645c4ed08f4f2569367ebd8f",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "none"
+                  }
+                }
+              },
+              {
+                "propId": "645c51528f4f2569367ebd95",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "text",
+                    "value": "none"
+                  }
+                }
+              },
+              {
+                "propId": "645c4ece8f4f2569367ebd8a",
+                "value": {
+                  "type": "data",
+                  "mode": "getVar",
+                  "args": {
+                    "id": "646b3627f6ca4b0dda7d4d19",
+                    "path": ["646b3642f6ca4b0dda7d4d1b"]
+                  }
+                }
+              }
+            ]
+          },
+          "productId": "6358fb8554bb9b1c84ce47a2"
+        },
+        {
           "id": "E232",
           "parentId": "V193#641a7052cf44f6204642b856",
           "tag": "a-form-item",
@@ -2283,7 +2413,7 @@
           "type": "element",
           "depth": 8,
           "preId": null,
-          "nextId": null,
+          "nextId": "X147",
           "data": {
             "props": [
               {
@@ -2371,13 +2501,93 @@
           "productId": "6352061254bb9b1c84ce3570"
         },
         {
+          "id": "X147",
+          "parentId": "E232#641a7052cf44f6204642b86c",
+          "tag": "rd-layout-text",
+          "type": "element",
+          "depth": 8,
+          "preId": "T541",
+          "nextId": null,
+          "data": {
+            "props": [
+              {
+                "propId": "6475ec489b148d1921d320b4",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "text-[16px]"
+                  }
+                }
+              },
+              {
+                "propId": "645c4ed08f4f2569367ebd8d",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "number",
+                    "value": 1
+                  }
+                }
+              },
+              {
+                "propId": "645c4ed08f4f2569367ebd8e",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "normal"
+                  }
+                }
+              },
+              {
+                "propId": "645c4ed08f4f2569367ebd8f",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "none"
+                  }
+                }
+              },
+              {
+                "propId": "645c51528f4f2569367ebd95",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "text",
+                    "value": "none"
+                  }
+                }
+              },
+              {
+                "propId": "645c4ece8f4f2569367ebd8a",
+                "value": {
+                  "type": "data",
+                  "mode": "getVar",
+                  "args": {
+                    "id": "646b3627f6ca4b0dda7d4d19",
+                    "path": ["646b3642f6ca4b0dda7d4d1c"]
+                  }
+                }
+              }
+            ]
+          },
+          "productId": "6358fb8554bb9b1c84ce47a2"
+        },
+        {
           "id": "Q450",
           "parentId": "V193#641a7052cf44f6204642b856",
           "tag": "a-form-item",
           "type": "element",
           "depth": 6,
           "preId": "E232",
-          "nextId": "K430",
+          "nextId": "C277",
           "data": {
             "props": [
               {
@@ -2417,28 +2627,50 @@
           "slotId": "641a7052cf44f6204642b86c"
         },
         {
-          "id": "E238",
+          "id": "C832",
           "parentId": "Q450#641a7052cf44f6204642b86c",
-          "tag": "a-select",
+          "tag": "a-input",
           "type": "element",
           "depth": 8,
           "preId": null,
-          "nextId": "D495",
+          "nextId": null,
           "data": {
             "props": [
               {
-                "propId": "641a7052cf44f6204642b8e3",
+                "propId": "641a7052cf44f6204642b872",
                 "value": {
                   "type": "data",
                   "mode": "custom",
                   "args": {
                     "type": "option",
-                    "value": "combobox"
+                    "value": "default"
                   }
                 }
               },
               {
-                "propId": "641a7052cf44f6204642b8eb",
+                "propId": "641a7052cf44f6204642b874",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "text"
+                  }
+                }
+              },
+              {
+                "propId": "646b06ea0cba6dfc9f64b088",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "text",
+                    "value": "请输入"
+                  }
+                }
+              },
+              {
+                "propId": "641a7052cf44f6204642b875",
                 "value": {
                   "type": "data",
                   "mode": "getVar",
@@ -2447,37 +2679,14 @@
                     "path": ["646b3642f6ca4b0dda7d4d1d"]
                   }
                 }
-              },
-              {
-                "propId": "641a7052cf44f6204642b8ec",
-                "value": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "text",
-                    "value": [
-                      {
-                        "id": "",
-                        "type": "data",
-                        "modeId": "",
-                        "mode": "custom",
-                        "args": {
-                          "type": "text",
-                          "value": ""
-                        }
-                      }
-                    ],
-                    "multiple": true
-                  }
-                }
               }
             ],
             "events": [
               {
-                "eventId": "641a7052cf44f6204642b904",
+                "eventId": "641a7052cf44f6204642b87b",
                 "actions": [
                   {
-                    "id": "646b4a0a0449fa688ec623e6",
+                    "id": "646b49cd0449fa688ec623e3",
                     "modeId": "6401884418eda303abe11c41",
                     "mode": "set",
                     "name": "数据赋值",
@@ -2485,7 +2694,7 @@
                     "args": {
                       "actions": [
                         {
-                          "id": "646b4a0a0449fa688ec623e6",
+                          "id": "646b49cd0449fa688ec623e3",
                           "type": "action",
                           "modeId": "6401884418eda303abe11c41",
                           "mode": "setVar",
@@ -2496,7 +2705,8 @@
                               "type": "data",
                               "mode": "getEventData",
                               "args": {
-                                "id": "642faefafa0f4c663f442ccb"
+                                "id": "642b8a819a04dc6fabaa5d55",
+                                "path": ["642b8a909a04dc6fabaa5d56", "642be22b451c381a2ec381f7"]
                               }
                             }
                           }
@@ -2511,127 +2721,72 @@
           "productId": "6352061254bb9b1c84ce3570"
         },
         {
-          "id": "E238#641a7052cf44f6204642b905",
-          "parentId": "E238",
-          "tag": "tpl",
+          "id": "C277",
+          "parentId": "V193#641a7052cf44f6204642b856",
+          "tag": "rd-layout-text",
           "type": "element",
-          "depth": 9,
-          "preId": null,
-          "nextId": "E238#641a7052cf44f6204642b906",
-          "slotId": "641a7052cf44f6204642b905"
-        },
-        {
-          "id": "M685",
-          "parentId": "E238#641a7052cf44f6204642b905",
-          "tag": "ul",
-          "type": "element",
-          "depth": 10,
-          "preId": null,
-          "nextId": null,
-          "productId": "6352061a54bb9b1c84ce357d"
-        },
-        {
-          "id": "M685#641a95e6cd3c6b0921a79f2a",
-          "parentId": "M685",
-          "tag": "tpl",
-          "type": "element",
-          "depth": 11,
-          "preId": null,
-          "nextId": null,
-          "slotId": "641a95e6cd3c6b0921a79f2a"
-        },
-        {
-          "id": "R954",
-          "parentId": "M685#641a95e6cd3c6b0921a79f2a",
-          "tag": "each",
-          "type": "element",
-          "depth": 12,
-          "preId": null,
-          "nextId": null,
+          "depth": 6,
+          "preId": "Q450",
+          "nextId": "K430",
           "data": {
             "props": [
               {
-                "propId": "641a7052cf44f6204642b606",
+                "propId": "6475ec489b148d1921d320b4",
                 "value": {
                   "type": "data",
-                  "mode": "getApiData",
+                  "mode": "custom",
                   "args": {
-                    "id": "6469b00ac8becd52db147479",
-                    "path": ["data", "data", "646c60cc53a2810ca3a810ae"]
+                    "type": "option",
+                    "value": "text-[16px]"
                   }
                 }
-              }
-            ]
-          },
-          "productId": "6358fb8554bb9b1c84ce47a2"
-        },
-        {
-          "id": "R954#641a7052cf44f6204642b607",
-          "parentId": "R954",
-          "tag": "tpl",
-          "type": "element",
-          "depth": 13,
-          "preId": null,
-          "nextId": null,
-          "slotId": "641a7052cf44f6204642b607"
-        },
-        {
-          "id": "O333",
-          "parentId": "R954#641a7052cf44f6204642b607",
-          "tag": "li",
-          "type": "element",
-          "depth": 14,
-          "preId": null,
-          "nextId": null,
-          "productId": "6352061a54bb9b1c84ce357d"
-        },
-        {
-          "id": "O333#641a95e6cd3c6b0921a79f2a",
-          "parentId": "O333",
-          "tag": "tpl",
-          "type": "element",
-          "depth": 15,
-          "preId": null,
-          "nextId": null,
-          "slotId": "641a95e6cd3c6b0921a79f2a"
-        },
-        {
-          "id": "S733",
-          "parentId": "O333#641a95e6cd3c6b0921a79f2a",
-          "tag": "text",
-          "type": "element",
-          "depth": 16,
-          "preId": null,
-          "nextId": null,
-          "data": {
-            "props": [
+              },
               {
-                "propId": "641a7052cf44f6204642b61f",
+                "propId": "645c4ed08f4f2569367ebd8d",
                 "value": {
                   "type": "data",
-                  "mode": "getEachData",
+                  "mode": "custom",
                   "args": {
-                    "id": "R954",
-                    "path": ["item"]
+                    "type": "number",
+                    "value": 1
                   }
                 }
-              }
-            ]
-          },
-          "productId": "6358fb8554bb9b1c84ce47a2"
-        },
-        {
-          "id": "D495",
-          "parentId": "Q450#641a7052cf44f6204642b86c",
-          "tag": "text",
-          "type": "element",
-          "depth": 8,
-          "preId": "E238",
-          "nextId": null,
-          "data": {
-            "props": [
+              },
               {
-                "propId": "641a7052cf44f6204642b61f",
+                "propId": "645c4ed08f4f2569367ebd8e",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "normal"
+                  }
+                }
+              },
+              {
+                "propId": "645c4ed08f4f2569367ebd8f",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "none"
+                  }
+                }
+              },
+              {
+                "propId": "645c51528f4f2569367ebd95",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "text",
+                    "value": "none"
+                  }
+                }
+              },
+              {
+                "propId": "645c4ece8f4f2569367ebd8a",
                 "value": {
                   "type": "data",
                   "mode": "getVar",
@@ -2651,7 +2806,7 @@
           "tag": "a-form-item",
           "type": "element",
           "depth": 6,
-          "preId": "Q450",
+          "preId": "C277",
           "nextId": "Z950",
           "data": {
             "props": [
@@ -2800,6 +2955,10 @@
                     "value": "标签"
                   }
                 }
+              },
+              {
+                "propId": "641a95e6cd3c6b0921a79f28",
+                "value": "hidden"
               }
             ]
           },
@@ -2887,43 +3046,34 @@
                           "modeId": "6401884418eda303abe11c41",
                           "mode": "setVar",
                           "args": {
-                            "id": "646b4aee0449fa688ec623e9",
+                            "id": "646b3627f6ca4b0dda7d4d19",
+                            "path": ["646b3642f6ca4b0dda7d4d1e"],
                             "value": {
+                              "id": "",
                               "type": "data",
-                              "mode": "custom",
+                              "modeId": "647021e967c147480397f9a3",
+                              "mode": "insertToEnd",
                               "args": {
-                                "type": "text",
-                                "value": [
-                                  {
-                                    "id": "",
-                                    "type": "data",
-                                    "modeId": "",
-                                    "mode": "getEventData",
-                                    "args": {
-                                      "id": "642f7f986c9551f4750537bd",
-                                      "path": ["642f7fac6c9551f4750537be", "642f7fb56c9551f4750537bf"]
-                                    }
-                                  },
-                                  {
-                                    "id": "",
-                                    "type": "data",
-                                    "modeId": "",
-                                    "mode": "getVar",
-                                    "args": {
-                                      "id": "646b3627f6ca4b0dda7d4d19",
-                                      "path": ["646b3642f6ca4b0dda7d4d1a"]
-                                    }
-                                  },
-                                  {
-                                    "type": "data",
-                                    "mode": "getEventData",
-                                    "args": {
-                                      "id": "642f7f986c9551f4750537bd",
-                                      "path": ["642f7fac6c9551f4750537be", "642f7fb56c9551f4750537bf"]
-                                    }
+                                "64702205c291839adb14f5a7": {
+                                  "id": "",
+                                  "type": "data",
+                                  "modeId": "",
+                                  "mode": "getVar",
+                                  "args": {
+                                    "id": "646b3627f6ca4b0dda7d4d19",
+                                    "path": ["646b3642f6ca4b0dda7d4d1e"]
                                   }
-                                ],
-                                "multiple": true
+                                },
+                                "64702205c291839adb14f5a8": {
+                                  "id": "",
+                                  "type": "data",
+                                  "modeId": "",
+                                  "mode": "getEventData",
+                                  "args": {
+                                    "id": "642f7f986c9551f4750537bd",
+                                    "path": ["642f7fac6c9551f4750537be", "642f7fb56c9551f4750537bf"]
+                                  }
+                                }
                               }
                             }
                           }
@@ -2953,7 +3103,8 @@
                   "type": "data",
                   "mode": "getVar",
                   "args": {
-                    "id": "646b4aee0449fa688ec623e9"
+                    "id": "646b3627f6ca4b0dda7d4d19",
+                    "path": ["646b3642f6ca4b0dda7d4d1e"]
                   }
                 }
               }
@@ -3268,7 +3419,7 @@
                 "eventId": "641a7052cf44f6204642b665",
                 "actions": [
                   {
-                    "id": "646b6f203df7c26e100801a0",
+                    "id": "6476e25fed70b58015c49c6f",
                     "modeId": "6401884318eda303abe11c40",
                     "mode": "api",
                     "name": "执行业务",
@@ -3324,105 +3475,19 @@
                                   "path": ["646b3642f6ca4b0dda7d4d1c"]
                                 }
                               }
-                            },
-                            {
-                              "propId": "6469ceb8a1070c3ff8fd7859",
-                              "value": {
-                                "type": "data",
-                                "mode": "getVar",
-                                "args": {
-                                  "id": "646b3627f6ca4b0dda7d4d19",
-                                  "path": ["646b3642f6ca4b0dda7d4d1a"]
-                                }
-                              }
-                            },
-                            {
-                              "propId": "6469d07ea1070c3ff8fd785a",
-                              "value": {
-                                "type": "data",
-                                "mode": "getVar",
-                                "args": {
-                                  "id": "646b3627f6ca4b0dda7d4d19",
-                                  "path": ["646b3643f6ca4b0dda7d4d1f"]
-                                }
-                              }
-                            },
-                            {
-                              "propId": "6469d07fa1070c3ff8fd785b",
-                              "value": {
-                                "type": "data",
-                                "mode": "getVar",
-                                "args": {
-                                  "id": "646b3627f6ca4b0dda7d4d19",
-                                  "path": ["646b3642f6ca4b0dda7d4d1b"]
-                                }
-                              }
-                            },
-                            {
-                              "propId": "6469d07fa1070c3ff8fd785c",
-                              "value": {
-                                "type": "data",
-                                "mode": "getVar",
-                                "args": {
-                                  "id": "646b3627f6ca4b0dda7d4d19",
-                                  "path": ["646b3642f6ca4b0dda7d4d1c"]
-                                }
-                              }
-                            },
-                            {
-                              "propId": "6469d080a1070c3ff8fd785d",
-                              "value": {
-                                "type": "data",
-                                "mode": "getVar",
-                                "args": {
-                                  "id": "646b3627f6ca4b0dda7d4d19",
-                                  "path": ["646b3642f6ca4b0dda7d4d1d"]
-                                }
-                              }
-                            },
-                            {
-                              "propId": "6469d081a1070c3ff8fd785e",
-                              "value": {
-                                "type": "data",
-                                "mode": "getVar",
-                                "args": {
-                                  "id": "646b3627f6ca4b0dda7d4d19",
-                                  "path": ["646b3642f6ca4b0dda7d4d1e"]
-                                }
-                              }
                             }
                           ]
                         }
                       },
                       "success": [
                         {
-                          "id": "646b6fb43df7c26e100801a6",
+                          "id": "6476e287ed70b58015c49c71",
                           "modeId": "6401884318eda303abe11c40",
                           "mode": "api",
                           "name": "执行业务",
                           "type": "action",
                           "args": {
-                            "id": "6469b037c8becd52db1474c1",
-                            "success": [
-                              {
-                                "id": "64739610a2db3d7ec12385cd",
-                                "modeId": "64449e64ad342e0014ed328a",
-                                "mode": "message.success",
-                                "name": "成功消息提示",
-                                "type": "action",
-                                "args": {
-                                  "64449e7dc6443a3ec17428da": {
-                                    "type": "data",
-                                    "mode": "custom",
-                                    "args": {
-                                      "type": "text",
-                                      "value": "aaa"
-                                    }
-                                  }
-                                }
-                              }
-                            ],
-                            "fail": []
+                            "id": "6469b037c8becd52db1474c1"
                           }
                         }
                       ],
@@ -3517,6 +3582,15 @@
             {
               "type": "module",
               "multiple": true,
+              "default": {
+                "type": "data",
+                "mode": "custom",
+                "args": {
+                  "type": "module",
+                  "value": [],
+                  "multiple": true
+                }
+              },
               "ui": {
                 "tag": ""
               },
@@ -3663,6 +3737,27 @@
           "types": [
             {
               "type": "module",
+              "default": {
+                "type": "data",
+                "mode": "custom",
+                "args": {
+                  "type": "module",
+                  "value": [
+                    {
+                      "propId": "646b3642f6ca4b0dda7d4d1e",
+                      "value": {
+                        "type": "data",
+                        "mode": "custom",
+                        "args": {
+                          "type": "text",
+                          "value": [],
+                          "multiple": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
               "ui": {
                 "tag": ""
               },
@@ -3731,7 +3826,7 @@
                         "type": "text",
                         "multiple": true,
                         "ui": {
-                          "tag": "textarea"
+                          "tag": ""
                         }
                       }
                     ],
@@ -3756,20 +3851,74 @@
           "id": "646b3627f6ca4b0dda7d4d19"
         },
         {
-          "name": "标签组",
+          "name": "标签数组111",
           "types": [
             {
               "type": "text",
               "multiple": true,
+              "default": {
+                "type": "data",
+                "mode": "custom",
+                "args": {
+                  "type": "text",
+                  "value": [
+                    {
+                      "type": "data",
+                      "mode": "custom",
+                      "args": {
+                        "type": "text",
+                        "value": "11111111"
+                      }
+                    },
+                    {
+                      "type": "data",
+                      "mode": "custom",
+                      "args": {
+                        "type": "text",
+                        "value": "2222222"
+                      }
+                    }
+                  ],
+                  "multiple": true
+                }
+              },
               "ui": {
                 "tag": ""
               }
             }
           ],
-          "id": "646b4aee0449fa688ec623e9"
+          "id": "6476c36bd0be68755d835915"
+        },
+        {
+          "name": "inputValue",
+          "types": [
+            {
+              "type": "text",
+              "ui": {
+                "tag": ""
+              }
+            }
+          ],
+          "id": "6476dbde1ad2789ed5781293"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "eventId": "641a95e7cd3c6b0921a79f2b",
+          "actions": [
+            {
+              "id": "64777098c78b207bfb162310",
+              "modeId": "6401884318eda303abe11c40",
+              "mode": "api",
+              "name": "执行业务",
+              "type": "action",
+              "args": {
+                "id": "6469b037c8becd52db1474c1"
+              }
+            }
+          ]
+        }
+      ],
       "classes": [],
       "flowcharts": [
         "6476af5a3e7d42b825c37889",
@@ -6405,6 +6554,14 @@
             "types": [
               {
                 "type": "text",
+                "default": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "text",
+                    "value": "文本"
+                  }
+                },
                 "ui": {
                   "props": [
                     {
@@ -6431,7 +6588,7 @@
                   "mode": "custom",
                   "args": {
                     "type": "option",
-                    "value": "p"
+                    "value": "span"
                   }
                 },
                 "ui": {
@@ -6464,21 +6621,101 @@
                       "value": "h6"
                     },
                     {
-                      "label": " 段落文本 p",
+                      "label": "段落文本P",
                       "value": "p"
                     },
                     {
-                      "label": "行内文本 span",
+                      "label": "行内文本span",
                       "value": "span"
                     }
                   ]
                 }
               }
             ],
-            "id": "6459f8772cf2506d13822070",
-            "extendPlatform": true,
-            "key": "levels",
-            "desc": "文字对应的层级"
+            "id": "6476bc22f530ad33d28c6684",
+            "key": "level"
+          },
+          {
+            "name": "文字大小",
+            "types": [
+              {
+                "type": "option",
+                "multiple": false,
+                "default": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "text-[16px]"
+                  }
+                },
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "12px",
+                      "value": "text-[12px]"
+                    },
+                    {
+                      "label": "14px",
+                      "value": "text-[14px]"
+                    },
+                    {
+                      "label": "16px",
+                      "value": "text-[16px]"
+                    },
+                    {
+                      "label": "18px",
+                      "value": "text-[18px]"
+                    },
+                    {
+                      "label": "20px",
+                      "value": "text-[20px]"
+                    },
+                    {
+                      "label": "24px",
+                      "value": "text-[24px]"
+                    },
+                    {
+                      "label": "30px",
+                      "value": "text-[30px]"
+                    },
+                    {
+                      "label": "36px",
+                      "value": "text-[36px]"
+                    },
+                    {
+                      "label": "40px",
+                      "value": "text-[40px]"
+                    },
+                    {
+                      "label": "48px",
+                      "value": "text-[48px]"
+                    },
+                    {
+                      "label": "60px",
+                      "value": "text-[60px]"
+                    },
+                    {
+                      "label": "72px",
+                      "value": "text-[72px]"
+                    },
+                    {
+                      "label": "96px",
+                      "value": "text-[96px]"
+                    },
+                    {
+                      "label": "128px",
+                      "value": "text-[128px]"
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "6476bc22f530ad33d28c6685",
+            "key": "fontSize"
           },
           {
             "name": "字重",
@@ -6520,7 +6757,7 @@
                       "value": "medium"
                     },
                     {
-                      "label": "加粗",
+                      "label": "半粗",
                       "value": "semibold"
                     },
                     {
@@ -6539,10 +6776,8 @@
                 }
               }
             ],
-            "id": "6459fa352cf2506d13822073",
-            "extendPlatform": true,
-            "key": "fontWeight",
-            "desc": "字体粗细"
+            "id": "6476bc22f530ad33d28c6688",
+            "key": "fontWeight"
           },
           {
             "name": "行高",
@@ -6564,7 +6799,7 @@
                 "rules": {
                   "items": [
                     {
-                      "label": "无",
+                      "label": "默认",
                       "value": "none"
                     },
                     {
@@ -6576,7 +6811,7 @@
                       "value": "snug"
                     },
                     {
-                      "label": "正常",
+                      "label": "常规",
                       "value": "normal"
                     },
                     {
@@ -6591,61 +6826,8 @@
                 }
               }
             ],
-            "id": "6459fdab2cf2506d13822074",
-            "extendPlatform": true,
-            "key": "lineheight",
-            "desc": "字体的行高"
-          },
-          {
-            "name": "字符间距",
-            "types": [
-              {
-                "type": "option",
-                "multiple": false,
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "option",
-                    "value": "normal"
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                },
-                "rules": {
-                  "items": [
-                    {
-                      "label": "极窄",
-                      "value": "tighter"
-                    },
-                    {
-                      "label": "窄",
-                      "value": "tight"
-                    },
-                    {
-                      "label": "常规",
-                      "value": "normal"
-                    },
-                    {
-                      "label": "宽",
-                      "value": "wide"
-                    },
-                    {
-                      "label": "较宽",
-                      "value": "wider"
-                    },
-                    {
-                      "label": "极宽",
-                      "value": "widest"
-                    }
-                  ]
-                }
-              }
-            ],
-            "id": "645a003b2cf2506d13822075",
-            "extendPlatform": true,
-            "key": "letterSpace"
+            "id": "6476bc22f530ad33d28c6689",
+            "key": "lineHeight"
           },
           {
             "name": "对齐方式",
@@ -6686,50 +6868,61 @@
                 }
               }
             ],
-            "id": "645a01602cf2506d13822076",
-            "extendPlatform": true,
+            "id": "6476bc23f530ad33d28c668a",
             "key": "textAlign"
           },
           {
-            "name": "溢出省略",
+            "name": "字符间距",
             "types": [
               {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "6459f9e02cf2506d13822071",
-            "extendPlatform": true,
-            "key": "textOverflow",
-            "desc": "超过设置的最大行数后，则显示省略号"
-          },
-          {
-            "name": "最大行数",
-            "types": [
-              {
-                "type": "number",
+                "type": "option",
+                "multiple": false,
                 "default": {
                   "type": "data",
                   "mode": "custom",
                   "args": {
-                    "type": "number",
-                    "value": 1
+                    "type": "option",
+                    "value": "normal"
                   }
                 },
                 "ui": {
                   "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "极窄",
+                      "value": "tighter"
+                    },
+                    {
+                      "label": "较窄",
+                      "value": "tight"
+                    },
+                    {
+                      "label": "常规",
+                      "value": "normal"
+                    },
+                    {
+                      "label": "宽松",
+                      "value": "wide"
+                    },
+                    {
+                      "label": "较宽",
+                      "value": "wider"
+                    },
+                    {
+                      "label": "极宽",
+                      "value": "widest"
+                    }
+                  ]
                 }
               }
             ],
-            "id": "6459fa1a2cf2506d13822072",
-            "extendPlatform": true,
-            "key": "line",
-            "desc": ""
+            "id": "6476bc23f530ad33d28c668b",
+            "key": "letterSpace"
           },
           {
-            "name": "字体倾斜",
+            "name": "倾斜",
             "types": [
               {
                 "type": "whether",
@@ -6738,17 +6931,14 @@
                 }
               }
             ],
-            "id": "645a01b52cf2506d13822077",
-            "extendPlatform": true,
-            "key": "italic",
-            "desc": ""
+            "id": "6476bc23f530ad33d28c668c",
+            "key": "italic"
           },
           {
             "name": "文本装饰",
             "types": [
               {
                 "type": "option",
-                "multiple": false,
                 "default": {
                   "type": "data",
                   "mode": "custom",
@@ -6763,10 +6953,6 @@
                 "rules": {
                   "items": [
                     {
-                      "label": "无装饰",
-                      "value": "no-underline"
-                    },
-                    {
                       "label": "下划线",
                       "value": "underline"
                     },
@@ -6777,15 +6963,17 @@
                     {
                       "label": "删除线",
                       "value": "line-through"
+                    },
+                    {
+                      "label": "无装饰",
+                      "value": "no-underline"
                     }
                   ]
                 }
               }
             ],
-            "id": "645a01ef2cf2506d13822078",
-            "extendPlatform": true,
-            "key": "textDecoration",
-            "desc": ""
+            "id": "6476bc23f530ad33d28c668d",
+            "key": "textDecoration"
           },
           {
             "name": "文本转换",
@@ -6807,84 +6995,27 @@
                 "rules": {
                   "items": [
                     {
-                      "label": "默认",
-                      "value": "normal-case"
-                    },
-                    {
-                      "label": "大写文本",
+                      "label": "大写",
                       "value": "uppercase"
                     },
                     {
-                      "label": "小写文本",
+                      "label": "小写",
                       "value": "lowercase"
                     },
                     {
-                      "label": "标题大写",
+                      "label": "首字母大些",
                       "value": "capitalize"
+                    },
+                    {
+                      "label": "保留大小写",
+                      "value": "normal-case"
                     }
                   ]
                 }
               }
             ],
-            "id": "645a02442cf2506d13822079",
-            "extendPlatform": true,
+            "id": "6476bc23f530ad33d28c668e",
             "key": "textTransform"
-          },
-          {
-            "name": "首行缩进",
-            "types": [
-              {
-                "type": "option",
-                "multiple": false,
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "option",
-                    "value": "indent-0"
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                },
-                "rules": {
-                  "items": [
-                    {
-                      "label": "不缩进",
-                      "value": "indent-0"
-                    },
-                    {
-                      "label": "1px",
-                      "value": "indent-px"
-                    },
-                    {
-                      "label": "2px",
-                      "value": "indent-0.5"
-                    },
-                    {
-                      "label": "4px",
-                      "value": "indent-1"
-                    },
-                    {
-                      "label": "6px",
-                      "value": "indent-1.5"
-                    },
-                    {
-                      "label": "8px",
-                      "value": "indent-2"
-                    },
-                    {
-                      "label": "12px",
-                      "value": "indent-3"
-                    }
-                  ]
-                }
-              }
-            ],
-            "id": "645a02bf2cf2506d1382207a",
-            "extendPlatform": true,
-            "key": "textIndent",
-            "desc": ""
           },
           {
             "name": "可被选中",
@@ -6896,9 +7027,72 @@
                 }
               }
             ],
-            "id": "645a04f02cf2506d1382207b",
-            "extendPlatform": true,
+            "id": "6476c12df530ad33d28c6690",
             "key": "allowSelect"
+          },
+          {
+            "name": "显示",
+            "types": [
+              {
+                "type": "option",
+                "multiple": false,
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "默认",
+                      "value": "normal"
+                    },
+                    {
+                      "label": "隐藏(占位)",
+                      "value": "hidden"
+                    },
+                    {
+                      "label": "隐藏(不占位)",
+                      "value": "none"
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "6476c137f530ad33d28c6691",
+            "key": "display"
+          },
+          {
+            "name": "溢出省略",
+            "types": [
+              {
+                "type": "whether",
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "6476bc22f530ad33d28c6686",
+            "key": "textOverflow"
+          },
+          {
+            "name": "最大行数",
+            "types": [
+              {
+                "type": "number",
+                "default": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "number",
+                    "value": 1
+                  }
+                },
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "6476bc22f530ad33d28c6687",
+            "key": "line"
           }
         ]
       }
@@ -12289,26 +12483,49 @@
       "classes": []
     },
     {
-      "productId": "6352061254bb9b1c84ce3570",
-      "id": "613ecb25af722dc29c7fc3bb",
-      "name": "Select 选择器",
+      "productId": "6358fb8554bb9b1c84ce47a2",
+      "id": "645c4ecae94e7d605e79d709",
+      "name": "文本 new",
       "type": "element",
-      "tag": "a-select",
-      "nodes": [],
+      "tag": "rd-layout-text",
       "events": [],
       "spec": {
         "props": [
           {
-            "name": "选择框大小",
+            "name": "内容",
+            "types": [
+              {
+                "type": "text",
+                "default": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "text",
+                    "value": "文本"
+                  }
+                },
+                "ui": {
+                  "tag": "textarea"
+                }
+              }
+            ],
+            "id": "645c4ece8f4f2569367ebd8a",
+            "extendPlatform": true,
+            "key": "value",
+            "desc": ""
+          },
+          {
+            "name": "文字层级",
             "types": [
               {
                 "type": "option",
+                "multiple": false,
                 "default": {
                   "type": "data",
                   "mode": "custom",
                   "args": {
                     "type": "option",
-                    "value": "default"
+                    "value": "span"
                   }
                 },
                 "ui": {
@@ -12317,94 +12534,129 @@
                 "rules": {
                   "items": [
                     {
-                      "label": "大",
-                      "value": "large"
+                      "label": "标题H1",
+                      "value": "h1"
                     },
                     {
-                      "label": "小",
-                      "value": "small"
+                      "label": "标题H2",
+                      "value": "h2"
                     },
                     {
-                      "label": "默认",
-                      "value": "default"
+                      "label": "标题H3",
+                      "value": "h3"
+                    },
+                    {
+                      "label": "标题H4",
+                      "value": "h4"
+                    },
+                    {
+                      "label": "标题H5",
+                      "value": "h5"
+                    },
+                    {
+                      "label": "标题H6",
+                      "value": "h6"
+                    },
+                    {
+                      "label": "段落文本p",
+                      "value": "p"
+                    },
+                    {
+                      "label": "行内文本span",
+                      "value": "span"
                     }
                   ]
                 }
               }
             ],
-            "id": "641a7052cf44f6204642b8e9",
-            "key": "size",
-            "desc": "选择框大小，可选 large small"
+            "id": "645c4ed08f4f2569367ebd8b",
+            "extendPlatform": true,
+            "key": "level"
           },
           {
-            "name": "标签模式",
+            "name": "文字大小",
             "types": [
               {
                 "type": "option",
+                "multiple": false,
+                "default": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "text-[16px]"
+                  }
+                },
                 "ui": {
                   "tag": ""
                 },
                 "rules": {
                   "items": [
                     {
-                      "label": "多选",
-                      "value": "multiple"
+                      "label": "12px",
+                      "value": "text-[12px]"
                     },
                     {
-                      "label": "标签",
-                      "value": "tags"
+                      "label": "14px",
+                      "value": "text-[14px]"
                     },
                     {
-                      "label": "下拉框",
-                      "value": "combobox"
+                      "label": "16px",
+                      "value": "text-[16px]"
+                    },
+                    {
+                      "label": "18px",
+                      "value": "text-[18px]"
+                    },
+                    {
+                      "label": "20px",
+                      "value": "text-[20px]"
+                    },
+                    {
+                      "label": "24px",
+                      "value": "text-[24px]"
+                    },
+                    {
+                      "label": "30px",
+                      "value": "text-[30px]"
+                    },
+                    {
+                      "label": "36px",
+                      "value": "text-[36px]"
+                    },
+                    {
+                      "label": "40px",
+                      "value": "text-[40px]"
+                    },
+                    {
+                      "label": "48px",
+                      "value": "text-[48px]"
+                    },
+                    {
+                      "label": "60px",
+                      "value": "text-[60px]"
+                    },
+                    {
+                      "label": "72px",
+                      "value": "text-[72px]"
+                    },
+                    {
+                      "label": "96px",
+                      "value": "text-[96px]"
+                    },
+                    {
+                      "label": "128px",
+                      "value": "text-[128px]"
                     }
                   ]
                 }
               }
             ],
-            "id": "641a7052cf44f6204642b8e3",
-            "key": "mode",
-            "desc": "设置 Select 的模式为多选或标签"
+            "id": "6475ec489b148d1921d320b4",
+            "key": "fontSize"
           },
           {
-            "name": "边框",
-            "types": [
-              {
-                "type": "whether",
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "whether",
-                    "value": true
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8d6",
-            "key": "bordered",
-            "desc": "是否有边框"
-          },
-          {
-            "name": "默认提示",
-            "types": [
-              {
-                "type": "text",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8ef",
-            "key": "placeholder",
-            "default": "请选择...",
-            "desc": "选择框默认文字"
-          },
-          {
-            "name": "下拉菜单同宽",
+            "name": "溢出省略",
             "types": [
               {
                 "type": "whether",
@@ -12413,264 +12665,12 @@
                 }
               }
             ],
-            "id": "641a7052cf44f6204642b8da",
-            "key": "dropdownMatchSelectWidth",
-            "desc": "下拉菜单和选择器同宽"
+            "id": "645c4ed08f4f2569367ebd8c",
+            "extendPlatform": true,
+            "key": "textOverflow"
           },
           {
-            "name": "清除",
-            "types": [
-              {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8d3",
-            "key": "allowClear",
-            "desc": "支持清除"
-          },
-          {
-            "name": "选中清除",
-            "types": [
-              {
-                "type": "whether",
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "whether",
-                    "value": true
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8d4",
-            "key": "autoClearSearchValue",
-            "desc": "是否在选中项后清空搜索框，只在 mode 为 multiple 或 tags 时有效。"
-          },
-          {
-            "name": "获取焦点",
-            "types": [
-              {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8d5",
-            "key": "autofocus",
-            "desc": "默认获取焦点"
-          },
-          {
-            "name": "高亮第一项",
-            "types": [
-              {
-                "type": "whether",
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "whether",
-                    "value": true
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8d7",
-            "key": "defaultActiveFirstOption",
-            "desc": "默认高亮"
-          },
-          {
-            "name": "默认展开下拉",
-            "types": [
-              {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8ed",
-            "key": "defaultOpen",
-            "desc": "是否默认展开下拉菜单"
-          },
-          {
-            "name": "禁用",
-            "types": [
-              {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8d8",
-            "key": "disabled",
-            "desc": "是否禁用"
-          },
-          {
-            "name": "下拉菜单样式",
-            "types": [
-              {
-                "type": "text",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8d9",
-            "key": "dropdownClassName",
-            "desc": "下拉菜单的 className 属性"
-          },
-          {
-            "name": "自定义字段",
-            "types": [
-              {
-                "type": "module",
-                "ui": {
-                  "tag": ""
-                },
-                "rules": {
-                  "properties": [
-                    {
-                      "name": "标签",
-                      "types": [
-                        {
-                          "type": "text",
-                          "default": {
-                            "type": "data",
-                            "mode": "custom",
-                            "args": {
-                              "type": "text",
-                              "value": "label"
-                            }
-                          },
-                          "ui": {
-                            "tag": ""
-                          }
-                        }
-                      ],
-                      "id": "6470704cb5588c02a0b80c9d",
-                      "key": "label"
-                    },
-                    {
-                      "name": "值",
-                      "types": [
-                        {
-                          "type": "text",
-                          "default": {
-                            "type": "data",
-                            "mode": "custom",
-                            "args": {
-                              "type": "text",
-                              "value": "vakue"
-                            }
-                          },
-                          "ui": {
-                            "tag": ""
-                          }
-                        }
-                      ],
-                      "id": "6470704cb5588c02a0b80c9e",
-                      "key": "vakue",
-                      "desc": ""
-                    },
-                    {
-                      "name": "选项",
-                      "types": [
-                        {
-                          "type": "text",
-                          "default": {
-                            "type": "data",
-                            "mode": "custom",
-                            "args": {
-                              "type": "text",
-                              "value": "options"
-                            }
-                          },
-                          "ui": {
-                            "tag": ""
-                          }
-                        }
-                      ],
-                      "id": "6470704db5588c02a0b80c9f",
-                      "key": "options"
-                    }
-                  ]
-                }
-              }
-            ],
-            "id": "64707032b5588c02a0b80c9c",
-            "key": "fieldNames"
-          },
-          {
-            "name": "根据输入项筛选",
-            "types": [
-              {
-                "type": "whether",
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "whether",
-                    "value": true
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "filterOption",
-            "key": "filterOption",
-            "desc": "是否根据输入项进行筛选。当其为一个函数时，会接收 inputValue option 两个参数，当 option 符合筛选条件时，应返回 true，反之则返回 false。"
-          },
-          {
-            "name": "默认高亮选项",
-            "types": [
-              {
-                "type": "text",
-                "ui": {
-                  "tag": ""
-                }
-              },
-              {
-                "type": "text",
-                "multiple": true,
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8de",
-            "key": "firstActiveValue",
-            "desc": "默认高亮的选项"
-          },
-          {
-            "name": "包含选项的值和标签",
-            "types": [
-              {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8df",
-            "key": "labelInValue",
-            "desc": "\t是否把每个选项的 label 包装到 value 中，会把 Select 的 value 类型从 "
-          },
-          {
-            "name": "弹窗滚动高度",
+            "name": "最大行数",
             "types": [
               {
                 "type": "number",
@@ -12679,197 +12679,309 @@
                   "mode": "custom",
                   "args": {
                     "type": "number",
-                    "value": 256
+                    "value": 1
                   }
                 },
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8f3",
-            "key": "listHeight",
-            "default": 256,
-            "desc": "设置弹窗滚动高度"
-          },
-          {
-            "name": "最大标签数",
-            "types": [
-              {
-                "type": "number",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8e0",
-            "key": "maxTagCount",
-            "desc": "最多显示多少个 tag"
-          },
-          {
-            "name": "标签最大长度",
-            "types": [
-              {
-                "type": "number",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8e2",
-            "key": "maxTagTextLength",
-            "desc": "最大显示的 tag 文本长度"
-          },
-          {
-            "name": "下拉为空提示",
-            "types": [
-              {
-                "type": "text",
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "text",
-                    "value": "Not Found"
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8e4",
-            "key": "notFoundContent",
-            "desc": "当下拉列表为空时显示的内容"
-          },
-          {
-            "name": "展开下拉菜单",
-            "types": [
-              {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8ee",
-            "key": "open",
-            "desc": "是否展开下拉菜单"
-          },
-          {
-            "name": "搜索时过滤选项",
-            "types": [
-              {
-                "type": "text",
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "text",
-                    "value": "value"
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8e5",
-            "key": "optionFilterProp",
-            "desc": "搜索时过滤对应的 option 属性，不支持 children"
-          },
-          {
-            "name": "回填选项属性值",
-            "types": [
-              {
-                "type": "text",
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "text",
-                    "value": "children "
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8e6",
-            "key": "optionLabelProp",
-            "desc": "回填到选择框的 Option 的属性值，默认是 Option 的子元素。比如在子元素需要高亮效果时，此值可以设为 value。"
-          },
-          {
-            "name": "选项数据",
-            "types": [
-              {
-                "type": "module",
-                "multiple": true,
                 "ui": {
                   "tag": ""
                 },
                 "rules": {
-                  "properties": [
+                  "maxPrecision": null
+                }
+              }
+            ],
+            "id": "645c4ed08f4f2569367ebd8d",
+            "extendPlatform": true,
+            "key": "line"
+          },
+          {
+            "name": "字重",
+            "types": [
+              {
+                "type": "option",
+                "multiple": false,
+                "default": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "normal"
+                  }
+                },
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
                     {
-                      "name": "值",
-                      "types": [
-                        {
-                          "type": "text",
-                          "ui": {
-                            "tag": ""
-                          }
-                        }
-                      ],
-                      "id": "647074b9b5588c02a0b80ca1",
-                      "key": "value"
+                      "label": "thin",
+                      "value": "thin"
                     },
                     {
-                      "name": "显示文本",
-                      "types": [
-                        {
-                          "type": "text",
-                          "ui": {
-                            "tag": ""
-                          }
-                        }
-                      ],
-                      "id": "647074b9b5588c02a0b80ca2",
-                      "key": "label"
+                      "label": "extralight",
+                      "value": "extralight"
+                    },
+                    {
+                      "label": "light",
+                      "value": "light"
+                    },
+                    {
+                      "label": "normal",
+                      "value": "normal"
+                    },
+                    {
+                      "label": "medium",
+                      "value": "medium"
+                    },
+                    {
+                      "label": "semibold",
+                      "value": "semibold"
+                    },
+                    {
+                      "label": "bold",
+                      "value": "bold"
+                    },
+                    {
+                      "label": "extrabold",
+                      "value": "extrabold"
+                    },
+                    {
+                      "label": "black",
+                      "value": "black"
                     }
                   ]
                 }
               }
             ],
-            "id": "641a7052cf44f6204642b8ec",
-            "key": "options",
-            "desc": "options 数据，如果设置则不需要手动构造 selectOption 节点"
+            "id": "645c4ed08f4f2569367ebd8e",
+            "extendPlatform": true,
+            "key": "fontWeight",
+            "desc": ""
           },
           {
-            "name": "搜索文本",
+            "name": "行高",
             "types": [
               {
-                "type": "text",
+                "type": "option",
+                "multiple": false,
+                "default": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "none"
+                  }
+                },
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "none",
+                      "value": "none"
+                    },
+                    {
+                      "label": "tight",
+                      "value": "tight"
+                    },
+                    {
+                      "label": "snug",
+                      "value": "snug"
+                    },
+                    {
+                      "label": "normal",
+                      "value": "normal"
+                    },
+                    {
+                      "label": "relaxed",
+                      "value": "relaxed"
+                    },
+                    {
+                      "label": "loose",
+                      "value": "loose"
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "645c4ed08f4f2569367ebd8f",
+            "extendPlatform": true,
+            "key": "lineHeight"
+          },
+          {
+            "name": "对齐方式",
+            "types": [
+              {
+                "type": "option",
+                "multiple": false,
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "左对齐",
+                      "value": "left"
+                    },
+                    {
+                      "label": "居中对齐",
+                      "value": "center"
+                    },
+                    {
+                      "label": "右对齐",
+                      "value": "right"
+                    },
+                    {
+                      "label": "两端对齐",
+                      "value": "justify"
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "645c4ed18f4f2569367ebd90",
+            "extendPlatform": true,
+            "key": "textAlign"
+          },
+          {
+            "name": "字符间距",
+            "types": [
+              {
+                "type": "option",
+                "multiple": false,
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "极窄",
+                      "value": "tighter"
+                    },
+                    {
+                      "label": "窄",
+                      "value": "tight"
+                    },
+                    {
+                      "label": "常规",
+                      "value": "normal"
+                    },
+                    {
+                      "label": "'宽",
+                      "value": "wide"
+                    },
+                    {
+                      "label": "较宽",
+                      "value": "wider"
+                    },
+                    {
+                      "label": "极宽",
+                      "value": "widest"
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "645c4ed18f4f2569367ebd91",
+            "extendPlatform": true,
+            "key": "letterSpace"
+          },
+          {
+            "name": "倾斜",
+            "types": [
+              {
+                "type": "whether",
                 "ui": {
                   "tag": ""
                 }
               }
             ],
-            "id": "641a7052cf44f6204642b8fa",
-            "key": "searchValue",
-            "desc": "控制搜索文本"
+            "id": "645c51518f4f2569367ebd92",
+            "extendPlatform": true,
+            "key": "italic"
           },
           {
-            "name": "显示箭头",
+            "name": "文本装饰",
             "types": [
               {
-                "type": "whether",
+                "type": "option",
+                "multiple": false,
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "下划线",
+                      "value": "underline"
+                    },
+                    {
+                      "label": "上划线",
+                      "value": "overline"
+                    },
+                    {
+                      "label": "删除线",
+                      "value": "line-through"
+                    },
+                    {
+                      "label": "无装饰",
+                      "value": "no-underline"
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "645c51518f4f2569367ebd93",
+            "extendPlatform": true,
+            "key": "textDecoration"
+          },
+          {
+            "name": "文本转换",
+            "types": [
+              {
+                "type": "option",
+                "multiple": false,
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "默认",
+                      "value": "normal-case"
+                    },
+                    {
+                      "label": "大写文本",
+                      "value": "uppercase"
+                    },
+                    {
+                      "label": "小写文本",
+                      "value": "lowercase"
+                    },
+                    {
+                      "label": "标题大写",
+                      "value": "capitalize"
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "645c51528f4f2569367ebd94",
+            "extendPlatform": true,
+            "key": "textTransform"
+          },
+          {
+            "name": "文本缩进",
+            "types": [
+              {
+                "type": "text",
                 "default": {
                   "type": "data",
                   "mode": "custom",
                   "args": {
-                    "type": "whether",
-                    "value": true
+                    "type": "text",
+                    "value": "none"
                   }
                 },
                 "ui": {
@@ -12877,12 +12989,12 @@
                 }
               }
             ],
-            "id": "641a7052cf44f6204642b8e8",
-            "key": "showArrow",
-            "desc": "是否显示下拉小箭头"
+            "id": "645c51528f4f2569367ebd95",
+            "extendPlatform": true,
+            "key": "textIndent"
           },
           {
-            "name": "多选可搜索",
+            "name": "选中",
             "types": [
               {
                 "type": "whether",
@@ -12891,451 +13003,44 @@
                 }
               }
             ],
-            "id": "641a7052cf44f6204642b8e7",
-            "key": "showSearch",
-            "desc": "单选可搜索"
+            "id": "645c51538f4f2569367ebd96",
+            "extendPlatform": true,
+            "key": "allowSelect"
           },
           {
-            "name": "分隔符",
+            "name": "显示",
             "types": [
               {
-                "type": "text",
-                "multiple": true,
+                "type": "option",
+                "multiple": false,
                 "ui": {
                   "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8ea",
-            "key": "tokenSeparators",
-            "desc": "在 tags 和 multiple 模式下自动分词的分隔符"
-          },
-          {
-            "name": "当前选中",
-            "types": [
-              {
-                "type": "text",
-                "ui": {
-                  "tag": ""
-                }
-              },
-              {
-                "type": "text",
-                "multiple": true,
-                "ui": {
-                  "tag": ""
-                }
-              },
-              {
-                "type": "number",
-                "ui": {
-                  "tag": ""
-                }
-              },
-              {
-                "type": "number",
-                "multiple": true,
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7052cf44f6204642b8eb",
-            "key": "value",
-            "desc": "指定当前选中的条目"
-          },
-          {
-            "name": "虚拟滚动",
-            "types": [
-              {
-                "type": "whether",
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "whether",
-                    "value": true
-                  }
                 },
-                "ui": {
-                  "tag": ""
+                "rules": {
+                  "items": [
+                    {
+                      "label": "默认",
+                      "value": "normal"
+                    },
+                    {
+                      "label": "隐藏（占位）",
+                      "value": "hidden"
+                    },
+                    {
+                      "label": "隐藏（不占位）",
+                      "value": "none"
+                    }
+                  ]
                 }
               }
             ],
-            "id": "641a7052cf44f6204642b8f9",
-            "key": "virtual",
-            "default": true,
-            "desc": "设置 false 时关闭虚拟滚动"
+            "id": "645c51548f4f2569367ebd97",
+            "extendPlatform": true,
+            "key": "display"
           }
         ],
-        "events": [
-          {
-            "key": "change",
-            "name": "选中选项/输入值改变",
-            "parameters": [
-              {
-                "name": "值",
-                "types": [
-                  {
-                    "type": "text"
-                  }
-                ],
-                "id": "642fb3abfa0f4c663f442cd3",
-                "key": "value"
-              },
-              {
-                "name": "选项",
-                "types": [
-                  {
-                    "type": "module",
-                    "multiple": true,
-                    "rules": {
-                      "properties": [
-                        {
-                          "name": "值",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb3d8fa0f4c663f442cd5",
-                          "key": "value"
-                        },
-                        {
-                          "name": "标签",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb3d9fa0f4c663f442cd6",
-                          "key": "label"
-                        },
-                        {
-                          "name": "禁用",
-                          "types": [
-                            {
-                              "type": "whether"
-                            }
-                          ],
-                          "id": "642fb3d9fa0f4c663f442cd7",
-                          "key": "disabled"
-                        },
-                        {
-                          "name": "标识",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb3d9fa0f4c663f442cd8",
-                          "key": "key"
-                        },
-                        {
-                          "name": "标题",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb3d9fa0f4c663f442cd9",
-                          "key": "title"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "id": "642fb3b5fa0f4c663f442cd4",
-                "key": "option"
-              }
-            ],
-            "id": "641a7052cf44f6204642b8fb",
-            "desc": "选中 option，或 input 的 value 变化时，调用此函数"
-          },
-          {
-            "key": "select",
-            "name": "被选中",
-            "parameters": [
-              {
-                "name": "值",
-                "types": [
-                  {
-                    "type": "text"
-                  }
-                ],
-                "id": "642fb4d5fa0f4c663f442ce2",
-                "key": "value"
-              },
-              {
-                "name": "选项值",
-                "types": [
-                  {
-                    "type": "module",
-                    "rules": {
-                      "properties": [
-                        {
-                          "name": "值",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb4f5fa0f4c663f442ce5",
-                          "key": "value"
-                        },
-                        {
-                          "name": "标签",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb4f5fa0f4c663f442ce6",
-                          "key": "label"
-                        },
-                        {
-                          "name": "禁用",
-                          "types": [
-                            {
-                              "type": "whether"
-                            }
-                          ],
-                          "id": "642fb4f5fa0f4c663f442ce7",
-                          "key": "disabled"
-                        },
-                        {
-                          "name": "标识",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb4f6fa0f4c663f442ce8",
-                          "key": "key"
-                        },
-                        {
-                          "name": "标题",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb4f6fa0f4c663f442ce9",
-                          "key": "title"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "id": "642fb4d5fa0f4c663f442ce3",
-                "key": "option"
-              }
-            ],
-            "id": "641a7052cf44f6204642b8fc",
-            "desc": "被选中时调用，参数为选中项的 value (或 key) 值"
-          },
-          {
-            "key": "blur",
-            "name": "失去焦点",
-            "id": "641a7052cf44f6204642b8fd",
-            "desc": "失去焦点的时回调"
-          },
-          {
-            "key": "deselect",
-            "name": "取消选中",
-            "parameters": [
-              {
-                "name": "值",
-                "types": [
-                  {
-                    "type": "text"
-                  }
-                ],
-                "id": "642fb430fa0f4c663f442cdb",
-                "key": "value"
-              },
-              {
-                "name": "选项",
-                "types": [
-                  {
-                    "type": "module",
-                    "rules": {
-                      "properties": [
-                        {
-                          "name": "值",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb448fa0f4c663f442cdd",
-                          "key": "value"
-                        },
-                        {
-                          "name": "标签",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb448fa0f4c663f442cde",
-                          "key": "label"
-                        },
-                        {
-                          "name": "禁用",
-                          "types": [
-                            {
-                              "type": "whether"
-                            }
-                          ],
-                          "id": "642fb448fa0f4c663f442cdf",
-                          "key": "disabled"
-                        },
-                        {
-                          "name": "标识",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb448fa0f4c663f442ce0",
-                          "key": "key"
-                        },
-                        {
-                          "name": "标题",
-                          "types": [
-                            {
-                              "type": "text"
-                            }
-                          ],
-                          "id": "642fb47ffa0f4c663f442ce1",
-                          "key": "title"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "id": "642fb430fa0f4c663f442cdc",
-                "key": "option"
-              }
-            ],
-            "id": "641a7052cf44f6204642b8fe",
-            "desc": "取消选中时调用，参数为选中项的 value (或 key) 值，仅在 multiple 或 tags 模式下生效"
-          },
-          {
-            "key": "dropdownVisibleChange",
-            "name": "展开下拉菜单",
-            "parameters": [
-              {
-                "name": "是否展开下拉菜单",
-                "types": [
-                  {
-                    "type": "whether"
-                  }
-                ],
-                "id": "642fb024fa0f4c663f442cd2",
-                "key": "open"
-              }
-            ],
-            "id": "641a7052cf44f6204642b8ff",
-            "desc": "展开下拉菜单的回调"
-          },
-          {
-            "key": "focus",
-            "name": "获得焦点",
-            "id": "641a7052cf44f6204642b900",
-            "desc": "获得焦点时回调"
-          },
-          {
-            "key": "inputKeyDown",
-            "name": "键盘按下",
-            "id": "inputKeyDown",
-            "desc": "键盘按下时回调"
-          },
-          {
-            "key": "mouseenter",
-            "name": "鼠标移入",
-            "id": "641a7052cf44f6204642b901",
-            "desc": "鼠标移入时回调"
-          },
-          {
-            "key": "mouseleave",
-            "name": "鼠标移出",
-            "id": "641a7052cf44f6204642b902",
-            "desc": "鼠标移出时回调"
-          },
-          {
-            "key": "popupScroll",
-            "name": "下拉列表滚动",
-            "id": "641a7052cf44f6204642b903",
-            "desc": "下拉列表滚动时的回调"
-          },
-          {
-            "key": "search",
-            "name": "值变化",
-            "parameters": [
-              {
-                "name": "值",
-                "types": [
-                  {
-                    "type": "text"
-                  }
-                ],
-                "id": "642faefafa0f4c663f442ccb",
-                "key": "value"
-              }
-            ],
-            "id": "641a7052cf44f6204642b904",
-            "desc": "文本框值变化时回调"
-          }
-        ],
-        "slots": [
-          {
-            "id": "641a7052cf44f6204642b905",
-            "key": "dropdownRender",
-            "parameters": [],
-            "name": "下拉框内容"
-          },
-          {
-            "id": "641a7052cf44f6204642b906",
-            "key": "maxTagPlaceholder",
-            "parameters": [],
-            "name": "隐藏tag显示内容"
-          },
-          {
-            "id": "641a7052cf44f6204642b907",
-            "key": "notFoundContent",
-            "parameters": [],
-            "name": "空值显示内容"
-          },
-          {
-            "id": "641a7052cf44f6204642b908",
-            "key": "suffixIcon",
-            "parameters": [],
-            "name": "后缀图标"
-          },
-          {
-            "id": "641a7052cf44f6204642b909",
-            "key": "removeIcon",
-            "parameters": [],
-            "name": "清除图标"
-          },
-          {
-            "id": "641a7052cf44f6204642b90a",
-            "key": "menuItemSelectedIcon",
-            "parameters": [],
-            "name": "选中图标"
-          },
-          {
-            "id": "641a7052cf44f6204642b90b",
-            "key": "default",
-            "isHide": true,
-            "parameters": [],
-            "name": "默认"
-          }
-        ]
-      },
-      "classes": []
+        "slots": []
+      }
     },
     {
       "productId": "6358fb8554bb9b1c84ce47a2",
@@ -19953,57 +19658,6 @@
       "name": "查询新闻列表",
       "request": [
         {
-          "name": "作者",
-          "types": [
-            {
-              "type": "text",
-              "ui": {
-                "tag": ""
-              }
-            }
-          ],
-          "id": "646b334380d5e94669603312"
-        },
-        {
-          "name": "分类",
-          "types": [
-            {
-              "type": "text"
-            }
-          ],
-          "id": "646b339480d5e94669603314"
-        },
-        {
-          "name": "标签",
-          "types": [
-            {
-              "type": "text",
-              "multiple": true
-            }
-          ],
-          "id": "646b339f80d5e94669603315"
-        },
-        {
-          "name": "页数",
-          "types": [
-            {
-              "type": "number"
-            }
-          ],
-          "id": "646b37bb80d5e9466960331c",
-          "required": true
-        },
-        {
-          "name": "页码",
-          "types": [
-            {
-              "type": "number"
-            }
-          ],
-          "id": "646b37c980d5e9466960331d",
-          "required": true
-        },
-        {
           "name": "标题",
           "types": [
             {
@@ -20039,6 +19693,66 @@
                       }
                     ],
                     "id": "6475b825a8e1bf63134b5067"
+                  },
+                  {
+                    "name": "标题",
+                    "types": [
+                      {
+                        "type": "text",
+                        "ui": {
+                          "tag": ""
+                        }
+                      }
+                    ],
+                    "id": "64776e41cb7bad36fe230409"
+                  },
+                  {
+                    "name": "内容",
+                    "types": [
+                      {
+                        "type": "richText",
+                        "ui": {
+                          "tag": ""
+                        }
+                      }
+                    ],
+                    "id": "64776e41cb7bad36fe23040a"
+                  },
+                  {
+                    "name": "作者",
+                    "types": [
+                      {
+                        "type": "text",
+                        "ui": {
+                          "tag": ""
+                        }
+                      }
+                    ],
+                    "id": "64776e42cb7bad36fe23040b"
+                  },
+                  {
+                    "name": "来源",
+                    "types": [
+                      {
+                        "type": "text",
+                        "ui": {
+                          "tag": ""
+                        }
+                      }
+                    ],
+                    "id": "64776e42cb7bad36fe23040c"
+                  },
+                  {
+                    "name": "分类",
+                    "types": [
+                      {
+                        "type": "text",
+                        "ui": {
+                          "tag": ""
+                        }
+                      }
+                    ],
+                    "id": "64776e69cb7bad36fe23040d"
                   }
                 ]
               }
@@ -20130,8 +19844,8 @@
         "parentId": null,
         "preId": null,
         "cover": "62df689a9124c5a1826f5614/projects/646872534f9dc2ce4a7824fc/page/646872534f9dc2ce4a782504.png",
-        "namespace": "page",
-        "home": true
+        "home": true,
+        "namespace": "page"
       },
       {
         "id": "646872794f9dc2ce4a782546",
@@ -20166,7 +19880,7 @@
       }
     ]
   },
-  "id": "6476be155da7e2393279e8b5",
+  "id": "6477727c9508628fc76d8a88",
   "dependenciesPackages": [
     {
       "productId": "6352061254bb9b1c84ce3570",

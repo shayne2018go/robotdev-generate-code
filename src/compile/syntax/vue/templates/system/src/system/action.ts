@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useRouter } from 'vue-router';
+import { Router } from 'vue-router';
 
 // const request = (url: string, body: any, success: (res: any) => void, fail: (err: any) => void) => {
 //   return axios.post(url, body).then(
@@ -8,10 +8,9 @@ import { useRouter } from 'vue-router';
 //   );
 // };
 
-function open(mode: 'out', target: string, url: string): void;
-function open(mode: 'in', target: string, name: string, query?: any): void;
-function open(mode: string, target: string, url: string, query?: any) {
-  const router = useRouter();
+function open(router: Router, mode: 'out', target: string, url: string): void;
+function open(router: Router, mode: 'in', target: string, name: string, query?: any): void;
+function open(router: Router, mode: string, target: string, url: string, query?: any) {
   if (mode === 'in') {
     router.push({ name: url, query });
   } else if (mode === 'out') {

@@ -416,6 +416,7 @@ export const toAstMethods = {
         throw new Error('open函数的page失败');
       }
       return t.callExpression(t.identifier('open'), [
+        t.identifier('router'),
         t.stringLiteral(data.args.mode),
         t.stringLiteral(data.args.target),
         t.stringLiteral(page.routerName!),
@@ -425,6 +426,7 @@ export const toAstMethods = {
         throw new Error('open函数的data.args.url失败');
       }
       return t.callExpression(t.identifier('open'), [
+        t.identifier('router'),
         t.stringLiteral(data.args.mode),
         t.stringLiteral(data.args.target),
         t.stringLiteral(data.args.url),
