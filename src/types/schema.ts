@@ -243,6 +243,7 @@ declare namespace CodeSchema {
       target: string;
       page: string;
       url: string;
+      query: DataValue_Custom;
     };
   }
 }
