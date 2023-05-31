@@ -5,10 +5,13 @@
     "lib": ["es6"],
     "module": "ESNext",
     "allowJs": true,
-    "moduleResolution": "node16",
-    "types": ["node"],
-    "allowSyntheticDefaultImports": true,
     "target": "es6",
+    "types": ["node", "jest"],
+    "moduleResolution": "node16",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

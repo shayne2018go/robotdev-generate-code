@@ -4,9 +4,10 @@ specifiers:
   '@babel/core': ^7.22.1
   '@babel/generator': ^7.22.3
   '@babel/preset-env': ^7.22.4
+  '@babel/preset-typescript': ^7.21.5
   '@babel/types': ^7.22.4
   '@dreawer/robotdev-view-editor-mock-data': ^0.0.20
-  '@robotdev/fx-code': ^0.0.6
+  '@robotdev/fx-code': ^0.0.7
   '@rollup/plugin-babel': ^6.0.3
   '@rollup/plugin-commonjs': ^25.0.0
   '@rollup/plugin-json': ^6.0.0
@@ -36,7 +37,7 @@ dependencies:
   '@babel/generator': 7.22.3
   '@babel/types': 7.22.4
   '@dreawer/robotdev-view-editor-mock-data': 0.0.20
-  '@robotdev/fx-code': 0.0.6
+  '@robotdev/fx-code': 0.0.7
   '@rollup/plugin-json': 6.0.0_rollup@3.23.0
   '@types/lodash-es': 4.17.7
   axios: 1.4.0
@@ -53,6 +54,7 @@ dependencies:
 devDependencies:
   '@babel/core': 7.22.1
   '@babel/preset-env': 7.22.4_@babel+core@7.22.1
+  '@babel/preset-typescript': 7.21.5_@babel+core@7.22.1
   '@rollup/plugin-babel': 6.0.3_h3t5h3pwqou4m37x3scognui2u
   '@rollup/plugin-commonjs': 25.0.0_rollup@3.23.0
   '@rollup/plugin-node-resolve': 15.0.2_rollup@3.23.0
@@ -1178,6 +1180,21 @@ packages:
       '@babel/helper-plugin-utils': 7.21.5
     dev: true
 
+  /@babel/plugin-transform-typescript/7.22.3_@babel+core@7.22.1:
+    resolution: {integrity: sha512-pyjnCIniO5PNaEuGxT28h0HbMru3qCVrMqVgVOz/krComdIrY9W6FCLBq9NWHY8HDGaUlan+UhmZElDENIfCcw==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.22.1
+      '@babel/helper-annotate-as-pure': 7.18.6
+      '@babel/helper-create-class-features-plugin': 7.22.1_@babel+core@7.22.1
+      '@babel/helper-plugin-utils': 7.21.5
+      '@babel/plugin-syntax-typescript': 7.21.4_@babel+core@7.22.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@babel/plugin-transform-unicode-escapes/7.21.5_@babel+core@7.22.1:
     resolution: {integrity: sha512-LYm/gTOwZqsYohlvFUe/8Tujz75LqqVC2w+2qPHLR+WyWHGCZPN1KBpJCJn+4Bk4gOkQy/IXKIge6az5MqwlOg==}
     engines: {node: '>=6.9.0'}
@@ -1323,6 +1340,22 @@ packages:
       '@babel/plugin-transform-dotall-regex': 7.18.6_@babel+core@7.22.1
       '@babel/types': 7.22.4
       esutils: 2.0.3
+    dev: true
+
+  /@babel/preset-typescript/7.21.5_@babel+core@7.22.1:
+    resolution: {integrity: sha512-iqe3sETat5EOrORXiQ6rWfoOg2y68Cs75B9wNxdPW4kixJxh7aXQE1KPdWLDniC24T/6dSnguF33W9j/ZZQcmA==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.22.1
+      '@babel/helper-plugin-utils': 7.21.5
+      '@babel/helper-validator-option': 7.21.0
+      '@babel/plugin-syntax-jsx': 7.21.4_@babel+core@7.22.1
+      '@babel/plugin-transform-modules-commonjs': 7.21.5_@babel+core@7.22.1
+      '@babel/plugin-transform-typescript': 7.22.3_@babel+core@7.22.1
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@babel/regjsgen/0.8.0:
@@ -1686,11 +1719,13 @@ packages:
       ramda: 0.28.0
     dev: false
 
-  /@robotdev/fx-code/0.0.6:
-    resolution: {integrity: sha512-tGk0n3xNsAY1DviHXP7zmlUPqQyRn/jSZ2fGs2rcqF99DdcZlOPkWEUfLShsvLN6rPbafotBU/8HFlta0UWW4g==}
+  /@robotdev/fx-code/0.0.7:
+    resolution: {integrity: sha512-zmFRh/Hc0MfKB6dElF0x4gf8oC8TyRiGLfqqIVrNDOIo+S5wGYkkdYxDx+VKYVjm8Ul0llCGUSKw2fwKjIpVSQ==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
     dependencies:
       '@robotdev/fx-basic': 0.7.48
+      '@types/lodash': 4.14.195
+      lodash: 4.17.21
       pinyin: 2.11.2
     transitivePeerDependencies:
       - encoding
@@ -1897,6 +1932,10 @@ packages:
 
   /@types/lodash/4.14.194:
     resolution: {integrity: sha512-r22s9tAS7imvBt2lyHC9B8AGwWnXaYb1tY09oyLkXDs4vArpYJzw09nj8MLx5VfciBPGIb+ZwG0ssYnEPJxn/g==}
+    dev: false
+
+  /@types/lodash/4.14.195:
+    resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
     dev: false
 
   /@types/minimatch/5.1.2:
@@ -3383,6 +3422,10 @@ packages:
   /lodash.memoize/4.1.2:
     resolution: {integrity: sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=}
     dev: true
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
 
   /lru-cache/5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}

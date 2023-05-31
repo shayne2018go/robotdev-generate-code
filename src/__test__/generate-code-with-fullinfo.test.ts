@@ -44,12 +44,12 @@ describe('generate-code-fullinfo', () => {
 
     // await build(projectPath);
 
-    // const isExist = fse.existsSync(projectPath);
+    const isExist = fse.existsSync(projectPath);
 
     // const isBuild = fse.pathExistsSync(resolve(projectPath, 'dist'));
 
     jest.runAllTimers();
 
-    // expect(isExist).toBeTruthy();
+    expect(isExist).toBeTruthy();
   });
 });
