@@ -357,9 +357,9 @@ export const toAstMethods = {
     if (!data.args?.id) {
       throw new Error('api函数的data.args.id失败');
     }
-    if (data.args.id === '6476298bcaecfd31d8f202e4') {
-      debugger;
-    }
+    // if (data.args.id === '6476298bcaecfd31d8f202e4') {
+    //   debugger;
+    // }
     const api = ctx.global.apisStore.getApi(data.args.id as string)?.data;
     if (!api) {
       throw new Error('api函数的api失败');
@@ -415,12 +415,20 @@ export const toAstMethods = {
       if (!page) {
         throw new Error('open函数的page失败');
       }
-      return t.callExpression(t.identifier('open'), [
+
+      let paramAsts: t.Expression[] = [
         t.identifier('router'),
         t.stringLiteral(data.args.mode),
         t.stringLiteral(data.args.target),
         t.stringLiteral(page.routerName!),
-      ]);
+      ];
+      if (data.args.query) {
+        const ast = valueToAst(ctx, data.args.query, [
+          { type: 'module', rules: { properties: page.protocol.route.query } },
+        ]);
+        paramAsts.push(ast.value as t.Expression);
+      }
+      return t.callExpression(t.identifier('open'), paramAsts);
     } else if (mode === 'out') {
       if (!data.args.url) {
         throw new Error('open函数的data.args.url失败');

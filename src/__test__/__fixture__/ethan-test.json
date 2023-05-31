@@ -134,7 +134,7 @@
           "type": "element",
           "depth": 0,
           "preId": "O151",
-          "nextId": "B572",
+          "nextId": "U726",
           "data": {
             "props": [
               {
@@ -211,12 +211,231 @@
           "projectId": "646872354f9dc2ce4a7824ed"
         },
         {
+          "id": "U726",
+          "parentId": null,
+          "tag": "div",
+          "type": "element",
+          "depth": 0,
+          "preId": "E467",
+          "nextId": "B572",
+          "data": {
+            "props": [
+              {
+                "propId": "641a95e6cd3c6b0921a79f28",
+                "value": "w-[1200px] mx-auto"
+              }
+            ]
+          },
+          "productId": "6352061a54bb9b1c84ce357d"
+        },
+        {
+          "id": "U726#641a95e6cd3c6b0921a79f2a",
+          "parentId": "U726",
+          "tag": "tpl",
+          "type": "element",
+          "depth": 1,
+          "preId": null,
+          "nextId": null,
+          "slotId": "641a95e6cd3c6b0921a79f2a"
+        },
+        {
+          "id": "H454",
+          "parentId": "U726#641a95e6cd3c6b0921a79f2a",
+          "tag": "div",
+          "type": "element",
+          "depth": 2,
+          "preId": null,
+          "nextId": null,
+          "data": {
+            "props": [
+              {
+                "propId": "641a95e6cd3c6b0921a79f28",
+                "value": "flex w-full"
+              }
+            ]
+          },
+          "productId": "6352061a54bb9b1c84ce357d"
+        },
+        {
+          "id": "H454#641a95e6cd3c6b0921a79f2a",
+          "parentId": "H454",
+          "tag": "tpl",
+          "type": "element",
+          "depth": 3,
+          "preId": null,
+          "nextId": null,
+          "slotId": "641a95e6cd3c6b0921a79f2a"
+        },
+        {
+          "id": "J443",
+          "parentId": "H454#641a95e6cd3c6b0921a79f2a",
+          "tag": "each",
+          "type": "element",
+          "depth": 4,
+          "preId": null,
+          "nextId": null,
+          "name": "循环新闻列表",
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b606",
+                "value": {
+                  "type": "data",
+                  "mode": "getApiData",
+                  "args": {
+                    "id": "6469b037c8becd52db1474c1",
+                    "path": ["data", "data", "646b3a046e10705f2ff67a7a"]
+                  }
+                }
+              },
+              {
+                "propId": "641a95e6cd3c6b0921a79f28",
+                "value": "flex w-full"
+              }
+            ]
+          },
+          "productId": "6358fb8554bb9b1c84ce47a2"
+        },
+        {
+          "id": "J443#641a7052cf44f6204642b607",
+          "parentId": "J443",
+          "tag": "tpl",
+          "type": "element",
+          "depth": 5,
+          "preId": null,
+          "nextId": null,
+          "slotId": "641a7052cf44f6204642b607"
+        },
+        {
+          "id": "P951",
+          "parentId": "J443#641a7052cf44f6204642b607",
+          "tag": "a",
+          "type": "element",
+          "depth": 6,
+          "preId": null,
+          "nextId": null,
+          "data": {
+            "events": [
+              {
+                "eventId": "641a95cecd3c6b0921a79efa",
+                "actions": [
+                  {
+                    "id": "64776ffe32049d9050aa73bc",
+                    "modeId": "641a95e6cd3c6b0921a79f29",
+                    "mode": "open",
+                    "name": "页面跳转",
+                    "type": "action",
+                    "args": {
+                      "mode": "in",
+                      "page": "646872794f9dc2ce4a782546",
+                      "query": {
+                        "type": "data",
+                        "mode": "custom",
+                        "args": {
+                          "type": "module",
+                          "value": [
+                            {
+                              "propId": "646ac4953fb607d13fd7fba6",
+                              "value": {
+                                "type": "data",
+                                "mode": "getEachData",
+                                "args": {
+                                  "id": "J443",
+                                  "path": ["item", "6475b825a8e1bf63134b5067"]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "target": "self"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "productId": "6352061a54bb9b1c84ce357d"
+        },
+        {
+          "id": "P951#641a95e6cd3c6b0921a79f2a",
+          "parentId": "P951",
+          "tag": "tpl",
+          "type": "element",
+          "depth": 7,
+          "preId": null,
+          "nextId": null,
+          "slotId": "641a95e6cd3c6b0921a79f2a"
+        },
+        {
+          "id": "A204",
+          "parentId": "P951#641a95e6cd3c6b0921a79f2a",
+          "tag": "f-ec605e18",
+          "type": "component",
+          "depth": 8,
+          "preId": null,
+          "nextId": null,
+          "data": {
+            "props": [
+              {
+                "propId": "646ad69dad5484c5ef631bb4",
+                "value": {
+                  "type": "data",
+                  "mode": "getEachData",
+                  "args": {
+                    "id": "J443",
+                    "path": ["item", "64776e41cb7bad36fe230409"]
+                  }
+                }
+              },
+              {
+                "propId": "646ad69dad5484c5ef631bb5",
+                "value": {
+                  "type": "data",
+                  "mode": "getEachData",
+                  "args": {
+                    "id": "J443",
+                    "path": ["item", "64776e41cb7bad36fe230409"]
+                  }
+                }
+              },
+              {
+                "propId": "646ad69dad5484c5ef631bb6",
+                "value": {
+                  "type": "data",
+                  "mode": "getEachData",
+                  "args": {
+                    "id": "J443",
+                    "path": ["item", "64776e42cb7bad36fe23040b"]
+                  }
+                }
+              },
+              {
+                "propId": "646ad69ead5484c5ef631bb7",
+                "value": {
+                  "type": "data",
+                  "mode": "getEachData",
+                  "args": {
+                    "id": "J443",
+                    "path": ["item", "64776e42cb7bad36fe23040c"]
+                  }
+                }
+              },
+              {
+                "propId": "641a95e6cd3c6b0921a79f28",
+                "value": ""
+              }
+            ]
+          },
+          "projectId": "646872354f9dc2ce4a7824ed"
+        },
+        {
           "id": "B572",
           "parentId": null,
           "tag": "a-tabs",
           "type": "element",
           "depth": 0,
-          "preId": "E467",
+          "preId": "U726",
           "nextId": "D822",
           "data": {
             "props": [
@@ -616,7 +835,7 @@
           "type": "component",
           "depth": 12,
           "preId": null,
-          "nextId": null,
+          "nextId": "U214",
           "data": {
             "props": [
               {
@@ -670,6 +889,130 @@
             ]
           },
           "projectId": "646872354f9dc2ce4a7824ed"
+        },
+        {
+          "id": "U214",
+          "parentId": "Z618#641a95e6cd3c6b0921a79f2a",
+          "tag": "text",
+          "type": "element",
+          "depth": 12,
+          "preId": "K912",
+          "nextId": null,
+          "data": {
+            "props": [
+              {
+                "propId": "641a7052cf44f6204642b61f",
+                "value": {
+                  "type": "data",
+                  "mode": "getEachData",
+                  "args": {
+                    "id": "S048",
+                    "path": ["item", "64776e41cb7bad36fe230409"]
+                  }
+                }
+              },
+              {
+                "propId": "6476bc22f530ad33d28c6684",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "span"
+                  }
+                }
+              },
+              {
+                "propId": "6476bc22f530ad33d28c6685",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "text-[16px]"
+                  }
+                }
+              },
+              {
+                "propId": "6476bc22f530ad33d28c6688",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "normal"
+                  }
+                }
+              },
+              {
+                "propId": "6476bc22f530ad33d28c6689",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "normal"
+                  }
+                }
+              },
+              {
+                "propId": "6476bc23f530ad33d28c668a",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "left"
+                  }
+                }
+              },
+              {
+                "propId": "6476bc23f530ad33d28c668b",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "normal"
+                  }
+                }
+              },
+              {
+                "propId": "6476bc23f530ad33d28c668d",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "no-underline"
+                  }
+                }
+              },
+              {
+                "propId": "6476bc23f530ad33d28c668e",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "normal-case"
+                  }
+                }
+              },
+              {
+                "propId": "6476bc22f530ad33d28c6687",
+                "value": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "number",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          "productId": "6358fb8554bb9b1c84ce47a2"
         },
         {
           "id": "Q209",
@@ -8231,455 +8574,6 @@
       }
     },
     {
-      "productId": "6352061254bb9b1c84ce3570",
-      "id": "613ecb25af722dc29c7fc3d7",
-      "name": "Tabs 标签页",
-      "type": "element",
-      "tag": "a-tabs",
-      "nodes": [],
-      "events": [],
-      "spec": {
-        "props": [
-          {
-            "name": "当前激活页",
-            "types": [
-              {
-                "type": "text",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642baaa",
-            "key": "activeKey",
-            "desc": "当前激活tab面板的key"
-          },
-          {
-            "name": "大小",
-            "types": [
-              {
-                "type": "option",
-                "multiple": false,
-                "default": "default",
-                "ui": {
-                  "tag": ""
-                },
-                "rules": {
-                  "items": [
-                    {
-                      "label": "大",
-                      "value": "large"
-                    },
-                    {
-                      "label": "中",
-                      "value": "default"
-                    },
-                    {
-                      "label": "小",
-                      "value": "small"
-                    }
-                  ]
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642baad",
-            "key": "size",
-            "default": "default",
-            "desc": "大小，提供 large default 和 small 三种大小"
-          },
-          {
-            "name": "标签位置",
-            "types": [
-              {
-                "type": "option",
-                "multiple": false,
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "option",
-                    "value": "top"
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                },
-                "rules": {
-                  "items": [
-                    {
-                      "label": "顶部",
-                      "value": "top"
-                    },
-                    {
-                      "label": "右边",
-                      "value": "right"
-                    },
-                    {
-                      "label": "底部",
-                      "value": "bottom"
-                    },
-                    {
-                      "label": "左边",
-                      "value": "left"
-                    }
-                  ]
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642baaf",
-            "key": "tabPosition",
-            "default": "top",
-            "desc": "页签显示的位置"
-          },
-          {
-            "name": "标签类型",
-            "types": [
-              {
-                "type": "option",
-                "default": {
-                  "type": "data",
-                  "mode": "custom",
-                  "args": {
-                    "type": "option",
-                    "value": "line"
-                  }
-                },
-                "ui": {
-                  "tag": ""
-                },
-                "rules": {
-                  "items": [
-                    {
-                      "label": "线条",
-                      "value": "line"
-                    },
-                    {
-                      "label": "卡片",
-                      "value": "card"
-                    },
-                    {
-                      "label": "可编辑卡片",
-                      "value": "editable-card"
-                    }
-                  ]
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642bab0",
-            "key": "type",
-            "default": "line",
-            "desc": "页签的基本样式"
-          },
-          {
-            "name": "标签间距",
-            "types": [
-              {
-                "type": "number",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "tabBarGutter",
-            "key": "tabBarGutter",
-            "desc": "tabs之间的间隙"
-          },
-          {
-            "name": "切换动画",
-            "types": [
-              {
-                "type": "whether",
-                "default": true,
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642baab",
-            "key": "animated",
-            "default": "true",
-            "desc": "是否使用动画切换Tabs，在 tabPosition=top|bottom 时有效"
-          },
-          {
-            "name": "标签居中",
-            "types": [
-              {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642bab1",
-            "key": "centered",
-            "desc": "标签居中展示"
-          },
-          {
-            "name": "销毁 DOM 结构",
-            "types": [
-              {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642bab2",
-            "key": "destroyInactiveTabPane",
-            "desc": "被隐藏时是否销毁 DOM 结构"
-          },
-          {
-            "name": "隐藏加号",
-            "types": [
-              {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642baac",
-            "key": "hideAdd",
-            "default": "FALSE",
-            "desc": "是否隐藏加号图标，在 type=\"editable-card\" 时有效"
-          }
-        ],
-        "events": [
-          {
-            "key": "change",
-            "name": "切换面板",
-            "parameters": [
-              {
-                "name": "新建属性",
-                "types": [
-                  {
-                    "type": "text",
-                    "multiple": false
-                  }
-                ],
-                "id": "6433c91d142f1aa760d86c00",
-                "key": "activeKey"
-              }
-            ],
-            "id": "641a7053cf44f6204642bab3"
-          },
-          {
-            "key": "edit",
-            "name": "新增和删除页签",
-            "parameters": [
-              {
-                "name": "当前激活 tab 面板",
-                "types": [
-                  {
-                    "type": "text"
-                  }
-                ],
-                "id": "6433c944142f1aa760d86c01",
-                "key": "activeKey"
-              },
-              {
-                "name": "行为",
-                "types": [
-                  {
-                    "type": "text"
-                  }
-                ],
-                "id": "6433c944142f1aa760d86c02",
-                "key": "action"
-              }
-            ],
-            "id": "641a7053cf44f6204642bab5",
-            "desc": "新增和删除页签的回调，在 type=\"editable-card\" 时有效"
-          },
-          {
-            "key": "tabClick",
-            "name": "tab被点击",
-            "id": "641a7053cf44f6204642bab4"
-          },
-          {
-            "key": "tabScroll",
-            "name": "滚动 TabBar ",
-            "parameters": [
-              {
-                "name": "方向",
-                "types": [
-                  {
-                    "type": "option",
-                    "multiple": false,
-                    "rules": {
-                      "items": [
-                        {
-                          "label": "左",
-                          "value": "left"
-                        },
-                        {
-                          "label": "右",
-                          "value": "right"
-                        },
-                        {
-                          "label": "上",
-                          "value": "top"
-                        },
-                        {
-                          "label": "下",
-                          "value": "bottom"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "id": "6433c9a7142f1aa760d86c03",
-                "key": "direction"
-              }
-            ],
-            "id": "641a7053cf44f6204642bab6",
-            "desc": "滚动 TabBar 时触发"
-          }
-        ],
-        "slots": [
-          {
-            "id": "641a7053cf44f6204642bab7",
-            "key": "default",
-            "isHide": true,
-            "parameters": [],
-            "name": "默认"
-          },
-          {
-            "id": "641a7053cf44f6204642bab8",
-            "key": "addIcon",
-            "parameters": [],
-            "name": "添加按钮",
-            "desc": "\t自定义添加按钮"
-          },
-          {
-            "id": "641a7053cf44f6204642bab9",
-            "key": "leftExtra",
-            "parameters": [],
-            "name": "左侧额外元素",
-            "desc": "\ttab bar 上左侧额外的元素"
-          },
-          {
-            "id": "641a7053cf44f6204642baba",
-            "key": "moreIcon",
-            "parameters": [],
-            "name": "折叠 icon",
-            "desc": "自定义折叠 icon"
-          },
-          {
-            "id": "renderTabBar",
-            "key": "renderTabBar",
-            "parameters": [],
-            "name": "替换 TabBar",
-            "desc": "替换 TabBar，用于二次封装标签头"
-          },
-          {
-            "id": "641a7053cf44f6204642babb",
-            "key": "rightExtra",
-            "parameters": [],
-            "name": "右侧额外元素",
-            "desc": "tab bar 上右侧额外的元素"
-          }
-        ]
-      },
-      "classes": []
-    },
-    {
-      "productId": "6352061254bb9b1c84ce3570",
-      "id": "613ecb25af722dc29c7fc3d8",
-      "name": "TabPane 选项卡面板",
-      "type": "element",
-      "tag": "a-tab-pane",
-      "nodes": [],
-      "spec": {
-        "props": [
-          {
-            "name": "当前标签页",
-            "types": [
-              {
-                "type": "text",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642babd",
-            "key": "key",
-            "desc": "对应activeKey"
-          },
-          {
-            "name": "选项卡文字",
-            "types": [
-              {
-                "type": "text",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642babe",
-            "key": "tab",
-            "desc": "选项卡头显示文字"
-          },
-          {
-            "name": "强制渲染DOM",
-            "types": [
-              {
-                "type": "whether",
-                "ui": {
-                  "tag": ""
-                }
-              }
-            ],
-            "id": "641a7053cf44f6204642babc",
-            "key": "forceRender",
-            "default": "FALSE",
-            "desc": "被隐藏时是否渲染DOM结构"
-          }
-        ],
-        "slots": [
-          {
-            "id": "641a7053cf44f6204642babf",
-            "key": "tab",
-            "parameters": [],
-            "name": "选项卡文字"
-          },
-          {
-            "id": "641a7053cf44f6204642bac0",
-            "key": "default",
-            "isHide": true,
-            "parameters": [],
-            "name": "默认"
-          },
-          {
-            "id": "641a7053cf44f6204642bac1",
-            "key": "closeIcon",
-            "parameters": [],
-            "name": "自定义关闭图标",
-            "desc": "自定义关闭图标，在 type=\"editable-card\"时有效"
-          }
-        ]
-      },
-      "classes": []
-    },
-    {
-      "productId": "6352061a54bb9b1c84ce357d",
-      "id": "62c68d5d27d4bddfa728890b",
-      "name": "p 段落",
-      "type": "element",
-      "tag": "p",
-      "spec": {
-        "slots": [
-          {
-            "id": "641a7052cf44f6204642b627",
-            "key": "default",
-            "isHide": true,
-            "parameters": [],
-            "name": "默认"
-          }
-        ]
-      }
-    },
-    {
       "projectId": "646872354f9dc2ce4a7824ed",
       "name": "新闻列表项",
       "tag": "f-ec605e18",
@@ -9613,6 +9507,24 @@
       }
     },
     {
+      "productId": "6352061a54bb9b1c84ce357d",
+      "id": "62c68d5d27d4bddfa728890b",
+      "name": "p 段落",
+      "type": "element",
+      "tag": "p",
+      "spec": {
+        "slots": [
+          {
+            "id": "641a7052cf44f6204642b627",
+            "key": "default",
+            "isHide": true,
+            "parameters": [],
+            "name": "默认"
+          }
+        ]
+      }
+    },
+    {
       "productId": "6352061254bb9b1c84ce3570",
       "id": "613ecb25af722dc29c7fc387",
       "name": "Button 按钮",
@@ -9933,6 +9845,437 @@
             "key": "icon",
             "parameters": [],
             "name": "图标"
+          }
+        ]
+      },
+      "classes": []
+    },
+    {
+      "productId": "6352061254bb9b1c84ce3570",
+      "id": "613ecb25af722dc29c7fc3d7",
+      "name": "Tabs 标签页",
+      "type": "element",
+      "tag": "a-tabs",
+      "nodes": [],
+      "events": [],
+      "spec": {
+        "props": [
+          {
+            "name": "当前激活页",
+            "types": [
+              {
+                "type": "text",
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642baaa",
+            "key": "activeKey",
+            "desc": "当前激活tab面板的key"
+          },
+          {
+            "name": "大小",
+            "types": [
+              {
+                "type": "option",
+                "multiple": false,
+                "default": "default",
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "大",
+                      "value": "large"
+                    },
+                    {
+                      "label": "中",
+                      "value": "default"
+                    },
+                    {
+                      "label": "小",
+                      "value": "small"
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642baad",
+            "key": "size",
+            "default": "default",
+            "desc": "大小，提供 large default 和 small 三种大小"
+          },
+          {
+            "name": "标签位置",
+            "types": [
+              {
+                "type": "option",
+                "multiple": false,
+                "default": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "top"
+                  }
+                },
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "顶部",
+                      "value": "top"
+                    },
+                    {
+                      "label": "右边",
+                      "value": "right"
+                    },
+                    {
+                      "label": "底部",
+                      "value": "bottom"
+                    },
+                    {
+                      "label": "左边",
+                      "value": "left"
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642baaf",
+            "key": "tabPosition",
+            "default": "top",
+            "desc": "页签显示的位置"
+          },
+          {
+            "name": "标签类型",
+            "types": [
+              {
+                "type": "option",
+                "default": {
+                  "type": "data",
+                  "mode": "custom",
+                  "args": {
+                    "type": "option",
+                    "value": "line"
+                  }
+                },
+                "ui": {
+                  "tag": ""
+                },
+                "rules": {
+                  "items": [
+                    {
+                      "label": "线条",
+                      "value": "line"
+                    },
+                    {
+                      "label": "卡片",
+                      "value": "card"
+                    },
+                    {
+                      "label": "可编辑卡片",
+                      "value": "editable-card"
+                    }
+                  ]
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642bab0",
+            "key": "type",
+            "default": "line",
+            "desc": "页签的基本样式"
+          },
+          {
+            "name": "标签间距",
+            "types": [
+              {
+                "type": "number",
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "tabBarGutter",
+            "key": "tabBarGutter",
+            "desc": "tabs之间的间隙"
+          },
+          {
+            "name": "切换动画",
+            "types": [
+              {
+                "type": "whether",
+                "default": true,
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642baab",
+            "key": "animated",
+            "default": "true",
+            "desc": "是否使用动画切换Tabs，在 tabPosition=top|bottom 时有效"
+          },
+          {
+            "name": "标签居中",
+            "types": [
+              {
+                "type": "whether",
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642bab1",
+            "key": "centered",
+            "desc": "标签居中展示"
+          },
+          {
+            "name": "销毁 DOM 结构",
+            "types": [
+              {
+                "type": "whether",
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642bab2",
+            "key": "destroyInactiveTabPane",
+            "desc": "被隐藏时是否销毁 DOM 结构"
+          },
+          {
+            "name": "隐藏加号",
+            "types": [
+              {
+                "type": "whether",
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642baac",
+            "key": "hideAdd",
+            "default": "FALSE",
+            "desc": "是否隐藏加号图标，在 type=\"editable-card\" 时有效"
+          }
+        ],
+        "events": [
+          {
+            "key": "change",
+            "name": "切换面板",
+            "parameters": [
+              {
+                "name": "新建属性",
+                "types": [
+                  {
+                    "type": "text",
+                    "multiple": false
+                  }
+                ],
+                "id": "6433c91d142f1aa760d86c00",
+                "key": "activeKey"
+              }
+            ],
+            "id": "641a7053cf44f6204642bab3"
+          },
+          {
+            "key": "edit",
+            "name": "新增和删除页签",
+            "parameters": [
+              {
+                "name": "当前激活 tab 面板",
+                "types": [
+                  {
+                    "type": "text"
+                  }
+                ],
+                "id": "6433c944142f1aa760d86c01",
+                "key": "activeKey"
+              },
+              {
+                "name": "行为",
+                "types": [
+                  {
+                    "type": "text"
+                  }
+                ],
+                "id": "6433c944142f1aa760d86c02",
+                "key": "action"
+              }
+            ],
+            "id": "641a7053cf44f6204642bab5",
+            "desc": "新增和删除页签的回调，在 type=\"editable-card\" 时有效"
+          },
+          {
+            "key": "tabClick",
+            "name": "tab被点击",
+            "id": "641a7053cf44f6204642bab4"
+          },
+          {
+            "key": "tabScroll",
+            "name": "滚动 TabBar ",
+            "parameters": [
+              {
+                "name": "方向",
+                "types": [
+                  {
+                    "type": "option",
+                    "multiple": false,
+                    "rules": {
+                      "items": [
+                        {
+                          "label": "左",
+                          "value": "left"
+                        },
+                        {
+                          "label": "右",
+                          "value": "right"
+                        },
+                        {
+                          "label": "上",
+                          "value": "top"
+                        },
+                        {
+                          "label": "下",
+                          "value": "bottom"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "id": "6433c9a7142f1aa760d86c03",
+                "key": "direction"
+              }
+            ],
+            "id": "641a7053cf44f6204642bab6",
+            "desc": "滚动 TabBar 时触发"
+          }
+        ],
+        "slots": [
+          {
+            "id": "641a7053cf44f6204642bab7",
+            "key": "default",
+            "isHide": true,
+            "parameters": [],
+            "name": "默认"
+          },
+          {
+            "id": "641a7053cf44f6204642bab8",
+            "key": "addIcon",
+            "parameters": [],
+            "name": "添加按钮",
+            "desc": "\t自定义添加按钮"
+          },
+          {
+            "id": "641a7053cf44f6204642bab9",
+            "key": "leftExtra",
+            "parameters": [],
+            "name": "左侧额外元素",
+            "desc": "\ttab bar 上左侧额外的元素"
+          },
+          {
+            "id": "641a7053cf44f6204642baba",
+            "key": "moreIcon",
+            "parameters": [],
+            "name": "折叠 icon",
+            "desc": "自定义折叠 icon"
+          },
+          {
+            "id": "renderTabBar",
+            "key": "renderTabBar",
+            "parameters": [],
+            "name": "替换 TabBar",
+            "desc": "替换 TabBar，用于二次封装标签头"
+          },
+          {
+            "id": "641a7053cf44f6204642babb",
+            "key": "rightExtra",
+            "parameters": [],
+            "name": "右侧额外元素",
+            "desc": "tab bar 上右侧额外的元素"
+          }
+        ]
+      },
+      "classes": []
+    },
+    {
+      "productId": "6352061254bb9b1c84ce3570",
+      "id": "613ecb25af722dc29c7fc3d8",
+      "name": "TabPane 选项卡面板",
+      "type": "element",
+      "tag": "a-tab-pane",
+      "nodes": [],
+      "spec": {
+        "props": [
+          {
+            "name": "当前标签页",
+            "types": [
+              {
+                "type": "text",
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642babd",
+            "key": "key",
+            "desc": "对应activeKey"
+          },
+          {
+            "name": "选项卡文字",
+            "types": [
+              {
+                "type": "text",
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642babe",
+            "key": "tab",
+            "desc": "选项卡头显示文字"
+          },
+          {
+            "name": "强制渲染DOM",
+            "types": [
+              {
+                "type": "whether",
+                "ui": {
+                  "tag": ""
+                }
+              }
+            ],
+            "id": "641a7053cf44f6204642babc",
+            "key": "forceRender",
+            "default": "FALSE",
+            "desc": "被隐藏时是否渲染DOM结构"
+          }
+        ],
+        "slots": [
+          {
+            "id": "641a7053cf44f6204642babf",
+            "key": "tab",
+            "parameters": [],
+            "name": "选项卡文字"
+          },
+          {
+            "id": "641a7053cf44f6204642bac0",
+            "key": "default",
+            "isHide": true,
+            "parameters": [],
+            "name": "默认"
+          },
+          {
+            "id": "641a7053cf44f6204642bac1",
+            "key": "closeIcon",
+            "parameters": [],
+            "name": "自定义关闭图标",
+            "desc": "自定义关闭图标，在 type=\"editable-card\"时有效"
           }
         ]
       },
@@ -19880,7 +20223,7 @@
       }
     ]
   },
-  "id": "6477727c9508628fc76d8a88",
+  "id": "647787869508628fc76d8ef2",
   "dependenciesPackages": [
     {
       "productId": "6352061254bb9b1c84ce3570",

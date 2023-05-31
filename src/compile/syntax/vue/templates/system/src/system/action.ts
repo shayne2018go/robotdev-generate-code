@@ -14,8 +14,9 @@ function open(router: Router, mode: string, target: string, url: string, query?:
   if (mode === 'in') {
     router.push({ name: url, query });
   } else if (mode === 'out') {
+    const pathUrl = router.resolve({ path: url, query });
     const dom = document.createElement('a');
-    dom.setAttribute('href', url);
+    dom.setAttribute('href', pathUrl.href.slice(1));
     dom.setAttribute('target', `_${target}`);
     dom.click();
     dom.remove();
