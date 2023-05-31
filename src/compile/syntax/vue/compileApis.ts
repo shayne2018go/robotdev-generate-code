@@ -66,6 +66,7 @@ function getAxiosUtilImport(api: GlobalContext.Api): t.ImportDeclaration {
 }
 
 function getExportRequests(api: GlobalContext.Api): t.ExportNamedDeclaration {
+  const apiUrl = `/services/${api.protocol.key}`;
   return t.exportNamedDeclaration(
     t.functionDeclaration(
       t.identifier(api.key),
@@ -75,7 +76,7 @@ function getExportRequests(api: GlobalContext.Api): t.ExportNamedDeclaration {
           t.callExpression(t.identifier('axios'), [
             t.objectExpression([
               t.objectProperty(t.identifier('method'), t.stringLiteral(api.protocol.method)),
-              t.objectProperty(t.identifier('url'), t.stringLiteral(api.protocol.key)),
+              t.objectProperty(t.identifier('url'), t.stringLiteral(apiUrl)),
               t.objectProperty(t.identifier('data'), t.identifier('data')),
             ]),
           ])

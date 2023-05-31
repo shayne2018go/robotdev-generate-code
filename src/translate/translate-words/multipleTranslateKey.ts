@@ -4,7 +4,7 @@ import { genVarName } from '@/compile/syntax/vue/shared/helper';
 
 export interface TranslateKeyOption {
   translateKey: string;
-  translateKeyFn: (name: string) => Promise<string>;
+  translateKeyFn: (name: string, isPlural: boolean) => Promise<string>;
 }
 
 const translateKey = (obj: Record<string, any>, options: TranslateKeyOption): Promise<void> => {
@@ -27,7 +27,8 @@ const translateKey = (obj: Record<string, any>, options: TranslateKeyOption): Pr
     } else {
       // obj[_translateKey] = Fxc.toPinyin(obj.name).replace(/\s/g, '');
       if (obj.name) {
-        obj[_translateKey] = await options.translateKeyFn(obj.name);
+        const isPlural = obj.types?.some((type) => type.multiple);
+        obj[_translateKey] = await options.translateKeyFn(obj.name, isPlural);
       }
       resolve();
     }
@@ -38,8 +39,8 @@ const translateGroupKey = async (objs: Record<string, any>[], options: Translate
   // 去重
   const uniqueGenKey = genVarName();
 
-  const translateKeyFn = async (name: string) => {
-    const stringKey = await options.translateFn(name);
+  const translateKeyFn = async (name: string, isPlural?: boolean) => {
+    const stringKey = await options.translateFn(name, isPlural);
     const uniKey = uniqueGenKey(stringKey);
     return uniKey;
   };

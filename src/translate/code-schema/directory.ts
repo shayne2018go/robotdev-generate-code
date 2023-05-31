@@ -14,6 +14,7 @@ function preprocessDirectories(dbwSchema: DBWSchema.Project): { directoryBuilder
       name: dir.name,
       parentId: dir.parentId,
       isDirectory: dir.type === 'directory',
+      isHome: !!(dir as DBWSchema.ProjectIndexPage).home,
       resourceType: getResourceType(dir.type),
     };
   }

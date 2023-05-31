@@ -154,9 +154,13 @@ function parsingPages(codeSchema: CodeSchema.Project): { pages: GlobalContext.Pa
   const _pages =
     pages.map((page) => {
       const pagePath = getPathByDirectories(directories, page.id);
+
+      const isHome = pagePath.some((dir) => dir.isHome);
+
       const pagePathKeysStr = pagePath.map((p) => p.key).join('/');
 
-      const routerPath = pagePathKeysStr === 'shouye' ? '/' : `/${pagePath.map((p) => p.key).join('/')}`;
+      const routerPath = isHome ? '/' : `/${pagePath.map((p) => p.key).join('/')}`;
+
       const routerName = pagePath[pagePath.length - 1].key;
 
       // 文件的绝对路径

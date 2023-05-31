@@ -3,7 +3,7 @@ import translateWords from './translate-words';
 import preprocess from './code-schema';
 
 export interface TranslateOptions {
-  translateFn: (name: string) => Promise<string>;
+  translateFn: (name: string, isPlural?: boolean) => Promise<string>;
 }
 
 async function translate(dbschema: DBSchema.Project, options: TranslateOptions) {

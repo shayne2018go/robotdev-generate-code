@@ -520,7 +520,7 @@ declare namespace CodeSchema {
     'stylecolor', // style样式-颜色
     'stylesize', // style样式-尺寸
     'stylespace', // class样式-间距
-    'stylesizewh', // class样式-宽高
+    'stylesizewh' // class样式-宽高
   ];
 
   export type PropertyTypeOne = (typeof DATA_TYPE_KEYS)[number] | '';
@@ -673,6 +673,7 @@ declare namespace CodeSchema {
     key: string;
     resourceType?: 'component' | 'api' | 'page' | 'function';
     refId?: string;
+    isHome?: boolean;
   }
 }
 

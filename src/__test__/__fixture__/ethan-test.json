@@ -20130,7 +20130,8 @@
         "parentId": null,
         "preId": null,
         "cover": "62df689a9124c5a1826f5614/projects/646872534f9dc2ce4a7824fc/page/646872534f9dc2ce4a782504.png",
-        "namespace": "page"
+        "namespace": "page",
+        "home": true
       },
       {
         "id": "646872794f9dc2ce4a782546",

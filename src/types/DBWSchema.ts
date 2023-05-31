@@ -170,6 +170,7 @@ export namespace DBWSchema {
     preId: string | null;
     cover: string;
     namespace: 'page';
+    home?: boolean;
   }
 
   export interface ProjectIndexFlowchart {
