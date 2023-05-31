@@ -683,7 +683,7 @@ export const literalToAst = (
             return;
           }
           // TODO item.propId不应该拿来编译，暂时先这么处理，明天再分析解决方案
-          kv.push(t.objectProperty(t.identifier(item.propId || item.key), ast.value as BindAst));
+          kv.push(t.objectProperty(t.identifier(item.key || item.propId), ast.value as BindAst));
         });
       }
 
@@ -760,10 +760,7 @@ export const literalToAst = (
       if (!tools.dataType.isObject(data.args.value)) {
         throw new Error('icon的值必须是object');
       }
-      return literalToAst(ctx, literalToRdData_Custom(data.args.value), types);
-    }
-    case 'image': {
-      return literalToAst(ctx, literalToRdData_Custom(data.args.value), types);
+      return literalToAst(ctx, literalToRdData_Custom(data.args.value));
     }
 
     case 'date':
