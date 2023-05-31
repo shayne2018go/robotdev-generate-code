@@ -741,7 +741,7 @@ export const literalToAst = (
         if (!page) {
           throw new Error('url的page失败');
         }
-        return t.stringLiteral(page.routerName!);
+        return t.stringLiteral(page.routerPath!);
       } else if (mode === 'out') {
         if (!data.args?.value?.url) {
           return t.stringLiteral('');
