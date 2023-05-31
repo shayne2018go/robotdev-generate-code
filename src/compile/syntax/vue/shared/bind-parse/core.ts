@@ -1158,7 +1158,8 @@ export const nodeEventValueAst = (
     define.data.parameters?.map((item) => {
       return t.identifier(getEventArgVarName(item.key));
     }) || [];
-  parems.push(t.identifier(getEventArgVarName('ctx')));
+
+  // parems.push(t.identifier(getEventArgVarName('ctx')));
 
   const scopeData = getScopeData(node, ctx);
 
