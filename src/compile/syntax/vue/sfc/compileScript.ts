@@ -13,6 +13,7 @@ export enum LifeCycle {
 
 export enum VueVariable {
   router = 'router',
+  route = 'route',
 }
 
 function compileScript<T extends CodeSchema.Page | CodeSchema.Component>(
@@ -113,7 +114,7 @@ function getAllVariables<T extends CodeSchema.Page | CodeSchema.Component>(
   const { variables: pageVariables } = page;
   const apis = ctx.global.apisStore.apis();
   const nodes = ctx.scope.current.nodesStore.nodes();
-  variables.push(getVueVariables());
+  variables = variables.concat(getVueVariables());
   if (pageVariables && pageVariables.length) {
     variables = variables.concat(getVariables(pageVariables, ctx));
   }
@@ -155,7 +156,10 @@ function getVueImports(): t.ImportDeclaration[] {
       t.stringLiteral('vue')
     ),
     t.importDeclaration(
-      [t.importSpecifier(t.identifier('useRouter'), t.identifier('useRouter'))],
+      [
+        t.importSpecifier(t.identifier('useRouter'), t.identifier('useRouter')),
+        t.importSpecifier(t.identifier('useRoute'), t.identifier('useRoute')),
+      ],
       t.stringLiteral('vue-router')
     ),
   ];
@@ -177,9 +181,14 @@ function getImporteds<T extends CodeSchema.Page | CodeSchema.Component>(
 }
 
 function getVueVariables() {
-  return t.variableDeclaration('const', [
-    t.variableDeclarator(t.identifier(VueVariable.router), t.callExpression(t.identifier('useRouter'), [])),
-  ]);
+  return [
+    t.variableDeclaration('const', [
+      t.variableDeclarator(t.identifier(VueVariable.router), t.callExpression(t.identifier('useRouter'), [])),
+    ]),
+    t.variableDeclaration('const', [
+      t.variableDeclarator(t.identifier(VueVariable.route), t.callExpression(t.identifier('useRoute'), [])),
+    ]),
+  ];
 }
 
 function getVariables<T extends CodeSchema.Page | CodeSchema.Component>(

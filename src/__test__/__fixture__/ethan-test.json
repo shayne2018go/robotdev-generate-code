@@ -1,6 +1,6 @@
 {
   "project": "646872534f9dc2ce4a7824fc",
-  "name": "PC前台测试jason",
+  "name": "前端",
   "desc": "项目提交到资源中心描述...",
   "type": "application",
   "subType": "client",
@@ -20223,7 +20223,7 @@
       }
     ]
   },
-  "id": "647787869508628fc76d8ef2",
+  "id": "647796419508628fc76d8fce",
   "dependenciesPackages": [
     {
       "productId": "6352061254bb9b1c84ce3570",

@@ -174,7 +174,7 @@ export const toAstMethods = {
     if (!pathPropertieKeys?.length) {
       return;
     }
-    return getOptMemberExpr([VueVariable.router, 'query', ...pathPropertieKeys]);
+    return getOptMemberExpr([VueVariable.route, 'query', ...pathPropertieKeys]);
   },
   getEventData: (data: CodeSchema.DataValue_GetEventData, ctx: BindParseCtx): OptionalMemberExpression | Identifier => {
     // 事件参数 @click="(evt,prop) => {const temp = `${evt.target}`;const temp1 = `${prop}`}"
