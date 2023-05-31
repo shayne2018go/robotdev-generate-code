@@ -1,6 +1,6 @@
 {
   "name": "@dreawer/robotdev-generate-code",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "license": "ISC",
   "engines": {
     "node": ">=14"
