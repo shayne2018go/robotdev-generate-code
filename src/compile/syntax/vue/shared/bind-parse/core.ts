@@ -357,6 +357,9 @@ export const toAstMethods = {
     if (!data.args?.id) {
       throw new Error('api函数的data.args.id失败');
     }
+    if (data.args.id === '6476298bcaecfd31d8f202e4') {
+      debugger;
+    }
     const api = ctx.global.apisStore.getApi(data.args.id as string)?.data;
     if (!api) {
       throw new Error('api函数的api失败');
@@ -631,6 +634,7 @@ export const literalToAst = (
     case 'telephone':
     case 'fax': {
       if (typeof data.args.value !== 'string') {
+        debugger;
         throw new Error('不是文本');
       }
       return t.stringLiteral(data.args.value);
@@ -656,20 +660,41 @@ export const literalToAst = (
         throw new Error('不是module数组');
       }
       const kv: ObjectProperty[] = [];
-      const properties =
-        types?.find((item) => item.type === 'module' && item.multiple !== true)?.rules?.properties || [];
-      const map: Record<string, (typeof properties)[number]> = {};
-      properties.forEach((item) => {
-        map[item.id] = item;
-      });
-      data.args.value.forEach((item) => {
-        const ast = valueToAst(ctx, item.value, map[item.propId]?.types);
-        if (!ast?.value || ast.type === 'split') {
-          return;
-        }
-        // TODO item.propId不应该拿来编译，暂时先这么处理，明天再分析解决方案
-        kv.push(t.objectProperty(t.identifier(map[item.propId]?.key || item.propId || item.key), ast.value as BindAst));
-      });
+
+      if (types) {
+        const properties =
+          types?.find((item) => item.type === 'module' && item.multiple !== true)?.rules?.properties || [];
+        const map: Record<string, (typeof properties)[number]> = {};
+        properties.forEach((item) => {
+          // map[item.id] = item;
+          const propValue = data.args.value.find((v) => v.propId === item.id);
+          if (propValue) {
+            const ast = valueToAst(ctx, propValue.value, item.types);
+            if (!ast?.value || ast.type === 'split') {
+              return;
+            }
+            kv.push(t.objectProperty(t.identifier(item.key), ast.value as BindAst));
+          }
+        });
+      } else {
+        data.args.value.forEach((item) => {
+          const ast = valueToAst(ctx, item.value);
+          if (!ast?.value || ast.type === 'split') {
+            return;
+          }
+          // TODO item.propId不应该拿来编译，暂时先这么处理，明天再分析解决方案
+          kv.push(t.objectProperty(t.identifier(item.propId || item.key), ast.value as BindAst));
+        });
+      }
+
+      // data.args.value.forEach((item) => {
+      //   const ast = valueToAst(ctx, item.value, map[item.propId]?.types);
+      //   if (!ast?.value || ast.type === 'split') {
+      //     return;
+      //   }
+      //   // TODO item.propId不应该拿来编译，暂时先这么处理，明天再分析解决方案
+      //   kv.push(t.objectProperty(t.identifier(map[item.propId]?.key || item.propId || item.key), ast.value as BindAst));
+      // });
       return t.objectExpression(kv);
     }
     case 'array': {
@@ -698,18 +723,18 @@ export const literalToAst = (
       const mode = data.args?.value?.mode;
       if (mode === 'in') {
         if (!data.args?.value?.page) {
-          return t.stringLiteral('')
+          return t.stringLiteral('');
         }
         const page = ctx.global.pagesStore.getPage(data.args?.value?.page);
         if (!page) {
           throw new Error('url的page失败');
         }
-        return t.stringLiteral(page.routerName!)
+        return t.stringLiteral(page.routerName!);
       } else if (mode === 'out') {
         if (!data.args?.value?.url) {
-          return t.stringLiteral('')
+          return t.stringLiteral('');
         }
-        return t.stringLiteral(data.args?.value?.url || '')
+        return t.stringLiteral(data.args?.value?.url || '');
       } else {
         throw new Error('url的mode类型错误');
       }
