@@ -12,6 +12,7 @@ import {
   ObjectProperty,
   ArrayExpression,
   IfStatement,
+  ObjectPattern,
 } from '@babel/types';
 import { CompileCurrentCtx } from '../../compilePages';
 import { VueVariable } from '../../sfc/compileScript';
@@ -27,6 +28,7 @@ import {
   getOptMemberExpr,
   isRdData,
   literalToRdData_Custom,
+  nodeCtx,
   rdActionIsSys,
   rdDataIsBind,
   rdDataisCustom,
@@ -1128,7 +1130,7 @@ export const nodeEventValueAst = (
   eventId: string,
   ctx: BindParseCtx
 ): ArrowFunctionExpression | undefined => {
-  const node = ctx.scope.current.nodesStore.getNode(nodeId);
+  const node = ctx.scope.current.nodesStore.find(nodeId);
   if (!node) {
     return;
   }
@@ -1144,11 +1146,21 @@ export const nodeEventValueAst = (
     return;
   }
   ctx.scope.event = event;
-  const parems =
+  const parems: (Identifier | ObjectPattern)[] =
     define.data.parameters?.map((item) => {
       return t.identifier(getEventArgVarName(item.key));
     }) || [];
   parems.push(t.identifier(getEventArgVarName('ctx')));
+
+  const scopeData = getScopeData(node, ctx);
+
+  parems.push(
+    t.objectPattern(
+      scopeData.map((varText: string) =>
+        t.objectProperty(t.identifier(varText), t.identifier(varText), undefined, true)
+      )
+    )
+  );
 
   const body: t.Statement[] = [];
   event.actions.forEach((item) => {
