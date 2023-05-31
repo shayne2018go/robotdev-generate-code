@@ -1162,13 +1162,15 @@ export const nodeEventValueAst = (
 
   const scopeData = getScopeData(node, ctx);
 
-  parems.push(
-    t.objectPattern(
-      scopeData.map((varText: string) =>
-        t.objectProperty(t.identifier(varText), t.identifier(varText), undefined, true)
+  if (scopeData?.length) {
+    parems.push(
+      t.objectPattern(
+        scopeData.map((varText: string) =>
+          t.objectProperty(t.identifier(varText), t.identifier(varText), undefined, true)
+        )
       )
-    )
-  );
+    );
+  }
 
   const body: t.Statement[] = [];
   event.actions.forEach((item) => {
