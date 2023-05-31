@@ -21,7 +21,7 @@
     "less": "^4.1.2",
     "ant-design-vue": "^3.2.15",
     "@robotdev/fx-common": "0.0.7",
-    "@dreawer/robotdev-element": "0.0.44",
+    "@dreawer/robotdev-element": "0.0.45",
     "@dreawer/robotdev-remote-request": "^0.0.13"
   }
 }
