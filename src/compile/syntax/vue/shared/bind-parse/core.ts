@@ -316,6 +316,10 @@ export const toAstMethods = {
     if (!varName) {
       throw new Error('setVar的variable.varName获取失败');
     }
+    if (data.args.value === undefined) {
+      console.warn(`setVar的"value"为空`);
+      return;
+    }
     const ast = valueToAst(ctx, data.args.value as CodeSchema.DataValueArgument);
     if (ast.type !== 'ast') {
       throw new Error('setVar的valueToAst调用返回type不正常');
@@ -345,12 +349,16 @@ export const toAstMethods = {
     }
     const [apiKey, sysKey, businessKey, ...dataPath] = pathPropertieKeys || [];
     const rootPath = [ctx.global.apiVarRootName, apiKey];
+    if (data.args.value === undefined) {
+      console.warn(`setApiData的"value"为空`);
+      return;
+    }
     const ast = valueToAst(ctx, data.args.value as CodeSchema.DataValueArgument);
     if (ast.type !== 'ast') {
-      throw new Error('setVar的valueToAst调用返回type不正常');
+      throw new Error('setApiData的valueToAst调用返回type不正常');
     }
     if (!astIsExpression(ast.value)) {
-      throw new Error('setVar的valueToAst调用返回value不正常');
+      throw new Error('setApiData的valueToAst调用返回value不正常');
     }
     return assignmentAst(ctx, rootPath, [apiKey, sysKey, businessKey, ...dataPath], ast.value);
   },
@@ -568,6 +576,7 @@ export const actionToAst = (
   /**
    * 这里操作ctx.scope.actions
    */
+
   if (actionCheck.isSetVar(data)) {
     return toAstMethods.setVar(data, ctx);
   } else if (actionCheck.isSetApiData(data)) {
